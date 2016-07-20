@@ -15,6 +15,8 @@
         <jackson.version>2.7.5</jackson.version>
         <postgresql.version>9.4.1208</postgresql.version>
         <junit.version>4.12</junit.version>
+		<javaee.version>7.0</javaee.version>
+		<hibernate-validator.version>5.2.4.Final</hibernate-validator.version>
     </properties>
 
     <dependencyManagement>
@@ -30,6 +32,16 @@
     </dependencyManagement>
 
     <dependencies>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${hibernate-validator.version}</version>
+		</dependency>
+		<!--<dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>${javaee.version}</version>
+        </dependency>-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>

@@ -1,6 +1,10 @@
 package pl.ultrakino.model;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +18,15 @@ public class User {
 	@Column(name = "user_id")
 	private Integer id;
 
+	@Size(min = 3, max = 255)
 	private String username;
 
+	@Size(min = 6)
 	private String passwd;
+
+	@Email
+	@NotEmpty
+	private String email;
 
 	@Column(name = "avatar_filename")
 	private String avatarFilename;
