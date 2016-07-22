@@ -13,7 +13,7 @@ import javax.persistence.PersistenceUnit;
 import java.util.List;
 
 @Repository
-public class JpaUserRepositoryImpl implements UserRepository {
+public class JpaUserRepository implements UserRepository {
 
 	@PersistenceContext
 	private EntityManager em;

@@ -35,6 +35,11 @@ public class Film extends Content {
 
 	private Integer views;
 
-	private Integer category;
+	/**
+	 * Categories are Integers, because we don't really need any category semantics anywhere but the frontend client.
+	 * All that matters here is their uniqueness.
+	 */
+	@ElementCollection
+	private List<Integer> categories;
 
 }

@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Repository
-public class JpaEpisodeRepositoryImpl implements EpisodeRepository {
+public class JpaEpisodeRepository implements EpisodeRepository {
 
 	@PersistenceContext
 	EntityManager em;

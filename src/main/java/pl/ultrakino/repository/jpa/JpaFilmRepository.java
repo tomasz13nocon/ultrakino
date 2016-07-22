@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Repository
-public class JpaFilmRepositoryImpl implements FilmRepository {
+public class JpaFilmRepository implements FilmRepository {
 
 	@PersistenceContext
 	private EntityManager em;
