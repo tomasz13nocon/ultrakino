@@ -17,6 +17,7 @@
         <junit.version>4.12</junit.version>
 		<javaee.version>7.0</javaee.version>
 		<hibernate-validator.version>5.2.4.Final</hibernate-validator.version>
+        <spring-hateoas.version>0.20.0.RELEASE</spring-hateoas.version>
     </properties>
 
     <dependencyManagement>
@@ -37,14 +38,28 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>${hibernate-validator.version}</version>
 		</dependency>
-		<!--<dependency>
+		<dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <version>${javaee.version}</version>
+        </dependency>
+        <!--<dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
         </dependency>-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.hateoas</groupId>
+            <artifactId>spring-hateoas</artifactId>
+            <version>${spring-hateoas.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>

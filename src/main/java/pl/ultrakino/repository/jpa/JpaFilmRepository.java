@@ -1,6 +1,7 @@
 package pl.ultrakino.repository.jpa;
 
 import org.springframework.stereotype.Repository;
+import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Film;
 import pl.ultrakino.repository.FilmRepository;
 
@@ -14,8 +15,16 @@ public class JpaFilmRepository implements FilmRepository {
 	private EntityManager em;
 
 	@Override
-	public void save(Film film) {
+	public void create(Film film) {
 		em.persist(film);
+	}
+
+	@Override
+	public Film find(Integer id) throws NoRecordWithSuchIdException {
+		if (id == null) throw new IllegalArgumentException("id must not be null.");
+		Film film = em.find(Film.class, id);
+		if (film == null) throw new NoRecordWithSuchIdException();
+		return film;
 	}
 
 }

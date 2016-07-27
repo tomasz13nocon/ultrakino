@@ -1,52 +1,38 @@
-package pl.ultrakino.model;
+package pl.ultrakino.resources;
 
-import javax.persistence.*;
+import org.springframework.hateoas.ResourceSupport;
+import pl.ultrakino.model.Film;
+import pl.ultrakino.model.Person;
+import pl.ultrakino.model.Player;
+import pl.ultrakino.model.Rating;
+
 import java.time.LocalDate;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-@Entity
-@Table(name = "films")
-public class Film extends Content {
+public class FilmResource extends ResourceSupport {
 
-	@Column(name = "original_title")
+	private String title;
+	private List<Rating> ratings = new ArrayList<>();
+	private Float rating;
+	private Integer timesRated;
 	private String originalTitle;
-
 	private String description;
-
-	@Column(name = "cover_filename")
 	private String coverFilename;
-
-	@ManyToMany
-	@JoinTable(name = "persons_contents_filmography",
-			joinColumns = @JoinColumn(name = "content_id"),
-			inverseJoinColumns = @JoinColumn(name = "person_id"))
 	private List<Person> cast;
-
-	@Column(name = "world_premiere")
 	private LocalDate worldPremiere;
-
-	@Column(name = "local_premiere")
 	private LocalDate localPremiere;
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "content")
 	private List<Player> players;
-
 	private Integer views;
-
-	/**
-	 * Categories are Integers, because we don't really need any category semantics anywhere but the frontend client.
-	 * All that matters here is their uniqueness.
-	 */
-	@ElementCollection
 	private List<Integer> categories;
 
+	public FilmResource() {}
 
-	public Film() {}
-
-	public Film(String title, List<Rating> ratings, Float rating, Integer timesRated, String originalTitle, String description, String coverFilename, List<Person> cast, LocalDate worldPremiere, LocalDate localPremiere, List<Player> players, Integer views, List<Integer> categories) {
-		super(title, ratings, rating, timesRated);
+	public FilmResource(String title, List<Rating> ratings, Float rating, Integer timesRated, String originalTitle, String description, String coverFilename, List<Person> cast, LocalDate worldPremiere, LocalDate localPremiere, List<Player> players, Integer views, List<Integer> categories) {
+		this.title = title;
+		this.ratings = ratings;
+		this.rating = rating;
+		this.timesRated = timesRated;
 		this.originalTitle = originalTitle;
 		this.description = description;
 		this.coverFilename = coverFilename;
@@ -56,6 +42,46 @@ public class Film extends Content {
 		this.players = players;
 		this.views = views;
 		this.categories = categories;
+	}
+
+	public FilmResource(Film film) {
+		this(film.getTitle(), film.getRatings(), film.getRating(), film.getTimesRated(), film.getOriginalTitle(), film.getDescription(), film.getCoverFilename(), film.getCast(), film.getWorldPremiere(), film.getLocalPremiere(), film.getPlayers(), film.getViews(), film.getCategories());
+	}
+
+	public Film toFilm() {
+		return new Film(title, ratings, rating, timesRated, originalTitle, description, coverFilename, cast, worldPremiere, localPremiere, players, views, categories);
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public List<Rating> getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(List<Rating> ratings) {
+		this.ratings = ratings;
+	}
+
+	public Float getRating() {
+		return rating;
+	}
+
+	public void setRating(Float rating) {
+		this.rating = rating;
+	}
+
+	public Integer getTimesRated() {
+		return timesRated;
+	}
+
+	public void setTimesRated(Integer timesRated) {
+		this.timesRated = timesRated;
 	}
 
 	public String getOriginalTitle() {

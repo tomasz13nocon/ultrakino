@@ -28,4 +28,52 @@ public abstract class Content {
 	@Column(name = "times_rated")
 	private Integer timesRated;
 
+	public Content() {}
+
+	public Content(String title, List<Rating> ratings, Float rating, Integer timesRated) {
+		this.title = title;
+		this.ratings = ratings;
+		this.rating = rating;
+		this.timesRated = timesRated;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public List<Rating> getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(List<Rating> ratings) {
+		this.ratings = ratings;
+	}
+
+	public Float getRating() {
+		return rating;
+	}
+
+	public void setRating(Float rating) {
+		this.rating = rating;
+	}
+
+	public Integer getTimesRated() {
+		return timesRated;
+	}
+
+	public void setTimesRated(Integer timesRated) {
+		this.timesRated = timesRated;
+	}
 }
