@@ -2,7 +2,7 @@ package pl.ultrakino.resources.assemblers;
 
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Component;
-import pl.ultrakino.controller.FilmController;
+import pl.ultrakino.web.FilmController;
 import pl.ultrakino.model.Film;
 import pl.ultrakino.resources.FilmResource;
 

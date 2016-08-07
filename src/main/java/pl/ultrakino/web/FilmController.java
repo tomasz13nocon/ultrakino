@@ -1,4 +1,4 @@
-package pl.ultrakino.controller;
+package pl.ultrakino.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +14,7 @@ import pl.ultrakino.service.FilmService;
 
 import java.util.List;
 
-import static pl.ultrakino.controller.RestAPIDefinitions.API_PREFIX;
+import static pl.ultrakino.web.RestAPIDefinitions.API_PREFIX;
 
 @RestController
 @RequestMapping(value = API_PREFIX + "/films", produces = "application/json;charset=utf-8")
@@ -40,6 +40,7 @@ public class FilmController {
 	@GetMapping("/{filmId}")
 	public FilmDetailsResource getFilm(@PathVariable int filmId) throws NoRecordWithSuchIdException {
 		Film film = filmService.findById(filmId);
+		System.out.println("Hello");
 		return filmDetailsResourceAsm.toResource(film);
 	}
 

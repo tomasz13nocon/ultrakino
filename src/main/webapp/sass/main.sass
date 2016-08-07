@@ -1,0 +1,179 @@
+
+@import "home"
+
+
+//$font: "Helvetica Neue", HelveticaNeue, "TeX Gyre Heros", TeXGyreHeros, FreeSans, "Nimbus Sans L", "Liberation Sans", Arimo, Helvetica, Arial, sans-serif
+$font: "Montserrat", sans-serif
+$primary-color: #f5cd2e
+
+$images: "../images"
+
+
+
+
+[ng\:cloak], [ng-cloak], .ng-cloak
+	display: none !important
+
+html
+	position: relative
+	min-height: 100%
+	height: 100%
+
+body
+	// background: linear-gradient(0deg, #1a1d21, #383a3f)
+	background: url($images + "/dark_stripes.png") repeat
+	color: #fff
+	font-family: $font
+	height: 100%
+
+a
+	color: inherit
+	text-decoration: none
+
+input
+	color: #222
+
+#full-body
+	z-index: 10
+	
+#body
+	margin-bottom: 100px
+	transition: padding-left 0.2s
+	&.shifted
+		padding-left: 200px
+
+
+
+/**********
+ * NAVBAR *
+ **********/
+
+$navbar-height: 64px
+
+#navbar
+	height: $navbar-height
+	background: linear-gradient(#303030, #4a4a4a)
+	-webkit-box-shadow: 0 0 14px black
+	-moz-box-shadow: 0 0 14px black
+	box-shadow: 0 0 14px black
+	padding: 0 12px
+	position: relative
+
+#title-img 
+	height: 42px
+	margin-top: 11px
+	margin-right: 10px
+	float: left
+
+.nav-link
+	float: left
+	line-height: $navbar-height
+	padding: 0 12px
+	font-size: 1.1em
+	opacity: 0.8
+	&:hover
+		opacity: 1
+		// background: linear-gradient(#4a4a4a, #303030)
+		// box-shadow: inset 0 0 6px black
+
+#search-bar-container
+	float: right
+
+#search-bar
+	font-family: $font
+	width: 500px
+	height: 34px
+	margin-top: 16px
+	padding-left: 52px
+	border-radius: 2px
+	border: none
+	z-index: 2
+	background-color: #fff
+	box-shadow: 0 0 16px black
+	transition: padding-left 0.2s
+	box-sizing: border-box
+	-moz-box-sizing: border-box
+	-webkit-box-sizing: border-box
+	&:focus 
+		padding-left: 16px
+		border: none
+		& + #search-icon
+			opacity: 0
+
+#search-icon
+	transition: opacity 0.2s
+	transform: rotate(-45deg)
+	font-size: 2em
+	display: inline-block
+	color: #bbb
+	position: absolute
+	top: 17px
+	right: 661px
+	-webkit-user-select: none
+	user-select: none
+
+#login-box
+	float: right
+	hieght: $navbar-height
+	padding: 16px 0 0 12px
+	text-align: right
+	
+
+#register
+	font-size: 1.1em
+	color: $primary-color
+	line-height: 1.4em
+	font-weight: bold
+	opacity: 0.9
+	padding: 3px
+	&:hover
+		padding: 2px
+		border: 1px solid $primary-color
+
+#login
+	font-size: 0.7em
+	padding-right: 7px
+	opacity: 0.8
+
+#register, #login
+	cursor: pointer
+	&:hover
+		opacity: 1
+
+
+
+/**********
+ * FOOTER *
+ **********/
+#footer
+	background: #0c0c0c
+	width: 100%
+	position: absolute
+	bottom: 0
+
+#legal-notice
+	text-align: center
+	margin: 16px auto
+	font-size: 0.9em
+	color: #666
+	width: 900px
+	font-family: sans-serif
+	@media(max-width: 1000px)
+		width: 96%
+
+
+
+
+
+
+// TODO: REMOVE
+
+.btn
+	color: #fff
+	background-color: #57c
+	display: inline-block
+	padding: 12px
+	border-radius: 4px
+	cursor: pointer
+	border-bottom: 2px solid #349
+

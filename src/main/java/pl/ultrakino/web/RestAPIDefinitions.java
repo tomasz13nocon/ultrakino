@@ -1,4 +1,4 @@
-package pl.ultrakino.controller;
+package pl.ultrakino.web;
 
 public class RestAPIDefinitions {
 

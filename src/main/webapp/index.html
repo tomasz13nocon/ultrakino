@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+	<meta charset="UTF-8">
+	<title>Ultrakino - Najnowsze Filmy i Seriale za Darmo</title>
+	<link rel="icon" href="images/favicon.png">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<link rel="stylesheet" href="css/main.css">
+</head>
+<body ng-controller="HomeController as homeCtrl">
+
+	<div id="full-body">
+		<div id="navbar">
+			<div id="hamburger" style="display:none">&#8801;</div>
+			<a href="/"><img src="images/title.png" id="title-img"></a>
+			<a href="#"><div class="nav-link">FILMY</div></a>
+			<a href="#"><div class="nav-link">SERIALE</div></a>
+			<div id="login-box">
+				<span id="register">ZAREJESTRUJ SIĘ</span>
+				<br>
+				<span id="login">ZALOGUJ SIĘ</span>
+			</div>
+			<div id="search-bar-container">
+				<input type="text" name="search" id="search-bar" placeholder="Szukaj" />
+				<span id="search-icon">&#9906;</span>
+			</div>
+		</div>
+
+		<div id="body" ng-class="homeCtrl.navPanel ? 'shifted' : ''" ng-controller="FilmController as filmCtrl">
+			<div id="slider" >
+				<ul ng-repeat="film in filmCtrl.recommendedFilms">
+					<li class="slider-element"><img ng-src="{{film.coverFilename}}" alt="{{film.title}} cover"><span ng-bind="film.title">qwe</span></li>
+				</ul>
+			</div>
+			<div class="btn" ng-click="homeCtrl.test()">Click</div>
+			<div ng-bind="homeCtrl.testData"></div>
+		</div>
+
+		<div id="footer">
+			<div id="legal-notice">Ultrakino.pl nie bierze odpowiedzialności oraz nie podpisuje się pod żadnymi materiałami zamieszczonymi przez użytkowników i stanowczo zrzeka się wszelkiej odpowiedzialności prawnej z tego tytułu.
+			Ultrakino.pl jest portalem informacyjno-społecznościowym zrzeszającym fanów i miłośników kina.</div>
+		</div>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+	<script type="text/javascript" src="app/app.js"></script>
+	<script type="text/javascript" src="app/FilmController.js"></script>
+</body>
+</html>
