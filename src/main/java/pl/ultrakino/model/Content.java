@@ -2,14 +2,16 @@ package pl.ultrakino.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
- * Content (film, episode or series) that has ID, title, and is rateable
+ * Content is film, episode or series.
  */
 @Entity
-@Table(name = "contents") // For automatic name generation of some tables
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Table(name = "contents")
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Content {
 
 	@Id
@@ -17,25 +19,6 @@ public abstract class Content {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "content_id_gen")
 	@Column(name = "content_id")
 	private Integer id;
-
-	private String title;
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "content")
-	private List<Rating> ratings = new ArrayList<>();
-
-	private Float rating;
-
-	@Column(name = "times_rated")
-	private Integer timesRated;
-
-	public Content() {}
-
-	public Content(String title, List<Rating> ratings, Float rating, Integer timesRated) {
-		this.title = title;
-		this.ratings = ratings;
-		this.rating = rating;
-		this.timesRated = timesRated;
-	}
 
 	public Integer getId() {
 		return id;
@@ -45,35 +28,19 @@ public abstract class Content {
 		this.id = id;
 	}
 
-	public String getTitle() {
-		return title;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Content content = (Content) o;
+
+		return id.equals(content.id);
+
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public List<Rating> getRatings() {
-		return ratings;
-	}
-
-	public void setRatings(List<Rating> ratings) {
-		this.ratings = ratings;
-	}
-
-	public Float getRating() {
-		return rating;
-	}
-
-	public void setRating(Float rating) {
-		this.rating = rating;
-	}
-
-	public Integer getTimesRated() {
-		return timesRated;
-	}
-
-	public void setTimesRated(Integer timesRated) {
-		this.timesRated = timesRated;
+	@Override
+	public int hashCode() {
+		return id.hashCode();
 	}
 }

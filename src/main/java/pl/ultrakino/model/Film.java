@@ -1,132 +1,159 @@
 package pl.ultrakino.model;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "films")
 public class Film extends Content {
 
-	@Column(name = "original_title")
-	private String originalTitle;
+	@Embedded
+	private ContentComponent contentComponent = new ContentComponent();
 
-	private String description;
+	@Embedded
+	private SeriesFilmComponent seriesFilmComponent = new SeriesFilmComponent();
 
-	@Column(name = "cover_filename")
-	private String coverFilename;
+	@Embedded
+	private EpisodeFilmComponent episodeFilmComponent = new EpisodeFilmComponent();
 
-	@ManyToMany
-	@JoinTable(name = "persons_contents_filmography",
-			joinColumns = @JoinColumn(name = "content_id"),
-			inverseJoinColumns = @JoinColumn(name = "person_id"))
-	private List<Person> cast;
-
-	@Column(name = "world_premiere")
-	private LocalDate worldPremiere;
-
-	@Column(name = "local_premiere")
-	private LocalDate localPremiere;
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "content")
-	private List<Player> players;
-
-	private Integer views;
+	private Integer year;
 
 	/**
-	 * Categories are Integers, because we don't really need any category semantics anywhere but the frontend client.
-	 * All that matters here is their uniqueness.
+	 * Date of the recommendation. If null, this film's not recommended.
 	 */
-	@ElementCollection
-	private List<Integer> categories;
+	@Column(name = "recommendation_date")
+	private LocalDate recommendationDate;
 
 
-	public Film() {}
+	public String getTitle() {
+		return contentComponent.getTitle();
+	}
 
-	public Film(String title, List<Rating> ratings, Float rating, Integer timesRated, String originalTitle, String description, String coverFilename, List<Person> cast, LocalDate worldPremiere, LocalDate localPremiere, List<Player> players, Integer views, List<Integer> categories) {
-		super(title, ratings, rating, timesRated);
-		this.originalTitle = originalTitle;
-		this.description = description;
-		this.coverFilename = coverFilename;
-		this.cast = cast;
-		this.worldPremiere = worldPremiere;
-		this.localPremiere = localPremiere;
-		this.players = players;
-		this.views = views;
-		this.categories = categories;
+	public void setTitle(String title) {
+		contentComponent.setTitle(title);
+	}
+
+	public List<Rating> getRatings() {
+		return contentComponent.getRatings();
+	}
+
+	public void setRatings(List<Rating> ratings) {
+		contentComponent.setRatings(ratings);
+	}
+
+	public Float getRating() {
+		return contentComponent.getRating();
+	}
+
+	public void setRating(Float rating) {
+		contentComponent.setRating(rating);
+	}
+
+	public Integer getTimesRated() {
+		return contentComponent.getTimesRated();
+	}
+
+	public void setTimesRated(Integer timesRated) {
+		contentComponent.setTimesRated(timesRated);
 	}
 
 	public String getOriginalTitle() {
-		return originalTitle;
+		return seriesFilmComponent.getOriginalTitle();
 	}
 
 	public void setOriginalTitle(String originalTitle) {
-		this.originalTitle = originalTitle;
+		seriesFilmComponent.setOriginalTitle(originalTitle);
 	}
 
 	public String getDescription() {
-		return description;
+		return seriesFilmComponent.getDescription();
 	}
 
 	public void setDescription(String description) {
-		this.description = description;
+		seriesFilmComponent.setDescription(description);
 	}
 
 	public String getCoverFilename() {
-		return coverFilename;
+		return seriesFilmComponent.getCoverFilename();
 	}
 
 	public void setCoverFilename(String coverFilename) {
-		this.coverFilename = coverFilename;
+		seriesFilmComponent.setCoverFilename(coverFilename);
 	}
 
 	public List<Person> getCast() {
-		return cast;
+		return seriesFilmComponent.getCast();
 	}
 
 	public void setCast(List<Person> cast) {
-		this.cast = cast;
-	}
-
-	public LocalDate getWorldPremiere() {
-		return worldPremiere;
-	}
-
-	public void setWorldPremiere(LocalDate worldPremiere) {
-		this.worldPremiere = worldPremiere;
-	}
-
-	public LocalDate getLocalPremiere() {
-		return localPremiere;
-	}
-
-	public void setLocalPremiere(LocalDate localPremiere) {
-		this.localPremiere = localPremiere;
-	}
-
-	public List<Player> getPlayers() {
-		return players;
-	}
-
-	public void setPlayers(List<Player> players) {
-		this.players = players;
-	}
-
-	public Integer getViews() {
-		return views;
-	}
-
-	public void setViews(Integer views) {
-		this.views = views;
+		seriesFilmComponent.setCast(cast);
 	}
 
 	public List<Integer> getCategories() {
-		return categories;
+		return seriesFilmComponent.getCategories();
 	}
 
 	public void setCategories(List<Integer> categories) {
-		this.categories = categories;
+		seriesFilmComponent.setCategories(categories);
+	}
+
+	public LocalDate getWorldPremiere() {
+		return episodeFilmComponent.getWorldPremiere();
+	}
+
+	public void setWorldPremiere(LocalDate worldPremiere) {
+		episodeFilmComponent.setWorldPremiere(worldPremiere);
+	}
+
+	public LocalDate getLocalPremiere() {
+		return episodeFilmComponent.getLocalPremiere();
+	}
+
+	public void setLocalPremiere(LocalDate localPremiere) {
+		episodeFilmComponent.setLocalPremiere(localPremiere);
+	}
+
+	public List<Player> getPlayers() {
+		return episodeFilmComponent.getPlayers();
+	}
+
+	public void setPlayers(List<Player> players) {
+		episodeFilmComponent.setPlayers(players);
+	}
+
+	public Integer getViews() {
+		return episodeFilmComponent.getViews();
+	}
+
+	public void setViews(Integer views) {
+		episodeFilmComponent.setViews(views);
+	}
+
+
+	public Integer getYear() {
+		return year;
+	}
+
+	public void setYear(Integer year) {
+		this.year = year;
+	}
+
+	public LocalDate getRecommendationDate() {
+		return recommendationDate;
+	}
+
+	public void setRecommendationDate(LocalDate recommendedOn) {
+		this.recommendationDate = recommendedOn;
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
 }

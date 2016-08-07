@@ -6,23 +6,29 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Film;
+import pl.ultrakino.resources.FilmDetailsResource;
 import pl.ultrakino.resources.FilmResource;
-import pl.ultrakino.resources.assemblers.FilmResourceAssembler;
+import pl.ultrakino.resources.assemblers.FilmDetailsResourceAsm;
+import pl.ultrakino.resources.assemblers.FilmResourceAsm;
 import pl.ultrakino.service.FilmService;
+
+import java.util.List;
 
 import static pl.ultrakino.controller.RestAPIDefinitions.API_PREFIX;
 
-@RestController(API_PREFIX + "/films")
-@CrossOrigin
+@RestController
+@RequestMapping(value = API_PREFIX + "/films", produces = "application/json;charset=utf-8")
 public class FilmController {
 
 	private FilmService filmService;
-	private FilmResourceAssembler filmResourceAssembler;
+	private FilmResourceAsm filmResourceAsm;
+	private FilmDetailsResourceAsm filmDetailsResourceAsm;
 
 	@Autowired
-	public FilmController(FilmService filmService, FilmResourceAssembler filmResourceAssembler) {
+	public FilmController(FilmService filmService, FilmResourceAsm filmResourceAsm, FilmDetailsResourceAsm filmDetailsResourceAsm) {
 		this.filmService = filmService;
-		this.filmResourceAssembler = filmResourceAssembler;
+		this.filmResourceAsm = filmResourceAsm;
+		this.filmDetailsResourceAsm = filmDetailsResourceAsm;
 	}
 
 	@PostMapping
@@ -32,9 +38,15 @@ public class FilmController {
 	}
 
 	@GetMapping("/{filmId}")
-	public FilmResource getFilm(@PathVariable int filmId) throws NoRecordWithSuchIdException {
-		Film film = filmService.find(filmId);
-		return filmResourceAssembler.toResource(film);
+	public FilmDetailsResource getFilm(@PathVariable int filmId) throws NoRecordWithSuchIdException {
+		Film film = filmService.findById(filmId);
+		return filmDetailsResourceAsm.toResource(film);
+	}
+
+	@GetMapping("/recommended")
+	public List<FilmResource> getRecommendedFilms() {
+		List<Film> recommendedFilms = filmService.findRecommended();
+		return filmResourceAsm.toResources(recommendedFilms);
 	}
 
 	@ExceptionHandler(NoRecordWithSuchIdException.class)

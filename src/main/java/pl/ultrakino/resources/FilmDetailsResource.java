@@ -2,10 +2,13 @@ package pl.ultrakino.resources;
 
 import org.springframework.hateoas.ResourceSupport;
 import pl.ultrakino.model.Film;
+import pl.ultrakino.model.Person;
+import pl.ultrakino.model.Player;
 
 import java.time.LocalDate;
+import java.util.List;
 
-public class FilmResource extends ResourceSupport {
+public class FilmDetailsResource extends ResourceSupport {
 
 	private String title;
 	private Float rating;
@@ -13,9 +16,12 @@ public class FilmResource extends ResourceSupport {
 	private String originalTitle;
 	private String description;
 	private String coverFilename;
+	private List<Person> cast;
 	private LocalDate worldPremiere;
 	private LocalDate localPremiere;
+	private List<Player> players;
 	private Integer views;
+	private List<Integer> categories;
 	private LocalDate recommendedOn;
 
 
@@ -27,9 +33,12 @@ public class FilmResource extends ResourceSupport {
 		film.setOriginalTitle(originalTitle);
 		film.setDescription(description);
 		film.setCoverFilename(coverFilename);
+		film.setCast(cast);
 		film.setWorldPremiere(worldPremiere);
 		film.setLocalPremiere(localPremiere);
+		film.setPlayers(players);
 		film.setViews(views);
+		film.setCategories(categories);
 		film.setRecommendationDate(recommendedOn);
 		return film;
 	}
@@ -82,6 +91,14 @@ public class FilmResource extends ResourceSupport {
 		this.coverFilename = coverFilename;
 	}
 
+	public List<Person> getCast() {
+		return cast;
+	}
+
+	public void setCast(List<Person> cast) {
+		this.cast = cast;
+	}
+
 	public LocalDate getWorldPremiere() {
 		return worldPremiere;
 	}
@@ -98,12 +115,28 @@ public class FilmResource extends ResourceSupport {
 		this.localPremiere = localPremiere;
 	}
 
+	public List<Player> getPlayers() {
+		return players;
+	}
+
+	public void setPlayers(List<Player> players) {
+		this.players = players;
+	}
+
 	public Integer getViews() {
 		return views;
 	}
 
 	public void setViews(Integer views) {
 		this.views = views;
+	}
+
+	public List<Integer> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Integer> categories) {
+		this.categories = categories;
 	}
 
 	public LocalDate getRecommendedOn() {

@@ -8,6 +8,8 @@ import pl.ultrakino.model.Film;
 import pl.ultrakino.repository.FilmRepository;
 import pl.ultrakino.service.FilmService;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class FilmServiceImpl implements FilmService {
@@ -25,7 +27,12 @@ public class FilmServiceImpl implements FilmService {
 	}
 
 	@Override
-	public Film find(Integer id) throws NoRecordWithSuchIdException {
-		return filmRepository.find(id);
+	public Film findById(Integer id) throws NoRecordWithSuchIdException {
+		return filmRepository.findById(id);
+	}
+
+	@Override
+	public List<Film> findRecommended() {
+		return filmRepository.findRecommended();
 	}
 }

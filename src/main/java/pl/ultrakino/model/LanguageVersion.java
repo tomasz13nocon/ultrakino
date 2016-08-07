@@ -7,6 +7,6 @@ public enum LanguageVersion {
 	ENGLISH_SUBS,
 	DUBBING,
 	ORIGINAL,
-	POLISH_FILM
+	POLISH_FILM,
 
 }

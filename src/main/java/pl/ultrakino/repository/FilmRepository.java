@@ -3,6 +3,8 @@ package pl.ultrakino.repository;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Film;
 
+import java.util.List;
+
 public interface FilmRepository {
 
 	void create(Film film);
@@ -12,8 +14,9 @@ public interface FilmRepository {
 	 * @throws IllegalArgumentException when {@code id} is null
 	 * @throws NoRecordWithSuchIdException
 	 */
-	Film find(Integer id) throws NoRecordWithSuchIdException;
+	Film findById(Integer id) throws NoRecordWithSuchIdException;
 
+	Film findByIdAndFetchAll(Integer id) throws NoRecordWithSuchIdException;
 
-
+	List<Film> findRecommended();
 }
