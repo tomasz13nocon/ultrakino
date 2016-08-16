@@ -26,4 +26,35 @@ public class Rating {
 	private Float rating;
 
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Content getContent() {
+		return content;
+	}
+
+	public void setContent(Content content) {
+		this.content = content;
+	}
+
+	public User getRatedBy() {
+		return ratedBy;
+	}
+
+	public void setRatedBy(User ratedBy) {
+		this.ratedBy = ratedBy;
+	}
+
+	public Float getRating() {
+		return rating;
+	}
+
+	public void setRating(Float rating) {
+		this.rating = rating;
+	}
 }

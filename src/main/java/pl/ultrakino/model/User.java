@@ -43,4 +43,68 @@ public class User {
 			inverseJoinColumns = @JoinColumn(name = "content_id"))
 	private List<Content> watchedContent;
 
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPasswd() {
+		return passwd;
+	}
+
+	public void setPasswd(String passwd) {
+		this.passwd = passwd;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getAvatarFilename() {
+		return avatarFilename;
+	}
+
+	public void setAvatarFilename(String avatarFilename) {
+		this.avatarFilename = avatarFilename;
+	}
+
+	public List<Player> getAddedPlayers() {
+		return addedPlayers;
+	}
+
+	public void setAddedPlayers(List<Player> addedPlayers) {
+		this.addedPlayers = addedPlayers;
+	}
+
+	public List<Rating> getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(List<Rating> ratings) {
+		this.ratings = ratings;
+	}
+
+	public List<Content> getWatchedContent() {
+		return watchedContent;
+	}
+
+	public void setWatchedContent(List<Content> watchedContent) {
+		this.watchedContent = watchedContent;
+	}
 }

@@ -4,6 +4,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.*;
+
 @Embeddable
 public class SeriesFilmComponent {
 
@@ -15,7 +17,7 @@ public class SeriesFilmComponent {
 	@Column(name = "cover_filename")
 	private String coverFilename;
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = {PERSIST, MERGE})
 	@JoinTable(name = "persons_contents_filmography",
 			joinColumns = @JoinColumn(name = "content_id"),
 			inverseJoinColumns = @JoinColumn(name = "person_id"))

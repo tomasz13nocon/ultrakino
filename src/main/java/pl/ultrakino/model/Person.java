@@ -4,6 +4,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,7 +26,7 @@ public class Person {
 	@JoinTable(name = "persons_contents_filmography",
 			joinColumns = @JoinColumn(name = "person_id"),
 			inverseJoinColumns = @JoinColumn(name = "content_id"))
-	private List<Content> filmography;
+	private List<Content> filmography = new ArrayList<>();
 
 
 	public Integer getId() {

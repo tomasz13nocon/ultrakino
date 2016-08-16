@@ -1,25 +1,66 @@
 package pl.ultrakino.resources;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.hateoas.ResourceSupport;
 import pl.ultrakino.model.Film;
+import pl.ultrakino.model.Views;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class FilmResource extends ResourceSupport {
+public class FilmResource extends ContentResource {
 
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	private Integer filmId;
+
+	@JsonView(Views.FilmCreation.class)
 	private String title;
+
+	@JsonView(Views.FilmCreation.class)
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																														private Integer year;
+
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Float rating;
+
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Integer timesRated;
+
+	@JsonView(Views.FilmCreation.class)
 	private String originalTitle;
+
+	@JsonView(Views.FilmCreation.class)
 	private String description;
+
+	@JsonView(Views.FilmCreation.class)
 	private String coverFilename;
+
+	@JsonView(Views.FilmCreation.class)
+	private List<PersonResource> cast = new ArrayList<>();
+
+	@JsonView(Views.FilmCreation.class)
 	private LocalDate worldPremiere;
+
+	@JsonView(Views.FilmCreation.class)
 	private LocalDate localPremiere;
+
+	@JsonView(Views.FilmCreation.class)
+	private List<PlayerResource> players = new ArrayList<>();
+
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Integer views;
-	private LocalDate recommendedOn;
+
+	@JsonView(Views.FilmCreation.class)
+	private List<Integer> categories = new ArrayList<>();
+
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	private LocalDate recommendationDate;
 
 
-	public Film toFilm() {
+	@Override
+	public Film toDomainObject() {
 		Film film = new Film();
 		film.setTitle(title);
 		film.setRating(rating);
@@ -27,10 +68,13 @@ public class FilmResource extends ResourceSupport {
 		film.setOriginalTitle(originalTitle);
 		film.setDescription(description);
 		film.setCoverFilename(coverFilename);
+//		film.setCast(cast.stream().map(PersonResource::toPerson).collect(Collectors.toList()));
 		film.setWorldPremiere(worldPremiere);
 		film.setLocalPremiere(localPremiere);
+		film.setPlayers(players.stream().map(PlayerResource::toDomainObject).collect(Collectors.toList()));
 		film.setViews(views);
-		film.setRecommendationDate(recommendedOn);
+		film.setCategories(categories);
+		film.setRecommendationDate(recommendationDate);
 		return film;
 	}
 
@@ -82,6 +126,14 @@ public class FilmResource extends ResourceSupport {
 		this.coverFilename = coverFilename;
 	}
 
+	public List<PersonResource> getCast() {
+		return cast;
+	}
+
+	public void setCast(List<PersonResource> cast) {
+		this.cast = cast;
+	}
+
 	public LocalDate getWorldPremiere() {
 		return worldPremiere;
 	}
@@ -98,6 +150,14 @@ public class FilmResource extends ResourceSupport {
 		this.localPremiere = localPremiere;
 	}
 
+	public List<PlayerResource> getPlayers() {
+		return players;
+	}
+
+	public void setPlayers(List<PlayerResource> players) {
+		this.players = players;
+	}
+
 	public Integer getViews() {
 		return views;
 	}
@@ -106,11 +166,35 @@ public class FilmResource extends ResourceSupport {
 		this.views = views;
 	}
 
-	public LocalDate getRecommendedOn() {
-		return recommendedOn;
+	public List<Integer> getCategories() {
+		return categories;
 	}
 
-	public void setRecommendedOn(LocalDate recommendedOn) {
-		this.recommendedOn = recommendedOn;
+	public void setCategories(List<Integer> categories) {
+		this.categories = categories;
+	}
+
+	public LocalDate getRecommendationDate() {
+		return recommendationDate;
+	}
+
+	public void setRecommendationDate(LocalDate recommendationDate) {
+		this.recommendationDate = recommendationDate;
+	}
+
+	public void setYear(Integer year) {
+		this.year = year;
+	}
+
+	public Integer getYear() {
+		return year;
+	}
+
+	public void setFilmId(Integer filmId) {
+		this.filmId = filmId;
+	}
+
+	public Integer getFilmId() {
+		return filmId;
 	}
 }

@@ -27,4 +27,12 @@ public class JpaUserRepository implements UserRepository {
 	public List<User> findAll() {
 		return null;
 	}
+
+	@Override
+	public User getUserReference(Integer userId) {
+		User user = em.getReference(User.class, userId);
+		// Force EntityNotFoundException to be thrown
+		user.getUsername();
+		return user;
+	}
 }

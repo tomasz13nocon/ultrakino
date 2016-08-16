@@ -5,15 +5,25 @@
 	   http://www.springframework.org/schema/beans
 	   http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="classpath:spring/database.properties"/>
-	</bean>
+	<beans profile="dev">
+		<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+			<property name="location" value="classpath:spring/database.properties"/>
+		</bean>
+	</beans>
 
-	<bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource">
-		<property name="driverClassName" value="${jdbc.driver}" />
-		<property name="username" value="${jdbc.user}" />
-		<property name="password" value="${jdbc.password}" />
-		<property name="url" value="${jdbc.url}" />
-	</bean>
+	<beans  profile="test">
+		<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+			<property name="location" value="classpath:spring/database_test.properties"/>
+		</bean>
+	</beans>
+
+	<beans>
+		<bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource">
+			<property name="driverClassName" value="${jdbc.driver}" />
+			<property name="username" value="${jdbc.user}" />
+			<property name="password" value="${jdbc.password}" />
+			<property name="url" value="${jdbc.url}" />
+		</bean>
+	</beans>
 
 </beans>

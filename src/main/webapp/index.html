@@ -3,39 +3,59 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Ultrakino - Najnowsze Filmy i Seriale za Darmo</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" href="images/favicon.png">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+	<!-- <link rel="stylesheet" href="plugins/owl2/assets/owl.carousel.css"> -->
+	<!-- <link rel="stylesheet" href="plugins/owl2/assets/owl.theme.default.min.css"> -->
+	<link rel="stylesheet" href="plugins/owl/owl.carousel.css">
+	<link rel="stylesheet" href="plugins/owl/owl.theme.css">
+	<link rel="stylesheet" href="plugins/owl/owl.transitions.css">
 	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
 	<link rel="stylesheet" href="css/main.css">
 </head>
-<body ng-controller="HomeController as homeCtrl">
+<body>
 
 	<div id="full-body">
 		<div id="navbar">
 			<div id="hamburger" style="display:none">&#8801;</div>
-			<a href="/"><img src="images/title.png" id="title-img"></a>
-			<a href="#"><div class="nav-link">FILMY</div></a>
-			<a href="#"><div class="nav-link">SERIALE</div></a>
-			<div id="login-box">
-				<span id="register">ZAREJESTRUJ SIĘ</span>
-				<br>
-				<span id="login">ZALOGUJ SIĘ</span>
+			<div id="title-img-wrapper"><a href="#/"><img src="images/title.png" id="title-img"></a></div>
+			<div class="nav-links" ng-controller="TabsController as tabsCtrl">
+				<a href="#filmy"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'films'}">FILMY</div></a>
+				<a href="#seriale"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'series'}">SERIALE</div></a>
+				<a href="#dodaj-film"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'addFilm'}">DODAJ FILM</div></a>
+				<a href="#test"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'test'}">TEST</div></a>
+				<!-- <a href="#"><div class="nav-link">TU TEŻ NIE</div></a> -->
 			</div>
+			<div id="login-box">
+				<a href="#rejestracja" id="register">ZAREJESTRUJ SIĘ</a>
+				<br>
+				<a href="#login" id="login">ZALOGUJ SIĘ</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+		
+		<div id="search-wrapper" ng-controller="SearchController as searchCtrl">
 			<div id="search-bar-container">
-				<input type="text" name="search" id="search-bar" placeholder="Szukaj" />
-				<span id="search-icon">&#9906;</span>
+				<input type="text" name="search" id="search-bar" placeholder="Szukaj" ng-change="searchCtrl.search()" ng-model="searchCtrl.query" ng-focus="showResults = true" click-anywhere-but-here="showResults = false" />
+				<!-- <span id="search-icon">&#9906;</span> -->
+			</div>
+
+			<div click-anywhere-but-here="showResults = false" id="search-results-wrapper" ng-show="showResults">
+				<div class="search-result" ng-repeat="film in searchCtrl.films">
+					<a ng-href="#filmy/{{film.filmId}}/{{film.title}}-{{film.year}}">
+						<img class="search-result-cover" ng-src="{{film.coverFilename}}" alt="{{film.title}}">
+						<h4 class="search-result-title" ng-bind="film.title"></h4>
+						<h6>Rok: <span ng-bind="film.year"></span></h6>
+						<br>
+						<p class="search-result-description" ng-bind="film.description"></p>
+					</a>
+				</div>
 			</div>
 		</div>
 
-		<div id="body" ng-class="homeCtrl.navPanel ? 'shifted' : ''" ng-controller="FilmController as filmCtrl">
-			<div id="slider" >
-				<ul ng-repeat="film in filmCtrl.recommendedFilms">
-					<li class="slider-element"><img ng-src="{{film.coverFilename}}" alt="{{film.title}} cover"><span ng-bind="film.title">qwe</span></li>
-				</ul>
-			</div>
-			<div class="btn" ng-click="homeCtrl.test()">Click</div>
-			<div ng-bind="homeCtrl.testData"></div>
-		</div>
+		<div id="body" ng-view></div>
 
 		<div id="footer">
 			<div id="legal-notice">Ultrakino.pl nie bierze odpowiedzialności oraz nie podpisuje się pod żadnymi materiałami zamieszczonymi przez użytkowników i stanowczo zrzeka się wszelkiej odpowiedzialności prawnej z tego tytułu.
@@ -43,9 +63,25 @@
 		</div>
 	</div>
 
-	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+	<!-- <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-route.min.js"></script> -->
+	<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
+	<script type="text/javascript" src="vendors/jquery-2.2.4.min.js"></script>
+	<script type="text/javascript" src="vendors/angular.js"></script>
+	<script type="text/javascript" src="vendors/angular-route.min.js"></script>
+	<script type="text/javascript" src="vendors/angular-animate.min.js"></script>
+	<!-- <script type="text/javascript" src="plugins/owl2/owl.carousel.js"></script> -->
+	<script type="text/javascript" src="plugins/owl/owl.carousel.js"></script>
 	<script type="text/javascript" src="app/app.js"></script>
-	<script type="text/javascript" src="app/FilmController.js"></script>
+	<script type="text/javascript" src="app/controllers/Home.js"></script>
+	<script type="text/javascript" src="app/controllers/Search.js"></script>
+	<script type="text/javascript" src="app/controllers/Film.js"></script>
+	<script type="text/javascript" src="app/controllers/Films.js"></script>
+	<script type="text/javascript" src="app/controllers/Tabs.js"></script>
+	<script type="text/javascript" src="app/services/clickAnywhereButHere.js"></script>
+	<script type="text/javascript" src="app/directives/clickAnywhereButHere.js"></script>
+	<script type="text/javascript" src="app/components/spinner.js"></script>
+	<script type="text/javascript" src="app/directives/enableCarousel.js"></script>
 </body>
 </html>
