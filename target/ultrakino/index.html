@@ -14,7 +14,7 @@
 </head>
 <body>
 
-	<div id="full-body">
+	<div id="full-body" ng-controller="MainController as mainCtrl" ng-cloak class="ng-cloak">
 		<div id="navbar">
 			<div id="hamburger" style="display:none">&#8801;</div>
 			<div id="title-img-wrapper"><a href="#/"><img src="images/title.png" id="title-img"></a></div>
@@ -25,17 +25,23 @@
 				<a href="#test"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'test'}">TEST</div></a>
 				<a href="#panel-admina" ng-show="isAdmin"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'adminPanel'}">PANEL ADMINA</div></a>
 			</div>
-			<div ng-controller="UserController as userCtrl">
+			<div>
 				<div id="login-wrapper">
-					<div href="#rejestracja" id="register" ng-click="userCtrl.showRegisterBox()">ZAREJESTRUJ SIĘ</div>
+					<div href="#rejestracja" id="register" ng-click="mainCtrl.showRegisterBox()">ZAREJESTRUJ SIĘ</div>
 					<br />
-					<div href="#login" id="login" ng-click="userCtrl.showLoginBox()">ZALOGUJ SIĘ</div>
+					<div href="#login" id="login" ng-click="mainCtrl.showLoginBox()">ZALOGUJ SIĘ</div>
 				</div>
-				<div class="the-box">
-					
+				<div class="account-box" ng-show="authenticated">
+					<img ng-src="{{avatar}}" alt="avatar użytkownika"> Witaj <span ng-bind="username"></span>
 				</div>
 			</div>
 			<div class="clear"></div>
+		</div>
+
+		<div class="the-box-wrapper" ng-show="mainCtrl.theBoxVisible" ng-click="mainCtrl.hideTheBox()">
+			<div class="the-box" ng-click="$event.stopPropagation()">
+				
+			</div>
 		</div>
 		
 		<div id="search-wrapper" ng-controller="SearchController as searchCtrl">
@@ -82,6 +88,7 @@
 	<script type="text/javascript" src="app/components/adminTools.js"></script>
 	<script type="text/javascript" src="app/filters/trusted.js"></script>
 	<script type="text/javascript" src="app/controllers/Home.js"></script>
+	<script type="text/javascript" src="app/controllers/Main.js"></script>
 	<script type="text/javascript" src="app/controllers/Search.js"></script>
 	<script type="text/javascript" src="app/controllers/Film.js"></script>
 	<script type="text/javascript" src="app/controllers/Films.js"></script>

@@ -118,7 +118,7 @@ public class FilmServiceImpl implements FilmService {
 				query.yearFrom(Integer.parseInt(yearFromParam.get(0)));
 			}
 			catch(NumberFormatException e){
-				throw new IllegalArgumentException("'yearFrom' parameter is not a valid integer");
+				throw new IllegalArgumentException("value of yearFrom parameter is not a valid integer");
 			}
 		}
 
@@ -129,7 +129,7 @@ public class FilmServiceImpl implements FilmService {
 				query.yearTo(Integer.parseInt(yearToParam.get(0)));
 			}
 			catch(NumberFormatException e){
-				throw new IllegalArgumentException("'yearTo' parameter is not a valid integer");
+				throw new IllegalArgumentException("value of yearTo parameter is not a valid integer");
 			}
 		}
 
@@ -141,7 +141,7 @@ public class FilmServiceImpl implements FilmService {
 				query.categories(categories);
 			}
 			catch (NumberFormatException e) {
-				throw new IllegalArgumentException("'categories' parameter contains an invalid integer");
+				throw new IllegalArgumentException("value of categories parameter contains an invalid integer");
 			}
 		}
 
@@ -153,7 +153,7 @@ public class FilmServiceImpl implements FilmService {
 				query.orderBy(orderBy);
 			}
 			catch (IllegalArgumentException e) {
-				throw new IllegalArgumentException("'orderBy' parameter is not a valid OrderBy constant");
+				throw new IllegalArgumentException("value of orderBy parameter is not a valid OrderBy constant");
 			}
 		}
 
@@ -171,7 +171,7 @@ public class FilmServiceImpl implements FilmService {
 				query.resultLimit(resultLimit);
 			}
 			catch (NumberFormatException e) {
-				throw new IllegalArgumentException("'resultLimit' parameter is not a valid integer");
+				throw new IllegalArgumentException("value of resultLimit parameter is not a valid integer");
 			}
 		}
 
@@ -183,7 +183,7 @@ public class FilmServiceImpl implements FilmService {
 				query.pageNumber(pageNumber);
 			}
 			catch (NumberFormatException e) {
-				throw new IllegalArgumentException("'pageNumber' parameter is not a valid integer");
+				throw new IllegalArgumentException("value of pageNumber parameter is not a valid integer");
 			}
 		}
 

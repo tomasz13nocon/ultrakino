@@ -30,7 +30,11 @@ angular.module("app")
 			p.orderBy = params.orderBy ? params.orderBy : "ADDITION_DATE";
 			p.asc = params.asc ? true : false; // In case of undefined
 			if (params.title) p.title = params.title;
-			p.categories = Object.keys(params.categories);
+			if (params.categories) {
+				var keys = Object.keys(params.categories);
+				if (keys.length !== 0) 
+					p.categories = keys;
+			}
 
 			return p;
 		};
@@ -40,16 +44,19 @@ angular.module("app")
 		};
 
 		ctrl.updateResults = function() {
-			$scope.films = Film.query($scope.params);
+			Film.get($scope.params, function(film) {
+				console.log(film);
+				$scope.films = film.content;
+			});
 		};
 
-		// ctrl.updateResults();
 
-		/*$scope.params = {
+		$scope.params = {
 			categories: {},
 			orderBy: "ADDITION_DATE",
 			asc: false,
-		};*/
+		};
 		$scope.params = ctrl.processParams({});
+		ctrl.updateResults();
 
 	}]);

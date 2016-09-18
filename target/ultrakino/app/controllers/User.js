@@ -42,16 +42,6 @@ angular.module("app")
 		});
 	};
 
-	ctrl.showLoginBox = function() {
-
-	};
-	ctrl.showRegisterBox = function() {
-
-	};
-	ctrl.showTheBox = function() {
-
-	};
-
 	ctrl.authenticate();
 
 }]);
