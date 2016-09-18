@@ -40,7 +40,17 @@ angular.module("app")
 			$rootScope.authenticated = false;
 			$rootScope.isAdmin = false;
 		});
-	}
+	};
+
+	ctrl.showLoginBox = function() {
+
+	};
+	ctrl.showRegisterBox = function() {
+
+	};
+	ctrl.showTheBox = function() {
+
+	};
 
 	ctrl.authenticate();
 

@@ -367,7 +367,8 @@ html {
 #body {
   overflow: hidden;
   min-height: 340px;
-  background: linear-gradient(to bottom, black 60px, transparent 340px); }
+  background: linear-gradient(to bottom, black 60px, transparent 340px);
+  margin-bottom: 20px; }
 
 /**********
  * NAVBAR *
@@ -402,7 +403,7 @@ html {
   opacity: 1;
   color: #f5cd2e; }
 
-#login-box {
+#login-wrapper {
   float: right;
   margin-top: 10px;
   text-align: right; }
@@ -412,19 +413,16 @@ html {
   color: #f5cd2e;
   line-height: 1.4em;
   font-weight: bold;
-  opacity: 0.9;
-  padding: 3px; }
-  #register:hover {
-    padding: 2px;
-    border: 1px solid #f5cd2e; }
+  opacity: 0.8; }
 
 #login {
   font-size: 0.8em;
-  padding-right: 7px;
+  padding: 4px;
   opacity: 0.8; }
 
 #register, #login {
-  cursor: pointer; }
+  cursor: pointer;
+  display: inline-block; }
   #register:hover, #login:hover {
     opacity: 1; }
 

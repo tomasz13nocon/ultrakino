@@ -1,14 +1,16 @@
 angular.module("app")
 	.controller("HomeController", ["$http", "$scope", "Film", function($http, $scope, Film) {
-		var controller = this;
+		var ctrl = this;
 
-		var query = function(orderBy) {
-			return Film.query({ orderBy: orderBy });
-		};
-
-		controller.recommendedFilms = query("recommendationDate");
-		controller.mostWatchedFilms = query("views");
-		controller.newestFilms = query("additionDate");
+		Film.get({ orderBy: "RECOMMENDATION_DATE" }, function(film) {
+			ctrl.recommendedFilms = film.content;
+		});
+		Film.get({ orderBy: "VIEWS" }, function(film) {
+			ctrl.mostWatchedFilms = film.content;
+		});
+		Film.get({ orderBy: "ADDITION_DATE" }, function(film) {
+			ctrl.newestFilms = film.content;
+		});
 		
 	}]);
 	

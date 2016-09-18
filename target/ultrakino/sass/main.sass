@@ -20,6 +20,7 @@ html
 	overflow: hidden
 	min-height: 340px
 	background: linear-gradient(to bottom, rgba(0,0,0,1) 60px, rgba(0,0,0,0) 340px)
+	margin-bottom: 20px
 
 
 /**********
@@ -59,7 +60,7 @@ $navbar-height: 64px
 	color: $primary-color
 
 
-#login-box
+#login-wrapper
 	float: right
 	margin-top: 10px
 	text-align: right
@@ -69,21 +70,24 @@ $navbar-height: 64px
 	color: $primary-color
 	line-height: 1.4em
 	font-weight: bold
-	opacity: 0.9
-	padding: 3px
-	&:hover
-		padding: 2px
-		border: 1px solid $primary-color
+	opacity: 0.8
 
 #login
 	font-size: 0.8em
-	padding-right: 7px
+	padding: 4px
 	opacity: 0.8
 
 #register, #login
 	cursor: pointer
+	display: inline-block
 	&:hover
 		opacity: 1
+
+.the-box-wrapper
+	
+
+.the-box
+
 
 
 /**************

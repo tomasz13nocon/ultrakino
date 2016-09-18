@@ -1,41 +1,55 @@
 angular.module("app")
-	.controller("FilmsController", ["$http", "$scope", "Film", function($http, $scope, Film) {
+	.controller("FilmsController", ["$http", "$scope", "Film", "$location", function($http, $scope, Film, $location) {
+		var ctrl = this;
 
-		$scope.params = {
-			categories: [],
-			orderBy: "additionDate",
-			asc: false
-		};
 
 		$scope.orderBy = {
-			"Daty dodania": "additionDate",
-			"Tytułu": "title",
-			"Premiery": "year",
+			"Daty dodania": "ADDITION_DATE",
+			"Tytułu": "TITLE",
+			"Premiery": "YEAR",
 		};
 
 		$scope.asc = {
 			"Rosnąco": true,
-			"Malejąco": undefined
+			"Malejąco": false,
 		};
 
-		this.updateResults = function() {
-			var cats = $scope.params.categories;
-			for (var i = 0; i < cats.length; i++) {
-				if (cats[i] == -1)
-					delete cats[i];
-			}
-				
-			// TODO: Optimization. When I only change, say, a letter in the title,
-			// don't traverse through all the params
-			var params = {};
-			Object.keys($scope.params).forEach(function(key) {
-				if ($scope.params[key])
-					params[key] = $scope.params[key];
-			});
 
-			$scope.films = Film.query(params);
+		ctrl.modelChanged = function() {
+			// var params = ctrl.processParams($scope.params);
+			ctrl.updateResults();
 		};
 
-		this.updateResults();
+		ctrl.locationChanged = function() {
+
+		};
+		$scope.$on("$locationChangeSuccess", ctrl.locationChanged);
+
+		ctrl.processParams = function(params) {
+			var p = {};
+			p.orderBy = params.orderBy ? params.orderBy : "ADDITION_DATE";
+			p.asc = params.asc ? true : false; // In case of undefined
+			if (params.title) p.title = params.title;
+			p.categories = Object.keys(params.categories);
+
+			return p;
+		};
+
+		ctrl.qwe = function() {
+
+		};
+
+		ctrl.updateResults = function() {
+			$scope.films = Film.query($scope.params);
+		};
+
+		// ctrl.updateResults();
+
+		/*$scope.params = {
+			categories: {},
+			orderBy: "ADDITION_DATE",
+			asc: false,
+		};*/
+		$scope.params = ctrl.processParams({});
 
 	}]);
