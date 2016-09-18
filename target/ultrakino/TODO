@@ -1,0 +1,11 @@
+śledzenie filmu/serialu
+User: śledzone
+powiadomienia kiedy wyjdzie nowy film
+nowa klasa:
+Event
+User: List<Event>
+Film: List<Trailer>
+
+
+
+

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="
+	   http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans.xsd
+	   http://www.springframework.org/schema/tx
+	   http://www.springframework.org/schema/tx/spring-tx.xsd
+	   http://www.springframework.org/schema/context
+	   http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:component-scan base-package="pl.ultrakino" />
+
+	<import resource="datasource-config.xml" />
+	
+	<bean class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="pl.ultrakino" />
+		<property name="persistenceProviderClass" value="org.hibernate.jpa.HibernatePersistenceProvider" />
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL94Dialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<!--<prop key="hibernate.format_sql">true</prop>-->
+				<!--<prop key="hibernate.use_sql_comments">true</prop>-->
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- "By default, a default EntityManagerFactory will be retrieved
+	 by finding a single unique bean of type EntityManagerFactory in the containing BeanFactory."
+	 "This transaction manager will autodetect the DataSource
+	 used as the connection factory of the EntityManagerFactory"
+	 Thus we don'content need to specify any parameters. -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" />
+
+	<tx:annotation-driven />
+
+	
+</beans>

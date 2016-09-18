@@ -1,0 +1,78 @@
+<div id="films-wrapper" class="container">
+	<div id="filters-wrapper">
+		<div class="filter-wrapper">
+			<span class="filter-input-label">Sortuj według: </span>
+			<div class="radio-wrapper" ng-repeat="(order, orderVal) in orderBy track by $index">
+				<label>
+					<input class="radio" type="radio" value="{{orderVal}}" name="orderByRadio" ng-model="params.orderBy" ng-change="filmsCtrl.updateResults()">
+					<span></span>
+					<span ng-bind="order"></span>
+				</label>
+			</div>
+			<br>
+			<div class="radio-wrapper" ng-repeat="(label, value) in asc track by $index">
+				<label>
+					<input class="radio" type="radio" value="{{value}}" name="ascRadio" ng-model="params.asc" ng-change="filmsCtrl.updateResults()">
+					<span></span>
+					<span ng-bind="label"></span>
+				</label>
+			</div>
+		</div>
+		<div class="filter-wrapper">
+			<label>
+				<span class="filter-input-label">Tytuł: </span>
+				<input class="filter-input" type="text" ng-model="params.title" ng-change="filmsCtrl.updateResults()">
+			</label>
+		</div>
+		<div class="filter-wrapper">
+			<label>
+				<span class="filter-input-label">Od roku: </span>
+				<input class="filter-input" type="text" ng-model="params.yearFrom" ng-change="filmsCtrl.updateResults()">
+			</label>
+		</div>
+		<div class="filter-wrapper">
+			<label>
+				<span class="filter-input-label">Do roku: </span>
+				<input class="filter-input" type="text" ng-model="params.yearTo" ng-change="filmsCtrl.updateResults()">
+			</label>
+		</div>
+		<div class="filter-wrapper">
+			<div class="filter-input-label">Kategorie:</div>
+			<div class="checkbox-wrapper">
+				<label class="checkbox-label filter-input-checkbox-label">
+					<input class="checkbox" type="checkbox">
+					<span></span>
+					<span class="category-label">Zaznacz/Odznacz wszystkie</span>
+				</label>
+			</div>
+			<div class="checkbox-wrapper" ng-repeat="(categoryNum, category) in categories track by $index">
+				<label>
+					<input class="checkbox" type="checkbox" ng-true-value="{{categoryNum}}" ng-false-value="-1" ng-change="filmsCtrl.updateResults()" ng-model="params.categories[$index]">
+					<span></span>
+					<span class="category-label" ng-bind="category"></span>
+				</label>
+			</div>
+		</div>
+	</div>
+
+	<div id="results-wrapper">
+		<div class="filter-result" ng-repeat="film in films">
+			<a class="filter-result-link" ng-href="#filmy/{{film.filmId}}/{{film.title}}-{{film.year}}">
+				<img class="filter-result-cover" ng-src="{{film.coverFilename}}" alt="{{film.title}}">
+				<div class="filter-result-details">
+					<h3 class="filter-result-title" ng-bind="film.title"></h3>
+					<div class="filter-result-year">Rok: <span ng-bind="film.year"></span></div>
+					<div class="filter-result-categories">
+						<span>Kategorie: </span>
+						{{film.categories}}
+						<span ng-repeat="category in film.categories"><span ng-bind="categories[category]"></span><span ng-bind="$last ? '' : ', '"></span></span>
+					</div>
+					<div class="filter-result-description"><p ng-bind="film.description"></p></div>
+					<div class="clear"></div>
+				</div>
+			</a>
+		</div>
+	</div>
+
+	<div class="clear"></div>
+</div>

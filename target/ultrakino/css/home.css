@@ -1,0 +1,68 @@
+/*
+Error: Undefined variable: "$primary-color".
+        on line 49 of sass/home.sass
+
+44:  * CAROUSEL *
+45:  ***********\/
+46: .section-heading
+47: 	font-size: 1.4em
+48: 	text-align: center
+49: 	color: $primary-color
+50: 	padding: 16px
+51: 	font-weight: bold
+52: 	opacity: 0.8
+53: 
+54: .carousel-heading
+
+Backtrace:
+sass/home.sass:49
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/variable.rb:49:in `_perform'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/node.rb:58:in `perform'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:397:in `visit_prop'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `visit'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `block in with_base'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:115:in `with_frame'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `with_base'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `visit'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `block (2 levels) in visit_rule'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `map'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `block in visit_rule'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:181:in `with_environment'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:431:in `visit_rule'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `visit'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `block in with_base'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:115:in `with_frame'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `with_base'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `visit'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:52:in `map'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:169:in `block in visit_children'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:181:in `with_environment'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:168:in `visit_children'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:188:in `visit_root'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `visit'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:159:in `visit'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:8:in `visit'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/root_node.rb:36:in `css_tree'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/root_node.rb:29:in `render_with_sourcemap'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/engine.rb:381:in `_render_with_sourcemap'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/engine.rb:298:in `render_with_sourcemap'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:492:in `update_stylesheet'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:209:in `each'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:473:in `on_file_changed'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:331:in `block in watch'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/listener.rb:252:in `on_change'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/listener.rb:290:in `block in initialize_adapter'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/adapters/polling.rb:48:in `poll_changed_directories'
+/home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/adapter.rb:299:in `block in start_poller'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Undefined variable: \"$primary-color\".\A         on line 49 of sass/home.sass\A \A 44:  * CAROUSEL *\A 45:  ***********/\A 46: .section-heading\A 47: 	font-size: 1.4em\A 48: 	text-align: center\A 49: 	color: $primary-color\A 50: 	padding: 16px\A 51: 	font-weight: bold\A 52: 	opacity: 0.8\A 53: \A 54: .carousel-heading"; }

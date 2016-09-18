@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+	<meta charset="UTF-8">
+	<title>Ultrakino - Najnowsze Filmy i Seriale za Darmo</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="images/favicon.png">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+	<link rel="stylesheet" href="plugins/owl/owl.carousel.css">
+	<link rel="stylesheet" href="plugins/owl/owl.theme.css">
+	<link rel="stylesheet" href="plugins/owl/owl.transitions.css">
+	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+	<div id="full-body">
+		<div id="navbar">
+			<div id="hamburger" style="display:none">&#8801;</div>
+			<div id="title-img-wrapper"><a href="#/"><img src="images/title.png" id="title-img"></a></div>
+			<div class="nav-links" ng-controller="TabsController as tabsCtrl">
+				<a href="#filmy"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'films'}">FILMY</div></a>
+				<a href="#seriale"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'series'}">SERIALE</div></a>
+				<a href="#dodaj-film"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'addFilm'}">DODAJ FILM</div></a>
+				<a href="#test"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'test'}">TEST</div></a>
+				<a href="#panel-admina"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'adminPanel'}">PANEL ADMINA</div></a>
+			</div>
+			<div id="login-box">
+				<a href="#rejestracja" id="register">ZAREJESTRUJ SIĘ</a>
+				<br>
+				<a href="#login" id="login">ZALOGUJ SIĘ </a>
+			</div>
+			<div class="clear"></div>
+		</div>
+		
+		<div id="search-wrapper" ng-controller="SearchController as searchCtrl">
+			<div id="search-bar-container">
+				<input type="text" name="search" id="search-bar" placeholder="Szukaj" ng-change="searchCtrl.search()" ng-model="searchCtrl.query" ng-focus="showResults = true" click-anywhere-but-here="showResults = false" />
+				<!-- <span id="search-icon">&#9906;</span> -->
+			</div>
+
+			<div ng-cloak click-anywhere-but-here="showResults = false" id="search-results-wrapper" ng-show="showResults" ng-class="{'search-results-show': showResults == true && searchCtrl.query.length > 2}">
+				<div class="search-result" ng-repeat="film in searchCtrl.films">
+					<a ng-href="#filmy/{{film.filmId}}/{{film.title}}-{{film.year}}">
+						<img class="search-result-cover" ng-src="{{film.coverFilename}}" alt="{{film.title}}">
+						<h4 class="search-result-title" ng-bind="film.title"></h4>
+						<h6>Rok: <span ng-bind="film.year"></span></h6>
+						<br>
+						<p class="search-result-description" ng-bind="film.description"></p>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<div id="body" ng-view><div class="spinner"></div></div>
+
+		<div id="footer">
+			<div id="legal-notice">Ultrakino.pl nie bierze odpowiedzialności oraz nie podpisuje się pod żadnymi materiałami zamieszczonymi przez użytkowników i stanowczo zrzeka się wszelkiej odpowiedzialności prawnej z tego tytułu.
+			Ultrakino.pl jest portalem informacyjno-społecznościowym zrzeszającym fanów i miłośników kina.</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="vendors/jquery-2.2.4.min.js"></script>
+	<script type="text/javascript" src="vendors/angular.js"></script>
+	<script type="text/javascript" src="vendors/angular-route.min.js"></script>
+	<script type="text/javascript" src="vendors/angular-animate.min.js"></script>
+	<script type="text/javascript" src="vendors/angular-resource.min.js"></script>
+	<!-- <script type="text/javascript" src="plugins/owl2/owl.carousel.js"></script> -->
+	<script type="text/javascript" src="plugins/owl/owl.carousel.js"></script>
+	<script type="text/javascript" src="app/app.js"></script>
+	<script type="text/javascript" src="app/services/Film.js"></script>
+	<script type="text/javascript" src="app/services/ClickAnywhereButHere.js"></script>
+	<script type="text/javascript" src="app/directives/enableCarousel.js"></script>
+	<script type="text/javascript" src="app/directives/clickAnywhereButHere.js"></script>
+	<script type="text/javascript" src="app/components/spinner.js"></script>
+	<script type="text/javascript" src="app/filters/trusted.js"></script>
+	<script type="text/javascript" src="app/controllers/Home.js"></script>
+	<script type="text/javascript" src="app/controllers/Search.js"></script>
+	<script type="text/javascript" src="app/controllers/Film.js"></script>
+	<script type="text/javascript" src="app/controllers/Films.js"></script>
+	<script type="text/javascript" src="app/controllers/Tabs.js"></script>
+	<script type="text/javascript" src="app/controllers/AdminPanel.js"></script>
+</body>
+</html>
