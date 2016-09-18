@@ -1,0 +1,9 @@
+<h3 class="section-heading">Polecane</h3>
+<div class="owl-carousel">
+	<div class="item" ng-repeat="film in filmCtrl.recommendedFilms" enable-carousel>
+		<div>
+			<img alt="{{film.title}}" ng-src="{{film.coverFilename}}">
+			<h2><span ng-bind="film.title"></span></h2>
+		</div>
+	</div>
+</div>

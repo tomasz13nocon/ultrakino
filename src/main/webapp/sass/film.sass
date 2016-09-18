@@ -1,0 +1,73 @@
+$film-page-width: 1060px
+
+#film-page-wrapper
+	width: $film-page-width
+	margin: auto
+	padding-top: 42px
+
+.film-info
+
+.film-info-cover
+	width: 200px
+	float: left
+
+.film-info-without-cover
+	margin-left: 232px
+
+.film-info-title
+	font-size: 2.8em
+
+.film-info-info
+	font-size: 0.9em
+	margin: 20px 0
+
+.film-info-info-label
+	font-weight: bold
+
+.film-info-description
+	line-height: 1.2
+
+
+
+.player-section
+
+.player
+	width: $film-page-width
+	height: 595px
+	margin: 32px auto
+
+
+
+.rate-wrapper
+	float: right
+
+.rating
+	float: right
+
+
+.comment-section-title
+	font-size: 1.4em
+	margin-left: 180px
+	&:before, &:after
+		content: ""
+		border-top: 2px solid $font-color
+		position: absolute
+	&:before
+		width: 150px
+		transform: translate(-180px, 12px)
+	&:after
+		width: 500px
+		transform: translate(30px, 12px)
+
+.comment-input
+	margin-top: 20px
+	display: block
+
+.comment-submit-wrapper
+	margin: 10px 0
+	display: inline-block
+	&:before
+		transform: translate(6.5em, 0.5em)
+
+.comment-submit
+	

@@ -1,0 +1,51 @@
+<div id="film-page-wrapper">
+	<div class="film-info">
+		<img class="film-info-cover" alt="{{film.title}}" ng-src="{{film.coverFilename}}">
+		<div class="film-info-without-cover">
+			<h1 class="film-info-title"><span ng-bind="film.title"></span> (<span ng-bind="film.year"></span>)</h1>
+			<div class="film-info-info">
+				<span class="film-info-info-label">Wersja: </span>
+				<span ng-repeat="player in film.players"><span ng-bind="languageVersions[player.languageVersion]"></span><span ng-bind="$last ? '' : ', '"></span></span>
+				<br>
+				<span class="film-info-info-label">Kategorie: </span>
+				<span ng-repeat="category in film.categories"><span ng-bind="categories[category]"></span><span ng-bind="$last ? '' : ', '"></span></span>
+			</div>
+			<p class="film-info-description" ng-bind="film.description"></p>
+		</div>
+	</div>
+	<div class="clear"></div>
+
+	<admin-tools ng-if="isAdmin""></admin-tools>
+
+	<div class="player-section">
+		<iframe class="player" ng-src="{{film.players[0].src | trusted}}" scrolling="no" frameborder="0" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+	</div>
+	<div class="below-player-section">
+		<!-- <div class="views"> TODO: VIEWS
+			<span ng-bind="film.views"></span>
+			<span>odsłon</span>
+		</div> -->
+		<div class="rate-wrapper">
+			
+		</div>
+		<div class="rating">
+			<span ng-bind="film.rating"></span>
+		</div>
+	</div>
+	<div class="comment-section">
+		<div class="comment-section-title">Komentarze</div>
+		<div class="comment-input-wrapper">
+			<form class="comment-form" ng-submit="filmCtrl.postComment()">
+				<textarea class="comment-input" ng-model="filmCtrl.commentContent" cols="70" rows="4" placeholder="Napisz komentarz..." />
+				<div class="comment-submit-wrapper" ng-attr-tooltip="{{authenticated ? undefined : 'Zaloguj się aby dodać komentarz'}}">
+					<input class="comment-submit" type="submit" value="Opublikuj" ng-disabled="authenticated ? undefined : true" />
+				</div>
+			</form>
+		</div>
+		<div class="comments">
+			<div class="comment-block" ng-repeat="comment in film.comments">
+
+			</div>
+		</div>
+	</div>
+</div>
