@@ -3,6 +3,7 @@ package pl.ultrakino.model;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "players")
@@ -15,13 +16,13 @@ public class Player {
 	private Integer id;
 
 	@Column(name = "language_version")
-	@Enumerated(EnumType.STRING)
-	private LanguageVersion languageVersion;
+	private String languageVersion;
 
 	private String src;
 
-	@Enumerated(EnumType.STRING)
-	private Quality quality;
+	private String hosting;
+
+	private String quality;
 
 	@Column(name = "addition_date")
 
@@ -47,6 +48,8 @@ public class Player {
 		additionDate = LocalDateTime.now();
 	}
 
+
+
 	public Integer getId() {
 		return id;
 	}
@@ -55,11 +58,11 @@ public class Player {
 		this.id = id;
 	}
 
-	public LanguageVersion getLanguageVersion() {
+	public String getLanguageVersion() {
 		return languageVersion;
 	}
 
-	public void setLanguageVersion(LanguageVersion languageVersion) {
+	public void setLanguageVersion(String languageVersion) {
 		this.languageVersion = languageVersion;
 	}
 
@@ -71,11 +74,19 @@ public class Player {
 		this.src = src;
 	}
 
-	public Quality getQuality() {
+	public String getHosting() {
+		return hosting;
+	}
+
+	public void setHosting(String hosting) {
+		this.hosting = hosting;
+	}
+
+	public String getQuality() {
 		return quality;
 	}
 
-	public void setQuality(Quality quality) {
+	public void setQuality(String quality) {
 		this.quality = quality;
 	}
 
@@ -117,5 +128,19 @@ public class Player {
 
 	public void setLostSrc(boolean lostSrc) {
 		this.lostSrc = lostSrc;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Player)) return false;
+		Player player = (Player) o;
+		return Objects.equals(getSrc(), player.getSrc()) &&
+				Objects.equals(getHosting(), player.getHosting());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getSrc(), getHosting());
 	}
 }

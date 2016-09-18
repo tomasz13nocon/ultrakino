@@ -15,12 +15,7 @@
 
 		<hibernate.version>5.2.1.Final</hibernate.version>
 		<jackson.version>2.8.1</jackson.version>
-		<postgresql.version>9.4.1208</postgresql.version>
-		<junit.version>4.12</junit.version>
-		<javaee.version>7.0</javaee.version>
-		<hibernate-validator.version>5.2.4.Final</hibernate-validator.version>
-		<spring-hateoas.version>0.20.0.RELEASE</spring-hateoas.version>
-		<servlet-api.version>3.1.0</servlet-api.version>
+		<spring-security.version>4.1.2.RELEASE</spring-security.version>
 	</properties>
 
 	<dependencyManagement>
@@ -47,19 +42,38 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.4</version>
 		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.9.2</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.10</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.10</version>
+		</dependency>
 
 		<!-- JAVA EE -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>${servlet-api.version}</version>
+			<version>3.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 			<version>1.1.0.Final</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
@@ -78,7 +92,19 @@
 		<dependency>
 			<groupId>org.springframework.hateoas</groupId>
 			<artifactId>spring-hateoas</artifactId>
-			<version>${spring-hateoas.version}</version>
+			<version>0.20.0.RELEASE</version>
+		</dependency>
+
+		<!-- SECURITY -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring-security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring-security.version}</version>
 		</dependency>
 
 		<!-- ORM/DB STUFF -->
@@ -99,7 +125,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>${postgresql.version}</version>
+			<version>9.4.1208</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
@@ -128,7 +154,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
+			<version>4.12</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>

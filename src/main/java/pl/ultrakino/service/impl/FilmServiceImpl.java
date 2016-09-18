@@ -1,23 +1,18 @@
 package pl.ultrakino.service.impl;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
-import pl.ultrakino.model.Film;
-import pl.ultrakino.model.Person;
-import pl.ultrakino.model.Player;
-import pl.ultrakino.model.User;
-import pl.ultrakino.repository.FilmRepository;
-import pl.ultrakino.repository.PersonRepository;
-import pl.ultrakino.repository.UserRepository;
-import pl.ultrakino.resources.FilmResource;
+import pl.ultrakino.model.*;
+import pl.ultrakino.repository.*;
+import pl.ultrakino.resources.FilmDetailsResource;
 import pl.ultrakino.resources.PersonResource;
 import pl.ultrakino.resources.PlayerResource;
 import pl.ultrakino.service.FilmService;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -28,11 +23,6 @@ public class FilmServiceImpl implements FilmService {
 	private FilmRepository filmRepository;
 	private PersonRepository personRepository;
 	private UserRepository userRepository;
-
-	/**
-	 * For unit tests
-	 */
-	FilmServiceImpl() {}
 
 	@Autowired
 	public FilmServiceImpl(FilmRepository filmRepository, PersonRepository personRepository, UserRepository userRepository) {
@@ -48,7 +38,7 @@ public class FilmServiceImpl implements FilmService {
 	 * @throws
 	 */
 	@Override
-	public Film create(FilmResource filmResource) {
+	public Film create(FilmDetailsResource filmResource) {
 		Film film = new Film();
 		film.setTitle(filmResource.getTitle());
 		film.setOriginalTitle(filmResource.getOriginalTitle());
@@ -70,11 +60,13 @@ public class FilmServiceImpl implements FilmService {
 			else {
 				Person person = new Person();
 				person.setName(personResource.getName());
-				person.setRole(personResource.getRole());
+				// TODO
+//				person.setRole(personResource.getRole());
 				cast.add(person);
 			}
 		}
-		film.setCast(cast);
+		// TODO
+//		film.setCast(cast);
 
 		List<PlayerResource> players = filmResource.getPlayers();
 		if (players.get(0).getAddedBy().getUserId() == null)
@@ -89,8 +81,8 @@ public class FilmServiceImpl implements FilmService {
 	}
 
 	// TODO: Change name to be more descriptive
-	private List<Player> createPlayers(List<PlayerResource> resources, Integer userId) {
-		List<Player> players = new ArrayList<>();
+	private Set<Player> createPlayers(List<PlayerResource> resources, Integer userId) {
+		Set<Player> players = new HashSet<>();
 		User user = userRepository.getUserReference(userId);
 		for (PlayerResource playerResource : resources) {
 			Player player = new Player();
@@ -107,37 +99,102 @@ public class FilmServiceImpl implements FilmService {
 
 	@Override
 	public Film findById(Integer id) throws NoRecordWithSuchIdException {
-		Film film = filmRepository.findById(id);
-		Hibernate.initialize(film.getCast());
-		Hibernate.initialize(film.getCategories());
-		Hibernate.initialize(film.getPlayers());
-		Hibernate.initialize(film.getRatings());
-		return film;
+		return filmRepository.findById(id);
 	}
 
 	@Override
-	public List<Film> findRecommended() {
-		return filmRepository.findRecommended();
+	public Page<Film> find(MultiValueMap<String, String> params) {
+		FilmQuery query = new FilmQuery();
+
+
+		List<String> titleParam = params.get("title");
+		if (titleParam != null)
+			query.title(titleParam.get(0));
+
+
+		List<String> yearFromParam = params.get("yearFrom");
+		if (yearFromParam != null) {
+			try {
+				query.yearFrom(Integer.parseInt(yearFromParam.get(0)));
+			}
+			catch(NumberFormatException e){
+				throw new IllegalArgumentException("'yearFrom' parameter is not a valid integer");
+			}
+		}
+
+
+		List<String> yearToParam = params.get("yearTo");
+		if (yearToParam != null) {
+			try {
+				query.yearTo(Integer.parseInt(yearToParam.get(0)));
+			}
+			catch(NumberFormatException e){
+				throw new IllegalArgumentException("'yearTo' parameter is not a valid integer");
+			}
+		}
+
+
+		List<String> categoriesParam = params.get("categories");
+		if (categoriesParam != null) {
+			try {
+				List<Integer> categories = categoriesParam.stream().map(Integer::parseInt).collect(Collectors.toList());
+				query.categories(categories);
+			}
+			catch (NumberFormatException e) {
+				throw new IllegalArgumentException("'categories' parameter contains an invalid integer");
+			}
+		}
+
+
+		List<String> orderByParam = params.get("orderBy");
+		if (orderByParam != null) {
+			try {
+				FilmQuery.OrderBy orderBy = FilmQuery.OrderBy.valueOf(orderByParam.get(0));
+				query.orderBy(orderBy);
+			}
+			catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException("'orderBy' parameter is not a valid OrderBy constant");
+			}
+		}
+
+
+		List<String> ascParam = params.get("asc");
+		if (ascParam != null && ascParam.get(0).equals("true")) {
+			query.asc(true);
+		}
+
+
+		List<String> resultLimitParam = params.get("resultLimit");
+		if (resultLimitParam != null) {
+			try {
+				Integer resultLimit = Integer.parseInt(resultLimitParam.get(0));
+				query.resultLimit(resultLimit);
+			}
+			catch (NumberFormatException e) {
+				throw new IllegalArgumentException("'resultLimit' parameter is not a valid integer");
+			}
+		}
+
+
+		List<String> pageNumberParam = params.get("pageNumber");
+		if (pageNumberParam != null) {
+			try {
+				Integer pageNumber = Integer.parseInt(pageNumberParam.get(0));
+				query.pageNumber(pageNumber);
+			}
+			catch (NumberFormatException e) {
+				throw new IllegalArgumentException("'pageNumber' parameter is not a valid integer");
+			}
+		}
+
+
+		return filmRepository.find(query);
 	}
 
 	@Override
-	public List<Film> findNewest() {
-		return filmRepository.findNewest();
-	}
-
-	@Override
-	public List<Film> findMostWatched() {
-		return filmRepository.findMostWatched();
-	}
-
-	@Override
-	public List<Film> search(String query) {
-		return filmRepository.search(query);
-	}
-
-	@Override
-	public List<Film> advancedSearch(MultiValueMap<String, String> params) {
-		return filmRepository.advancedSearch(params);
+	public void recommendFilm(int filmId) throws NoRecordWithSuchIdException {
+		Film film = filmRepository.findById(filmId);
+		film.setRecommendationDate(LocalDateTime.now());
 	}
 
 }

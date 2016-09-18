@@ -5,13 +5,13 @@
 	   http://www.springframework.org/schema/beans
 	   http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<beans profile="dev">
+	<beans profile="prod">
 		<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 			<property name="location" value="classpath:spring/database.properties"/>
 		</bean>
 	</beans>
 
-	<beans  profile="test">
+	<beans profile="dev">
 		<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 			<property name="location" value="classpath:spring/database_test.properties"/>
 		</bean>

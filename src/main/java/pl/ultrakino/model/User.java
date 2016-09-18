@@ -2,11 +2,13 @@ package pl.ultrakino.model;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -21,7 +23,7 @@ public class User {
 	@Size(min = 3, max = 255)
 	private String username;
 
-	@Size(min = 6)
+	@Size(min = 8)
 	private String passwd;
 
 	@Email
@@ -42,6 +44,9 @@ public class User {
 			joinColumns = @JoinColumn(name = "user_id"),
 			inverseJoinColumns = @JoinColumn(name = "content_id"))
 	private List<Content> watchedContent;
+
+	@ElementCollection
+	private Set<String> roles;
 
 
 	public Integer getId() {
@@ -106,5 +111,13 @@ public class User {
 
 	public void setWatchedContent(List<Content> watchedContent) {
 		this.watchedContent = watchedContent;
+	}
+
+	public Set<String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<String> roles) {
+		this.roles = roles;
 	}
 }

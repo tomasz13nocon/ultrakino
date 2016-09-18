@@ -8,34 +8,64 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-public class FilmResource extends ContentResource {
+public class FilmDetailsResource extends ContentResource {
 
+//	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Integer filmId;
+
+//	@JsonView(Views.FilmCreation.class)
 	private String title;
+
 	private Integer year;
+
+//	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Float rating;
+
+//	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Integer timesRated;
+
 	private String originalTitle;
+
 	private String description;
+
 	private String coverFilename;
+
+	private List<PersonResource> cast = new ArrayList<>();
+
 	private LocalDate worldPremiere;
+
 	private LocalDate localPremiere;
-	private List<String> languageVersions = new ArrayList<>();
+
+	private List<PlayerResource> players = new ArrayList<>();
+
+//	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	private Integer views;
+
 	private Set<Integer> categories = new HashSet<>();
+
+//	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private LocalDateTime recommendationDate;
+
 
 	@Override
 	public Film toDomainObject() {
-		return null; // TODO
-	}
-
-	public Integer getFilmId() {
-		return filmId;
-	}
-
-	public void setFilmId(Integer filmId) {
-		this.filmId = filmId;
+		Film film = new Film();
+		film.setTitle(title);
+		film.setRating(rating);
+		film.setTimesRated(timesRated);
+		film.setOriginalTitle(originalTitle);
+		film.setDescription(description);
+		film.setCoverFilename(coverFilename);
+//		film.setCast(cast.stream().map(PersonResource::toPerson).collect(Collectors.toList()));
+		film.setWorldPremiere(worldPremiere);
+		film.setLocalPremiere(localPremiere);
+		film.setPlayers(players.stream().map(PlayerResource::toDomainObject).collect(Collectors.toSet()));
+		film.setViews(views);
+		film.setCategories(categories);
+		film.setRecommendationDate(recommendationDate);
+		return film;
 	}
 
 	public String getTitle() {
@@ -44,14 +74,6 @@ public class FilmResource extends ContentResource {
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public Integer getYear() {
-		return year;
-	}
-
-	public void setYear(Integer year) {
-		this.year = year;
 	}
 
 	public Float getRating() {
@@ -94,6 +116,14 @@ public class FilmResource extends ContentResource {
 		this.coverFilename = coverFilename;
 	}
 
+	public List<PersonResource> getCast() {
+		return cast;
+	}
+
+	public void setCast(List<PersonResource> cast) {
+		this.cast = cast;
+	}
+
 	public LocalDate getWorldPremiere() {
 		return worldPremiere;
 	}
@@ -110,12 +140,20 @@ public class FilmResource extends ContentResource {
 		this.localPremiere = localPremiere;
 	}
 
-	public List<String> getLanguageVersions() {
-		return languageVersions;
+	public List<PlayerResource> getPlayers() {
+		return players;
 	}
 
-	public void setLanguageVersions(List<String> languageVersions) {
-		this.languageVersions = languageVersions;
+	public void setPlayers(List<PlayerResource> players) {
+		this.players = players;
+	}
+
+	public Integer getViews() {
+		return views;
+	}
+
+	public void setViews(Integer views) {
+		this.views = views;
 	}
 
 	public Set<Integer> getCategories() {
@@ -133,4 +171,21 @@ public class FilmResource extends ContentResource {
 	public void setRecommendationDate(LocalDateTime recommendationDate) {
 		this.recommendationDate = recommendationDate;
 	}
+
+	public void setYear(Integer year) {
+		this.year = year;
+	}
+
+	public Integer getYear() {
+		return year;
+	}
+
+	public void setFilmId(Integer filmId) {
+		this.filmId = filmId;
+	}
+
+	public Integer getFilmId() {
+		return filmId;
+	}
+
 }

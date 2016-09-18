@@ -2,17 +2,15 @@ package pl.ultrakino.resources;
 
 import org.springframework.hateoas.ResourceSupport;
 import pl.ultrakino.model.Content;
-import pl.ultrakino.model.LanguageVersion;
 import pl.ultrakino.model.Player;
-import pl.ultrakino.model.Quality;
 
 import java.time.LocalDateTime;
 
 public class PlayerResource extends ResourceSupport {
 
-	private LanguageVersion languageVersion;
+	private String languageVersion;
 	private String src;
-	private Quality quality;
+	private String quality;
 	private LocalDateTime additionDate;
 	private UserResource addedBy;
 	private Content content;
@@ -37,11 +35,11 @@ public class PlayerResource extends ResourceSupport {
 		return player;
 	}
 
-	public LanguageVersion getLanguageVersion() {
+	public String getLanguageVersion() {
 		return languageVersion;
 	}
 
-	public void setLanguageVersion(LanguageVersion languageVersion) {
+	public void setLanguageVersion(String languageVersion) {
 		this.languageVersion = languageVersion;
 	}
 
@@ -53,11 +51,11 @@ public class PlayerResource extends ResourceSupport {
 		this.src = src;
 	}
 
-	public Quality getQuality() {
+	public String getQuality() {
 		return quality;
 	}
 
-	public void setQuality(Quality quality) {
+	public void setQuality(String quality) {
 		this.quality = quality;
 	}
 

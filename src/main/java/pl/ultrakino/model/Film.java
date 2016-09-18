@@ -2,25 +2,54 @@ package pl.ultrakino.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Entity
 @Table(name = "films")
 public class Film extends Content {
 
-	@Embedded
-	private ContentComponent contentComponent = new ContentComponent();
+	@NotNull
+	private String title;
 
-	@Embedded
-	private SeriesFilmComponent seriesFilmComponent = new SeriesFilmComponent();
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "content")
+	private List<Rating> ratings = new ArrayList<>();
 
-	@Embedded
-	private EpisodeFilmComponent episodeFilmComponent = new EpisodeFilmComponent();
+	private Float rating;
+
+	@Column(name = "times_rated")
+	private Integer timesRated;
+
+	@Column(name = "original_title")
+	private String originalTitle;
+
+	private String description;
+
+	@Column(name = "cover_filename")
+	private String coverFilename;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "content")
+	private Set<FilmographyEntry> castAndCrew = new HashSet<>();
+
+	@ElementCollection(fetch = FetchType.EAGER)
+	@Column(name = "category")
+	private Set<Integer> categories = new HashSet<>();
+
+	@Column(name = "world_premiere")
+	private LocalDate worldPremiere;
+
+	@Column(name = "local_premiere")
+	private LocalDate localPremiere;
+
+	@OneToMany(cascade = CascadeType.ALL/*, mappedBy = "content"*/)
+	@JoinColumn(name = "content_id")
+	private Set<Player> players = new HashSet<>();
+
+	private Integer views;
 
 	private Integer year;
 
@@ -28,113 +57,135 @@ public class Film extends Content {
 	 * Date of the recommendation. If null, this film's not recommended.
 	 */
 	@Column(name = "recommendation_date")
-	private LocalDate recommendationDate;
+	private LocalDateTime recommendationDate;
 
+	@Column(name = "addition_date")
+	private LocalDateTime additionDate;
+
+	@Column(name = "filmweb_id")
+	private String filmwebId;
+
+	@Column(name = "running_time")
+	private Integer runningTime;
+
+	@ElementCollection
+	@Column(name = "country")
+	private List<String> productionCountries = new ArrayList<>();
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "content_id")
+	private Set<Comment> comments = new HashSet<>();
+
+
+
+	@PrePersist
+	public void prePersist() {
+		additionDate = LocalDateTime.now();
+	}
 
 	public String getTitle() {
-		return contentComponent.getTitle();
+		return title;
 	}
 
 	public void setTitle(String title) {
-		contentComponent.setTitle(title);
+		this.title = title;
 	}
 
 	public List<Rating> getRatings() {
-		return contentComponent.getRatings();
+		return ratings;
 	}
 
 	public void setRatings(List<Rating> ratings) {
-		contentComponent.setRatings(ratings);
+		this.ratings = ratings;
 	}
 
 	public Float getRating() {
-		return contentComponent.getRating();
+		return rating;
 	}
 
 	public void setRating(Float rating) {
-		contentComponent.setRating(rating);
+		this.rating = rating;
 	}
 
 	public Integer getTimesRated() {
-		return contentComponent.getTimesRated();
+		return timesRated;
 	}
 
 	public void setTimesRated(Integer timesRated) {
-		contentComponent.setTimesRated(timesRated);
+		this.timesRated = timesRated;
 	}
 
 	public String getOriginalTitle() {
-		return seriesFilmComponent.getOriginalTitle();
+		return originalTitle;
 	}
 
 	public void setOriginalTitle(String originalTitle) {
-		seriesFilmComponent.setOriginalTitle(originalTitle);
+		this.originalTitle = originalTitle;
 	}
 
 	public String getDescription() {
-		return seriesFilmComponent.getDescription();
+		return description;
 	}
 
 	public void setDescription(String description) {
-		seriesFilmComponent.setDescription(description);
+		this.description = description;
 	}
 
 	public String getCoverFilename() {
-		return seriesFilmComponent.getCoverFilename();
+		return coverFilename;
 	}
 
 	public void setCoverFilename(String coverFilename) {
-		seriesFilmComponent.setCoverFilename(coverFilename);
+		this.coverFilename = coverFilename;
 	}
 
-	public List<Person> getCast() {
-		return seriesFilmComponent.getCast();
+	public Set<FilmographyEntry> getCastAndCrew() {
+		return castAndCrew;
 	}
 
-	public void setCast(List<Person> cast) {
-		seriesFilmComponent.setCast(cast);
+	public void setCastAndCrew(Set<FilmographyEntry> castAndCrew) {
+		this.castAndCrew = castAndCrew;
 	}
 
-	public List<Integer> getCategories() {
-		return seriesFilmComponent.getCategories();
+	public Set<Integer> getCategories() {
+		return categories;
 	}
 
-	public void setCategories(List<Integer> categories) {
-		seriesFilmComponent.setCategories(categories);
+	public void setCategories(Set<Integer> categories) {
+		this.categories = categories;
 	}
 
 	public LocalDate getWorldPremiere() {
-		return episodeFilmComponent.getWorldPremiere();
+		return worldPremiere;
 	}
 
 	public void setWorldPremiere(LocalDate worldPremiere) {
-		episodeFilmComponent.setWorldPremiere(worldPremiere);
+		this.worldPremiere = worldPremiere;
 	}
 
 	public LocalDate getLocalPremiere() {
-		return episodeFilmComponent.getLocalPremiere();
+		return localPremiere;
 	}
 
 	public void setLocalPremiere(LocalDate localPremiere) {
-		episodeFilmComponent.setLocalPremiere(localPremiere);
+		this.localPremiere = localPremiere;
 	}
 
-	public List<Player> getPlayers() {
-		return episodeFilmComponent.getPlayers();
+	public Set<Player> getPlayers() {
+		return players;
 	}
 
-	public void setPlayers(List<Player> players) {
-		episodeFilmComponent.setPlayers(players);
+	public void setPlayers(Set<Player> players) {
+		this.players = players;
 	}
 
 	public Integer getViews() {
-		return episodeFilmComponent.getViews();
+		return views;
 	}
 
 	public void setViews(Integer views) {
-		episodeFilmComponent.setViews(views);
+		this.views = views;
 	}
-
 
 	public Integer getYear() {
 		return year;
@@ -144,16 +195,71 @@ public class Film extends Content {
 		this.year = year;
 	}
 
-	public LocalDate getRecommendationDate() {
+	public LocalDateTime getRecommendationDate() {
 		return recommendationDate;
 	}
 
-	public void setRecommendationDate(LocalDate recommendedOn) {
-		this.recommendationDate = recommendedOn;
+	public void setRecommendationDate(LocalDateTime recommendationDate) {
+		this.recommendationDate = recommendationDate;
+	}
+
+	public LocalDateTime getAdditionDate() {
+		return additionDate;
+	}
+
+	public void setAdditionDate(LocalDateTime additionDate) {
+		this.additionDate = additionDate;
+	}
+
+	public String getFilmwebId() {
+		return filmwebId;
+	}
+
+	public void setFilmwebId(String filmwebId) {
+		this.filmwebId = filmwebId;
+	}
+
+	public Integer getRunningTime() {
+		return runningTime;
+	}
+
+	public void setRunningTime(Integer runningTime) {
+		this.runningTime = runningTime;
+	}
+
+	public List<String> getProductionCountries() {
+		return productionCountries;
+	}
+
+	public void setProductionCountries(List<String> productionCountries) {
+		this.productionCountries = productionCountries;
+	}
+
+	public Set<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
 	}
 
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Film)) return false;
+		Film film = (Film) o;
+		return Objects.equals(getTitle(), film.getTitle()) &&
+				Objects.equals(getWorldPremiere(), film.getWorldPremiere()) &&
+				Objects.equals(getId(), film.getId());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getTitle(), getWorldPremiere());
 	}
 }

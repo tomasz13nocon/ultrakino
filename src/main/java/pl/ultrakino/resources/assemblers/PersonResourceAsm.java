@@ -24,9 +24,11 @@ public class PersonResourceAsm extends ResourceAssemblerSupport<Person, PersonRe
 	public PersonResource toResource(Person person) {
 		PersonResource res = new PersonResource();
 		res.setName(person.getName());
-		res.setRole(person.getRole());
+		//TODO
+//		res.setRole(person.getRole());
 		if (includeFilmography) {
-			res.setFilmography(person.getFilmography());
+			//TODO
+//			res.setFilmography(person.getFilmography());
 			includeFilmography = false;
 		}
 

@@ -1,25 +1,20 @@
 package pl.ultrakino.repository.jpa;
 
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.MultiValueMap;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
-import pl.ultrakino.model.ContentComponent_;
 import pl.ultrakino.model.Film;
 import pl.ultrakino.model.Film_;
+import pl.ultrakino.repository.FilmQuery;
 import pl.ultrakino.repository.FilmRepository;
+import pl.ultrakino.repository.Page;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import javax.persistence.metamodel.EntityType;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Repository
 public class JpaFilmRepository implements FilmRepository {
@@ -33,122 +28,150 @@ public class JpaFilmRepository implements FilmRepository {
 	}
 
 	@Override
-	public Film findById(Integer id) throws NoRecordWithSuchIdException {
-		if (id == null) throw new IllegalArgumentException("id must not be null.");
+	public Film findById(int id) throws NoRecordWithSuchIdException {
 		Film film = em.find(Film.class, id);
 		if (film == null) throw new NoRecordWithSuchIdException();
+
+		// TODO
+//		Hibernate.initialize(film.getCast());
+		Hibernate.initialize(film.getCategories());
+		Hibernate.initialize(film.getPlayers());
+		Hibernate.initialize(film.getRatings());
+
 		return film;
 	}
 
-	@Override
-	public List<Film> findRecommended() {
-		TypedQuery<Film> q = em.createQuery("SELECT f FROM Film f ORDER BY f.recommendationDate DESC", Film.class);
-		q.setMaxResults(10);
-		return q.getResultList();
-	}
+
 
 	@Override
-	public List<Film> findNewest() {
-		TypedQuery<Film> q = em.createQuery("SELECT f FROM Film f JOIN FETCH Player p ON f.id=p.content.id ORDER BY p.additionDate DESC", Film.class);
-		q.setMaxResults(10);
-		return q.getResultList();
-	}
+	public Page<Film> find(FilmQuery query) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
 
-	@Override
-	public List<Film> findMostWatched() {
-		TypedQuery<Film> q = em.createQuery("SELECT f FROM Film f ORDER BY f.episodeFilmComponent.views DESC", Film.class);
-		q.setMaxResults(10);
-		return q.getResultList();
-	}
-
-	@Override
-	public List<Film> search(String query) {
-		TypedQuery<Object[]> q = em.createQuery("SELECT " +
-				"f.id," +
-				"f.seriesFilmComponent.coverFilename," +
-				"f.contentComponent.title," +
-				"f.year," +
-				"f.seriesFilmComponent.description " +
-				"FROM Film f  WHERE " +
-				"LOWER(f.contentComponent.title) LIKE :query OR " +
-				"LOWER(f.seriesFilmComponent.originalTitle) LIKE :query", Object[].class);
-		query = query.replaceAll(" ", "%");
-		q.setParameter("query", "%" + query.toLowerCase() + "%");
-		q.setMaxResults(5);
-		List<Object[]> arrays = q.getResultList();
-		List<Film> films = new ArrayList<>();
-		for (Object[] arr : arrays) {
-			Film film = new Film();
-			film.setId((Integer) arr[0]);
-			film.setCoverFilename((String) arr[1]);
-			film.setTitle((String) arr[2]);
-			film.setYear((Integer) arr[3]);
-			film.setDescription((String) arr[4]);
-			films.add(film);
-		}
-		return films;
-	}
-
-	@Override
-	public List<Film> advancedSearch(MultiValueMap<String, String> params) {
-		/*CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<Film> cq = cb.createQuery(Film.class);
+		// Query needed for fetch joins and pagination to work properly together.
+		// We select the actual results alone (IDs only), properly paginated,
+		// and then pass it to the fetching query which selects all the details and joins on collections.
+		CriteriaQuery<Integer> cq = cb.createQuery(Integer.class);
 		Root<Film> root = cq.from(Film.class);
-		cq.select(root);
-		String title = params.get("title");
-		TypedQuery<Film> q = em.createQuery(cq);
-		if (title != null)
-			cq.where(cb.like(root.get(), ""));*/
+		cq.select(root.get(Film_.id));
 
-		String title = params.get("title").get(0);
+		List<Predicate> predicates = new ArrayList<>();
 
-		// Parse year values. If they're not parsable leave them with null.
-		Integer yearLow = null;
-		try {
-			yearLow = Integer.parseInt(params.get("yearLow").get(0));
-		} catch (NumberFormatException e) {}
-		Integer yearHigh = null;
-		try {
-			yearHigh = Integer.parseInt(params.get("yearHigh").get(0));
-		} catch (NumberFormatException e) {}
-
-		List<Integer> categories = null;
-		try {
-			categories = params.get("categories").stream().map(Integer::parseInt).collect(Collectors.toList());
+		// =========================== TITLE =========================== //
+		String title = query.getTitle();
+		if (title != null) {
+			title = "%" + title.toLowerCase().replaceAll(" ", "%") + "%";
+			predicates.add(cb.or(
+					cb.like(cb.lower(root.get(Film_.title)), title),
+					cb.like(cb.lower(root.get(Film_.originalTitle)), title)
+			));
 		}
-		catch (NumberFormatException e) {}
+		// ============================================================= //
 
-		TypedQuery<Film> q = em.createQuery("SELECT f FROM Film f WHERE " +
-				(title != null ? "LOWER(f.contentComponent.title) LIKE :title AND " : "") +
-				(yearLow != null && yearHigh != null ? "f.year BETWEEN :yearLow AND :yearHigh " :
-						(yearLow != null ?  :)) +
-				"", Film.class);
+		// =========================== RELEASE YEAR =========================== //
+		Integer yearFrom = query.getYearFrom();
+		Integer yearTo = query.getYearTo();
+		if (yearFrom != null && yearTo != null) {
+			predicates.add(cb.between(root.get(Film_.year), yearFrom, yearTo));
+		}
+		else if (yearFrom != null) {
+			predicates.add(cb.ge(root.get(Film_.year), yearFrom));
+		}
+		else if (yearTo != null) {
+			predicates.add(cb.le(root.get(Film_.year), yearTo));
+		}
+		// ==================================================================== //
 
-		return q.getResultList();
+		// =========================== CATEGORIES =========================== //
+		List<Integer> categories = query.getCategories();
+		if (categories != null) {
+			predicates.add(root.join(Film_.categories).in(categories));
+		}
+		// ================================================================== //
+
+		// =========================== ORDER BY =========================== //
+		FilmQuery.OrderBy orderBy = query.getOrderBy();
+		boolean asc = query.getAsc();
+		if (orderBy != null) {
+			Path p = null;
+			switch (orderBy) {
+				case ADDITION_DATE:
+					p = root.get(Film_.additionDate);
+					break;
+				case PREMIERE:
+					p = root.get(Film_.worldPremiere);
+					break;
+				case TITLE:
+					p = root.get(Film_.title);
+					break;
+				case RECOMMENDATION_DATE:
+					p = root.get(Film_.recommendationDate);
+					break;
+				case VIEWS:
+					p = root.get(Film_.views);
+					break;
+			}
+			cq.orderBy(asc ? cb.asc(p) : cb.desc(p));
+		}
+		// Else we might want to handle the case, when there is no orderBy but we still want to respect the asc parameter
+		// Not necessary right now
+		// ================================================================ //
+
+		/*
+		TODO:
+		personNames
+		version
+		 */
+
+		cq.where(predicates.toArray(new Predicate[]{}));
+		TypedQuery<Integer> q = em.createQuery(cq);
+
+		// =========================== RESULT LIMIT =========================== //
+		Integer resultLimit = query.getResultLimit();
+		if (resultLimit == null)
+			resultLimit = 10;
+		q.setMaxResults(resultLimit);
+		// ==================================================================== //
+
+		// =========================== RESULT OFFSET / PAGINATION =========================== //
+		Integer pageNumber = query.getPageNumber();
+		if (pageNumber != null) {
+			q.setFirstResult(pageNumber * resultLimit);
+		}
+		else {
+			pageNumber = 0;
+		}
+		// ================================================================================== //
+
+		List<Integer> ids = q.getResultList();
+		if (ids.isEmpty())
+			return new Page<>();
+
+		CriteriaQuery<Long> countCq = cb.createQuery(Long.class);
+		Root<Film> countRoot = countCq.from(Film.class);
+		if (categories != null)
+			countRoot.join(Film_.categories);
+		countCq.select(cb.count(countRoot));
+		countCq.where(predicates.toArray(new Predicate[]{}));
+		TypedQuery<Long> countQ = em.createQuery(countCq);
+		int resultCount = countQ.getResultList().get(0).intValue();
+		int pageCount = resultCount / resultLimit;
+		if (resultCount % resultLimit != 0) // if 20 results (with 10 per page) then 2 pages, if 21 then 3 pages
+			pageCount++;
+
+
+		// Main query
+		CriteriaQuery<Film> mainCq = cb.createQuery(Film.class);
+		Root<Film> mainRoot = mainCq.from(Film.class);
+		mainCq.select(mainRoot);
+		mainCq.distinct(true);
+
+		mainRoot.fetch(Film_.players);
+		mainRoot.fetch(Film_.categories);
+		mainCq.where(mainRoot.get(Film_.id).in(ids));
+		TypedQuery<Film> mainQ = em.createQuery(mainCq);
+
+
+		return new Page<>(mainQ.getResultList(), pageNumber, pageCount);
 	}
+
 }
-
-/*
-title
-yearLow
-yearHigh
-categories
-personNames
-version
-pageNumber
- */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

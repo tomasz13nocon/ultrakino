@@ -4,15 +4,37 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.MERGE;
+import static javax.persistence.CascadeType.PERSIST;
+
 @Entity
 @Table(name = "series")
 public class Series extends Content {
 
-	@Embedded
-	private ContentComponent contentComponent = new ContentComponent();
+	private String title;
 
-	@Embedded
-	private SeriesFilmComponent seriesFilmComponent = new SeriesFilmComponent();
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "content")
+	private List<Rating> ratings = new ArrayList<>();
+
+	private Float rating;
+
+	@Column(name = "times_rated")
+	private Integer timesRated;
+
+	@Column(name = "original_title")
+	private String originalTitle;
+
+	private String description;
+
+	@Column(name = "cover_filename")
+	private String coverFilename;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "content")
+	private List<FilmographyEntry> castAndCrew = new ArrayList<>();
+
+	@ElementCollection
+	@Column(name = "category")
+	private List<Integer> categories = new ArrayList<>();
 
 	@Column(name = "number_of_seasons")
 	private Integer numberOfSeasons;
@@ -23,75 +45,90 @@ public class Series extends Content {
 
 
 	public String getTitle() {
-		return contentComponent.getTitle();
+		return title;
 	}
 
 	public void setTitle(String title) {
-		contentComponent.setTitle(title);
+		this.title = title;
 	}
 
 	public List<Rating> getRatings() {
-		return contentComponent.getRatings();
+		return ratings;
 	}
 
 	public void setRatings(List<Rating> ratings) {
-		contentComponent.setRatings(ratings);
+		this.ratings = ratings;
 	}
 
 	public Float getRating() {
-		return contentComponent.getRating();
+		return rating;
 	}
 
 	public void setRating(Float rating) {
-		contentComponent.setRating(rating);
+		this.rating = rating;
 	}
 
 	public Integer getTimesRated() {
-		return contentComponent.getTimesRated();
+		return timesRated;
 	}
 
 	public void setTimesRated(Integer timesRated) {
-		contentComponent.setTimesRated(timesRated);
+		this.timesRated = timesRated;
 	}
 
 	public String getOriginalTitle() {
-		return seriesFilmComponent.getOriginalTitle();
+		return originalTitle;
 	}
 
 	public void setOriginalTitle(String originalTitle) {
-		seriesFilmComponent.setOriginalTitle(originalTitle);
+		this.originalTitle = originalTitle;
 	}
 
 	public String getDescription() {
-		return seriesFilmComponent.getDescription();
+		return description;
 	}
 
 	public void setDescription(String description) {
-		seriesFilmComponent.setDescription(description);
+		this.description = description;
 	}
 
 	public String getCoverFilename() {
-		return seriesFilmComponent.getCoverFilename();
+		return coverFilename;
 	}
 
 	public void setCoverFilename(String coverFilename) {
-		seriesFilmComponent.setCoverFilename(coverFilename);
+		this.coverFilename = coverFilename;
 	}
 
-	public List<Person> getCast() {
-		return seriesFilmComponent.getCast();
+	public List<FilmographyEntry> getCastAndCrew() {
+		return castAndCrew;
 	}
 
-	public void setCast(List<Person> cast) {
-		seriesFilmComponent.setCast(cast);
+	public void setCastAndCrew(List<FilmographyEntry> castAndCrew) {
+		this.castAndCrew = castAndCrew;
 	}
 
 	public List<Integer> getCategories() {
-		return seriesFilmComponent.getCategories();
+		return categories;
 	}
 
 	public void setCategories(List<Integer> categories) {
-		seriesFilmComponent.setCategories(categories);
+		this.categories = categories;
 	}
 
+	public Integer getNumberOfSeasons() {
+		return numberOfSeasons;
+	}
+
+	public void setNumberOfSeasons(Integer numberOfSeasons) {
+		this.numberOfSeasons = numberOfSeasons;
+	}
+
+	public List<Episode> getEpisodes() {
+		return episodes;
+	}
+
+	public void setEpisodes(List<Episode> episodes) {
+		this.episodes = episodes;
+	}
 }

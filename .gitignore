@@ -55,4 +55,7 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+## Custom
 /src/main/webapp/images/covers/
+!target/ultrakino
+target/ultrakino/images/covers

@@ -8,6 +8,5 @@ public interface PersonRepository {
 
 	Optional<Person> findByName(String name);
 
-
-
+	Optional<Person> findByFilmwebId(String filmwebId);
 }

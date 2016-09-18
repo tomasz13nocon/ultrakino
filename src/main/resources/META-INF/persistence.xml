@@ -9,7 +9,7 @@
 		which use hibernate without spring context.
 	-->
 
-	<!--<persistence-unit name="dev">
+	<persistence-unit name="prod">
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
@@ -19,11 +19,11 @@
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL94Dialect" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
-			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<!--<property name="hibernate.hbm2ddl.auto" value="update" />-->
 		</properties>
 	</persistence-unit>
 
-	<persistence-unit name="test">
+	<persistence-unit name="dev">
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
@@ -35,6 +35,6 @@
 			<property name="hibernate.format_sql" value="true" />
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 		</properties>
-	</persistence-unit>-->
+	</persistence-unit>
 
 </persistence>

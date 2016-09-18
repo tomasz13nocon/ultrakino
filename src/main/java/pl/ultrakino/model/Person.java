@@ -5,11 +5,35 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "persons")
 public class Person {
+
+	public enum Role {
+		DIRECTOR(1),
+		SCREENWRITER(2),
+		COMPOSER(3),
+		CINEMATOGRAPHER(4),
+		SCREENPLAY_MATERIALS(5),
+		ACTOR(6),
+		PRODUCER(9),
+		EDITOR(10),
+		COSTUME_DESIGNER(11);
+
+		public int apiNumber;
+
+		Role(int apiNumber) {
+			this.apiNumber = apiNumber;
+		}
+
+		public int getApiNumber() {
+			return apiNumber;
+		}
+	}
 
 	@Id
 	@SequenceGenerator(name = "person_id_gen", sequenceName = "persons_person_id_seq")
@@ -19,14 +43,11 @@ public class Person {
 
 	private String name;
 
-	@Enumerated(EnumType.STRING)
-	private PersonRole role;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+	private Set<FilmographyEntry> filmography = new HashSet<>();
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "persons_contents_filmography",
-			joinColumns = @JoinColumn(name = "person_id"),
-			inverseJoinColumns = @JoinColumn(name = "content_id"))
-	private List<Content> filmography = new ArrayList<>();
+	@Column(name = "filmweb_id")
+	private String filmwebId;
 
 
 	public Integer getId() {
@@ -45,20 +66,20 @@ public class Person {
 		this.name = name;
 	}
 
-	public PersonRole getRole() {
-		return role;
-	}
-
-	public void setRole(PersonRole role) {
-		this.role = role;
-	}
-
-	public List<Content> getFilmography() {
+	public Set<FilmographyEntry> getFilmography() {
 		return filmography;
 	}
 
-	public void setFilmography(List<Content> filmography) {
+	public void setFilmography(Set<FilmographyEntry> filmography) {
 		this.filmography = filmography;
+	}
+
+	public String getFilmwebId() {
+		return filmwebId;
+	}
+
+	public void setFilmwebId(String filmwebId) {
+		this.filmwebId = filmwebId;
 	}
 
 	@Override
@@ -66,20 +87,17 @@ public class Person {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.SIMPLE_STYLE);
 	}
 
-
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-
+		if (!(o instanceof Person)) return false;
 		Person person = (Person) o;
-
-		return id.equals(person.id);
-
+		return Objects.equals(getName(), person.getName()) &&
+				Objects.equals(getFilmwebId(), person.getFilmwebId());
 	}
 
 	@Override
 	public int hashCode() {
-		return id.hashCode();
+		return Objects.hash(getName(), getFilmwebId());
 	}
 }

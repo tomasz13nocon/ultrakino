@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Content is film, episode or series.
+ * Content is a film, an episode or a series.
  */
 @Entity
 @Table(name = "contents")
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.JOINED) // This table is necessary for foreign keys to work properly
 public abstract class Content {
 
 	@Id
@@ -28,19 +28,4 @@ public abstract class Content {
 		this.id = id;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-
-		Content content = (Content) o;
-
-		return id.equals(content.id);
-
-	}
-
-	@Override
-	public int hashCode() {
-		return id.hashCode();
-	}
 }

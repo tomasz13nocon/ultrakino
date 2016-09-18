@@ -1,24 +1,26 @@
 package pl.ultrakino.web;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
+import pl.ultrakino.exceptions.NoUserWithSuchUsernameException;
+import pl.ultrakino.model.Comment;
 import pl.ultrakino.model.Film;
-import pl.ultrakino.model.Views;
+import pl.ultrakino.repository.Page;
+import pl.ultrakino.resources.FilmDetailsResource;
 import pl.ultrakino.resources.FilmResource;
+import pl.ultrakino.resources.assemblers.FilmDetailsResourceAsm;
 import pl.ultrakino.resources.assemblers.FilmResourceAsm;
+import pl.ultrakino.service.CommentService;
 import pl.ultrakino.service.FilmService;
+import pl.ultrakino.service.UserService;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.security.Principal;
 
 import static pl.ultrakino.web.RestAPIDefinitions.API_PREFIX;
 
@@ -27,76 +29,80 @@ import static pl.ultrakino.web.RestAPIDefinitions.API_PREFIX;
 public class FilmController {
 
 	private FilmService filmService;
+	private CommentService commentService;
+	private UserService userService;
 	private FilmResourceAsm filmResourceAsm;
+	private FilmDetailsResourceAsm filmDetailsResourceAsm;
 
 	@Autowired
-	public FilmController(FilmService filmService, FilmResourceAsm filmResourceAsm) {
+	public FilmController(FilmService filmService, FilmResourceAsm filmResourceAsm, FilmDetailsResourceAsm filmDetailsResourceAsm, CommentService commentService, UserService userService) {
 		this.filmService = filmService;
+		this.commentService = commentService;
+		this.userService = userService;
 		this.filmResourceAsm = filmResourceAsm;
+		this.filmDetailsResourceAsm = filmDetailsResourceAsm;
 	}
 
 //	@JsonView(Views.FilmCreation.class)
 	@PostMapping
-	public ResponseEntity<FilmResource> createFilm(@RequestBody FilmResource filmResource) throws URISyntaxException {
-		Film film = filmService.create(filmResource);
-		// Get resource representation of actually created Film and its HATEOAS links
-		filmResource = filmResourceAsm.toResource(film);
-		return ResponseEntity.created(new URI(filmResource.getLink("self").getHref())).body(filmResource);
+	public ResponseEntity<FilmDetailsResource> createFilm(@RequestBody FilmDetailsResource filmDetailsResource) throws URISyntaxException {
+		Film film = filmService.create(filmDetailsResource);
+		// Get resource representation of actually created Film and its links
+		filmDetailsResource = filmDetailsResourceAsm.toResource(film);
+		return ResponseEntity.created(new URI(filmDetailsResource.getLink("self").getHref())).body(filmDetailsResource);
 	}
 
 	@GetMapping("/{filmId}")
-	public FilmResource getFilm(@PathVariable int filmId) throws NoRecordWithSuchIdException {
+	public FilmDetailsResource getFilm(@PathVariable int filmId) throws NoRecordWithSuchIdException {
 		Film film = filmService.findById(filmId);
-		return filmResourceAsm.cast().players().categories().toResource(film);
+		return filmDetailsResourceAsm.toResource(film);
 	}
 
-	@GetMapping("/recommended")
-	public List<FilmResource> getRecommendedFilms() {
-		List<Film> films = filmService.findRecommended();
-		return filmResourceAsm.toResources(films);
+	@PostMapping("/{filmId}/recommendationDate")
+	public ResponseEntity recommendFilm(@PathVariable int filmId) throws NoRecordWithSuchIdException {
+		filmService.recommendFilm(filmId);
+		return ResponseEntity.ok().build();
 	}
 
-	@GetMapping("/newest")
-	public List<FilmResource> getNewestFilms() {
-		List<Film> films = filmService.findNewest();
-		return filmResourceAsm.toResources(films);
+	@PostMapping("/{contentId}/comments")
+	public ResponseEntity postComment(@PathVariable int contentId, @RequestBody Comment comment, Principal principal) {
+		if (principal == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		System.out.println(comment);
+		return ResponseEntity.ok().build();
+		/*try {
+			return ResponseEntity.ok(commentService.save(comment, contentId, principal.getName()));
+		} catch (NoRecordWithSuchIdException e) {
+			return ResponseEntity.notFound().build();
+		} catch (NoUserWithSuchUsernameException e) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		}*/
 	}
 
-	@GetMapping("/most-watched")
-	public List<FilmResource> getMostWatchedFilms() {
-		List<Film> films = filmService.findMostWatched();
-		return filmResourceAsm.toResources(films);
+	@GetMapping
+	public ResponseEntity getFilms(@RequestParam MultiValueMap<String, String> params) {
+		try {
+			Page<Film> films = filmService.find(params);
+			Page<FilmResource> result = new Page<>(
+					filmResourceAsm.toResources(films.getContent()),
+					films.getPageNumber(),
+					films.getPageCount());
+			return ResponseEntity.ok(result);
+		}
+		catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 	}
 
-	@GetMapping("/search")
-	public List<FilmResource> searchForFilms(@RequestParam("query") String query) {
-		List<Film> films = filmService.search(query);
-		return filmResourceAsm.toResources(films);
-	}
 
-	@GetMapping("/advanced-search")
-	public List<FilmResource> advancedSearch(@RequestParam MultiValueMap<String, String> params) {
-		List<Film> films = filmService.advancedSearch(params);
-		return filmResourceAsm.toResources(films);
-	}
+	// TODO: These have to be more specific, i.e. IllegalArgumentException may be thrown in different places and mean different things.
+//	@ExceptionHandler({ URISyntaxException.class })
+//	public ResponseEntity uriSyntaxException() {
+//		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//	}
 
-	@ExceptionHandler(URISyntaxException.class)
-	public ResponseEntity uriSyntaxException() {
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-	}
-
+//	@ExceptionHandler(IllegalArgumentException.class)
+//	public ResponseEntity badRequest() {
+//		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+//	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

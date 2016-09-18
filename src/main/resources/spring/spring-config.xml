@@ -25,7 +25,7 @@
 				<prop key="hibernate.show_sql">true</prop>
 				<!--<prop key="hibernate.format_sql">true</prop>-->
 				<!--<prop key="hibernate.use_sql_comments">true</prop>-->
-				<!--<prop key="hibernate.hbm2ddl.auto">update</prop>-->
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
 		</property>
 	</bean>
@@ -34,7 +34,7 @@
 	 by finding a single unique bean of type EntityManagerFactory in the containing BeanFactory."
 	 "This transaction manager will autodetect the DataSource
 	 used as the connection factory of the EntityManagerFactory"
-	 Thus we don't need to specify any parameters. -->
+	 Thus we don'content need to specify any parameters. -->
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" />
 
 	<tx:annotation-driven />

@@ -1,8 +1,10 @@
 package pl.ultrakino.repository;
 
+import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository {
 
@@ -19,4 +21,7 @@ public interface UserRepository {
 	 */
 	User getUserReference(Integer userId);
 
+	Optional<User> findByUsername(String username);
+
+	User findById(int id) throws NoRecordWithSuchIdException;
 }
