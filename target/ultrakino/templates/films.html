@@ -57,7 +57,7 @@
 					<div class="filter-result-year">Rok: <span ng-bind="film.year"></span></div>
 					<div class="filter-result-categories">
 						<span>Kategorie: </span>
-						{{film.categories}}
+						{{categories[film.categories]}}
 						<span ng-repeat="category in film.categories"><span ng-bind="categories[category]"></span><span ng-bind="$last ? '' : ', '"></span></span>
 					</div>
 					<div class="filter-result-description"><p ng-bind="film.description"></p></div>
