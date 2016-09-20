@@ -16,10 +16,6 @@ angular.module("app")
 
 		var skipLocationEvent = false;
 		ctrl.modelChanged = function() {
-			// process stuff from model
-			// disable location event
-			// put them into location
-			// updateResults()
 			var params = ctrl.processParams($scope.params);
 			skipLocationEvent = true;
 			$location.search(params);
@@ -27,45 +23,45 @@ angular.module("app")
 		};
 
 		ctrl.locationChanged = function() {
-			// process stuff from location
-			// put them into $scope.params
-			// updateResults()
 			if (!skipLocationEvent) {
 				var params = ctrl.processParams($location.search());
-				$scope.params = params;
+				console.log(params);
 				ctrl.updateResults(params);
+				$scope.params = params;
+				for (var i = 0; i < params.categories.length; i++)
+					$scope.params.categories[params.categories[i]] = true;
 			}
 			else {
 				skipLocationEvent = false;
 			}
 		};
 		$scope.$on("$locationChangeSuccess", ctrl.locationChanged);
-
+		
+		// Convert params to be eligible for API request
 		ctrl.processParams = function(params) {
-			var p = {};
+			var p = {
+				categories: [],
+			};
 			p.orderBy = params.orderBy ? params.orderBy : "ADDITION_DATE";
 			p.asc = params.asc ? true : false; // In case of undefined
 			if (params.title) p.title = params.title;
 			if (params.categories) {
 				var type = Object.prototype.toString.call(params.categories);
 				if (type === "[object Object]") {
-					var keys = Object.keys(params.categories);
-					if (keys.length !== 0) 
-						p.categories = keys;
+					for (category in params.categories) {
+						if (params.categories[category])
+							p.categories.push(category);
+					}
 				}
 				else if (type === "[object Array]") {
-
+					p.categories = params.categories;
 				}
 				else { // a single number (a string actually)
-
+					p.categories.push(params.categories);
 				}
 			}
 
 			return p;
-		};
-
-		ctrl.qwe = function() {
-
 		};
 
 		ctrl.updateResults = function(params) {
@@ -74,13 +70,17 @@ angular.module("app")
 			});
 		};
 
-
-		$scope.params = {
-			categories: {},
-			orderBy: "ADDITION_DATE",
-			asc: false,
-		};
-		$scope.params = ctrl.processParams({});
-		ctrl.updateResults($scope.params);
+		var params = $location.search();
+		if (Object.keys(params).length === 0) {
+			$scope.params = {
+				categories: {},
+				orderBy: "ADDITION_DATE",
+				asc: false,
+			};
+			ctrl.modelChanged();
+		}
+		else {
+			ctrl.locationChanged();
+		}
 
 	}]);
