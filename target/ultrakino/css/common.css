@@ -45,6 +45,11 @@ input[type="submit"] {
     input[type="submit"]:disabled:hover {
       box-shadow: none; }
 
+select {
+  padding: 2px;
+  border-radius: 2px;
+  background: white; }
+
 [tooltip]:before {
   content: attr(tooltip);
   position: absolute;

@@ -19,4 +19,6 @@ public interface FilmService {
 	Page<Film> find(MultiValueMap<String, String> params);
 
 	void recommendFilm(int filmId) throws NoRecordWithSuchIdException;
+
+	void qwe();
 }

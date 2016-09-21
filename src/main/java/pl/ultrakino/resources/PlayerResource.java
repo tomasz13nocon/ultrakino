@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 public class PlayerResource extends ResourceSupport {
 
-	private String languageVersion;
+	private Player.LanguageVersion languageVersion;
 	private String src;
 	private String quality;
 	private LocalDateTime additionDate;
@@ -35,11 +35,11 @@ public class PlayerResource extends ResourceSupport {
 		return player;
 	}
 
-	public String getLanguageVersion() {
+	public Player.LanguageVersion getLanguageVersion() {
 		return languageVersion;
 	}
 
-	public void setLanguageVersion(String languageVersion) {
+	public void setLanguageVersion(Player.LanguageVersion languageVersion) {
 		this.languageVersion = languageVersion;
 	}
 

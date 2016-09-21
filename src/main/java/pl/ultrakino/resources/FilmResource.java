@@ -1,6 +1,7 @@
 package pl.ultrakino.resources;
 
 import pl.ultrakino.model.Film;
+import pl.ultrakino.model.Player;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,7 +22,7 @@ public class FilmResource extends ContentResource {
 	private String coverFilename;
 	private LocalDate worldPremiere;
 	private LocalDate localPremiere;
-	private List<String> languageVersions = new ArrayList<>();
+	private Set<Player.LanguageVersion> languageVersions = new HashSet<>();
 	private Set<Integer> categories = new HashSet<>();
 	private LocalDateTime recommendationDate;
 
@@ -110,11 +111,11 @@ public class FilmResource extends ContentResource {
 		this.localPremiere = localPremiere;
 	}
 
-	public List<String> getLanguageVersions() {
+	public Set<Player.LanguageVersion> getLanguageVersions() {
 		return languageVersions;
 	}
 
-	public void setLanguageVersions(List<String> languageVersions) {
+	public void setLanguageVersions(Set<Player.LanguageVersion> languageVersions) {
 		this.languageVersions = languageVersions;
 	}
 

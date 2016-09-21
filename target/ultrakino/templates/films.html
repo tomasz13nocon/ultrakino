@@ -28,12 +28,14 @@
 			<label>
 				<span class="filter-input-label">Od roku: </span>
 				<select class="filter-input" ng-model="params.yearFrom" ng-options="year as year for year in years" ng-change="filmsCtrl.modelChanged()" />
+				<span class="cross-sign" ng-hide="params.yearFrom == years[years.length-1]" ng-click="params.yearFrom = years[years.length-1]; filmsCtrl.modelChanged()"></span>
 			</label>
 		</div>
 		<div class="filter-wrapper">
 			<label>
 				<span class="filter-input-label">Do roku: </span>
 				<select class="filter-input" ng-model="params.yearTo" ng-options="year as year for year in years" ng-change="filmsCtrl.modelChanged()" />
+				<span class="cross-sign" ng-hide="params.yearTo == years[0]" ng-click="params.yearTo = years[0]; filmsCtrl.modelChanged()"></span>
 			</label>
 		</div>
 		<div class="filter-wrapper">
@@ -49,21 +51,36 @@
 	</div>
 
 	<div id="results-wrapper">
+		<div class="pagination-wrapper">
+			<div class="pagination-first" ng-click="filmsCtrl.setPage(0)">◀◀</div>
+			<div class="pagination-prev" ng-click="filmsCtrl.setPage(activePage - 1)">◀</div>
+			<div class="pagination-num" ng-class="{'active-page': page == activePage}" ng-repeat="page in pages" ng-bind="page + 1" ng-click="filmsCtrl.setPage(page)"></div>
+			<div class="pagination-next" ng-click="filmsCtrl.setPage(activePage + 1)">▶</div>
+			<div class="pagination-last" ng-click="filmsCtrl.setPage(lastPage)">▶▶</div>
+		</div>
 		<div class="filter-result" ng-repeat="film in films">
-			<a class="filter-result-link" ng-href="#filmy/{{film.filmId}}/{{film.title}}-{{film.year}}">
+			<a ng-href="#filmy/{{film.filmId}}/{{film.title}}-{{film.year}}">
 				<img class="filter-result-cover" ng-src="{{film.coverFilename}}" alt="{{film.title}}">
-				<div class="filter-result-details">
-					<h3 class="filter-result-title" ng-bind="film.title"></h3>
-					<div class="filter-result-year">Rok: <span ng-bind="film.year"></span></div>
-					<div class="filter-result-categories">
-						<span>Kategorie: </span>
-						{{categories[film.categories]}}
-						<span ng-repeat="category in film.categories"><span ng-bind="categories[category]"></span><span ng-bind="$last ? '' : ', '"></span></span>
-					</div>
-					<div class="filter-result-description"><p ng-bind="film.description"></p></div>
-					<div class="clear"></div>
-				</div>
 			</a>
+			<div class="filter-result-details">
+				<a ng-href="#filmy/{{film.filmId}}/{{film.title}}-{{film.year}}">
+					<h3 class="filter-result-title" ng-bind="film.title"></h3>
+				</a>
+				<div class="filter-result-year">
+					<span class="filter-result-label">Rok: </span>
+					<span ng-bind="film.year"></span>
+				</div>
+				<div class="filter-result-categories">
+					<span class="filter-result-label">Kategorie: </span>
+					<span ng-repeat="category in film.categories"><span ng-bind="categories[category]"></span><span ng-bind="$last ? '' : ', '"></span></span>
+				</div>
+				<div class="filter-result-versions">
+					<span class="filter-result-label">Wersje językowe: </span>
+					<span ng-repeat="version in film.languageVersions"><span ng-bind="languageVersions[version]"></span><span ng-bind="$last ? '' : ', '"></span></span>
+				</div>
+				<div class="filter-result-description"><p ng-bind="film.description"></p></div>
+				<div class="clear"></div>
+			</div>
 		</div>
 	</div>
 

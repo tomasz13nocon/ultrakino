@@ -11,8 +11,10 @@ import pl.ultrakino.repository.Page;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,6 +93,7 @@ public class JpaFilmRepository implements FilmRepository {
 		// =========================== ORDER BY =========================== //
 		FilmQuery.OrderBy orderBy = query.getOrderBy();
 		boolean asc = query.getAsc();
+		Order order = null;
 		if (orderBy != null) {
 			Path p = null;
 			switch (orderBy) {
@@ -105,16 +108,22 @@ public class JpaFilmRepository implements FilmRepository {
 					break;
 				case RECOMMENDATION_DATE:
 					p = root.get(Film_.recommendationDate);
+					predicates.add(root.get(Film_.recommendationDate).isNotNull());
 					break;
 				case VIEWS:
 					p = root.get(Film_.views);
 					break;
 			}
-			cq.orderBy(asc ? cb.asc(p) : cb.desc(p));
+			order = asc ? cb.asc(p) : cb.desc(p);
+			cq.orderBy(order);
 		}
 		// Else we might want to handle the case, when there is no orderBy but we still want to respect the asc parameter
 		// Not necessary right now
 		// ================================================================ //
+
+		// =========================== LANGUAGE VERSIONS =========================== //
+
+		// ========================================================================= //
 
 		/*
 		TODO:
@@ -164,6 +173,8 @@ public class JpaFilmRepository implements FilmRepository {
 		Root<Film> mainRoot = mainCq.from(Film.class);
 		mainCq.select(mainRoot);
 		mainCq.distinct(true);
+		if (order != null)
+			mainCq.orderBy(order);
 
 		mainRoot.fetch(Film_.players);
 		mainRoot.fetch(Film_.categories);
@@ -172,6 +183,15 @@ public class JpaFilmRepository implements FilmRepository {
 
 
 		return new Page<>(mainQ.getResultList(), pageNumber, pageCount);
+	}
+
+	@Override
+	public void qwe() {
+		TypedQuery<Film> q = em.createQuery("FROM Film f", Film.class);
+		List<Film> films = q.getResultList();
+		for (Film film : films) {
+			film.setAdditionDate(LocalDateTime.now());
+		}
 	}
 
 }

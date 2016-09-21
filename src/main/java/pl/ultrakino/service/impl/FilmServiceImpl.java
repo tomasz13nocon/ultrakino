@@ -197,4 +197,9 @@ public class FilmServiceImpl implements FilmService {
 		film.setRecommendationDate(LocalDateTime.now());
 	}
 
+	@Override
+	public void qwe() {
+		filmRepository.qwe();
+	}
+
 }

@@ -19,24 +19,26 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static pl.ultrakino.model.Player.LanguageVersion.*;
+
 @Service
 public class AlltubeServiceImpl implements AlltubeService {
 
 	private FilmwebService filmwebService;
 	private FilmRepository filmRepository;
 
-	private static Map<String, String> versions = new HashMap<>();
+	private static Map<String, Player.LanguageVersion> versions = new HashMap<>();
 	private static final String userAgent = "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6";
 
 	static {
-		versions.put("Lektor" ,"VOICE_OVER");
-		versions.put("Oryginalna" ,"ORIGINAL");
-		versions.put("ENG" ,"ORIGINAL");
-		versions.put("Dubbing" ,"DUBBING");
-		versions.put("PL" ,"POLISH_FILM");
-		versions.put("Napisy" ,"POLISH_SUBS");
-		versions.put("Napisy ENG" ,"ENGLISH_SUBS");
-		versions.put("Lektor IVO" ,"IVONA");
+		versions.put("Lektor", VOICE_OVER);
+		versions.put("Oryginalna", ORIGINAL);
+		versions.put("ENG", ORIGINAL);
+		versions.put("Dubbing", DUBBING);
+		versions.put("PL", POLISH_FILM);
+		versions.put("Napisy", POLISH_SUBS);
+		versions.put("Napisy ENG", ENGLISH_SUBS);
+//		versions.put("Lektor IVO" ,IVONA);
 	}
 
 	@Autowired
@@ -90,7 +92,7 @@ public class AlltubeServiceImpl implements AlltubeService {
 
 			String hosting = link.substring(link.indexOf("hosting=") + 8, link.indexOf("&id="));
 			String src = link.substring(link.indexOf("id=") + 3);
-			String version = versions.get(tr.select("td:nth-child(4)").text());
+			Player.LanguageVersion version = versions.get(tr.select("td:nth-child(4)").text());
 
 			player.setSrc(src);
 			player.setHosting(hosting);

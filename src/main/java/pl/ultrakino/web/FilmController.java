@@ -95,6 +95,11 @@ public class FilmController {
 		}
 	}
 
+	@GetMapping("/qwe")
+	public void qwe() {
+		filmService.qwe();
+	}
+
 
 	// TODO: These have to be more specific, i.e. IllegalArgumentException may be thrown in different places and mean different things.
 //	@ExceptionHandler({ URISyntaxException.class })

@@ -30,7 +30,7 @@ public class FilmResourceAsm extends ResourceAssemblerSupport<Film, FilmResource
 		res.setLocalPremiere(film.getLocalPremiere());
 		res.setYear(film.getYear());
 		res.setCategories(film.getCategories());
-		res.setLanguageVersions(film.getPlayers().stream().map(Player::getLanguageVersion).collect(Collectors.toList()));
+		res.setLanguageVersions(film.getPlayers().stream().map(Player::getLanguageVersion).collect(Collectors.toSet()));
 		return res;
 	}
 }
