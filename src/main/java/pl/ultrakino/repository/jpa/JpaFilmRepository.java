@@ -42,6 +42,7 @@ public class JpaFilmRepository implements FilmRepository {
 		Hibernate.initialize(film.getCategories());
 		Hibernate.initialize(film.getPlayers());
 		Hibernate.initialize(film.getRatings());
+		Hibernate.initialize(film.getComments());
 
 		return film;
 	}

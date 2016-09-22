@@ -6,6 +6,11 @@ angular.module("app")
 		for (var i = 0; i < film.players.length; i++) {
 			film.players[i].src = "https://openload.co/embed/" + film.players[i].src;
 		}
+		for (var i = 0; i < film.comments.length; i++) {
+			if (!film.comments[i].addedBy.avatarFilename) {
+				film.comments[i].addedBy.avatarFilename = defaultAvatarFilename;
+			}
+		}
 		document.title = $scope.film.title + " - Ultrakino";
 	});
 

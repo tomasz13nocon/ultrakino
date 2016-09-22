@@ -11,8 +11,10 @@ import pl.ultrakino.exceptions.NoUserWithSuchUsernameException;
 import pl.ultrakino.model.Comment;
 import pl.ultrakino.model.Film;
 import pl.ultrakino.repository.Page;
+import pl.ultrakino.resources.CommentResource;
 import pl.ultrakino.resources.FilmDetailsResource;
 import pl.ultrakino.resources.FilmResource;
+import pl.ultrakino.resources.assemblers.CommentResourceAsm;
 import pl.ultrakino.resources.assemblers.FilmDetailsResourceAsm;
 import pl.ultrakino.resources.assemblers.FilmResourceAsm;
 import pl.ultrakino.service.CommentService;
@@ -34,14 +36,16 @@ public class FilmController {
 	private UserService userService;
 	private FilmResourceAsm filmResourceAsm;
 	private FilmDetailsResourceAsm filmDetailsResourceAsm;
+	private CommentResourceAsm commentResourceAsm;
 
 	@Autowired
-	public FilmController(FilmService filmService, FilmResourceAsm filmResourceAsm, FilmDetailsResourceAsm filmDetailsResourceAsm, CommentService commentService, UserService userService) {
+	public FilmController(FilmService filmService, FilmResourceAsm filmResourceAsm, FilmDetailsResourceAsm filmDetailsResourceAsm, CommentService commentService, UserService userService, CommentResourceAsm commentResourceAsm) {
 		this.filmService = filmService;
 		this.commentService = commentService;
 		this.userService = userService;
 		this.filmResourceAsm = filmResourceAsm;
 		this.filmDetailsResourceAsm = filmDetailsResourceAsm;
+		this.commentResourceAsm = commentResourceAsm;
 	}
 
 //	@JsonView(Views.FilmCreation.class)
@@ -69,7 +73,7 @@ public class FilmController {
 	public ResponseEntity postComment(@PathVariable int contentId, @RequestBody Comment comment, Principal principal) {
 		if (principal == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		try {
-			return ResponseEntity.ok(commentService.save(comment, contentId, principal.getName()));
+			return ResponseEntity.ok(commentResourceAsm.toResource(commentService.save(comment, contentId, principal.getName())));
 		} catch (NoRecordWithSuchIdException e) {
 			return ResponseEntity.notFound().build();
 		} catch (NoUserWithSuchUsernameException e) {

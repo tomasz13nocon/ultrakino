@@ -8,7 +8,7 @@ import org.springframework.hateoas.ResourceSupport;
 @Setter
 public class UserResource extends ResourceSupport {
 
-	private int id;
+	private int uid;
 	private String username;
 	private String avatarFilename;
 

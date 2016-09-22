@@ -19,7 +19,7 @@ angular.module("app")
 				}
 				ctrl.User.username = resp.data.name;
 				var avatar = resp.data.avatarFilename;
-				ctrl.User.avatar = avatar ? avatar : "images/default-avatar.png";
+				ctrl.User.avatar = avatar ? avatar : defaultAvatarFilename;
 				ctrl.TheBox.theBoxVisible = false;
 			}
 			else {

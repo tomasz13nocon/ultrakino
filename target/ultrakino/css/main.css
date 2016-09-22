@@ -313,6 +313,11 @@ input[type="radio"].radio {
   .comment-submit-wrapper:before {
     transform: translate(6.5em, 0.5em); }
 
+.comment-block {
+  padding: 6px 20px;
+  margin: 6px;
+  background: rgba(50, 50, 50, 0.2); }
+
 #films-wrapper {
   margin-top: 60px;
   background: rgba(0, 0, 0, 0.3);

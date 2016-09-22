@@ -21,7 +21,7 @@ public class CommentResourceAsm extends ResourceAssemblerSupport<Comment, Commen
 	@Override
 	public CommentResource toResource(Comment comment) {
 		CommentResource res = new CommentResource();
-		res.setId(comment.getId());
+		res.setUid(comment.getId());
 		res.setContents(comment.getContents());
 		res.setAddedBy(userResourceAsm.toResource(comment.getAddedBy()));
 		if (comment.getParentComment() != null)

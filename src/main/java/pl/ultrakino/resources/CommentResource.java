@@ -11,7 +11,7 @@ import java.util.Objects;
 @Setter
 public class CommentResource extends ResourceSupport {
 
-	private Long id;
+	private Long uid;
 	private String contents;
 	private UserResource addedBy;
 	private CommentResource parentComment;

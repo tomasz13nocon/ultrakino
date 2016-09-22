@@ -14,12 +14,14 @@ public class FilmDetailsResourceAsm extends ResourceAssemblerSupport<Film, FilmD
 
 	private PersonResourceAsm personResourceAsm;
 	private PlayerResourceAsm playerResourceAsm;
+	private CommentResourceAsm commentResourceAsm;
 
 	@Autowired
-	public FilmDetailsResourceAsm(PersonResourceAsm personResourceAsm, PlayerResourceAsm playerResourceAsm) {
+	public FilmDetailsResourceAsm(PersonResourceAsm personResourceAsm, PlayerResourceAsm playerResourceAsm, CommentResourceAsm commentResourceAsm) {
 		super(FilmController.class, FilmDetailsResource.class);
 		this.personResourceAsm = personResourceAsm;
 		this.playerResourceAsm = playerResourceAsm;
+		this.commentResourceAsm = commentResourceAsm;
 	}
 
 
@@ -42,6 +44,7 @@ public class FilmDetailsResourceAsm extends ResourceAssemblerSupport<Film, FilmD
 //		res.setCast(personResourceAsm.toResources(film.getCast()));
 		res.setPlayers(playerResourceAsm.toResources(film.getPlayers()));
 		res.setCategories(film.getCategories());
+		res.setComments(commentResourceAsm.toResources(film.getComments()));
 
 		res.add(linkTo(FilmController.class).slash(film.getId()).withSelfRel());
 		//res.add(li);

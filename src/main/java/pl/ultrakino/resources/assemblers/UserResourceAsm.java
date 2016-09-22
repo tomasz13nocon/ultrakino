@@ -16,7 +16,9 @@ public class UserResourceAsm extends ResourceAssemblerSupport<User, UserResource
 	@Override
 	public UserResource toResource(User user) {
 		UserResource res = new UserResource();
-
+		res.setUid(user.getId());
+		res.setUsername(user.getUsername());
+		res.setAvatarFilename(user.getAvatarFilename());
 		return res;
 	}
 }
