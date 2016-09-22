@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Film;
 import pl.ultrakino.model.Film_;
+import pl.ultrakino.model.Player;
+import pl.ultrakino.model.Player_;
 import pl.ultrakino.repository.FilmQuery;
 import pl.ultrakino.repository.FilmRepository;
 import pl.ultrakino.repository.Page;
@@ -17,6 +19,7 @@ import javax.persistence.criteria.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class JpaFilmRepository implements FilmRepository {
@@ -90,9 +93,17 @@ public class JpaFilmRepository implements FilmRepository {
 		}
 		// ================================================================== //
 
+		// =========================== LANGUAGE VERSIONS =========================== //
+		Set<Player.LanguageVersion> versions = query.getVersions();
+		if (versions != null) {
+			Join<Film, Player> playersJoin = root.join(Film_.players);
+			predicates.add(playersJoin.get(Player_.languageVersion).in(versions));
+		}
+		// ========================================================================= //
+
 		// =========================== ORDER BY =========================== //
 		FilmQuery.OrderBy orderBy = query.getOrderBy();
-		boolean asc = query.getAsc();
+		boolean asc = query.isAsc();
 		Order order = null;
 		if (orderBy != null) {
 			Path p = null;
@@ -121,14 +132,10 @@ public class JpaFilmRepository implements FilmRepository {
 		// Not necessary right now
 		// ================================================================ //
 
-		// =========================== LANGUAGE VERSIONS =========================== //
-
-		// ========================================================================= //
 
 		/*
 		TODO:
 		personNames
-		version
 		 */
 
 		cq.where(predicates.toArray(new Predicate[]{}));
@@ -159,6 +166,9 @@ public class JpaFilmRepository implements FilmRepository {
 		Root<Film> countRoot = countCq.from(Film.class);
 		if (categories != null)
 			countRoot.join(Film_.categories);
+		if (versions != null) {
+			countRoot.join(Film_.players);
+		}
 		countCq.select(cb.count(countRoot));
 		countCq.where(predicates.toArray(new Predicate[]{}));
 		TypedQuery<Long> countQ = em.createQuery(countCq);

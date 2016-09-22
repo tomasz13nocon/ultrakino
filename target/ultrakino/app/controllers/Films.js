@@ -1,5 +1,5 @@
 angular.module("app")
-	.controller("FilmsController", ["$http", "$scope", "Film", "$location", "$rootScope", function($http, $scope, Film, $location, $rootScope) {
+	.controller("FilmsController", ["$http", "$scope", "Film", "$location", "$rootScope", "$window", function($http, $scope, Film, $location, $rootScope, $window) {
 		var ctrl = this;
 
 
@@ -10,8 +10,8 @@ angular.module("app")
 		};
 
 		$scope.asc = {
-			"Rosnąco": true,
 			"Malejąco": undefined,
+			"Rosnąco": true,
 		};
 
 		var skipLocationEvent = false;
@@ -20,6 +20,7 @@ angular.module("app")
 			skipLocationEvent = true;
 			$location.search(params);
 			ctrl.updateResults(params);
+			$scope.params.pageNumber = 0;
 		};
 
 		ctrl.locationChanged = function() {
@@ -45,6 +46,7 @@ angular.module("app")
 			p.asc = params.asc ? true : false; // In case of undefined
 			if (params.title) p.title = params.title;
 			if (params.pageNumber) p.pageNumber = params.pageNumber;
+			if (params.versions) p.versions = params.versions;
 			if (params.yearFrom && params.yearFrom != $rootScope.years[$rootScope.years.length-1]) p.yearFrom = params.yearFrom;
 			if (params.yearTo && params.yearTo != $rootScope.years[0]) p.yearTo = params.yearTo;
 			if (params.categories) {
@@ -90,7 +92,22 @@ angular.module("app")
 				return;
 			$scope.params.pageNumber = page;
 			ctrl.modelChanged();
+			$window.scrollTo(0, 0);
 		}
+
+		ctrl.toggleVersion = function(version) {
+			if (!$scope.params.versions) $scope.params.versions = [];
+			var index = $scope.params.versions.indexOf(version);
+			if (index === -1)
+				$scope.params.versions.push(version);
+			else
+				$scope.params.versions.splice(index, 1);
+			ctrl.modelChanged();
+		};
+
+		// ctrl.toggleVersion = function(version) {
+
+		// };
 
 		var params = $location.search();
 		// if (Object.keys(params).length === 0) {
@@ -101,8 +118,6 @@ angular.module("app")
 				yearFrom: $rootScope.years[$rootScope.years.length-1],
 				yearTo: $rootScope.years[0],
 			};
-			console.log($rootScope.years[$rootScope.years.length-2]);
-			console.log($rootScope.years.length-1);
 			ctrl.modelChanged();
 		// }
 		// else {

@@ -15,13 +15,8 @@ public class UserResourceAsm extends ResourceAssemblerSupport<User, UserResource
 
 	@Override
 	public UserResource toResource(User user) {
-		// TODO: BULLSHIT CODE!!! FIX THIS!!!!
-		if (user != null) {
-			UserResource res = new UserResource();
-			res.setUsername(user.getUsername());
-			return res;
-		}
-		return null;
-	}
+		UserResource res = new UserResource();
 
+		return res;
+	}
 }

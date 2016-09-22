@@ -1,7 +1,10 @@
 package pl.ultrakino.repository;
 
+import pl.ultrakino.model.Player;
+
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 public class FilmQuery  {
 
@@ -17,6 +20,7 @@ public class FilmQuery  {
 	private Integer yearFrom;
 	private Integer yearTo;
 	private List<Integer> categories;
+	private Set<Player.LanguageVersion> versions;
 	private OrderBy orderBy;
 	private boolean asc;
 	private Integer resultLimit;
@@ -40,6 +44,11 @@ public class FilmQuery  {
 
 	public FilmQuery categories(List<Integer> categories) {
 		this.categories = categories;
+		return this;
+	}
+
+	public FilmQuery versions(Set<Player.LanguageVersion> versions) {
+		this.versions = versions;
 		return this;
 	}
 
@@ -84,14 +93,18 @@ public class FilmQuery  {
 		return categories;
 	}
 
+	public Set<Player.LanguageVersion> getVersions() {
+		return versions;
+	}
+
 	public OrderBy getOrderBy() {
 		return orderBy;
 	}
-	
-	public boolean getAsc() {
+
+	public boolean isAsc() {
 		return asc;
 	}
-	
+
 	public Integer getResultLimit() {
 		return resultLimit;
 	}

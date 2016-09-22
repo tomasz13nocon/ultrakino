@@ -5,7 +5,7 @@ import pl.ultrakino.model.Rating;
 public class RatingResource {
 
 	private ContentResource content;
-	private UserResource ratedBy;
+	private UserDetailsResource ratedBy;
 	private Float rating;
 
 
@@ -25,11 +25,11 @@ public class RatingResource {
 		this.content = content;
 	}
 
-	public UserResource getRatedBy() {
+	public UserDetailsResource getRatedBy() {
 		return ratedBy;
 	}
 
-	public void setRatedBy(UserResource ratedBy) {
+	public void setRatedBy(UserDetailsResource ratedBy) {
 		this.ratedBy = ratedBy;
 	}
 

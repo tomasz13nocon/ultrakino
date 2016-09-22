@@ -3,18 +3,17 @@ package pl.ultrakino.resources.assemblers;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Component;
 import pl.ultrakino.model.Player;
-import pl.ultrakino.model.User;
 import pl.ultrakino.resources.PlayerResource;
 import pl.ultrakino.web.PlayerController;
 
 @Component
 public class PlayerResourceAsm extends ResourceAssemblerSupport<Player, PlayerResource> {
 
-	private UserResourceAsm userResourceAsm;
+	private UserDetailsResourceAsm userDetailsResourceAsm;
 
-	public PlayerResourceAsm(UserResourceAsm userResourceAsm) {
+	public PlayerResourceAsm(UserDetailsResourceAsm userDetailsResourceAsm) {
 		super(PlayerController.class, PlayerResource.class);
-		this.userResourceAsm = userResourceAsm;
+		this.userDetailsResourceAsm = userDetailsResourceAsm;
 	}
 
 	@Override
@@ -26,7 +25,7 @@ public class PlayerResourceAsm extends ResourceAssemblerSupport<Player, PlayerRe
 		res.setLostSrc(player.isLostSrc());
 		res.setLanguageVersion(player.getLanguageVersion());
 		res.setQuality(player.getQuality());
-		res.setAddedBy(userResourceAsm.toResource(player.getAddedBy()));
+		res.setAddedBy(userDetailsResourceAsm.toResource(player.getAddedBy()));
 		return res;
 	}
 

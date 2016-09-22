@@ -12,7 +12,7 @@ public class PlayerResource extends ResourceSupport {
 	private String src;
 	private String quality;
 	private LocalDateTime additionDate;
-	private UserResource addedBy;
+	private UserDetailsResource addedBy;
 	private Content content;
 	private boolean foreignSrc;
 	private boolean lostSrc;
@@ -67,11 +67,11 @@ public class PlayerResource extends ResourceSupport {
 		this.additionDate = additionDate;
 	}
 
-	public UserResource getAddedBy() {
+	public UserDetailsResource getAddedBy() {
 		return addedBy;
 	}
 
-	public void setAddedBy(UserResource addedBy) {
+	public void setAddedBy(UserDetailsResource addedBy) {
 		this.addedBy = addedBy;
 	}
 

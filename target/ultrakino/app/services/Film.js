@@ -6,6 +6,12 @@ angular.module("app")
 			params: {
 				sub: "recommendationDate",
 			}
+		},
+		postComment: {
+			method: "POST",
+			params: {
+				sub: "comments",
+			}
 		}
 	});
 }]);

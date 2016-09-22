@@ -68,15 +68,13 @@ public class FilmController {
 	@PostMapping("/{contentId}/comments")
 	public ResponseEntity postComment(@PathVariable int contentId, @RequestBody Comment comment, Principal principal) {
 		if (principal == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		System.out.println(comment);
-		return ResponseEntity.ok().build();
-		/*try {
+		try {
 			return ResponseEntity.ok(commentService.save(comment, contentId, principal.getName()));
 		} catch (NoRecordWithSuchIdException e) {
 			return ResponseEntity.notFound().build();
 		} catch (NoUserWithSuchUsernameException e) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-		}*/
+		}
 	}
 
 	@GetMapping

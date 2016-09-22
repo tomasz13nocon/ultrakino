@@ -146,6 +146,18 @@ public class FilmServiceImpl implements FilmService {
 		}
 
 
+		List<String> versionsParam = params.get("versions");
+		if (versionsParam != null) {
+			try {
+				Set<Player.LanguageVersion> versions = versionsParam.stream().map(Player.LanguageVersion::valueOf).collect(Collectors.toSet());
+				query.versions(versions);
+			}
+			catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException("value of versions parameter is not a valid LanguageVersion constant");
+			}
+		}
+
+
 		List<String> orderByParam = params.get("orderBy");
 		if (orderByParam != null) {
 			try {

@@ -39,12 +39,22 @@
 			</label>
 		</div>
 		<div class="filter-wrapper">
+			<div class="filter-input-label">Wersje:</div>
+			<div class="checkbox-wrapper" ng-repeat="(version, label) in languageVersions">
+				<label>
+					<input class="checkbox" type="checkbox" ng-click="filmsCtrl.toggleVersion(version)">
+					<span></span>
+					<span ng-bind="label"></span>
+				</label>
+			</div>
+		</div>
+		<div class="filter-wrapper">
 			<div class="filter-input-label">Kategorie:</div>
 			<div class="checkbox-wrapper" ng-repeat="(categoryNum, category) in categories track by $index">
 				<label>
 					<input class="checkbox" type="checkbox" ng-change="filmsCtrl.modelChanged()" ng-model="params.categories[categoryNum]">
 					<span></span>
-					<span class="category-label" ng-bind="category"></span>
+					<span ng-bind="category"></span>
 				</label>
 			</div>
 		</div>
@@ -81,6 +91,13 @@
 				<div class="filter-result-description"><p ng-bind="film.description"></p></div>
 				<div class="clear"></div>
 			</div>
+		</div>
+		<div class="pagination-wrapper">
+			<div class="pagination-first" ng-click="filmsCtrl.setPage(0)">◀◀</div>
+			<div class="pagination-prev" ng-click="filmsCtrl.setPage(activePage - 1)">◀</div>
+			<div class="pagination-num" ng-class="{'active-page': page == activePage}" ng-repeat="page in pages" ng-bind="page + 1" ng-click="filmsCtrl.setPage(page)"></div>
+			<div class="pagination-next" ng-click="filmsCtrl.setPage(activePage + 1)">▶</div>
+			<div class="pagination-last" ng-click="filmsCtrl.setPage(lastPage)">▶▶</div>
 		</div>
 	</div>
 
