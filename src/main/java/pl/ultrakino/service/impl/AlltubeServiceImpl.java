@@ -48,7 +48,7 @@ public class AlltubeServiceImpl implements AlltubeService {
 	}
 
 	@Override
-	public List<Film> processFilms(int pageNumber) throws IOException, AlltubeException {
+	public List<Film> getFilms(int pageNumber) throws IOException, AlltubeException {
 		if (pageNumber < 1) throw new IllegalArgumentException("pageNumber has to be a positive integer.");
 		Document filmsDoc = Jsoup.connect("http://alltube.tv/filmy-online/strona[" + pageNumber + "]+").userAgent(userAgent).get();
 		// Iterate through all the films in this page
@@ -56,13 +56,13 @@ public class AlltubeServiceImpl implements AlltubeService {
 		List<Film> films = new ArrayList<>();
 		for (Element el : els) {
 			String href = el.attr("href");
-			films.add(processFilm(href));
+			films.add(getFilm(href));
 			break; // TODO: delete this
 		}
 		return films;
 	}
 
-	private Film processFilm(String href) throws IOException, AlltubeException {
+	private Film getFilm(String href) throws IOException, AlltubeException {
 		Document doc = Jsoup.connect(href).userAgent(userAgent).get();
 		Film film = new Film();
 
@@ -90,8 +90,23 @@ public class AlltubeServiceImpl implements AlltubeService {
 			Player player = new Player();
 			String link = new String(Base64.getDecoder().decode(tr.select("a.watch").attr("data-iframe")));
 
-			String hosting = link.substring(link.indexOf("hosting=") + 8, link.indexOf("&id="));
-			String src = link.substring(link.indexOf("id=") + 3);
+			String hosting, src;
+
+			System.out.println(link);
+			int hostingIndex = link.indexOf("hosting=");
+			int idIndex = link.indexOf("&id=");
+			int vIndex = link.indexOf("?v=");
+			if (hostingIndex != -1 && idIndex != -1) {
+				hosting = link.substring(hostingIndex + 8, idIndex);
+				src = link.substring(idIndex + 4);
+			}
+			else if (vIndex != -1) {
+				hosting = "nowvideo";
+				src = link.substring(vIndex + 3);
+				System.out.println(src);
+			}
+			else throw new AlltubeException("Unsupported link format: " + link);
+
 			Player.LanguageVersion version = versions.get(tr.select("td:nth-child(4)").text());
 
 			player.setSrc(src);

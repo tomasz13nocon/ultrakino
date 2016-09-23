@@ -34,17 +34,31 @@ public class JpaFilmRepository implements FilmRepository {
 
 	@Override
 	public Film findById(int id) throws NoRecordWithSuchIdException {
-		Film film = em.find(Film.class, id);
-		if (film == null) throw new NoRecordWithSuchIdException();
+		List<Film> filmResults = em.createQuery("FROM Film f " +
+						"LEFT JOIN FETCH f.players p " +
+						"LEFT JOIN FETCH f.ratings " +
+						"LEFT JOIN FETCH f.comments c " +
+						"LEFT JOIN FETCH f.castAndCrew cac " +
+						"LEFT JOIN FETCH cac.person " +
+						"WHERE f.id=:id",
+				Film.class)
+				.setParameter("id", id)
+				.getResultList();
+		System.out.println(filmResults);
+		if (filmResults.isEmpty()) throw new NoRecordWithSuchIdException();
+		return filmResults.get(0);
 
-		// TODO
-//		Hibernate.initialize(film.getCast());
-		Hibernate.initialize(film.getCategories());
-		Hibernate.initialize(film.getPlayers());
-		Hibernate.initialize(film.getRatings());
-		Hibernate.initialize(film.getComments());
+		/*CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Film> cq = cb.createQuery(Film.class);
+		Root<Film> root = cq.from(Film.class);
+		cq.select(root);
+		cq.where(cb.equal(root.get(Film_.id), id));
+		root.fetch(Film_.comments, JoinType.LEFT);
 
-		return film;
+		List<Film> results = em.createQuery(cq).getResultList();
+		System.out.println(results);
+		if (results.isEmpty()) throw new NoRecordWithSuchIdException();
+		return results.get(0);*/
 	}
 
 

@@ -40,8 +40,7 @@ public class FilmDetailsResourceAsm extends ResourceAssemblerSupport<Film, FilmD
 		res.setViews(film.getViews());
 		res.setYear(film.getYear());
 		res.setRecommendationDate(film.getRecommendationDate());
-		//TODO
-//		res.setCast(personResourceAsm.toResources(film.getCast()));
+		res.setCast(personResourceAsm.toResources(film.getCastAndCrew()));
 		res.setPlayers(playerResourceAsm.toResources(film.getPlayers()));
 		res.setCategories(film.getCategories());
 		res.setComments(commentResourceAsm.toResources(film.getComments()));

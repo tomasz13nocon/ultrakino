@@ -1,21 +1,21 @@
 /*
 Error: Undefined variable: "$primary-color".
-        on line 49 of sass/home.sass
+        on line 53 of sass/home.sass
 
-44:  * CAROUSEL *
-45:  ***********\/
-46: .section-heading
-47: 	font-size: 1.4em
-48: 	text-align: center
-49: 	color: $primary-color
-50: 	padding: 16px
-51: 	font-weight: bold
-52: 	opacity: 0.8
-53: 
-54: .carousel-heading
+48:  * CAROUSEL *
+49:  ***********\/
+50: .section-heading
+51: 	font-size: 1.4em
+52: 	text-align: center
+53: 	color: $primary-color
+54: 	padding: 16px
+55: 	font-weight: bold
+56: 	opacity: 0.8
+57: 
+58: .carousel-heading
 
 Backtrace:
-sass/home.sass:49
+sass/home.sass:53
 /home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/variable.rb:49:in `_perform'
 /home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/node.rb:58:in `perform'
 /home/tomasz/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:397:in `visit_prop'
@@ -65,4 +65,4 @@ sass/home.sass:49
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$primary-color\".\A         on line 49 of sass/home.sass\A \A 44:  * CAROUSEL *\A 45:  ***********/\A 46: .section-heading\A 47: 	font-size: 1.4em\A 48: 	text-align: center\A 49: 	color: $primary-color\A 50: 	padding: 16px\A 51: 	font-weight: bold\A 52: 	opacity: 0.8\A 53: \A 54: .carousel-heading"; }
+  content: "Error: Undefined variable: \"$primary-color\".\A         on line 53 of sass/home.sass\A \A 48:  * CAROUSEL *\A 49:  ***********/\A 50: .section-heading\A 51: 	font-size: 1.4em\A 52: 	text-align: center\A 53: 	color: $primary-color\A 54: 	padding: 16px\A 55: 	font-weight: bold\A 56: 	opacity: 0.8\A 57: \A 58: .carousel-heading"; }

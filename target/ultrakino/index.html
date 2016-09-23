@@ -34,7 +34,7 @@
 				<div class="account-box nav-link" ng-show="authenticated" ng-click="userCtrl.toggleAccountDropdown()" click-anywhere-but-here="userCtrl.hideAccountDropdown()">
 					<img class="avatar" ng-src="{{userCtrl.User.avatar}}" alt="avatar użytkownika">
 					<div class="hello-user">
-						Witaj <span ng-bind="userCtrl.User.username"></span> <span ng-hide="userCtrl.accountDropdownVisible">▼</span><span ng-show="userCtrl.accountDropdownVisible">▲</span>
+						<span ng-bind="userCtrl.User.username"></span> <span ng-hide="userCtrl.accountDropdownVisible">▼</span><span ng-show="userCtrl.accountDropdownVisible">▲</span>
 					</div>
 				</div>
 				<div class="account-dropdown" ng-show="userCtrl.accountDropdownVisible">

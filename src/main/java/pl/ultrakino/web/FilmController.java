@@ -58,9 +58,12 @@ public class FilmController {
 	}
 
 	@GetMapping("/{filmId}")
-	public FilmDetailsResource getFilm(@PathVariable int filmId) throws NoRecordWithSuchIdException {
-		Film film = filmService.findById(filmId);
-		return filmDetailsResourceAsm.toResource(film);
+	public ResponseEntity getFilm(@PathVariable int filmId) {
+		try {
+			return ResponseEntity.ok(filmDetailsResourceAsm.toResource(filmService.findById(filmId)));
+		} catch (NoRecordWithSuchIdException e) {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@PostMapping("/{filmId}/recommendationDate")

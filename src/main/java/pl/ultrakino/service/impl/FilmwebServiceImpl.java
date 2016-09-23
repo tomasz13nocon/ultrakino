@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.ultrakino.exceptions.FilmwebException;
@@ -18,7 +19,10 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @Transactional
@@ -85,6 +89,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 		return film;
 	}
 
+	@SuppressWarnings("Duplicates")
 	@Override
 	public Film getFilmInfo(String filmwebId, Film film) throws FilmwebException, IOException {
 		film.setFilmwebId(filmwebId);
@@ -138,16 +143,45 @@ public class FilmwebServiceImpl implements FilmwebService {
 		if (filmInfo[11] != null) {
 			String filmwebImg = "http://1.fwcdn.pl/po" + ((String) filmInfo[11]).replaceFirst("\\.\\d\\.jp", ".3.jp");
 			InputStream is = new URL(filmwebImg).openStream();
-			OutputStream os = new FileOutputStream("src/main/webapp/images/covers/" + DigestUtils.md5Hex(film.getTitle() + film.getYear()) + ".jpg");
+			String filename = DigestUtils.md5Hex(film.getTitle() + film.getYear()) + ".jpg";
+			// TODO: Change image location on prod
+			OutputStream os = new FileOutputStream("/home/tomasz/Projects/Ultrakino/src/main/webapp/images/covers/" + filename);
 			IOUtils.copy(is, os);
 			is.close();
 			os.close();
 		}
 
-		if (filmInfo[13] != null)
-			film.setWorldPremiere(LocalDate.parse((String) filmInfo[13]));
-		if (filmInfo[14] != null)
-			film.setLocalPremiere(LocalDate.parse((String) filmInfo[14]));
+
+		Pattern p1 = Pattern.compile("\\d{4}-\\d{2}-\\d{2}");
+		Pattern p2 = Pattern.compile("\\d{4}-\\d{2}");
+
+		if (filmInfo[13] != null) {
+			String worldPremiere = (String) filmInfo[13];
+			Matcher m1 = p1.matcher(worldPremiere);
+			if (!m1.matches()) {
+				Matcher m2 = p2.matcher(worldPremiere);
+				if (m2.matches()) {
+					worldPremiere += "01";
+				}
+				else
+					throw new FilmwebException("Unsupported date format: " + worldPremiere);
+			}
+			film.setWorldPremiere(LocalDate.parse(worldPremiere));
+		}
+
+		if (filmInfo[14] != null) {
+			String localPremiere = (String) filmInfo[14];
+			Matcher m1 = p1.matcher(localPremiere);
+			if (!m1.matches()) {
+				Matcher m2 = p2.matcher(localPremiere);
+				if (m2.matches()) {
+					localPremiere += "01";
+				}
+				else
+					throw new FilmwebException("Unsupported date format: " + localPremiere);
+			}
+			film.setLocalPremiere(LocalDate.parse(localPremiere));
+		}
 
 		if (filmInfo[18] != null)
 			film.setProductionCountries(Arrays.asList(((String) filmInfo[18]).split(", ")));

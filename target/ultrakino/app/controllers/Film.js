@@ -18,7 +18,7 @@ angular.module("app")
 		Film.postComment({ id: $scope.film.filmId }, {
 			contents: ctrl.commentContent,
 		}, function(resp) {
-			console.log(resp);
+			$scope.film.comments.push(resp);
 		});
 	};
 

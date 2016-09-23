@@ -8,12 +8,6 @@ import java.util.List;
 
 public interface AlltubeService {
 
-	/**
-	 * Process films
-	 * @param pageNumber alltube page number.
-	 * @return
-	 * @throws IOException
-	 */
-	List<Film> processFilms(int pageNumber) throws IOException, AlltubeException;
+	List<Film> getFilms(int pageNumber) throws IOException, AlltubeException;
 
 }
