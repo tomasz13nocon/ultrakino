@@ -116,6 +116,7 @@ public class AlltubeServiceImpl implements AlltubeService {
 		}
 
 		film.setPlayers(players);
+
 		return film;
 	}
 

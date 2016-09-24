@@ -124,6 +124,8 @@ public class FilmwebServiceImpl implements FilmwebService {
 		 19 - description
 		 */
 
+		System.out.println(Arrays.toString(filmInfo));
+
 		film.setTitle((String) filmInfo[0]);
 		if (!film.getTitle().equals(filmInfo[1])) // If original title is the same as the title then we do nothing
 			film.setOriginalTitle((String) filmInfo[1]);
@@ -137,18 +139,19 @@ public class FilmwebServiceImpl implements FilmwebService {
 		film.setYear((Integer) filmInfo[5]);
 		film.setRunningTime((Integer) filmInfo[6]);
 
-		if (((Integer) filmInfo[10]) == 1) // if has description
+		if (filmInfo[19] != null)
 			film.setDescription((String) filmInfo[19]);
 
 		if (filmInfo[11] != null) {
 			String filmwebImg = "http://1.fwcdn.pl/po" + ((String) filmInfo[11]).replaceFirst("\\.\\d\\.jp", ".3.jp");
 			InputStream is = new URL(filmwebImg).openStream();
-			String filename = DigestUtils.md5Hex(film.getTitle() + film.getYear()) + ".jpg";
+			String filename = "images/covers/" + DigestUtils.md5Hex(film.getTitle() + film.getYear()) + ".jpg";
 			// TODO: Change image location on prod
-			OutputStream os = new FileOutputStream("/home/tomasz/Projects/Ultrakino/src/main/webapp/images/covers/" + filename);
+			OutputStream os = new FileOutputStream("/home/user/Projects/Ultrakino/src/main/webapp/" + filename);
 			IOUtils.copy(is, os);
 			is.close();
 			os.close();
+			film.setCoverFilename(filename);
 		}
 
 

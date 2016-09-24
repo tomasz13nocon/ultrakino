@@ -40,7 +40,8 @@ public class JpaFilmRepository implements FilmRepository {
 						"LEFT JOIN FETCH f.comments c " +
 						"LEFT JOIN FETCH f.castAndCrew cac " +
 						"LEFT JOIN FETCH cac.person " +
-						"WHERE f.id=:id",
+						"WHERE f.id=:id " +
+						"ORDER BY c.submissionDate DESC",
 				Film.class)
 				.setParameter("id", id)
 				.getResultList();
