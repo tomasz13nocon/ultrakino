@@ -109,16 +109,16 @@ angular.module("app")
 			controllerAs: "adminPanelCtrl",
 			activeTab: "adminPanel",
 		})
-		.when("/moje-konto", {
-			templateUrl: templateDir + "/my-account.html",
-			controller: "UserController",
-			controllerAs: "userCtrl",
+		.when("/user/:id", {
+			templateUrl: templateDir + "/user-details.html",
+			controller: "UserDetailsController",
+			controllerAs: "userDetailsCtrl",
 		})
+		
 
 		.otherwise({
 			templateUrl: templateDir + "/404.html",
 		});
-
 
 		// $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 

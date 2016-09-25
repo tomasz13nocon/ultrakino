@@ -35,9 +35,11 @@ public class CommentServiceImpl implements CommentService {
 		Content content = contentRepository.findById(contentId);
 		Optional<User> user = userRepository.findByUsername(username);
 		if (!user.isPresent()) throw new NoUserWithSuchUsernameException();
-		comment.setContent(content);
-		comment.setAddedBy(user.get());
-		return commentRepository.save(comment);
+		Comment newComment = new Comment();
+		newComment.setContents(comment.getContents());
+		newComment.setContent(content);
+		newComment.setAddedBy(user.get());
+		return commentRepository.save(newComment);
 	}
 
 }

@@ -7,7 +7,7 @@ angular.module("app")
 	var parent = $scope.$parent.filmCtrl;
 
 	ctrl.recommendFilm = function() {
-		Film.recommend({id: ctrl.film.filmId}, function(resp) {
+		Film.recommend({id: ctrl.film.uid}, function(resp) {
 			
 		});
 	};

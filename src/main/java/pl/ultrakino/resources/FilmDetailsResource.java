@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class FilmDetailsResource extends ContentResource {
 
 //	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-	private Integer filmId;
+	private Integer uid;
 
 //	@JsonView(Views.FilmCreation.class)
 	private String title;
@@ -53,25 +53,5 @@ public class FilmDetailsResource extends ContentResource {
 
 //	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private LocalDateTime recommendationDate;
-
-
-	@Override
-	public Film toDomainObject() {
-		Film film = new Film();
-		film.setTitle(title);
-		film.setRating(rating);
-		film.setTimesRated(timesRated);
-		film.setOriginalTitle(originalTitle);
-		film.setDescription(description);
-		film.setCoverFilename(coverFilename);
-//		film.setCast(cast.stream().map(PersonResource::toPerson).collect(Collectors.toList()));
-		film.setWorldPremiere(worldPremiere);
-		film.setLocalPremiere(localPremiere);
-		film.setPlayers(players.stream().map(PlayerResource::toDomainObject).collect(Collectors.toSet()));
-		film.setViews(views);
-		film.setCategories(categories);
-		film.setRecommendationDate(recommendationDate);
-		return film;
-	}
 
 }

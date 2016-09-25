@@ -69,11 +69,11 @@ public class FilmServiceImpl implements FilmService {
 //		film.setCast(cast);
 
 		List<PlayerResource> players = filmResource.getPlayers();
-		if (players.get(0).getAddedBy().getUserId() == null)
+		if (players.get(0).getAddedBy().getUid() == null)
 			throw new IllegalStateException("user ID cannot be null");
 		film.setPlayers(createPlayers(
 				players,
-				players.get(0).getAddedBy().getUserId()
+				players.get(0).getAddedBy().getUid()
 		));
 
 		filmRepository.create(film);

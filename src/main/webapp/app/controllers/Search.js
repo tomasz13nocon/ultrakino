@@ -1,15 +1,17 @@
 angular.module("app")
 	.controller("SearchController", ["$http", "$scope", "$timeout", "Film", function($http, $scope, $timeout, Film) {
-		var controller = this;
+		var ctrl = this;
 
 		this.search = function() {
-			if (controller.query.length < 2) {
-				controller.films = [];
+			if (ctrl.query.length < 2) {
+				ctrl.films = [];
 				return;
 			}
-			controller.films = Film.query({
-				title: controller.query,
+			ctrl.films = Film.get({
+				title: ctrl.query,
 				resultLimit: 5,
+			}, function(film) {
+				ctrl.films = film.content;
 			});
 		};
 	}]);

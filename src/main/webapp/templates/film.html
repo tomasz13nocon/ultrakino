@@ -44,7 +44,11 @@
 		</div>
 		<div class="comments">
 			<div class="comment-block" ng-repeat="comment in film.comments">
-
+				<div class="comment-info">
+					<img class="comment-avatar" ng-src="{{comment.addedBy.avatarFilename}}" alt="avatar">
+					<span ng-bind="comment.addedBy.username"></span>
+				</div>
+				<div class="comment-contents" ng-bind="comment.contents"></div>
 			</div>
 		</div>
 	</div>

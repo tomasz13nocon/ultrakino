@@ -28,7 +28,7 @@ public class FilmDetailsResourceAsm extends ResourceAssemblerSupport<Film, FilmD
 	@Override
 	public FilmDetailsResource toResource(Film film) {
 		FilmDetailsResource res = new FilmDetailsResource();
-		res.setFilmId(film.getId());
+		res.setUid(film.getId());
 		res.setTitle(film.getTitle());
 		res.setRating(film.getRating());
 		res.setTimesRated(film.getTimesRated());

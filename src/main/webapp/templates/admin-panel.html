@@ -1,1 +1,14 @@
-<h1>HELLO</h1>
+<div class="page-content-thingy">
+	<div class="btn-2" ng-click="adminPanelCtrl.getAlltubeFilms()">Get them filmz from A11tuB3</div>
+
+	<div class="spinner-small" ng-show="loading"></div>
+	
+	<div class="admin-panel-error-box" ng-show="error">
+		<span class="admin-panel-error-label">HTTP status code: </span>
+		<span ng-bind="error.status"></span>
+		<br />
+		<span class="admin-panel-error-label">Message: </span>
+		<span ng-bind="error.msg"></span>
+	</div>
+
+</div>

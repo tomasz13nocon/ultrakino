@@ -14,14 +14,18 @@
 
 	<annotation-driven />
 
+	<!--<beans:bean class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
+		<beans:property name="simpleDateFormat" value="yyyy-MM-dd" />
+	</beans:bean>-->
+
 	<default-servlet-handler/>
 
-	<beans:bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+	<!--<beans:bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 		<beans:property name="objectMapper">
 			<beans:bean class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
 				<beans:property name="indentOutput" value="true" />
 			</beans:bean>
 		</beans:property>
-	</beans:bean>
+	</beans:bean>-->
 
 </beans:beans>

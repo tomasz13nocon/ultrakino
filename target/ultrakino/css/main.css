@@ -351,6 +351,10 @@ input[type="radio"].radio {
 .comment-avatar {
   width: 24px; }
 
+.comment-date-span {
+  font-size: 0.7em;
+  color: #666; }
+
 .comment-contents {
   font-size: 0.8em;
   margin: 6px; }

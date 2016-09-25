@@ -2,7 +2,7 @@
 @import "home"
 @import "film"
 @import "films"
-@import "spinner"
+@import "adminPanel"
 
 
 body
@@ -20,6 +20,7 @@ html
 	overflow: hidden
 	min-height: 340px
 	background: linear-gradient(to bottom, rgba(0,0,0,1) 60px, rgba(0,0,0,0) 340px)
+	margin-bottom: 20px
 
 
 /**********
@@ -59,7 +60,7 @@ $navbar-height: 64px
 	color: $primary-color
 
 
-#login-box
+#login-wrapper
 	float: right
 	margin-top: 10px
 	text-align: right
@@ -69,21 +70,127 @@ $navbar-height: 64px
 	color: $primary-color
 	line-height: 1.4em
 	font-weight: bold
-	opacity: 0.9
-	padding: 3px
-	&:hover
-		padding: 2px
-		border: 1px solid $primary-color
+	opacity: 0.8
 
 #login
 	font-size: 0.8em
-	padding-right: 7px
+	padding: 4px
 	opacity: 0.8
 
 #register, #login
 	cursor: pointer
+	display: inline-block
 	&:hover
 		opacity: 1
+
+.account-box
+	float: right
+	cursor: pointer
+	-webkit-user-select: none
+	-moz-user-select: none
+	-ms-user-select: none
+	user-select: none
+
+.hello-user
+	display: inline-block
+
+.avatar
+	display: inline-block
+	vertical-align: middle
+	width: 32px
+
+.account-dropdown
+	background: #333
+	position: absolute
+	top: $navbar-height
+	right: 0
+	padding: 6px
+	z-index: 3
+	li
+		margin: 16px
+
+
+.the-box-wrapper
+	width: 100%
+	height: 100%
+	position: fixed
+	top: 0
+	left: 0
+	background: rgba(0,0,0,0.6)
+	z-index: 10
+	opacity: 1
+	transition: opacity 0.2s
+	&.ng-hide
+		opacity: 0
+		.the-box-outer
+			transform: translateY(-25px)
+
+.the-box-outer
+	transition: transform 0.2s
+	transform: translateY(0)
+	position: absolute
+	left: 50%
+	top: 50%
+
+.the-box
+	position: absolute
+	top: 50%	
+	left: 50%
+	transform: translate(-50%, -50%)
+	background: #333
+	width: 300px
+	text-align: center
+	box-shadow: 0 0 10px 2px black
+	border: 2px solid #111
+	padding-bottom: 16px
+
+.login-form
+	label
+		display: block
+		margin: 16px
+
+.login-text-input
+	width: 200px
+
+.login-error
+	// border: 1px solid red
+	background: #c55
+	// color: black
+	margin: 16px
+	padding: 8px
+	border-radius: 2px
+
+.login-tabs
+	margin-bottom: 8px
+	display: inline-block
+
+.login-tab
+	display: inline-block
+	line-height: 44px
+	padding: 0 12px
+	margin: 0 3px
+	font-size: 0.9em
+	background: linear-gradient(#4a4a4a, #303030)
+	box-shadow: inset 0 0 6px black
+	opacity: 0.8
+	border-radius: 0 0 4px 4px
+	&:hover
+		opacity: 1
+		cursor: pointer
+
+.login-tab-active
+	opacity: 1
+	color: $primary-color
+
+.login-label-text
+	font-size: 1.2em
+	margin-bottom: 8px
+	display: block
+
+.login-submit
+	float: right
+	margin-right: 16px
+
 
 
 /**************
@@ -171,24 +278,4 @@ $search-resutls-height: 200px
 	font-family: sans-serif
 	@media(max-width: 1000px)
 		width: 96%
-
-
-
-
-
-
-// TODO: REMOVE
-
-.btn
-	color: #fff
-	background-color: #c23
-	display: inline-block
-	padding: 12px
-	border-radius: 4px
-	cursor: pointer
-	margin: 6px
-
-.btn-2
-	@extend .btn
-	background-color: #db1
-	
+		

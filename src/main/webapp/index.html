@@ -14,7 +14,7 @@
 </head>
 <body>
 
-	<div id="full-body">
+	<div id="full-body" ng-cloak class="ng-cloak">
 		<div id="navbar">
 			<div id="hamburger" style="display:none">&#8801;</div>
 			<div id="title-img-wrapper"><a href="#/"><img src="images/title.png" id="title-img"></a></div>
@@ -23,14 +23,81 @@
 				<a href="#seriale"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'series'}">SERIALE</div></a>
 				<a href="#dodaj-film"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'addFilm'}">DODAJ FILM</div></a>
 				<a href="#test"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'test'}">TEST</div></a>
-				<a href="#panel-admina"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'adminPanel'}">PANEL ADMINA</div></a>
+				<a href="#panel-admina" ng-show="isAdmin"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'adminPanel'}">PANEL ADMINA</div></a>
 			</div>
-			<div id="login-box">
-				<a href="#rejestracja" id="register">ZAREJESTRUJ SIĘ</a>
-				<br>
-				<a href="#login" id="login">ZALOGUJ SIĘ</a>
+			<div ng-controller="UserController as userCtrl" ng-init="userCtrl.authenticate()">
+				<div id="login-wrapper" ng-hide="authenticated">
+					<div href="#rejestracja" id="register" ng-click="userCtrl.TheBox.showRegisterBox()">ZAREJESTRUJ SIĘ</div>
+					<br />
+					<div href="#login" id="login" ng-click="userCtrl.TheBox.showLoginBox()">ZALOGUJ SIĘ</div>
+				</div>
+				<div class="account-box nav-link" ng-show="authenticated" ng-click="userCtrl.toggleAccountDropdown()" click-anywhere-but-here="userCtrl.hideAccountDropdown()">
+					<img class="avatar" ng-src="{{userCtrl.User.avatar}}" alt="avatar użytkownika">
+					<div class="hello-user">
+						<span ng-bind="userCtrl.User.username"></span> <span ng-hide="userCtrl.accountDropdownVisible">▼</span><span ng-show="userCtrl.accountDropdownVisible">▲</span>
+					</div>
+				</div>
+				<div class="account-dropdown" ng-show="userCtrl.accountDropdownVisible">
+					<ul>
+						<a href="#moje-konto"><li>MOJE KONTO</li></a>
+						<li>ULUBIONE</li>
+						<li class="link" ng-click="userCtrl.logout()">WYLOGUJ</li>
+					</ul>
+				</div>
 			</div>
 			<div class="clear"></div>
+		</div>
+
+		<div class="the-box-wrapper" ng-show="userCtrl.TheBox.theBoxVisible" ng-click="userCtrl.TheBox.hideTheBox()" ng-controller="UserController as userCtrl">
+			<div class="the-box-outer">
+				<div class="the-box" ng-click="$event.stopPropagation()">
+
+					<div class="login-tabs">
+						<div class="login-tab" ng-class="{'login-tab-active': userCtrl.TheBox.loginTab}" ng-click="userCtrl.TheBox.showLoginBox()">
+							LOGOWANIE
+						</div><!--
+						--><div class="login-tab" ng-class="{'login-tab-active': !userCtrl.TheBox.loginTab}" ng-click="userCtrl.TheBox.showRegisterBox()">
+							REJESTRACJA
+						</div>
+					</div>
+
+					<div class="login-box" ng-show="userCtrl.TheBox.loginTab">
+						<div class="login-error" ng-show="userCtrl.TheBox.authenticationFailed">
+							Podana kombinacja loginu i hasła jest nieprawidłowa.
+						</div>
+						<form class="login-form" ng-submit="userCtrl.authenticate(form)">
+							<label>
+								<span class="login-label-text">Login:</span>
+								<input class="login-text-input" type="text" ng-model="form.username" />
+							</label>
+							<label>
+								<span class="login-label-text">Hasło:</span>
+								<input class="login-text-input" type="password" ng-model="form.password" />
+							</label>
+							<input type="submit" value="Zaloguj się" class="login-submit" />
+						</form>
+					</div>
+
+					<div class="register-box" ng-hide="userCtrl.TheBox.loginTab">
+						<form class="login-form" ng-submit="">
+							<label>
+								<span class="login-label-text">Email:</span>
+								<input class="login-text-input" type="email" ng-model="registerForm.email" />
+							</label>
+							<label>
+								<span class="login-label-text">Login:</span>
+								<input class="login-text-input" type="text" ng-model="registerForm.username" />
+							</label>
+							<label>
+								<span class="login-label-text">Hasło:</span>
+								<input class="login-text-input" type="password" ng-model="registerForm.password" />
+							</label>
+							<input type="submit" value="Załóż konto" class="login-submit" />
+						</form>
+					</div>
+
+				</div>
+			</div>
 		</div>
 		
 		<div id="search-wrapper" ng-controller="SearchController as searchCtrl">
@@ -69,10 +136,13 @@
 	<script type="text/javascript" src="plugins/owl/owl.carousel.js"></script>
 	<script type="text/javascript" src="app/app.js"></script>
 	<script type="text/javascript" src="app/services/Film.js"></script>
+	<script type="text/javascript" src="app/services/User.js"></script>
+	<script type="text/javascript" src="app/services/TheBox.js"></script>
 	<script type="text/javascript" src="app/services/ClickAnywhereButHere.js"></script>
 	<script type="text/javascript" src="app/directives/enableCarousel.js"></script>
 	<script type="text/javascript" src="app/directives/clickAnywhereButHere.js"></script>
 	<script type="text/javascript" src="app/components/spinner.js"></script>
+	<script type="text/javascript" src="app/components/adminTools.js"></script>
 	<script type="text/javascript" src="app/filters/trusted.js"></script>
 	<script type="text/javascript" src="app/controllers/Home.js"></script>
 	<script type="text/javascript" src="app/controllers/Search.js"></script>
@@ -80,5 +150,7 @@
 	<script type="text/javascript" src="app/controllers/Films.js"></script>
 	<script type="text/javascript" src="app/controllers/Tabs.js"></script>
 	<script type="text/javascript" src="app/controllers/AdminPanel.js"></script>
+	<script type="text/javascript" src="app/controllers/AdminTools.js"></script>
+	<script type="text/javascript" src="app/controllers/User.js"></script>
 </body>
 </html>

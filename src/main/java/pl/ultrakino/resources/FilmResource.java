@@ -16,7 +16,7 @@ import java.util.Set;
 @Setter
 public class FilmResource extends ContentResource {
 
-	private Integer filmId;
+	private Integer uid;
 	private String title;
 	private Integer year;
 	private Float rating;
@@ -29,10 +29,5 @@ public class FilmResource extends ContentResource {
 	private Set<Player.LanguageVersion> languageVersions = new HashSet<>();
 	private Set<Integer> categories = new HashSet<>();
 	private LocalDateTime recommendationDate;
-
-	@Override
-	public Film toDomainObject() {
-		return null; // TODO
-	}
 
 }

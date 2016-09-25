@@ -108,7 +108,7 @@
 
 			<div ng-cloak click-anywhere-but-here="showResults = false" id="search-results-wrapper" ng-show="showResults" ng-class="{'search-results-show': showResults == true && searchCtrl.query.length > 2}">
 				<div class="search-result" ng-repeat="film in searchCtrl.films">
-					<a ng-href="#filmy/{{film.filmId}}/{{film.title}}-{{film.year}}">
+					<a ng-href="#filmy/{{film.uid}}/{{film.title}}-{{film.year}}">
 						<img class="search-result-cover" ng-src="{{film.coverFilename}}" alt="{{film.title}}">
 						<h4 class="search-result-title" ng-bind="film.title"></h4>
 						<h6>Rok: <span ng-bind="film.year"></span></h6>
@@ -152,5 +152,6 @@
 	<script type="text/javascript" src="app/controllers/AdminPanel.js"></script>
 	<script type="text/javascript" src="app/controllers/AdminTools.js"></script>
 	<script type="text/javascript" src="app/controllers/User.js"></script>
+	<script type="text/javascript" src="app/controllers/UserDetails.js"></script>
 </body>
 </html>

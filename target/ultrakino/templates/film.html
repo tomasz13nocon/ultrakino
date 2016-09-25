@@ -45,10 +45,18 @@
 		<div class="comments">
 			<div class="comment-block" ng-repeat="comment in film.comments">
 				<div class="comment-info">
-					<img class="comment-avatar" ng-src="{{comment.addedBy.avatarFilename}}" alt="avatar">
-					<span ng-bind="comment.addedBy.username"></span>
+					<a href="#user/{{comment.addedBy.uid}}">
+						<img class="comment-avatar" ng-src="{{comment.addedBy.avatarFilename}}" alt="avatar">
+						<span ng-bind="comment.addedBy.username"></span>
+					</a>
+					<br />
+					<span class="comment-date-span">
+						<span class="comment-time" ng-bind="filmCtrl.getDate(comment).toLocaleTimeString('pl-PL')"></span>
+						<span class="comment-date" ng-bind="filmCtrl.getDate(comment).toLocaleDateString('pl-PL')"></span>
+					</span>
 				</div>
 				<div class="comment-contents" ng-bind="comment.contents"></div>
+				<span ng-bind="comment.upvotes"></span>
 			</div>
 		</div>
 	</div>

@@ -15,11 +15,16 @@ angular.module("app")
 	});
 
 	ctrl.postComment = function() {
-		Film.postComment({ id: $scope.film.filmId }, {
+		Film.postComment({ id: $scope.film.uid }, {
 			contents: ctrl.commentContent,
 		}, function(resp) {
 			$scope.film.comments.push(resp);
 		});
 	};
+
+	ctrl.getDate = function(comment) {
+		var d = comment.submissionDate;
+		return new Date(d[0], d[1], d[2], d[3], d[4], d[5]);
+	}
 
 }]);
