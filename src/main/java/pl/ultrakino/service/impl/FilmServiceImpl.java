@@ -210,8 +210,9 @@ public class FilmServiceImpl implements FilmService {
 	}
 
 	@Override
-	public void qwe() {
-		filmRepository.qwe();
+	public void deleteRecommendation(int filmId) throws NoRecordWithSuchIdException {
+		Film film = filmRepository.findById(filmId);
+		film.setRecommendationDate(null);
 	}
 
 }

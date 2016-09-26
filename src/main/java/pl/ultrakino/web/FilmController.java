@@ -67,9 +67,23 @@ public class FilmController {
 	}
 
 	@PostMapping("/{filmId}/recommendationDate")
-	public ResponseEntity recommendFilm(@PathVariable int filmId) throws NoRecordWithSuchIdException {
-		filmService.recommendFilm(filmId);
-		return ResponseEntity.ok().build();
+	public ResponseEntity recommendFilm(@PathVariable int filmId) {
+		try {
+			filmService.recommendFilm(filmId);
+			return ResponseEntity.ok().build();
+		} catch (NoRecordWithSuchIdException e) {
+			return ResponseEntity.notFound().build();
+		}
+	}
+
+	@DeleteMapping("/{filmId}/recommendationDate")
+	public ResponseEntity deleteRecommendation(@PathVariable int filmId) {
+		try {
+			filmService.deleteRecommendation(filmId);
+			return ResponseEntity.ok().build();
+		} catch (NoRecordWithSuchIdException e) {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@PostMapping("/{contentId}/comments")
@@ -100,20 +114,4 @@ public class FilmController {
 		}
 	}
 
-	@GetMapping("/qwe")
-	public void qwe() {
-		filmService.qwe();
-	}
-
-
-	// TODO: These have to be more specific, i.e. IllegalArgumentException may be thrown in different places and mean different things.
-//	@ExceptionHandler({ URISyntaxException.class })
-//	public ResponseEntity uriSyntaxException() {
-//		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//	}
-
-//	@ExceptionHandler(IllegalArgumentException.class)
-//	public ResponseEntity badRequest() {
-//		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-//	}
 }

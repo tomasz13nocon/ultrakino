@@ -18,5 +18,4 @@ public interface FilmRepository {
 
 	Page<Film> find(FilmQuery query);
 
-	void qwe();
 }

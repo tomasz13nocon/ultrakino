@@ -197,13 +197,4 @@ public class JpaFilmRepository implements FilmRepository {
 		return new Page<>(mainQ.getResultList(), pageNumber, pageCount);
 	}
 
-	@Override
-	public void qwe() {
-		TypedQuery<Film> q = em.createQuery("FROM Film f", Film.class);
-		List<Film> films = q.getResultList();
-		for (Film film : films) {
-			film.setAdditionDate(LocalDateTime.now());
-		}
-	}
-
 }

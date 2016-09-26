@@ -20,5 +20,5 @@ public interface FilmService {
 
 	void recommendFilm(int filmId) throws NoRecordWithSuchIdException;
 
-	void qwe();
+	void deleteRecommendation(int filmId) throws NoRecordWithSuchIdException;
 }

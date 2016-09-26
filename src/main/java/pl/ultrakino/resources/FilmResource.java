@@ -28,6 +28,5 @@ public class FilmResource extends ContentResource {
 	private LocalDate localPremiere;
 	private Set<Player.LanguageVersion> languageVersions = new HashSet<>();
 	private Set<Integer> categories = new HashSet<>();
-	private LocalDateTime recommendationDate;
 
 }

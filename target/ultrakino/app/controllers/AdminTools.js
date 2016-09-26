@@ -8,7 +8,13 @@ angular.module("app")
 
 	ctrl.recommendFilm = function() {
 		Film.recommend({id: ctrl.film.uid}, function(resp) {
-			
+			ctrl.film.recommendationDate = true;
+		});
+	};
+
+	ctrl.deleteRecommendation = function() {
+		Film.deleteRecommendation({id: ctrl.film.uid}, function(resp) {
+			ctrl.film.recommendationDate = null;
 		});
 	};
 
