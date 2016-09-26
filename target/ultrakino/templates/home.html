@@ -6,11 +6,13 @@
 				<img class="carousel-film-cover" ng-src="{{film.coverFilename}}" alt="{{film.title}} cover">
 				<div class="carousel-film-info">
 					<h2 class="carousel-film-title"><span ng-bind="film.title"></span> (<span ng-bind="film.year"></span>)</h2>
-					<span ng-bind="film.languageVersion"></span>
-					<p class="carousel-film-description" ng-bind="film.description"></p>
 				</div>
-				<div class="clear"></div>
 			</a>
+			<div class="carousel-film-info">
+				<span ng-bind="film.languageVersion"></span>
+				<p class="carousel-film-description" ng-bind="film.description"></p>
+			</div>
+			<div class="clear"></div>
 		</div>
 	</div>
 </div>
@@ -19,7 +21,7 @@
 	<h3 class="section-heading films-section-heading">Najnowsze Filmy</h3>
 	<div class="films-section-films">
 		<div class="films-section-film" ng-repeat="film in homeCtrl.newestFilms">
-			<a ng-href="#filmy/{{film.uid}}/{{film.title}}-{{film.year}}">
+			<a class="cover-link" ng-href="#filmy/{{film.uid}}/{{film.title}}-{{film.year}}">
 				<div class="films-section-cover-wrapper">
 					<img class="films-section-cover" ng-src="{{film.coverFilename}}" alt="{{film.title}}">
 				</div>

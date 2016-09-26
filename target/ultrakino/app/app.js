@@ -1,6 +1,6 @@
 api = "http://localhost:8080/api";
 templateDir = "templates";
-defaultAvatarFilename = "images/default-avatar.png";
+defaultAvatarFilename = "images/avatar3.png";
 
 angular.module("app", ["ngRoute", "ngAnimate", "ngResource"]);
 

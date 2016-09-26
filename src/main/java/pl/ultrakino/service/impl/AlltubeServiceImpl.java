@@ -57,7 +57,6 @@ public class AlltubeServiceImpl implements AlltubeService {
 		for (Element el : els) {
 			String href = el.attr("href");
 			films.add(getFilm(href));
-			break; // TODO: delete this
 		}
 		return films;
 	}
