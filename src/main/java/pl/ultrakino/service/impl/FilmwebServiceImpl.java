@@ -124,8 +124,6 @@ public class FilmwebServiceImpl implements FilmwebService {
 		 19 - description
 		 */
 
-		System.out.println(Arrays.toString(filmInfo));
-
 		film.setTitle((String) filmInfo[0]);
 		if (!film.getTitle().equals(filmInfo[1])) // If original title is the same as the title then we do nothing
 			film.setOriginalTitle((String) filmInfo[1]);

@@ -73,7 +73,7 @@ public class AlltubeServiceImpl implements AlltubeService {
 		if (m.find()) {
 			String match = m.group();
 			String filmwebId = match.substring(match.lastIndexOf('/') + 1, match.lastIndexOf('\''));
-			System.out.println(filmwebId);
+			System.out.println("Filmweb ID: " + filmwebId);
 			if (filmwebId.length() < 12) { // Else it's not a real filmweb ID
 				film.setFilmwebId(filmwebId);
 				try {
@@ -92,7 +92,7 @@ public class AlltubeServiceImpl implements AlltubeService {
 
 			String hosting, src;
 
-			System.out.println(link);
+			System.out.println("link: " + link);
 			int hostingIndex = link.indexOf("hosting=");
 			int idIndex = link.indexOf("&id=");
 			int vIndex = link.indexOf("?v=");
@@ -103,7 +103,7 @@ public class AlltubeServiceImpl implements AlltubeService {
 			else if (vIndex != -1) {
 				hosting = "nowvideo";
 				src = link.substring(vIndex + 3);
-				System.out.println(src);
+				System.out.println("src: " + src);
 			}
 			else throw new AlltubeException("Unsupported link format: " + link);
 

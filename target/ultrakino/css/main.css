@@ -349,11 +349,13 @@ input[type="radio"].radio {
   background: rgba(50, 50, 50, 0.2); }
 
 .comment-avatar {
-  width: 24px; }
+  width: 24px;
+  vertical-align: middle; }
 
 .comment-date-span {
   font-size: 0.7em;
-  color: #666; }
+  color: #666;
+  margin-left: 10px; }
 
 .comment-contents {
   font-size: 0.8em;
