@@ -7,11 +7,17 @@ angular.module("app")
 				sub: "recommendationDate",
 			}
 		},
+		deleteRecommendation : {
+			method: "DELETE",
+			params: {
+				sub: "recommendationDate",
+			}
+		},
 		postComment: {
 			method: "POST",
 			params: {
 				sub: "comments",
 			}
-		}
+		},
 	});
 }]);
