@@ -1,6 +1,6 @@
 <div id="film-page-wrapper">
 	<div class="film-info">
-		<img class="film-info-cover" alt="{{film.title}}" ng-src="{{film.coverFilename}}">
+		<img class="film-info-cover" alt="{{film.title}}" ng-src="{{images + film.coverFilename}}">
 		<div class="film-info-without-cover">
 			<h1 class="film-info-title"><span ng-bind="film.title"></span> (<span ng-bind="film.year"></span>)</h1>
 			<div class="film-info-info">
@@ -43,10 +43,16 @@
 			</form>
 		</div>
 		<div class="comments">
-			<div class="comment-block" ng-repeat="comment in film.comments">
+			<div class="comment-block" ng-repeat="comment in film.comments | orderBy: 'submissionDate' : true">
 				<div class="comment-info">
-					<img class="comment-avatar" ng-src="{{comment.addedBy.avatarFilename}}" alt="avatar">
-					<span ng-bind="comment.addedBy.username"></span>
+					<a href="#user/{{comment.addedBy.uid}}">
+						<img class="comment-avatar" ng-src="{{comment.addedBy.avatarFilename}}" alt="avatar">
+						<span ng-bind="comment.addedBy.username"></span>
+					</a>
+					<span class="comment-date-span">
+						<span class="comment-time" ng-bind="comment.submissionDate.toLocaleTimeString('pl-PL')"></span>
+						<span class="comment-date" ng-bind="comment.submissionDate.toLocaleDateString('pl-PL')"></span>
+					</span>
 				</div>
 				<div class="comment-contents" ng-bind="comment.contents"></div>
 			</div>

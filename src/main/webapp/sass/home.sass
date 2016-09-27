@@ -64,7 +64,7 @@
 .owl-item
 	a
 		&:hover
-			color: inherit
+			// color: inherit
 	img.carousel-film-cover
 		width: 200px
 		float: left
@@ -104,7 +104,11 @@ $film-entry-width: 20%
 	text-align: center
 	width: $film-entry-width
 	vertical-align: top
-	&:hover .films-section-cover
+
+.cover-link
+	img
+		transition: transform 0.2s
+	&:hover img
 		transform: scale(1.1)
 
 .films-section-title
@@ -115,7 +119,7 @@ $film-entry-width: 20%
 
 .films-section-cover
 	width: 170px
-	transition: transform 0.2s
+	// transition: transform 0.2s
 
 
 

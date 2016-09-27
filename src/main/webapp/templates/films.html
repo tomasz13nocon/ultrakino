@@ -69,13 +69,13 @@
 			<div class="pagination-last" ng-click="filmsCtrl.setPage(lastPage)">▶▶</div>
 		</div>
 		<div class="filter-result" ng-repeat="film in films">
-			<a ng-href="#filmy/{{film.filmId}}/{{film.title}}-{{film.year}}">
-				<img class="filter-result-cover" ng-src="{{film.coverFilename}}" alt="{{film.title}}">
+			<a ng-href="#filmy/{{film.uid}}/{{film.title}}-{{film.year}}">
+				<img class="filter-result-cover" ng-src="{{images + film.coverFilename}}" alt="{{film.title}}">
+				<div class="filter-result-details">
+					<h3 class="filter-result-title" ng-bind="film.title"></h3>
+				</div>
 			</a>
 			<div class="filter-result-details">
-				<a ng-href="#filmy/{{film.filmId}}/{{film.title}}-{{film.year}}">
-					<h3 class="filter-result-title" ng-bind="film.title"></h3>
-				</a>
 				<div class="filter-result-year">
 					<span class="filter-result-label">Rok: </span>
 					<span ng-bind="film.year"></span>

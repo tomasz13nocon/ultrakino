@@ -70,7 +70,7 @@
 		</div>
 		<div class="filter-result" ng-repeat="film in films">
 			<a ng-href="#filmy/{{film.uid}}/{{film.title}}-{{film.year}}">
-				<img class="filter-result-cover" ng-src="{{film.coverFilename}}" alt="{{film.title}}">
+				<img class="filter-result-cover" ng-src="{{images + film.coverFilename}}" alt="{{film.title}}">
 				<div class="filter-result-details">
 					<h3 class="filter-result-title" ng-bind="film.title"></h3>
 				</div>

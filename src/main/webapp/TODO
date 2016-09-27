@@ -7,5 +7,9 @@ User: List<Event>
 Film: List<Trailer>
 
 
+filters from URL
+Query ascending results on default
+change title after navigating from film page
+serialize dates in JS friendly way
 
 

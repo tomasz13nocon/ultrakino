@@ -7,8 +7,14 @@ angular.module("app")
 	var parent = $scope.$parent.filmCtrl;
 
 	ctrl.recommendFilm = function() {
-		Film.recommend({id: ctrl.film.filmId}, function(resp) {
-			
+		Film.recommend({id: ctrl.film.uid}, function(resp) {
+			ctrl.film.recommendationDate = true;
+		});
+	};
+
+	ctrl.deleteRecommendation = function() {
+		Film.deleteRecommendation({id: ctrl.film.uid}, function(resp) {
+			ctrl.film.recommendationDate = null;
 		});
 	};
 

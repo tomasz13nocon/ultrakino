@@ -109,7 +109,7 @@
 			<div ng-cloak click-anywhere-but-here="showResults = false" id="search-results-wrapper" ng-show="showResults" ng-class="{'search-results-show': showResults == true && searchCtrl.query.length > 2}">
 				<div class="search-result" ng-repeat="film in searchCtrl.films">
 					<a ng-href="#filmy/{{film.filmId}}/{{film.title}}-{{film.year}}">
-						<img class="search-result-cover" ng-src="{{film.coverFilename}}" alt="{{film.title}}">
+						<img class="search-result-cover" ng-src="{{images + film.coverFilename}}" alt="{{film.title}}">
 						<h4 class="search-result-title" ng-bind="film.title"></h4>
 						<h6>Rok: <span ng-bind="film.year"></span></h6>
 						<br>
@@ -118,8 +118,6 @@
 				</div>
 			</div>
 		</div>
-
-		<h1>HELLO THERE</h1>
 
 		<div id="body" ng-view><div class="spinner"></div></div>
 

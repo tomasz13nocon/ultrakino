@@ -1,6 +1,6 @@
 api = "http://localhost:8080/api";
 templateDir = "templates";
-defaultAvatarFilename = "images/default-avatar.png";
+defaultAvatarFilename = "images/avatar3.png";
 
 angular.module("app", ["ngRoute", "ngAnimate", "ngResource"]);
 
@@ -63,7 +63,8 @@ angular.module("app")
 
 		$rootScope.authenticated = false;
 		$rootScope.isAdmin = false;
-		
+		$rootScope.images = "//localhost:8000/";
+
 	}]);
 
 angular.module("app")
@@ -109,16 +110,16 @@ angular.module("app")
 			controllerAs: "adminPanelCtrl",
 			activeTab: "adminPanel",
 		})
-		.when("/moje-konto", {
-			templateUrl: templateDir + "/my-account.html",
-			controller: "UserController",
-			controllerAs: "userCtrl",
+		.when("/user/:id", {
+			templateUrl: templateDir + "/user-details.html",
+			controller: "UserDetailsController",
+			controllerAs: "userDetailsCtrl",
 		})
+		
 
 		.otherwise({
 			templateUrl: templateDir + "/404.html",
 		});
-
 
 		// $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 

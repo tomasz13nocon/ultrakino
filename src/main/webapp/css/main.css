@@ -236,8 +236,6 @@ input[type="radio"].radio {
   font-weight: bold;
   opacity: 0.8; }
 
-.owl-item a:hover {
-  color: inherit; }
 .owl-item img.carousel-film-cover {
   width: 200px;
   float: left;
@@ -270,8 +268,11 @@ input[type="radio"].radio {
   text-align: center;
   width: 20%;
   vertical-align: top; }
-  .films-section-film:hover .films-section-cover {
-    transform: scale(1.1); }
+
+.cover-link img {
+  transition: transform 0.2s; }
+.cover-link:hover img {
+  transform: scale(1.1); }
 
 .films-section-title {
   padding: 6px 0; }
@@ -280,8 +281,7 @@ input[type="radio"].radio {
   overflow: hidden; }
 
 .films-section-cover {
-  width: 170px;
-  transition: transform 0.2s; }
+  width: 170px; }
 
 #film-page-wrapper {
   width: 1060px;
@@ -349,7 +349,13 @@ input[type="radio"].radio {
   background: rgba(50, 50, 50, 0.2); }
 
 .comment-avatar {
-  width: 24px; }
+  width: 24px;
+  vertical-align: middle; }
+
+.comment-date-span {
+  font-size: 0.7em;
+  color: #666;
+  margin-left: 10px; }
 
 .comment-contents {
   font-size: 0.8em;
