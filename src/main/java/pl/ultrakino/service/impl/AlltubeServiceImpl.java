@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.ultrakino.exceptions.AlltubeException;
 import pl.ultrakino.exceptions.FilmwebException;
+import pl.ultrakino.exceptions.NoFilmwebIdException;
 import pl.ultrakino.model.Film;
 import pl.ultrakino.model.Player;
 import pl.ultrakino.repository.FilmRepository;
@@ -56,12 +57,16 @@ public class AlltubeServiceImpl implements AlltubeService {
 		List<Film> films = new ArrayList<>();
 		for (Element el : els) {
 			String href = el.attr("href");
-			films.add(getFilm(href));
+			try {
+				films.add(getFilm(href));
+			} catch (NoFilmwebIdException e) {
+				continue;
+			}
 		}
 		return films;
 	}
 
-	private Film getFilm(String href) throws IOException, AlltubeException {
+	private Film getFilm(String href) throws IOException, AlltubeException, NoFilmwebIdException {
 		Document doc = Jsoup.connect(href).userAgent(userAgent).get();
 		Film film = new Film();
 
@@ -73,13 +78,16 @@ public class AlltubeServiceImpl implements AlltubeService {
 			String match = m.group();
 			String filmwebId = match.substring(match.lastIndexOf('/') + 1, match.lastIndexOf('\''));
 			System.out.println("Filmweb ID: " + filmwebId);
-			if (filmwebId.length() < 12) { // Else it's not a real filmweb ID
+			if (filmwebId.length() < 10) { // Else it's not a real filmweb ID
 				film.setFilmwebId(filmwebId);
 				try {
-					filmwebService.getFilmInfo(filmwebId, film);
+					filmwebService.loadFullFilmInfo(film);
 				} catch (FilmwebException e) {
 					throw new AlltubeException(e);
 				}
+			}
+			else {
+				throw new NoFilmwebIdException();
 			}
 		}
 

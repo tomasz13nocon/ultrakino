@@ -12,10 +12,10 @@ import java.util.Set;
 public interface FilmwebService {
 
 
-	Film getFilmInfo(String filmwebId, Film film) throws FilmwebException, IOException;
+	Film loadFilmInfo(Film film) throws FilmwebException, IOException;
 
 	Set<FilmographyEntry> getFilmPersons(String filmwebId) throws FilmwebException, IOException;
 
-	Film getFullFilmInfo(String filmwebId, Film film) throws FilmwebException, IOException;
+	Film loadFullFilmInfo(Film film) throws FilmwebException, IOException;
 
 }

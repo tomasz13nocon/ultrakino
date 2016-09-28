@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.ultrakino.exceptions.FilmwebException;
@@ -19,7 +18,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -83,16 +81,15 @@ public class FilmwebServiceImpl implements FilmwebService {
 	}
 
 	@Override
-	public Film getFullFilmInfo(String filmwebId, Film film) throws FilmwebException, IOException {
-		getFilmInfo(filmwebId, film);
-		film.setCastAndCrew(getFilmPersons(filmwebId));
+	public Film loadFullFilmInfo(Film film) throws FilmwebException, IOException {
+		loadFilmInfo(film);
+		film.setCastAndCrew(getFilmPersons(film.getFilmwebId()));
 		return film;
 	}
 
 	@SuppressWarnings("Duplicates")
 	@Override
-	public Film getFilmInfo(String filmwebId, Film film) throws FilmwebException, IOException {
-		film.setFilmwebId(filmwebId);
+	public Film loadFilmInfo(Film film) throws FilmwebException, IOException {
 		String response = IOUtils.toString(new URL(createFilmwebAPIUrl(FILM_INFO_METHOD, film.getFilmwebId())).openStream(), StandardCharsets.UTF_8);
 		if (!response.startsWith("ok")) {
 			throw new FilmwebException("API call didn't return ok");
@@ -162,7 +159,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 			if (!m1.matches()) {
 				Matcher m2 = p2.matcher(worldPremiere);
 				if (m2.matches()) {
-					worldPremiere += "01";
+					worldPremiere += "-01";
 				}
 				else
 					throw new FilmwebException("Unsupported date format: " + worldPremiere);
@@ -176,7 +173,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 			if (!m1.matches()) {
 				Matcher m2 = p2.matcher(localPremiere);
 				if (m2.matches()) {
-					localPremiere += "01";
+					localPremiere += "-01";
 				}
 				else
 					throw new FilmwebException("Unsupported date format: " + localPremiere);
@@ -186,9 +183,6 @@ public class FilmwebServiceImpl implements FilmwebService {
 
 		if (filmInfo[18] != null)
 			film.setProductionCountries(Arrays.asList(((String) filmInfo[18]).split(", ")));
-
-
-		film.setCastAndCrew(getFilmPersons(film.getFilmwebId()));
 
 		return film;
 	}
