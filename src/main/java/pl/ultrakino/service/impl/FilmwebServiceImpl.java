@@ -143,9 +143,9 @@ public class FilmwebServiceImpl implements FilmwebService {
 		if (filmInfo[11] != null) {
 			String filmwebImg = "http://1.fwcdn.pl/po" + ((String) filmInfo[11]).replaceFirst("\\.\\d\\.jp", ".3.jp");
 			InputStream is = new URL(filmwebImg).openStream();
-			String filename = "images/covers/" + DigestUtils.md5Hex(film.getTitle() + film.getYear()) + ".jpg";
+			String filename = DigestUtils.md5Hex(film.getTitle() + film.getYear()) + ".jpg";
 			// TODO: Change image location on prod
-			OutputStream os = new FileOutputStream("/home/user/Projects/Ultrakino/src/main/webapp/" + filename);
+			OutputStream os = new FileOutputStream("/home/user/Projects/covers/" + filename);
 			IOUtils.copy(is, os);
 			is.close();
 			os.close();
