@@ -1,8 +1,8 @@
 # Created by .ignore support plugin (hsz.mobi)
 ### Maven template
-#target/**
-!target/ultrakino
-target/ultrakino/images/covers
+target/
+#!target/ultrakino
+#target/ultrakino/images/covers
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
@@ -59,3 +59,4 @@ fabric.properties
 
 ## Custom
 /src/main/webapp/images/covers/
+.idea/

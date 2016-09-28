@@ -18,10 +18,4 @@ angular.module("app")
 			});
 		};
 
-		ctrl.patchCoverFilenames = function () {
-			$http.patch(api + "/films/coverFilenames", {}).then(function (resp) {
-				console.log("werked");
-			});
-		}
-
 	}]);

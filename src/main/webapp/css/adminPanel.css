@@ -1,0 +1,12 @@
+.admin-panel-error-box {
+  padding: 12px;
+  background: #eaa;
+  border: 1px solid #e33;
+  border-radius: 2px;
+  color: #111;
+  margin: 12px; }
+
+.admin-panel-error-label {
+  color: #444; }
+
+/*# sourceMappingURL=adminPanel.css.map */
