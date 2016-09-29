@@ -14,6 +14,8 @@ public interface FilmService {
 
 	Film create(FilmDetailsResource film);
 
+	Film save(Film film);
+
 	Film findById(Integer id) throws NoRecordWithSuchIdException;
 
 	Page<Film> find(MultiValueMap<String, String> params);

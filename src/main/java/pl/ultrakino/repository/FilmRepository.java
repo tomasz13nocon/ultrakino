@@ -18,4 +18,5 @@ public interface FilmRepository {
 
 	Page<Film> find(FilmQuery query);
 
+	Film save(Film film);
 }

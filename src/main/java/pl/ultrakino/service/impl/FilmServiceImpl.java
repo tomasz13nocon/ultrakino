@@ -80,6 +80,11 @@ public class FilmServiceImpl implements FilmService {
 		return film;
 	}
 
+	@Override
+	public Film save(Film film) {
+		return filmRepository.save(film);
+	}
+
 	// TODO: Change name to be more descriptive
 	private Set<Player> createPlayers(List<PlayerResource> resources, Integer userId) {
 		Set<Player> players = new HashSet<>();

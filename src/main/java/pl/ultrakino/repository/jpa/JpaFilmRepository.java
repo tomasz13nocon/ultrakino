@@ -1,6 +1,7 @@
 package pl.ultrakino.repository.jpa;
 
 import org.hibernate.Hibernate;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Film;
@@ -188,13 +189,18 @@ public class JpaFilmRepository implements FilmRepository {
 		if (order != null)
 			mainCq.orderBy(order);
 
-		mainRoot.fetch(Film_.players);
-		mainRoot.fetch(Film_.categories);
+		mainRoot.fetch(Film_.players, JoinType.LEFT);
+		mainRoot.fetch(Film_.categories, JoinType.LEFT);
 		mainCq.where(mainRoot.get(Film_.id).in(ids));
 		TypedQuery<Film> mainQ = em.createQuery(mainCq);
 
-
 		return new Page<>(mainQ.getResultList(), pageNumber, pageCount);
+	}
+
+	@Override
+	public Film save(Film film) {
+		em.unwrap(Session.class).saveOrUpdate(film);
+		return film;
 	}
 
 }

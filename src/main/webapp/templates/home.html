@@ -3,7 +3,7 @@
 	<div class="owl-carousel">
 		<div ng-repeat="film in homeCtrl.recommendedFilms" enable-carousel>
 			<a ng-href="#filmy/{{film.uid}}/{{film.title}}-{{film.year}}">
-				<img class="carousel-film-cover" ng-src="{{images + film.coverFilename}}" alt="{{film.title}} cover">
+				<img class="carousel-film-cover" ng-src="{{film.coverFilename ? images + film.coverFilename : noImage}}" alt="{{film.title}} cover">
 				<div class="carousel-film-info">
 					<h2 class="carousel-film-title"><span ng-bind="film.title"></span> (<span ng-bind="film.year"></span>)</h2>
 				</div>
@@ -23,7 +23,7 @@
 		<div class="films-section-film" ng-repeat="film in homeCtrl.newestFilms">
 			<a class="cover-link" ng-href="#filmy/{{film.uid}}/{{film.title}}-{{film.year}}">
 				<div class="films-section-cover-wrapper">
-					<img class="films-section-cover" ng-src="{{images + film.coverFilename}}" alt="{{film.title}}">
+					<img class="films-section-cover" ng-src="{{film.coverFilename ? images + film.coverFilename : noImage}}" alt="{{film.title}}">
 				</div>
 				<h2 class="films-section-title"><span ng-bind="film.title"></span> (<span ng-bind="film.year"></span>)</h2>
 			</a>
@@ -37,7 +37,7 @@
 		<div class="films-section-film" ng-repeat="film in homeCtrl.mostWatchedFilms">
 			<a class="cover-link" ng-href="#filmy/{{film.uid}}/{{film.title}}-{{film.year}}">
 				<div class="films-section-cover-wrapper">
-					<img class="films-section-cover" ng-src="{{images + film.coverFilename}}" alt="{{film.title}}">
+					<img class="films-section-cover" ng-src="{{film.coverFilename ? images + film.coverFilename : noImage}}" alt="{{film.title}}">
 				</div>
 				<h2 class="films-section-title"><span ng-bind="film.title"></span> (<span ng-bind="film.year"></span>)</h2>
 			</a>

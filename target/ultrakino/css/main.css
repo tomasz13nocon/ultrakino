@@ -437,6 +437,7 @@ select.filter-input {
   margin-bottom: 30px; }
 
 .filter-result-cover {
+  width: 200px;
   float: left; }
 
 .filter-result-details {
@@ -464,6 +465,18 @@ select.filter-input {
 
 .admin-panel-error-label {
   color: #444; }
+
+.admin-panel-films {
+  margin: 8px;
+  padding: 8px;
+  border: 1px solid white; }
+
+.admin-panel-film {
+  margin: 8px auto;
+  font-size: 0.8em; }
+
+.admin-panel-film-player {
+  margin: 8px; }
 
 body {
   background: #222 url("../images/blacktiles.png") repeat;

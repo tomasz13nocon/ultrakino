@@ -2,7 +2,25 @@
 	<div class="btn-2" ng-click="adminPanelCtrl.getAlltubeFilms()">Get Alltube films</div>
 
 	<div class="spinner-small" ng-show="loading"></div>
-	
+
+	<div class="admin-panel-films" ng-show="films">
+		Filmy:
+		<div class="admin-panel-film" ng-repeat="film in films">
+			Tytuł: <span ng-bind="film.title"></span>
+			<br />
+			Filmweb ID: <span ng-bind="film.filmwebId"></span>
+			<br />
+			Linki:
+			<div class="admin-panel-film-player" ng-repeat="player in film.players">
+				Hosting: <span ng-bind="player.hosting"></span>
+				<br />
+				Wersja: <span ng-bind="player.languageVersion"></span>
+				<br />
+				Src: <span ng-bind="player.src"></span>
+			</div>
+		</div>
+	</div>
+
 	<div class="admin-panel-error-box" ng-show="error">
 		<span class="admin-panel-error-label">HTTP status code: </span>
 		<span ng-bind="error.status"></span>

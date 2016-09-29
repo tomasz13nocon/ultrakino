@@ -16,7 +16,7 @@ public class FilmographyEntry {
 	@Column(name = "filmography_entry_id")
 	private Integer id;
 
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.MERGE})
 	@JoinColumn(name = "person_id")
 	private Person person;
 

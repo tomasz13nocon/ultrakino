@@ -209,6 +209,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 					Person p = new Person();
 					p.setFilmwebId(String.valueOf(actor[0]));
 					p.setName((String) actor[3]);
+					personRepository.save(p);
 					entry.setPerson(p);
 				}
 				entry.setName((String) actor[1]);

@@ -4,8 +4,8 @@ angular.module("app")
 
 		ctrl.getAlltubeFilms = function() {
 			$scope.loading = true;
-			$http.post(api + "/alltube", {}).then(function(resp) {
-				console.log(resp);
+			$http.post(api + "/alltube", { page: 1 }).then(function(resp) {
+				$scope.films = resp.data;
 				$scope.error = null;
 				$scope.loading = false;
 			}, function(resp) {
@@ -14,7 +14,7 @@ angular.module("app")
 					msg: resp.data.error,
 				};
 				$scope.loading = false;
-				console.log(resp);
+				$scope.films = null;
 			});
 		};
 

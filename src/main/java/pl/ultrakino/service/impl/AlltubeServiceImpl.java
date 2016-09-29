@@ -57,16 +57,14 @@ public class AlltubeServiceImpl implements AlltubeService {
 		List<Film> films = new ArrayList<>();
 		for (Element el : els) {
 			String href = el.attr("href");
-			try {
-				films.add(getFilm(href));
-			} catch (NoFilmwebIdException e) {
-				continue;
-			}
+			Optional<Film> op = getFilm(href);
+			if (op.isPresent())
+				films.add(op.get());
 		}
 		return films;
 	}
 
-	private Film getFilm(String href) throws IOException, AlltubeException, NoFilmwebIdException {
+	private Optional<Film> getFilm(String href) throws IOException, AlltubeException {
 		Document doc = Jsoup.connect(href).userAgent(userAgent).get();
 		Film film = new Film();
 
@@ -74,6 +72,12 @@ public class AlltubeServiceImpl implements AlltubeService {
 		Matcher m = Pattern.compile
 				(Pattern.quote("url: 'http://alltube.tv/photos/") + "\\d+" + Pattern.quote("',"))
 				.matcher(body);
+
+		Set<Player> players = new HashSet<>();
+		Elements trs = doc.select("#links-container tr");
+		if (trs.isEmpty())
+			return Optional.empty();
+
 		if (m.find()) {
 			String match = m.group();
 			String filmwebId = match.substring(match.lastIndexOf('/') + 1, match.lastIndexOf('\''));
@@ -87,12 +91,10 @@ public class AlltubeServiceImpl implements AlltubeService {
 				}
 			}
 			else {
-				throw new NoFilmwebIdException();
+				return Optional.empty();
 			}
 		}
 
-		Set<Player> players = new HashSet<>();
-		Elements trs = doc.select("#links-container tr");
 		for (Element tr : trs) { // players
 			Player player = new Player();
 			String link = new String(Base64.getDecoder().decode(tr.select("a.watch").attr("data-iframe")));
@@ -124,7 +126,7 @@ public class AlltubeServiceImpl implements AlltubeService {
 
 		film.setPlayers(players);
 
-		return film;
+		return Optional.of(film);
 	}
 
 }

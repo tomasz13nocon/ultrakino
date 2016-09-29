@@ -64,6 +64,7 @@ angular.module("app")
 		$rootScope.authenticated = false;
 		$rootScope.isAdmin = false;
 		$rootScope.images = "//localhost:8000/";
+		$rootScope.noImage = "images/no-image.png";
 
 	}]);
 

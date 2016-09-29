@@ -33,4 +33,10 @@ public class JpaPersonRepository implements PersonRepository {
 		return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
 	}
 
+	@Override
+	public Person save(Person person) {
+		em.persist(person);
+		return person;
+	}
+
 }
