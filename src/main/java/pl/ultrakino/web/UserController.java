@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.ultrakino.Constants;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.User;
-import pl.ultrakino.resources.assemblers.UserResourceAsm;
 import pl.ultrakino.service.UserService;
 
 import java.security.Principal;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(RestAPIDefinitions.API_PREFIX)
+@RequestMapping(Constants.API_PREFIX)
 public class UserController {
 
 	private UserService userService;

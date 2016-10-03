@@ -6,11 +6,11 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.ultrakino.Constants;
 import pl.ultrakino.exceptions.AlltubeException;
 import pl.ultrakino.model.Film;
 import pl.ultrakino.service.AlltubeService;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = RestAPIDefinitions.API_PREFIX + "/alltube")
+@RequestMapping(value = Constants.API_PREFIX + "/alltube")
 public class AlltubeController {
 
 	private AlltubeService alltubeService;

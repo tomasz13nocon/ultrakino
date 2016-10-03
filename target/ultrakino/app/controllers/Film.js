@@ -11,6 +11,7 @@ angular.module("app")
 		}
 
 		document.title = film.title + " - Ultrakino";
+		$scope.$on("$locationChanged")
 	});
 
 	ctrl.postComment = function() {

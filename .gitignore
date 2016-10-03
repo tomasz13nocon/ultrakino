@@ -1,8 +1,10 @@
 # Created by .ignore support plugin (hsz.mobi)
 ### Maven template
-target/
-#!target/ultrakino
-#target/ultrakino/images/covers
+target/classes/
+target/generated-sources/
+target/ultrakino/META-INF/
+target/ultrakino/WEB-INF/classes/
+target/ultrakino/WEB-INF/lib/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup

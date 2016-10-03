@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.ultrakino.exceptions.AlltubeException;
 import pl.ultrakino.exceptions.FilmwebException;
-import pl.ultrakino.exceptions.NoFilmwebIdException;
 import pl.ultrakino.model.Film;
 import pl.ultrakino.model.Player;
 import pl.ultrakino.repository.FilmRepository;
 import pl.ultrakino.service.AlltubeService;
 import pl.ultrakino.service.FilmwebService;
+import pl.ultrakino.Constants;
 
 import java.io.IOException;
 import java.util.*;
@@ -29,7 +29,6 @@ public class AlltubeServiceImpl implements AlltubeService {
 	private FilmRepository filmRepository;
 
 	private static Map<String, Player.LanguageVersion> versions = new HashMap<>();
-	private static final String userAgent = "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6";
 
 	static {
 		versions.put("Lektor", VOICE_OVER);
@@ -51,7 +50,7 @@ public class AlltubeServiceImpl implements AlltubeService {
 	@Override
 	public List<Film> getFilms(int pageNumber) throws IOException, AlltubeException {
 		if (pageNumber < 1) throw new IllegalArgumentException("pageNumber has to be a positive integer.");
-		Document filmsDoc = Jsoup.connect("http://alltube.tv/filmy-online/strona[" + pageNumber + "]+").userAgent(userAgent).get();
+		Document filmsDoc = Jsoup.connect("http://alltube.tv/filmy-online/strona[" + pageNumber + "]+").userAgent(Constants.USER_AGENT).get();
 		// Iterate through all the films in this page
 		Elements els = filmsDoc.select(".item-block a");
 		List<Film> films = new ArrayList<>();
@@ -65,7 +64,7 @@ public class AlltubeServiceImpl implements AlltubeService {
 	}
 
 	private Optional<Film> getFilm(String href) throws IOException, AlltubeException {
-		Document doc = Jsoup.connect(href).userAgent(userAgent).get();
+		Document doc = Jsoup.connect(href).userAgent(Constants.USER_AGENT).get();
 		Film film = new Film();
 
 		String body = doc.body().html();

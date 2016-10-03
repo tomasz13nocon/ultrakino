@@ -11,7 +11,6 @@ import pl.ultrakino.exceptions.NoUserWithSuchUsernameException;
 import pl.ultrakino.model.Comment;
 import pl.ultrakino.model.Film;
 import pl.ultrakino.repository.Page;
-import pl.ultrakino.resources.CommentResource;
 import pl.ultrakino.resources.FilmDetailsResource;
 import pl.ultrakino.resources.FilmResource;
 import pl.ultrakino.resources.assemblers.CommentResourceAsm;
@@ -25,7 +24,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.Principal;
 
-import static pl.ultrakino.web.RestAPIDefinitions.API_PREFIX;
+import static pl.ultrakino.Constants.API_PREFIX;
 
 @RestController
 @RequestMapping(value = API_PREFIX + "/films", produces = "application/json;charset=utf-8")
