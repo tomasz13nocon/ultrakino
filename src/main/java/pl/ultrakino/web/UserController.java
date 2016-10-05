@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.ultrakino.Constants;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.User;
+import pl.ultrakino.resources.assemblers.UserDetailsResourceAsm;
+import pl.ultrakino.resources.assemblers.UserResourceAsm;
 import pl.ultrakino.service.UserService;
 
 import java.security.Principal;
@@ -22,10 +24,14 @@ import java.util.Optional;
 public class UserController {
 
 	private UserService userService;
+	private UserResourceAsm userResourceAsm;
+	private UserDetailsResourceAsm userDetailsResourceAsm;
 
 	@Autowired
-	public UserController(UserService userService) {
+	public UserController(UserService userService, UserResourceAsm userResourceAsm, UserDetailsResourceAsm userDetailsResourceAsm) {
 		this.userService = userService;
+		this.userResourceAsm = userResourceAsm;
+		this.userDetailsResourceAsm = userDetailsResourceAsm;
 	}
 
 	@GetMapping("/user")
@@ -38,6 +44,7 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("hacking detected, pls no hack us");
 		User user = userOp.get();
 		node.put("avatarFilename", user.getAvatarFilename());
+		node.put("uid", user.getId());
 		return ResponseEntity.ok(node);
 	}
 
@@ -45,7 +52,7 @@ public class UserController {
 	public ResponseEntity getUser(@PathVariable int userId) {
 		try {
 			User user = userService.findById(userId);
-			return ResponseEntity.ok().build();
+			return ResponseEntity.ok(userDetailsResourceAsm.toResource(user));
 		} catch (NoRecordWithSuchIdException e) {
 			return ResponseEntity.notFound().build();
 		}
