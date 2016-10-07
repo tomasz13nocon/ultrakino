@@ -94,8 +94,8 @@ angular.module("app")
 			reloadOnSearch: false,
 		})
 		.when("/seriale", {
-			templateUrl: templateDir + "/404.html",
-			activeTab: "series",
+			templateUrl: templateDir + "/shows.html",
+			activeTab: "shows",
 		})
 		.when("/dodaj-film", {
 			templateUrl: templateDir + "/404.html",
