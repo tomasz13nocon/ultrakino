@@ -117,7 +117,6 @@ angular.module("app")
 			controllerAs: "userDetailsCtrl",
 		})
 		
-
 		.otherwise({
 			templateUrl: templateDir + "/404.html",
 		});

@@ -20,6 +20,7 @@ angular.module("app")
 				ctrl.User.username = resp.data.name;
 				var avatar = resp.data.avatarFilename;
 				ctrl.User.avatar = avatar ? avatar : defaultAvatarFilename;
+				ctrl.User.uid = resp.data.uid;
 				ctrl.TheBox.theBoxVisible = false;
 			}
 			else {
