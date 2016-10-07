@@ -62,3 +62,5 @@ fabric.properties
 ## Custom
 /src/main/webapp/images/covers/
 .idea/
+.*.swp
+
