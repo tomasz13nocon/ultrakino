@@ -5,11 +5,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
+import pl.ultrakino.exceptions.NoUserWithSuchUsernameException;
 import pl.ultrakino.model.*;
 import pl.ultrakino.repository.*;
 import pl.ultrakino.resources.FilmDetailsResource;
 import pl.ultrakino.resources.PersonResource;
 import pl.ultrakino.resources.PlayerResource;
+import pl.ultrakino.resources.assemblers.FilmDetailsResourceAsm;
 import pl.ultrakino.service.FilmService;
 
 import java.time.LocalDateTime;
@@ -23,12 +25,13 @@ public class FilmServiceImpl implements FilmService {
 	private FilmRepository filmRepository;
 	private PersonRepository personRepository;
 	private UserRepository userRepository;
+	private FilmDetailsResourceAsm filmDetailsResourceAsm;
 
-	@Autowired
-	public FilmServiceImpl(FilmRepository filmRepository, PersonRepository personRepository, UserRepository userRepository) {
+	public FilmServiceImpl(FilmRepository filmRepository, PersonRepository personRepository, UserRepository userRepository, FilmDetailsResourceAsm filmDetailsResourceAsm) {
 		this.filmRepository = filmRepository;
 		this.personRepository = personRepository;
 		this.userRepository = userRepository;
+		this.filmDetailsResourceAsm = filmDetailsResourceAsm;
 	}
 
 	/**
@@ -103,8 +106,8 @@ public class FilmServiceImpl implements FilmService {
 	}
 
 	@Override
-	public Film findById(Integer id) throws NoRecordWithSuchIdException {
-		return filmRepository.findById(id);
+	public FilmDetailsResource findById(Integer id) throws NoRecordWithSuchIdException {
+		return filmDetailsResourceAsm.toResource(filmRepository.findById(id));
 	}
 
 	@Override
@@ -209,7 +212,7 @@ public class FilmServiceImpl implements FilmService {
 	}
 
 	@Override
-	public void recommendFilm(int filmId) throws NoRecordWithSuchIdException {
+	public void recommend(int filmId) throws NoRecordWithSuchIdException {
 		Film film = filmRepository.findById(filmId);
 		film.setRecommendationDate(LocalDateTime.now());
 	}
@@ -218,6 +221,19 @@ public class FilmServiceImpl implements FilmService {
 	public void deleteRecommendation(int filmId) throws NoRecordWithSuchIdException {
 		Film film = filmRepository.findById(filmId);
 		film.setRecommendationDate(null);
+	}
+
+	@Override
+	public Rating rate(int filmId, String username, float rating) throws NoRecordWithSuchIdException, NoUserWithSuchUsernameException {
+		Optional<User> user = userRepository.findByUsername(username);
+		if (!user.isPresent()) throw new NoUserWithSuchUsernameException();
+		Film film = filmRepository.findById(filmId);
+		Rating r = new Rating();
+		r.setContent(film);
+		r.setRating(rating);
+		r.setRatedBy(user.get());
+		film.getRatings().add(r);
+		return r;
 	}
 
 }

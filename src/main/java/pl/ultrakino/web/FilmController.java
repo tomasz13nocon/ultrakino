@@ -10,6 +10,7 @@ import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.exceptions.NoUserWithSuchUsernameException;
 import pl.ultrakino.model.Comment;
 import pl.ultrakino.model.Film;
+import pl.ultrakino.model.Rating;
 import pl.ultrakino.repository.Page;
 import pl.ultrakino.resources.FilmDetailsResource;
 import pl.ultrakino.resources.FilmResource;
@@ -34,7 +35,6 @@ public class FilmController {
 	private CommentService commentService;
 	private UserService userService;
 	private FilmResourceAsm filmResourceAsm;
-	private FilmDetailsResourceAsm filmDetailsResourceAsm;
 	private CommentResourceAsm commentResourceAsm;
 
 	@Autowired
@@ -43,23 +43,22 @@ public class FilmController {
 		this.commentService = commentService;
 		this.userService = userService;
 		this.filmResourceAsm = filmResourceAsm;
-		this.filmDetailsResourceAsm = filmDetailsResourceAsm;
 		this.commentResourceAsm = commentResourceAsm;
 	}
 
 //	@JsonView(Views.FilmCreation.class)
-	@PostMapping
+	/*@PostMapping
 	public ResponseEntity<FilmDetailsResource> createFilm(@RequestBody FilmDetailsResource filmDetailsResource) throws URISyntaxException {
 		Film film = filmService.create(filmDetailsResource);
 		// Get resource representation of actually created Film and its links
 		filmDetailsResource = filmDetailsResourceAsm.toResource(film);
 		return ResponseEntity.created(new URI(filmDetailsResource.getLink("self").getHref())).body(filmDetailsResource);
-	}
+	}*/
 
 	@GetMapping("/{filmId}")
 	public ResponseEntity getFilm(@PathVariable int filmId) {
 		try {
-			return ResponseEntity.ok(filmDetailsResourceAsm.toResource(filmService.findById(filmId)));
+			return ResponseEntity.ok(filmService.findById(filmId));
 		} catch (NoRecordWithSuchIdException e) {
 			return ResponseEntity.notFound().build();
 		}
@@ -68,7 +67,7 @@ public class FilmController {
 	@PostMapping("/{filmId}/recommendationDate")
 	public ResponseEntity recommendFilm(@PathVariable int filmId) {
 		try {
-			filmService.recommendFilm(filmId);
+			filmService.recommend(filmId);
 			return ResponseEntity.ok().build();
 		} catch (NoRecordWithSuchIdException e) {
 			return ResponseEntity.notFound().build();
@@ -82,6 +81,17 @@ public class FilmController {
 			return ResponseEntity.ok().build();
 		} catch (NoRecordWithSuchIdException e) {
 			return ResponseEntity.notFound().build();
+		}
+	}
+
+	@PostMapping("/{filmId}/ratings")
+	public ResponseEntity rate(@PathVariable int filmId, @RequestBody Rating rating, Principal principal) {
+		try {
+			return ResponseEntity.ok(filmService.rate(filmId, principal.getName(), rating.getRating()));
+		} catch (NoRecordWithSuchIdException e) {
+			return ResponseEntity.notFound().build();
+		} catch (NoUserWithSuchUsernameException e) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}
 	}
 

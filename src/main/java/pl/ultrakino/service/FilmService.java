@@ -2,7 +2,9 @@ package pl.ultrakino.service;
 
 import org.springframework.util.MultiValueMap;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
+import pl.ultrakino.exceptions.NoUserWithSuchUsernameException;
 import pl.ultrakino.model.Film;
+import pl.ultrakino.model.Rating;
 import pl.ultrakino.repository.Page;
 import pl.ultrakino.resources.FilmDetailsResource;
 import pl.ultrakino.resources.FilmResource;
@@ -16,12 +18,13 @@ public interface FilmService {
 
 	Film save(Film film);
 
-	Film findById(Integer id) throws NoRecordWithSuchIdException;
+	FilmDetailsResource findById(Integer id) throws NoRecordWithSuchIdException;
 
 	Page<Film> find(MultiValueMap<String, String> params);
 
-	void recommendFilm(int filmId) throws NoRecordWithSuchIdException;
+	void recommend(int filmId) throws NoRecordWithSuchIdException;
 
 	void deleteRecommendation(int filmId) throws NoRecordWithSuchIdException;
 
+	Rating rate(int filmId, String username, float rating) throws NoRecordWithSuchIdException, NoUserWithSuchUsernameException;
 }

@@ -30,6 +30,8 @@ public class FilmDetailsResource extends ContentResource {
 //	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Integer timesRated;
 
+	private Float userRating;
+
 	private String originalTitle;
 
 	private String description;

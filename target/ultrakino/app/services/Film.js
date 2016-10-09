@@ -19,5 +19,11 @@ angular.module("app")
 				sub: "comments",
 			}
 		},
+		rate: {
+			method: "POST",
+			params: {
+				sub: "ratings",
+			}
+		}
 	});
 }]);

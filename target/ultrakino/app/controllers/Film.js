@@ -2,6 +2,24 @@ angular.module("app")
 .controller("FilmController", ["$http", "$scope", "$routeParams", "Film", function($http, $scope, $routeParams, Film) {
 	var ctrl = this;
 
+	$scope.stars = new Array(10);
+	$scope.activeStar = -1;
+
+	ctrl.starMouseover = function(i) {
+		$scope.activeStar = i;
+	}
+	ctrl.starMouseleave = function() {
+		$scope.activeStar = -1;
+	}
+
+	ctrl.rate = function(i) {
+		Film.rate({ id: $scope.film.uid }, {
+			rating: i + 1,
+		}, function(rating) {
+			film.userRating = rating.rating;
+		});
+	}
+
 	$scope.film = Film.get({ id: $routeParams["id"] }, function(film) {
 		for (var i = 0; i < film.players.length; i++) {
 			film.players[i].src = "https://openload.co/embed/" + film.players[i].src;

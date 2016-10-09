@@ -12,6 +12,33 @@ a {
   .link:hover {
     color: #f5cd2e; }
 
+/* Rules for sizing the icon. */
+.material-icons.md-18 {
+  font-size: 18px; }
+
+.material-icons.md-24 {
+  font-size: 24px; }
+
+.material-icons.md-36 {
+  font-size: 36px; }
+
+.material-icons.md-48 {
+  font-size: 48px; }
+
+/* Rules for using icons as black on a light background. */
+.material-icons.md-dark {
+  color: rgba(0, 0, 0, 0.54); }
+
+.material-icons.md-dark.md-inactive {
+  color: rgba(0, 0, 0, 0.26); }
+
+/* Rules for using icons as white on a dark background. */
+.material-icons.md-light {
+  color: white; }
+
+.material-icons.md-light.md-inactive {
+  color: rgba(255, 255, 255, 0.3); }
+
 input[type="text"], input[type="password"], input[type="email"] {
   font-family: "Montserrat", sans-serif;
   padding: 0 14px;
@@ -311,13 +338,25 @@ input[type="radio"].radio {
 .player {
   width: 1060px;
   height: 595px;
-  margin: 32px auto; }
+  margin-top: 32px;
+  margin-bottom: 16px; }
 
 .rate-wrapper {
-  float: right; }
+  float: right;
+  margin: auto 16px; }
+
+.rate-label {
+  margin-right: 8px; }
+
+.rate-star {
+  cursor: pointer;
+  margin-right: 3px; }
 
 .rating {
   float: right; }
+
+.comment-section {
+  margin-top: 16px; }
 
 .comment-section-title {
   font-size: 1.4em;
@@ -477,6 +516,12 @@ select.filter-input {
 
 .admin-panel-film-player {
   margin: 8px; }
+
+.bg-light {
+  background-color: white; }
+
+.bg-dark {
+  background-color: #282828; }
 
 body {
   background: #222 url("../images/blacktiles.png") repeat;

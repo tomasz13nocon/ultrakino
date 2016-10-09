@@ -1,21 +1,21 @@
 /*
 Error: Undefined variable: "$font-color".
-        on line 53 of sass/film.sass
+        on line 64 of sass/film.sass
 
-48: .comment-section-title
-49: 	font-size: 1.4em
-50: 	margin-left: 180px
-51: 	&:before, &:after
-52: 		content: ""
-53: 		border-top: 2px solid $font-color
-54: 		position: absolute
-55: 	&:before
-56: 		width: 150px
-57: 		transform: translate(-180px, 12px)
-58: 	&:after
+59: .comment-section-title
+60: 	font-size: 1.4em
+61: 	margin-left: 180px
+62: 	&:before, &:after
+63: 		content: ""
+64: 		border-top: 2px solid $font-color
+65: 		position: absolute
+66: 	&:before
+67: 		width: 150px
+68: 		transform: translate(-180px, 12px)
+69: 	&:after
 
 Backtrace:
-sass/film.sass:53
+sass/film.sass:64
 /home/user/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/variable.rb:49:in `_perform'
 /home/user/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/node.rb:58:in `perform'
 /home/user/.gem/ruby/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/list_literal.rb:63:in `block in _perform'
@@ -80,4 +80,4 @@ sass/film.sass:53
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$font-color\".\A         on line 53 of sass/film.sass\A \A 48: .comment-section-title\A 49: 	font-size: 1.4em\A 50: 	margin-left: 180px\A 51: 	&:before, &:after\A 52: 		content: \"\"\A 53: 		border-top: 2px solid $font-color\A 54: 		position: absolute\A 55: 	&:before\A 56: 		width: 150px\A 57: 		transform: translate(-180px, 12px)\A 58: 	&:after"; }
+  content: "Error: Undefined variable: \"$font-color\".\A         on line 64 of sass/film.sass\A \A 59: .comment-section-title\A 60: 	font-size: 1.4em\A 61: 	margin-left: 180px\A 62: 	&:before, &:after\A 63: 		content: \"\"\A 64: 		border-top: 2px solid $font-color\A 65: 		position: absolute\A 66: 	&:before\A 67: 		width: 150px\A 68: 		transform: translate(-180px, 12px)\A 69: 	&:after"; }

@@ -15,7 +15,7 @@
 	</div>
 	<div class="clear"></div>
 
-	<admin-tools ng-if="isAdmin""></admin-tools>
+	<admin-tools ng-if="isAdmin"></admin-tools>
 
 	<div class="player-section">
 		<iframe class="player" ng-src="{{film.players[0].src | trusted}}" scrolling="no" frameborder="0" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
@@ -25,12 +25,17 @@
 			<span ng-bind="film.views"></span>
 			<span>odsłon</span>
 		</div> -->
-		<div class="rate-wrapper">
-			
-		</div>
 		<div class="rating">
 			<span ng-bind="film.rating"></span>
+			<span ng-show="film.rating === null">Brak oceny</span>
 		</div>
+		<div class="rate-wrapper">
+			<span class="rate-label">Oceń ten film: </span>
+			<span class="stars-wrapper" ng-mouseleave="filmCtrl.starMouseleave()">
+				<i class="fa fa-lg rate-star" ng-class="{'fa-star': $index <= activeStar, 'fa-star-o': $index > activeStar}" ng-repeat="i in stars track by $index" ng-mouseover="filmCtrl.starMouseover($index)" ng-click="filmCtrl.rate($index)"></i>
+			</span>
+		</div>
+		<div class="clear"></div>
 	</div>
 	<div class="comment-section">
 		<div class="comment-section-title">Komentarze</div>

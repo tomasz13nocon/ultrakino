@@ -2,10 +2,17 @@ package pl.ultrakino.resources.assemblers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import pl.ultrakino.model.Film;
+import pl.ultrakino.model.Rating;
+import pl.ultrakino.repository.RatingRepository;
 import pl.ultrakino.resources.FilmDetailsResource;
 import pl.ultrakino.web.FilmController;
+
+import java.util.Optional;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
@@ -15,13 +22,15 @@ public class FilmDetailsResourceAsm extends ResourceAssemblerSupport<Film, FilmD
 	private PersonResourceAsm personResourceAsm;
 	private PlayerResourceAsm playerResourceAsm;
 	private CommentResourceAsm commentResourceAsm;
+	private RatingRepository ratingRepository;
 
 	@Autowired
-	public FilmDetailsResourceAsm(PersonResourceAsm personResourceAsm, PlayerResourceAsm playerResourceAsm, CommentResourceAsm commentResourceAsm) {
+	public FilmDetailsResourceAsm(PersonResourceAsm personResourceAsm, PlayerResourceAsm playerResourceAsm, CommentResourceAsm commentResourceAsm, RatingRepository ratingRepository) {
 		super(FilmController.class, FilmDetailsResource.class);
 		this.personResourceAsm = personResourceAsm;
 		this.playerResourceAsm = playerResourceAsm;
 		this.commentResourceAsm = commentResourceAsm;
+		this.ratingRepository = ratingRepository;
 	}
 
 
@@ -32,6 +41,14 @@ public class FilmDetailsResourceAsm extends ResourceAssemblerSupport<Film, FilmD
 		res.setTitle(film.getTitle());
 		res.setRating(film.getRating());
 		res.setTimesRated(film.getTimesRated());
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null){
+			Optional<Rating> userRating = ratingRepository.findByUsernameAndContentId(
+					((UserDetails) auth.getPrincipal()).getUsername(),
+					film.getId());
+			if (userRating.isPresent())
+				res.setUserRating(userRating.get().getRating());
+		}
 		res.setOriginalTitle(film.getOriginalTitle());
 		res.setDescription(film.getDescription());
 		res.setCoverFilename(film.getCoverFilename());
