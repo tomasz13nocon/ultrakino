@@ -26,14 +26,27 @@
 			<span>odsłon</span>
 		</div> -->
 		<div class="rating">
-			<span ng-bind="film.rating"></span>
-			<span ng-show="film.rating === null">Brak oceny</span>
+			<div class="rating-rating">
+				Ocena:
+				<span class="rating-actual-rating" ng-bind="film.rating"></span>
+				<span ng-hide="film.rating">brak głosów</span>
+			</div>
+			<div class="rating-times-rated">
+				Liczba głosów:
+				<span ng-bind="film.timesRated"></span>
+			</div>
 		</div>
-		<div class="rate-wrapper">
-			<span class="rate-label">Oceń ten film: </span>
-			<span class="stars-wrapper" ng-mouseleave="filmCtrl.starMouseleave()">
-				<i class="fa fa-lg rate-star" ng-class="{'fa-star': $index <= activeStar, 'fa-star-o': $index > activeStar}" ng-repeat="i in stars track by $index" ng-mouseover="filmCtrl.starMouseover($index)" ng-click="filmCtrl.rate($index)"></i>
-			</span>
+		<div class="rate-wrapper" ng-show="authenticated">
+			<div ng-hide="film.userRating">
+				<span class="rate-label">Oceń ten film: </span>
+				<span class="stars-wrapper" ng-mouseleave="filmCtrl.starMouseleave()">
+					<i class="fa fa-lg rate-star" ng-class="{'fa-star': $index <= activeStar, 'fa-star-o': $index > activeStar}" ng-repeat="i in stars track by $index" ng-mouseover="filmCtrl.starMouseover($index)" ng-click="filmCtrl.rate($index)"></i>
+				</span>
+			</div>
+			<div ng-show="film.userRating">
+				<span class="rate-label">Twoja ocena: </span>
+				<i class="fa fa-lg rate-star-disabled" ng-class="{'fa-star': $index <= film.userRating, 'fa-star-o': $index > film.userRating}" ng-repeat="i in stars track by $index"></i>
+			</div>
 		</div>
 		<div class="clear"></div>
 	</div>

@@ -26,12 +26,14 @@ public class FilmServiceImpl implements FilmService {
 	private PersonRepository personRepository;
 	private UserRepository userRepository;
 	private FilmDetailsResourceAsm filmDetailsResourceAsm;
+	private RatingRepository ratingRepository;
 
-	public FilmServiceImpl(FilmRepository filmRepository, PersonRepository personRepository, UserRepository userRepository, FilmDetailsResourceAsm filmDetailsResourceAsm) {
+	public FilmServiceImpl(FilmRepository filmRepository, PersonRepository personRepository, UserRepository userRepository, FilmDetailsResourceAsm filmDetailsResourceAsm, RatingRepository ratingRepository) {
 		this.filmRepository = filmRepository;
 		this.personRepository = personRepository;
 		this.userRepository = userRepository;
 		this.filmDetailsResourceAsm = filmDetailsResourceAsm;
+		this.ratingRepository = ratingRepository;
 	}
 
 	/**
@@ -225,6 +227,8 @@ public class FilmServiceImpl implements FilmService {
 
 	@Override
 	public Rating rate(int filmId, String username, float rating) throws NoRecordWithSuchIdException, NoUserWithSuchUsernameException {
+		if (ratingRepository.findByUsernameAndContentId(username, filmId).isPresent())
+			throw new IllegalStateException();
 		Optional<User> user = userRepository.findByUsername(username);
 		if (!user.isPresent()) throw new NoUserWithSuchUsernameException();
 		Film film = filmRepository.findById(filmId);
@@ -233,7 +237,15 @@ public class FilmServiceImpl implements FilmService {
 		r.setRating(rating);
 		r.setRatedBy(user.get());
 		film.getRatings().add(r);
+		film.setTimesRated(film.getTimesRated() + 1);
+		calculateRating(film);
 		return r;
+	}
+
+	private void calculateRating(Film film) {
+		OptionalDouble rating = film.getRatings().stream().mapToDouble(Rating::getRating).average();
+		if (rating.isPresent())
+			film.setRating((float) rating.getAsDouble());
 	}
 
 }

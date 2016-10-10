@@ -24,7 +24,6 @@
 				<a href="#filmy"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'films'}">FILMY</div></a>
 				<a href="#seriale"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'series'}">SERIALE</div></a>
 				<a href="#dodaj-film"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'addFilm'}">DODAJ FILM</div></a>
-				<a href="#test"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'test'}">TEST</div></a>
 				<a href="#panel-admina" ng-show="isAdmin"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'adminPanel'}">PANEL ADMINA</div></a>
 			</div>
 			<div ng-controller="UserController as userCtrl" ng-init="userCtrl.authenticate()">

@@ -22,7 +22,7 @@ public class Film extends Content {
 	private Float rating;
 
 	@Column(name = "times_rated")
-	private Integer timesRated;
+	private Integer timesRated = 0;
 
 	@Column(name = "original_title")
 	private String originalTitle;

@@ -3,6 +3,7 @@ package pl.ultrakino.resources.assemblers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,7 @@ import pl.ultrakino.resources.FilmDetailsResource;
 import pl.ultrakino.web.FilmController;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
@@ -42,7 +44,7 @@ public class FilmDetailsResourceAsm extends ResourceAssemblerSupport<Film, FilmD
 		res.setRating(film.getRating());
 		res.setTimesRated(film.getTimesRated());
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null){
+		if (auth != null && !auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()).contains("ROLE_ANONYMOUS")){
 			Optional<Rating> userRating = ratingRepository.findByUsernameAndContentId(
 					((UserDetails) auth.getPrincipal()).getUsername(),
 					film.getId());

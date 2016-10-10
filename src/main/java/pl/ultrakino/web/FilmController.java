@@ -19,6 +19,7 @@ import pl.ultrakino.resources.assemblers.FilmDetailsResourceAsm;
 import pl.ultrakino.resources.assemblers.FilmResourceAsm;
 import pl.ultrakino.service.CommentService;
 import pl.ultrakino.service.FilmService;
+import pl.ultrakino.service.RatingService;
 import pl.ultrakino.service.UserService;
 
 import java.net.URI;
@@ -36,14 +37,16 @@ public class FilmController {
 	private UserService userService;
 	private FilmResourceAsm filmResourceAsm;
 	private CommentResourceAsm commentResourceAsm;
+	private RatingService ratingService;
 
 	@Autowired
-	public FilmController(FilmService filmService, FilmResourceAsm filmResourceAsm, FilmDetailsResourceAsm filmDetailsResourceAsm, CommentService commentService, UserService userService, CommentResourceAsm commentResourceAsm) {
+	public FilmController(FilmService filmService, FilmResourceAsm filmResourceAsm, FilmDetailsResourceAsm filmDetailsResourceAsm, CommentService commentService, UserService userService, CommentResourceAsm commentResourceAsm, RatingService ratingService) {
 		this.filmService = filmService;
 		this.commentService = commentService;
 		this.userService = userService;
 		this.filmResourceAsm = filmResourceAsm;
 		this.commentResourceAsm = commentResourceAsm;
+		this.ratingService = ratingService;
 	}
 
 //	@JsonView(Views.FilmCreation.class)
@@ -86,18 +89,23 @@ public class FilmController {
 
 	@PostMapping("/{filmId}/ratings")
 	public ResponseEntity rate(@PathVariable int filmId, @RequestBody Rating rating, Principal principal) {
+		if (principal == null)
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		try {
-			return ResponseEntity.ok(filmService.rate(filmId, principal.getName(), rating.getRating()));
+			return ResponseEntity.ok(ratingService.toResource(filmService.rate(filmId, principal.getName(), rating.getRating())));
 		} catch (NoRecordWithSuchIdException e) {
 			return ResponseEntity.notFound().build();
 		} catch (NoUserWithSuchUsernameException e) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		} catch (IllegalStateException e) {
+			return ResponseEntity.badRequest().body(JsonNodeFactory.instance.objectNode().put("error", "This content has been already rated by this user."));
 		}
 	}
 
 	@PostMapping("/{contentId}/comments")
 	public ResponseEntity postComment(@PathVariable int contentId, @RequestBody Comment comment, Principal principal) {
-		if (principal == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		if (principal == null)
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		try {
 			return ResponseEntity.ok(commentResourceAsm.toResource(commentService.save(comment, contentId, principal.getName())));
 		} catch (NoRecordWithSuchIdException e) {

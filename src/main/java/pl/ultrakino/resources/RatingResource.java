@@ -8,8 +8,8 @@ import lombok.Setter;
 public class RatingResource {
 
 	private long uid;
-	private ContentResource content;
-	private UserDetailsResource ratedBy;
+	private int contentId;
+	private int userId;
 	private Float rating;
 
 }
