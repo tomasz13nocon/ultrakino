@@ -99,6 +99,8 @@ public class FilmController {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		} catch (IllegalStateException e) {
 			return ResponseEntity.badRequest().body(JsonNodeFactory.instance.objectNode().put("error", "This content has been already rated by this user."));
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.badRequest().body(JsonNodeFactory.instance.objectNode().put("error", "Rating has to be between 0 and 10."));
 		}
 	}
 
@@ -112,6 +114,8 @@ public class FilmController {
 			return ResponseEntity.notFound().build();
 		} catch (NoUserWithSuchUsernameException e) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.badRequest().body(JsonNodeFactory.instance.objectNode().put("error", "Comment must be less than 255 characters and more than 2"));
 		}
 	}
 

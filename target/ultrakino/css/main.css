@@ -39,6 +39,59 @@ a {
 .material-icons.md-light.md-inactive {
   color: rgba(255, 255, 255, 0.3); }
 
+/***********
+ * SPINNER *
+ ********* */
+.spinner, .spinner-medium, .spinner-small {
+  margin: 60px auto;
+  position: relative;
+  text-indent: -9999em;
+  border-top: 1.1em solid rgba(255, 255, 255, 0.2);
+  border-right: 1.1em solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);
+  border-left: 1.1em solid #ffffff;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: load8 1.1s infinite linear;
+  animation: load8 1.1s infinite linear; }
+
+.spinner, .spinner-medium, .spinner-small,
+.spinner:after,
+.spinner-medium:after,
+.spinner-small:after {
+  border-radius: 50%;
+  width: 10em;
+  height: 10em; }
+
+@-webkit-keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg); } }
+@keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg); } }
+.spinner-medium {
+  font-size: 0.7em; }
+
+.spinner-small {
+  margin: auto;
+  font-size: 0.4em; }
+
+.spinner-wrapper.ng-hide {
+  transition: opacity 0.3s, transform 0.3s;
+  opacity: 0;
+  position: absolute;
+  left: 43%;
+  transform: scale(1.3); }
+
 input[type="text"], input[type="password"], input[type="email"] {
   font-family: "Montserrat", sans-serif;
   padding: 0 14px;
@@ -210,48 +263,6 @@ input[type="radio"].radio {
   margin-left: auto;
   margin-right: auto; }
 
-/***********
- * SPINNER *
- ********* */
-.spinner, .spinner-small {
-  margin: 60px auto;
-  position: relative;
-  text-indent: -9999em;
-  border-top: 1.1em solid rgba(255, 255, 255, 0.2);
-  border-right: 1.1em solid rgba(255, 255, 255, 0.2);
-  border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);
-  border-left: 1.1em solid #ffffff;
-  -webkit-transform: translateZ(0);
-  -ms-transform: translateZ(0);
-  transform: translateZ(0);
-  -webkit-animation: load8 1.1s infinite linear;
-  animation: load8 1.1s infinite linear; }
-
-.spinner, .spinner-small,
-.spinner:after,
-.spinner-small:after {
-  border-radius: 50%;
-  width: 10em;
-  height: 10em; }
-
-@-webkit-keyframes load8 {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg); }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg); } }
-@keyframes load8 {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg); }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg); } }
-.spinner-small {
-  margin: auto;
-  font-size: 0.4em; }
-
 /************
  * CAROUSEL *
  ********** */
@@ -343,7 +354,8 @@ input[type="radio"].radio {
 
 .rate-wrapper {
   float: right;
-  margin: auto 16px; }
+  margin: auto 16px;
+  margin-top: 8px; }
 
 .rate-label {
   margin-right: 8px; }
@@ -358,6 +370,16 @@ input[type="radio"].radio {
 .rate-star-disabled {
   margin-right: 3px; }
 
+.rate-tooltip-span:before {
+  transform: translate(-8px, -24px);
+  transition: opacity 0s; }
+
+.zero-star-span {
+  width: 10px;
+  height: 19px;
+  position: absolute;
+  cursor: pointer; }
+
 .rating {
   float: right; }
 
@@ -365,7 +387,7 @@ input[type="radio"].radio {
   text-align: center; }
 
 .rating-actual-rating {
-  font-size: 1.2em; }
+  font-size: 1.4em; }
 
 .rating-times-rated {
   font-size: 0.7em;
@@ -391,6 +413,8 @@ input[type="radio"].radio {
 .comment-input {
   margin-top: 20px;
   display: block; }
+  .comment-input.ng-invalid.ng-touched {
+    background-color: #fde; }
 
 .comment-submit-wrapper {
   margin: 10px 0;
@@ -538,6 +562,10 @@ select.filter-input {
 
 .bg-dark {
   background-color: #282828; }
+
+.login-to-add-msg {
+  font-size: 2em;
+  text-align: center; }
 
 body {
   background: #222 url("../images/blacktiles.png") repeat;
@@ -756,8 +784,13 @@ html {
 .search-result {
   display: inline-block;
   width: 20%;
-  height: 185px;
-  overflow: hidden; }
+  height: 183px;
+  overflow: hidden;
+  position: relative; }
+
+.search-result-link:hover {
+  color: #f5cd2e;
+  cursor: pointer; }
 
 .search-result-title {
   margin: 6px; }
@@ -765,11 +798,21 @@ html {
 .search-result-cover {
   float: left;
   width: 120px;
-  margin: 6px;
-  border: 1px solid #f5cd2e; }
+  margin: 6px; }
 
 .search-result-description {
+  margin-top: 10px;
   font-size: 0.8em; }
+
+.search-result-description-wrapper:after {
+  content: "";
+  background: linear-gradient(to top, black, transparent 15%);
+  position: absolute;
+  width: 100%;
+  margin-left: 130px;
+  height: 100%;
+  bottom: 0;
+  pointer-events: none; }
 
 /**********
  * FOOTER *

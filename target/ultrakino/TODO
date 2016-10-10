@@ -9,6 +9,9 @@ Film: List<Trailer>
 Query ascending results on default
 change title after navigating from film page
 
+AFTER IMPLEMENTING REGISTRATION:
+test rating system
+
 AFTER START:
 comments pagination
 url based filters

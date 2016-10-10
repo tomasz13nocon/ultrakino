@@ -229,6 +229,8 @@ public class FilmServiceImpl implements FilmService {
 	public Rating rate(int filmId, String username, float rating) throws NoRecordWithSuchIdException, NoUserWithSuchUsernameException {
 		if (ratingRepository.findByUsernameAndContentId(username, filmId).isPresent())
 			throw new IllegalStateException();
+		if (rating < 0 || rating > 10)
+			throw new IllegalArgumentException();
 		Optional<User> user = userRepository.findByUsername(username);
 		if (!user.isPresent()) throw new NoUserWithSuchUsernameException();
 		Film film = filmRepository.findById(filmId);
@@ -237,15 +239,16 @@ public class FilmServiceImpl implements FilmService {
 		r.setRating(rating);
 		r.setRatedBy(user.get());
 		film.getRatings().add(r);
-		film.setTimesRated(film.getTimesRated() + 1);
 		calculateRating(film);
 		return r;
 	}
 
 	private void calculateRating(Film film) {
 		OptionalDouble rating = film.getRatings().stream().mapToDouble(Rating::getRating).average();
-		if (rating.isPresent())
+		if (rating.isPresent()) {
 			film.setRating((float) rating.getAsDouble());
+			film.setTimesRated(film.getRatings().size());
+		}
 	}
 
 }

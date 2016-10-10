@@ -1,8 +1,13 @@
 angular.module("app")
-	.controller("SearchController", ["$http", "$scope", "$timeout", "Film", function($http, $scope, $timeout, Film) {
+	.controller("SearchController", ["$http", "$scope", "$timeout", "Film", "$location", function($http, $scope, $timeout, Film, $location) {
 		var ctrl = this;
 
-		this.search = function() {
+		ctrl.resultClicked = function(film) {
+			$location.url("filmy/" + film.uid + "/" + film.title + "-" + film.year);
+			$scope.showResults = false;
+		};
+
+		ctrl.search = function() {
 			if (ctrl.query.length < 2) {
 				ctrl.films = [];
 				return;

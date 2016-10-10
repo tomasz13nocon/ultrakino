@@ -41,6 +41,7 @@ $film-page-width: 1060px
 .rate-wrapper
 	float: right
 	margin: auto 16px
+	margin-top: 8px
 
 .rate-label
 	margin-right: 8px
@@ -55,6 +56,16 @@ $film-page-width: 1060px
 .rate-star-disabled
 	margin-right: 3px
 
+.rate-tooltip-span:before
+	transform: translate(-8px, -24px)
+	transition: opacity 0s
+
+.zero-star-span
+	width: 10px
+	height: 19px
+	position: absolute
+	cursor: pointer
+
 .rating
 	float: right
 
@@ -62,7 +73,7 @@ $film-page-width: 1060px
 	text-align: center
 
 .rating-actual-rating
-	font-size: 1.2em
+	font-size: 1.4em
 
 .rating-times-rated
 	font-size: 0.7em
@@ -89,6 +100,8 @@ $film-page-width: 1060px
 .comment-input
 	margin-top: 20px
 	display: block
+	&.ng-invalid.ng-touched
+		background-color: #fde
 
 .comment-submit-wrapper
 	margin: 10px 0
