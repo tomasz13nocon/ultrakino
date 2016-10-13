@@ -6,9 +6,12 @@ import pl.ultrakino.model.FilmographyEntry;
 import pl.ultrakino.model.Series;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 public interface FilmwebService {
+
+	List<String> searchForSeries(String title, Integer year) throws FilmwebException;
 
 	Series getSeriesInfo(String filmwebId) throws FilmwebException;
 
@@ -18,6 +21,15 @@ public interface FilmwebService {
 
 	Set<FilmographyEntry> getFilmPersons(String filmwebId) throws FilmwebException, IOException;
 
+	/**
+	 * Gets film info for a given filmwebId, icluding FilmograpgyEntries.
+	 * This is equivalent of using getFilmInfo() and getFilmPersons().
+	 * given filmwebId will be included in returned Film object
+	 * @param filmwebId
+	 * @return
+	 * @throws FilmwebException
+	 * @throws IOException
+	 */
 	Film getFullFilmInfo(String filmwebId) throws FilmwebException, IOException;
 
 }

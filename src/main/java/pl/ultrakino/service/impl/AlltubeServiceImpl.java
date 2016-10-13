@@ -65,7 +65,7 @@ public class AlltubeServiceImpl implements AlltubeService {
 
 	private Optional<Film> getFilm(String href) throws IOException, AlltubeException {
 		Document doc = Jsoup.connect(href).userAgent(Constants.USER_AGENT).get();
-		Film film = new Film();
+		Film film;
 
 		String body = doc.body().html();
 		Matcher m = Pattern.compile
@@ -82,9 +82,8 @@ public class AlltubeServiceImpl implements AlltubeService {
 			String filmwebId = match.substring(match.lastIndexOf('/') + 1, match.lastIndexOf('\''));
 			System.out.println("Filmweb ID: " + filmwebId);
 			if (filmwebId.length() < 10) { // Else it's not a real filmweb ID
-				film.setFilmwebId(filmwebId);
 				try {
-					filmwebService.getFullFilmInfo(film.getFilmwebId());
+					film = filmwebService.getFullFilmInfo(filmwebId);
 				} catch (FilmwebException e) {
 					throw new AlltubeException(e);
 				}
@@ -93,6 +92,8 @@ public class AlltubeServiceImpl implements AlltubeService {
 				return Optional.empty();
 			}
 		}
+		else
+			throw new AlltubeException("Unexcpected website format.");
 
 		for (Element tr : trs) { // players
 			Player player = new Player();

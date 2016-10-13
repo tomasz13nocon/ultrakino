@@ -4,9 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.NotImplementedException;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.ultrakino.Constants;
 import pl.ultrakino.exceptions.FilmwebException;
 import pl.ultrakino.model.*;
 import pl.ultrakino.repository.CategoryRepository;
@@ -144,8 +149,30 @@ public class FilmwebServiceImpl implements FilmwebService {
 		throw new UnsupportedOperationException();
 	}
 
-	public List<String> searchForSeries(String title, int year) {
-		return null;
+	public List<String> searchForSeries(String title, Integer year) throws FilmwebException {
+		try {
+			String yearStr = year == null ? "" : String.valueOf(year);
+			String url = "http://www.filmweb.pl/search/serial?&q=" +
+					URLEncoder.encode(title, StandardCharsets.UTF_8.name())
+					+ "&startYear=" + yearStr + "&endYear=" + yearStr +
+					"&startRate=&endRate=&startCount=&endCount="; // These are apparently necessary
+			Document doc = Jsoup.connect(url).userAgent(Constants.USER_AGENT).get();
+			Elements resultList = doc.select("ul.resultsList");
+			List<String> ret = new ArrayList<>();
+
+			if (resultList.size() < 1 || resultList.size() > 2)
+				throw new FilmwebException("Unexpected filmweb format");
+			else if (resultList.size() == 1) // No matches
+				return ret;
+
+			Elements results = resultList.get(1).select("li");
+			ret.addAll(results.stream()
+					.map(result -> result.attr("id").substring(5))
+					.collect(Collectors.toList()));
+			return ret;
+		} catch (IOException e) {
+			throw new FilmwebException(e);
+		}
 	}
 
 	@SuppressWarnings("Duplicates")
