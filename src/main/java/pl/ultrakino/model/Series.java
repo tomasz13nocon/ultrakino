@@ -1,5 +1,8 @@
 package pl.ultrakino.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +10,8 @@ import java.util.List;
 import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.CascadeType.PERSIST;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "series")
 public class Series extends Content {
@@ -17,6 +22,8 @@ public class Series extends Content {
 	private List<Rating> ratings = new ArrayList<>();
 
 	private Float rating;
+
+	private String filmwebId;
 
 	@Column(name = "times_rated")
 	private Integer timesRated;
@@ -42,93 +49,4 @@ public class Series extends Content {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "series")
 	private List<Episode> episodes;
 
-
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public List<Rating> getRatings() {
-		return ratings;
-	}
-
-	public void setRatings(List<Rating> ratings) {
-		this.ratings = ratings;
-	}
-
-	public Float getRating() {
-		return rating;
-	}
-
-	public void setRating(Float rating) {
-		this.rating = rating;
-	}
-
-	public Integer getTimesRated() {
-		return timesRated;
-	}
-
-	public void setTimesRated(Integer timesRated) {
-		this.timesRated = timesRated;
-	}
-
-	public String getOriginalTitle() {
-		return originalTitle;
-	}
-
-	public void setOriginalTitle(String originalTitle) {
-		this.originalTitle = originalTitle;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getCoverFilename() {
-		return coverFilename;
-	}
-
-	public void setCoverFilename(String coverFilename) {
-		this.coverFilename = coverFilename;
-	}
-
-	public List<FilmographyEntry> getCastAndCrew() {
-		return castAndCrew;
-	}
-
-	public void setCastAndCrew(List<FilmographyEntry> castAndCrew) {
-		this.castAndCrew = castAndCrew;
-	}
-
-	public List<Integer> getCategories() {
-		return categories;
-	}
-
-	public void setCategories(List<Integer> categories) {
-		this.categories = categories;
-	}
-
-	public Integer getNumberOfSeasons() {
-		return numberOfSeasons;
-	}
-
-	public void setNumberOfSeasons(Integer numberOfSeasons) {
-		this.numberOfSeasons = numberOfSeasons;
-	}
-
-	public List<Episode> getEpisodes() {
-		return episodes;
-	}
-
-	public void setEpisodes(List<Episode> episodes) {
-		this.episodes = episodes;
-	}
 }

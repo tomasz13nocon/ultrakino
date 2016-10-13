@@ -10,6 +10,7 @@ import pl.ultrakino.exceptions.FilmwebException;
 import pl.ultrakino.model.Film;
 import pl.ultrakino.model.FilmographyEntry;
 import pl.ultrakino.model.Person;
+import pl.ultrakino.model.Series;
 import pl.ultrakino.repository.PersonRepository;
 import pl.ultrakino.service.FilmwebService;
 
@@ -80,46 +81,143 @@ public class FilmwebServiceImpl implements FilmwebService {
 		this.personRepository = personRepository;
 	}
 
+	/**
+	 * Fetches information for a film with given filmwebID from filmweb API.
+	 * Resulting array has a following format:
+	 * 0 - title
+	 * 1 - originalTitle
+	 * 2 - avgRate
+	 * 3 - votesCount
+	 * 4 - genres
+	 * 5 - year
+	 * 6 - duration
+	 * 7 - commentsCount
+	 * 8 - forumUrl
+	 * 9 - hasReview
+	 * 10 - hasDescription
+	 * 11 - imagePath
+	 * 12 - video
+	 * 13 - premiereWorld
+	 * 14 - premiereCountry
+	 * 15 - filmType
+	 * 16 - seasonsCount
+	 * 17 - episodesCount
+	 * 18 - countriesString
+	 * 19 - description
+	 * @param filmwebId
+	 * @return
+	 */
+	private Object[] fetchContentInfo(String filmwebId) throws FilmwebException {
+		try {
+			String response = IOUtils.toString(new URL(createFilmwebAPIUrl(FILM_INFO_METHOD, filmwebId)).openStream(), StandardCharsets.UTF_8);
+			if (!response.startsWith("ok")) {
+				throw new FilmwebException("API call didn't return ok");
+			}
+			String arrayString = response.substring(response.indexOf('['), response.lastIndexOf(']') + 1);
+			ObjectMapper mapper = new ObjectMapper();
+			return mapper.readValue(arrayString, Object[].class);
+		} catch (IOException e) {
+			throw new FilmwebException(e);
+		}
+	}
+
 	@Override
-	public Film loadFullFilmInfo(Film film) throws FilmwebException, IOException {
-		loadFilmInfo(film);
-		film.setCastAndCrew(getFilmPersons(film.getFilmwebId()));
+	public Series getSeriesInfo(String filmwebId) throws FilmwebException {
+		return null;
+		/*Object[] seriesInfo = fetchContentInfo(filmwebId);
+		Series series = new Series();
+		series.setFilmwebId(filmwebId);
+
+		if ((Integer) seriesInfo[15] != 1)
+			throw new FilmwebException("Not a series.");
+
+		series.setTitle((String) seriesInfo[0]);
+		if (!series.getTitle().equals(seriesInfo[1])) // If original title is the same as the title then we do nothing
+			series.setOriginalTitle((String) seriesInfo[1]);
+
+		Set<Integer> filmCategories = new HashSet<>();
+		for (String category : ((String) seriesInfo[4]).split(",")) {
+			filmCategories.add(categories.get(category));
+		}
+		series.setCategories(filmCategories);
+
+		series.setYear((Integer) seriesInfo[5]);
+		series.setRunningTime((Integer) seriesInfo[6]);
+
+		if (seriesInfo[19] != null)
+			series.setDescription((String) seriesInfo[19]);
+
+		if (seriesInfo[11] != null) {
+			String filmwebImg = "http://1.fwcdn.pl/po" + ((String) seriesInfo[11]).replaceFirst("\\.\\d\\.jp", ".3.jp");
+			InputStream is = new URL(filmwebImg).openStream();
+			String filename = DigestUtils.md5Hex(series.getTitle() + series.getYear()) + ".jpg";
+			// TODO: Change image location on prod
+			OutputStream os = new FileOutputStream("/home/user/Projects/covers/" + filename);
+			IOUtils.copy(is, os);
+			is.close();
+			os.close();
+			series.setCoverFilename(filename);
+		}
+
+
+		Pattern p1 = Pattern.compile("\\d{4}-\\d{2}-\\d{2}");
+		Pattern p2 = Pattern.compile("\\d{4}-\\d{2}");
+
+		if (seriesInfo[13] != null) {
+			String worldPremiere = (String) seriesInfo[13];
+			Matcher m1 = p1.matcher(worldPremiere);
+			if (!m1.matches()) {
+				Matcher m2 = p2.matcher(worldPremiere);
+				if (m2.matches()) {
+					worldPremiere += "-01";
+				}
+				else
+					throw new FilmwebException("Unsupported date format: " + worldPremiere);
+			}
+			series.setWorldPremiere(LocalDate.parse(worldPremiere));
+		}
+
+		if (seriesInfo[14] != null) {
+			String localPremiere = (String) seriesInfo[14];
+			Matcher m1 = p1.matcher(localPremiere);
+			if (!m1.matches()) {
+				Matcher m2 = p2.matcher(localPremiere);
+				if (m2.matches()) {
+					localPremiere += "-01";
+				}
+				else
+					throw new FilmwebException("Unsupported date format: " + localPremiere);
+			}
+			series.setLocalPremiere(LocalDate.parse(localPremiere));
+		}
+
+		if (seriesInfo[18] != null)
+			series.setProductionCountries(Arrays.asList(((String) seriesInfo[18]).split(", ")));
+
+		return series;*/
+	}
+
+	@Override
+	public Series getFullSeriesInfo(String filmwebId) {
+		return null;
+	}
+
+	@Override
+	public Film getFullFilmInfo(String filmwebId) throws FilmwebException, IOException {
+		Film film = getFilmInfo(filmwebId);
+		film.setCastAndCrew(getFilmPersons(filmwebId));
 		return film;
 	}
 
 	@SuppressWarnings("Duplicates")
 	@Override
-	public Film loadFilmInfo(Film film) throws FilmwebException, IOException {
-		String response = IOUtils.toString(new URL(createFilmwebAPIUrl(FILM_INFO_METHOD, film.getFilmwebId())).openStream(), StandardCharsets.UTF_8);
-		if (!response.startsWith("ok")) {
-			throw new FilmwebException("API call didn't return ok");
-		}
-		String arrayString = response.substring(response.indexOf('['), response.lastIndexOf(']') + 1);
-		ObjectMapper mapper = new ObjectMapper();
-		Object[] filmInfo = mapper.readValue(arrayString, Object[].class);
-		/*
-		 filmInfo array elements meaning:
-		 0 - title
-		 1 - originalTitle
-		 2 - avgRate
-		 3 - votesCount
-		 4 - genres
-		 5 - year
-		 6 - duration
-		 7 - commentsCount
-		 8 - forumUrl
-		 9 - hasReview
-		 10 - hasDescription
-		 11 - imagePath
-		 12 - video
-		 13 - premiereWorld
-		 14 - premiereCountry
-		 15 - filmType
-		 16 - seasonsCount
-		 17 - episodesCount
-		 18 - countriesString
-		 19 - description
-		 */
+	public Film getFilmInfo(String filmwebId) throws FilmwebException, IOException {
+		Object[] filmInfo = fetchContentInfo(filmwebId);
+		Film film = new Film();
+		film.setFilmwebId(filmwebId);
+
+		if ((Integer) filmInfo[15] != 0)
+			throw new FilmwebException("Not a film.");
 
 		film.setTitle((String) filmInfo[0]);
 		if (!film.getTitle().equals(filmInfo[1])) // If original title is the same as the title then we do nothing
@@ -236,6 +334,10 @@ public class FilmwebServiceImpl implements FilmwebService {
 		url += "&version=" + VERSION;
 		url += "&appId=android";
 		return url;
+	}
+
+	public static void main(String[] args) {
+		System.out.println(new FilmwebServiceImpl(null).createFilmwebAPIUrl(FilmwebServiceImpl.FILM_INFO_METHOD, "87721"));
 	}
 
 }

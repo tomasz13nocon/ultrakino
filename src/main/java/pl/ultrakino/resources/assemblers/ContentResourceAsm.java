@@ -2,11 +2,8 @@ package pl.ultrakino.resources.assemblers;
 
 import pl.ultrakino.exceptions.UnsupportedContentTypeException;
 import pl.ultrakino.model.Content;
-import pl.ultrakino.model.Episode;
 import pl.ultrakino.model.Film;
-import pl.ultrakino.model.Series;
 import pl.ultrakino.resources.ContentResource;
-import pl.ultrakino.resources.FilmResource;
 
 /**
  * Delegate resource assembling to appropriate class

@@ -1,9 +1,9 @@
 <div class="page-content-thingy">
 	<div class="btn-2" ng-click="adminPanelCtrl.getAlltubeFilms()">Get Alltube films</div>
 
-	<div class="spinner-small" ng-show="loading"></div>
+	<div class="spinner-small" ng-series="loading"></div>
 
-	<div class="admin-panel-films" ng-show="films">
+	<div class="admin-panel-films" ng-series="films">
 		Filmy:
 		<div class="admin-panel-film" ng-repeat="film in films">
 			Tytuł: <span ng-bind="film.title"></span>
@@ -22,7 +22,7 @@
 		</div>
 	</div>
 
-	<div class="admin-panel-error-box" ng-show="error">
+	<div class="admin-panel-error-box" ng-series="error">
 		<span class="admin-panel-error-label">HTTP status code: </span>
 		<span ng-bind="error.status"></span>
 		<br />

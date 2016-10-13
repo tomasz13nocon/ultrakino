@@ -84,7 +84,7 @@ public class AlltubeServiceImpl implements AlltubeService {
 			if (filmwebId.length() < 10) { // Else it's not a real filmweb ID
 				film.setFilmwebId(filmwebId);
 				try {
-					filmwebService.loadFullFilmInfo(film);
+					filmwebService.getFullFilmInfo(film.getFilmwebId());
 				} catch (FilmwebException e) {
 					throw new AlltubeException(e);
 				}

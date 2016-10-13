@@ -23,7 +23,7 @@
 				<a href="#seriale"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'series'}">SERIALE</div></a>
 				<a href="#dodaj-film"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'addFilm'}">DODAJ FILM</div></a>
 				<a href="#test"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'test'}">TEST</div></a>
-				<a href="#panel-admina" ng-show="isAdmin"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'adminPanel'}">PANEL ADMINA</div></a>
+				<a href="#panel-admina" ng-series="isAdmin"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'adminPanel'}">PANEL ADMINA</div></a>
 			</div>
 			<div ng-controller="UserController as userCtrl" ng-init="userCtrl.authenticate()">
 				<div id="login-wrapper" ng-hide="authenticated">
@@ -31,13 +31,13 @@
 					<br />
 					<div href="#login" id="login" ng-click="userCtrl.TheBox.showLoginBox()">ZALOGUJ SIĘ</div>
 				</div>
-				<div class="account-box nav-link" ng-show="authenticated" ng-click="userCtrl.toggleAccountDropdown()" click-anywhere-but-here="userCtrl.hideAccountDropdown()">
+				<div class="account-box nav-link" ng-series="authenticated" ng-click="userCtrl.toggleAccountDropdown()" click-anywhere-but-here="userCtrl.hideAccountDropdown()">
 					<img class="avatar" ng-src="{{userCtrl.User.avatar}}" alt="avatar użytkownika">
 					<div class="hello-user">
-						<span ng-bind="userCtrl.User.username"></span> <span ng-hide="userCtrl.accountDropdownVisible">▼</span><span ng-show="userCtrl.accountDropdownVisible">▲</span>
+						<span ng-bind="userCtrl.User.username"></span> <span ng-hide="userCtrl.accountDropdownVisible">▼</span><span ng-series="userCtrl.accountDropdownVisible">▲</span>
 					</div>
 				</div>
-				<div class="account-dropdown" ng-show="userCtrl.accountDropdownVisible">
+				<div class="account-dropdown" ng-series="userCtrl.accountDropdownVisible">
 					<ul>
 						<a href="#moje-konto"><li>MOJE KONTO</li></a>
 						<li>ULUBIONE</li>
@@ -48,7 +48,7 @@
 			<div class="clear"></div>
 		</div>
 
-		<div class="the-box-wrapper" ng-show="userCtrl.TheBox.theBoxVisible" ng-click="userCtrl.TheBox.hideTheBox()" ng-controller="UserController as userCtrl">
+		<div class="the-box-wrapper" ng-series="userCtrl.TheBox.theBoxVisible" ng-click="userCtrl.TheBox.hideTheBox()" ng-controller="UserController as userCtrl">
 			<div class="the-box-outer">
 				<div class="the-box" ng-click="$event.stopPropagation()">
 
@@ -61,8 +61,8 @@
 						</div>
 					</div>
 
-					<div class="login-box" ng-show="userCtrl.TheBox.loginTab">
-						<div class="login-error" ng-show="userCtrl.TheBox.authenticationFailed">
+					<div class="login-box" ng-series="userCtrl.TheBox.loginTab">
+						<div class="login-error" ng-series="userCtrl.TheBox.authenticationFailed">
 							Podana kombinacja loginu i hasła jest nieprawidłowa.
 						</div>
 						<form class="login-form" ng-submit="userCtrl.authenticate(form)">
@@ -106,7 +106,7 @@
 				<!-- <span id="search-icon">&#9906;</span> -->
 			</div>
 
-			<div ng-cloak click-anywhere-but-here="showResults = false" id="search-results-wrapper" ng-show="showResults" ng-class="{'search-results-show': showResults == true && searchCtrl.query.length > 2}">
+			<div ng-cloak click-anywhere-but-here="showResults = false" id="search-results-wrapper" ng-series="showResults" ng-class="{'search-results-series': showResults == true && searchCtrl.query.length > 2}">
 				<div class="search-result" ng-repeat="film in searchCtrl.films">
 					<a ng-href="#filmy/{{film.uid}}/{{film.title}}-{{film.year}}">
 						<img class="search-result-cover" ng-src="{{images + film.coverFilename}}" alt="{{film.title}}">
