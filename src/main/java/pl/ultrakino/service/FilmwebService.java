@@ -12,7 +12,7 @@ public interface FilmwebService {
 
 	Series getSeriesInfo(String filmwebId) throws FilmwebException;
 
-	Series getFullSeriesInfo(String filmwebId);
+	Series getFullSeriesInfo(String filmwebId) throws FilmwebException;
 
 	Film getFilmInfo(String filmwebId) throws FilmwebException, IOException;
 

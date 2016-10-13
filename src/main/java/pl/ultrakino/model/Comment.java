@@ -53,13 +53,12 @@ public class Comment {
 		if (!(o instanceof Comment)) return false;
 		Comment comment = (Comment) o;
 		return Objects.equals(getAddedBy(), comment.getAddedBy()) &&
-				Objects.equals(getSubmissionDate(), comment.getSubmissionDate()) &&
-				Objects.equals(getContent(), comment.getContent());
+				Objects.equals(getSubmissionDate(), comment.getSubmissionDate());
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(getAddedBy(), getSubmissionDate(), getContent());
+		return Objects.hash(getAddedBy(), getSubmissionDate());
 	}
 
 	@Override

@@ -7,11 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.ultrakino.exceptions.FilmwebException;
-import pl.ultrakino.model.Film;
-import pl.ultrakino.model.FilmographyEntry;
-import pl.ultrakino.model.Person;
-import pl.ultrakino.model.Series;
+import pl.ultrakino.model.*;
+import pl.ultrakino.repository.CategoryRepository;
+import pl.ultrakino.repository.CountryRepository;
 import pl.ultrakino.repository.PersonRepository;
+import pl.ultrakino.service.CategoryService;
+import pl.ultrakino.service.CountryService;
 import pl.ultrakino.service.FilmwebService;
 
 import java.io.*;
@@ -22,12 +23,15 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class FilmwebServiceImpl implements FilmwebService {
 
 	private PersonRepository personRepository;
+	private CountryService countryService;
+	private CategoryService categoryService;
 
 //	private static final String WEB_SCRAPER_EXCEPTION_MSG = "Unexcpected filmweb website format";
 	private static final Map<String, Integer> categories = new HashMap<>();
@@ -77,9 +81,14 @@ public class FilmwebServiceImpl implements FilmwebService {
 	}
 
 	@Autowired
-	public FilmwebServiceImpl(PersonRepository personRepository) {
+	public FilmwebServiceImpl(PersonRepository personRepository, CountryService countryService, CategoryService categoryService) {
 		this.personRepository = personRepository;
+		this.countryService = countryService;
+		this.categoryService = categoryService;
 	}
+
+
+
 
 	/**
 	 * Fetches information for a film with given filmwebID from filmweb API.
@@ -121,10 +130,12 @@ public class FilmwebServiceImpl implements FilmwebService {
 		}
 	}
 
+	public
+
+	@SuppressWarnings("Duplicates")
 	@Override
 	public Series getSeriesInfo(String filmwebId) throws FilmwebException {
-		return null;
-		/*Object[] seriesInfo = fetchContentInfo(filmwebId);
+		Object[] seriesInfo = fetchContentInfo(filmwebId);
 		Series series = new Series();
 		series.setFilmwebId(filmwebId);
 
@@ -135,11 +146,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 		if (!series.getTitle().equals(seriesInfo[1])) // If original title is the same as the title then we do nothing
 			series.setOriginalTitle((String) seriesInfo[1]);
 
-		Set<Integer> filmCategories = new HashSet<>();
-		for (String category : ((String) seriesInfo[4]).split(",")) {
-			filmCategories.add(categories.get(category));
-		}
-		series.setCategories(filmCategories);
+		series.setCategories(Arrays.stream(((String) seriesInfo[4]).split(",")).map(categoryService::getCategory).collect(Collectors.toSet()));
 
 		series.setYear((Integer) seriesInfo[5]);
 		series.setRunningTime((Integer) seriesInfo[6]);
@@ -148,15 +155,19 @@ public class FilmwebServiceImpl implements FilmwebService {
 			series.setDescription((String) seriesInfo[19]);
 
 		if (seriesInfo[11] != null) {
-			String filmwebImg = "http://1.fwcdn.pl/po" + ((String) seriesInfo[11]).replaceFirst("\\.\\d\\.jp", ".3.jp");
-			InputStream is = new URL(filmwebImg).openStream();
-			String filename = DigestUtils.md5Hex(series.getTitle() + series.getYear()) + ".jpg";
-			// TODO: Change image location on prod
-			OutputStream os = new FileOutputStream("/home/user/Projects/covers/" + filename);
-			IOUtils.copy(is, os);
-			is.close();
-			os.close();
-			series.setCoverFilename(filename);
+			try {
+				String filmwebImg = "http://1.fwcdn.pl/po" + ((String) seriesInfo[11]).replaceFirst("\\.\\d\\.jp", ".3.jp");
+				InputStream is = new URL(filmwebImg).openStream();
+				String filename = DigestUtils.md5Hex(series.getTitle() + series.getYear()) + ".jpg";
+				// TODO: Change image location on prod
+				OutputStream os = new FileOutputStream("/home/user/Projects/covers/" + filename);
+				IOUtils.copy(is, os);
+				is.close();
+				os.close();
+				series.setCoverFilename(filename);
+			} catch (IOException e) {
+				throw new FilmwebException(e);
+			}
 		}
 
 
@@ -177,29 +188,17 @@ public class FilmwebServiceImpl implements FilmwebService {
 			series.setWorldPremiere(LocalDate.parse(worldPremiere));
 		}
 
-		if (seriesInfo[14] != null) {
-			String localPremiere = (String) seriesInfo[14];
-			Matcher m1 = p1.matcher(localPremiere);
-			if (!m1.matches()) {
-				Matcher m2 = p2.matcher(localPremiere);
-				if (m2.matches()) {
-					localPremiere += "-01";
-				}
-				else
-					throw new FilmwebException("Unsupported date format: " + localPremiere);
-			}
-			series.setLocalPremiere(LocalDate.parse(localPremiere));
-		}
-
 		if (seriesInfo[18] != null)
-			series.setProductionCountries(Arrays.asList(((String) seriesInfo[18]).split(", ")));
+			series.setProductionCountries(Arrays.stream(((String) seriesInfo[18]).split(", ")).map(countryService::getCountry).collect(Collectors.toSet()));
 
-		return series;*/
+		return series;
 	}
 
 	@Override
-	public Series getFullSeriesInfo(String filmwebId) {
-		return null;
+	public Series getFullSeriesInfo(String filmwebId) throws FilmwebException {
+		Series series = getSeriesInfo(filmwebId);
+		series.setCastAndCrew(getFilmPersons(filmwebId));
+		return series;
 	}
 
 	@Override
@@ -223,11 +222,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 		if (!film.getTitle().equals(filmInfo[1])) // If original title is the same as the title then we do nothing
 			film.setOriginalTitle((String) filmInfo[1]);
 
-		Set<Integer> filmCategories = new HashSet<>();
-		for (String category : ((String) filmInfo[4]).split(",")) {
-			filmCategories.add(categories.get(category));
-		}
-		film.setCategories(filmCategories);
+		film.setCategories(Arrays.stream(((String) filmInfo[4]).split(",")).map(categoryService::getCategory).collect(Collectors.toSet()));
 
 		film.setYear((Integer) filmInfo[5]);
 		film.setRunningTime((Integer) filmInfo[6]);
@@ -280,40 +275,44 @@ public class FilmwebServiceImpl implements FilmwebService {
 		}
 
 		if (filmInfo[18] != null)
-			film.setProductionCountries(Arrays.asList(((String) filmInfo[18]).split(", ")));
+			film.setProductionCountries(Arrays.stream(((String) filmInfo[18]).split(", ")).map(countryService::getCountry).collect(Collectors.toSet()));
 
 		return film;
 	}
 
 	@Override
-	public Set<FilmographyEntry> getFilmPersons(String filmwebId) throws FilmwebException, IOException {
+	public Set<FilmographyEntry> getFilmPersons(String filmwebId) throws FilmwebException {
 		Set<FilmographyEntry> filmographyEntries = new HashSet<>();
 		for (Person.Role role : Person.Role.values()) {
-			String personsResponse = IOUtils.toString(new URL(createFilmwebAPIUrl(PERSONS_METHOD, filmwebId, String.valueOf(role.getApiNumber()), "0", "9999")), StandardCharsets.UTF_8);
-			if (!personsResponse.startsWith("ok"))
-				throw new FilmwebException("API call didn't return ok");
-			int firstBracketPos = personsResponse.indexOf('[');
-			if (firstBracketPos == -1)
-				throw new FilmwebException("API call didn't return proper JSON. It probably returned an exception.");
+			try {
+				String personsResponse = IOUtils.toString(new URL(createFilmwebAPIUrl(PERSONS_METHOD, filmwebId, String.valueOf(role.getApiNumber()), "0", "9999")), StandardCharsets.UTF_8);
+				if (!personsResponse.startsWith("ok"))
+					throw new FilmwebException("API call didn't return ok");
+				int firstBracketPos = personsResponse.indexOf('[');
+				if (firstBracketPos == -1)
+					throw new FilmwebException("API call didn't return proper JSON. It probably returned an exception.");
 
-			ObjectMapper mapper = new ObjectMapper();
-			Object[][] actors = mapper.readValue(personsResponse.substring(firstBracketPos, personsResponse.lastIndexOf(']') + 1), Object[][].class);
-			for (Object[] actor : actors) {
-				FilmographyEntry entry = new FilmographyEntry();
-				Optional<Person> person = personRepository.findByFilmwebId(String.valueOf(actor[0]));
-				if (person.isPresent()) {
-					entry.setPerson(person.get());
-				} else {
-					Person p = new Person();
-					p.setFilmwebId(String.valueOf(actor[0]));
-					p.setName((String) actor[3]);
-					personRepository.save(p);
-					entry.setPerson(p);
+				ObjectMapper mapper = new ObjectMapper();
+				Object[][] actors = mapper.readValue(personsResponse.substring(firstBracketPos, personsResponse.lastIndexOf(']') + 1), Object[][].class);
+				for (Object[] actor : actors) {
+					FilmographyEntry entry = new FilmographyEntry();
+					Optional<Person> person = personRepository.findByFilmwebId(String.valueOf(actor[0]));
+					if (person.isPresent()) {
+						entry.setPerson(person.get());
+					} else {
+						Person p = new Person();
+						p.setFilmwebId(String.valueOf(actor[0]));
+						p.setName((String) actor[3]);
+						personRepository.save(p);
+						entry.setPerson(p);
+					}
+					entry.setName((String) actor[1]);
+					entry.setAttributes((String) actor[2]);
+					entry.setRole(role.toString());
+					filmographyEntries.add(entry);
 				}
-				entry.setName((String) actor[1]);
-				entry.setAttributes((String) actor[2]);
-				entry.setRole(role.toString());
-				filmographyEntries.add(entry);
+			} catch (IOException e) {
+				throw new FilmwebException(e);
 			}
 		}
 		return filmographyEntries;
@@ -334,10 +333,6 @@ public class FilmwebServiceImpl implements FilmwebService {
 		url += "&version=" + VERSION;
 		url += "&appId=android";
 		return url;
-	}
-
-	public static void main(String[] args) {
-		System.out.println(new FilmwebServiceImpl(null).createFilmwebAPIUrl(FilmwebServiceImpl.FILM_INFO_METHOD, "87721"));
 	}
 
 }
