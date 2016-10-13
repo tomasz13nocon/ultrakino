@@ -3,6 +3,9 @@
 @import "film"
 @import "films"
 @import "adminPanel"
+@import "userDetails"
+@import "shows"
+@import "addFilm"
 
 
 body
@@ -100,7 +103,8 @@ $navbar-height: 64px
 	width: 32px
 
 .account-dropdown
-	background: #333
+	background: #282828
+	border-bottom-left-radius: 4px
 	position: absolute
 	top: $navbar-height
 	right: 0
@@ -137,7 +141,7 @@ $navbar-height: 64px
 	top: 50%	
 	left: 50%
 	transform: translate(-50%, -50%)
-	background: #333
+	background: #282828
 	width: 300px
 	text-align: center
 	box-shadow: 0 0 10px 2px black
@@ -237,8 +241,13 @@ $search-resutls-height: 200px
 .search-result
 	display: inline-block
 	width: 20%
-	height: 185px
+	height: 183px
 	overflow: hidden
+	position: relative
+
+.search-result-link:hover
+	color: $primary-color
+	cursor: pointer
 
 .search-result-title
 	margin: 6px
@@ -247,11 +256,20 @@ $search-resutls-height: 200px
 	float: left
 	width: 120px
 	margin: 6px
-	border: 1px solid $primary-color
 
 .search-result-description
+	margin-top: 10px
 	font-size: 0.8em
 
+.search-result-description-wrapper:after
+	content: ""
+	background: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0) 15%)
+	position: absolute
+	width: 100%
+	margin-left: 130px
+	height: 100%
+	bottom: 0
+	pointer-events: none
 
 
 

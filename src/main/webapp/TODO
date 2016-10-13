@@ -5,7 +5,15 @@ nowa klasa:
 Event
 User: List<Event>
 Film: List<Trailer>
-filters from URL
 
 Query ascending results on default
 change title after navigating from film page
+CHECK ON CASCADE TYPES
+
+AFTER IMPLEMENTING REGISTRATION:
+test rating system
+
+AFTER START:
+comments pagination
+url based filters
+

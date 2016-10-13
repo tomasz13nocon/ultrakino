@@ -76,11 +76,6 @@ angular.module("app")
 			controller: "HomeController",
 			controllerAs: "homeCtrl",
 		})
-		.when("/test", {
-			templateUrl: templateDir + "/test.html",
-			controller: "FilmController",
-			controllerAs: "filmCtrl",
-		})
 		.when("/filmy/:id/:title*", {
 			templateUrl: templateDir + "/film.html",
 			controller: "FilmController",
@@ -94,16 +89,12 @@ angular.module("app")
 			reloadOnSearch: false,
 		})
 		.when("/seriale", {
-			templateUrl: templateDir + "/404.html",
-			activeTab: "series",
+			templateUrl: templateDir + "/shows.html",
+			activeTab: "shows",
 		})
 		.when("/dodaj-film", {
-			templateUrl: templateDir + "/404.html",
+			templateUrl: templateDir + "/add-film.html",
 			activeTab: "addFilm",
-		})
-		.when("/test", {
-			templateUrl: templateDir + "/404.html",
-			activeTab: "test",
 		})
 		.when("/panel-admina", {
 			templateUrl: templateDir + "/admin-panel.html",
@@ -117,7 +108,6 @@ angular.module("app")
 			controllerAs: "userDetailsCtrl",
 		})
 		
-
 		.otherwise({
 			templateUrl: templateDir + "/404.html",
 		});

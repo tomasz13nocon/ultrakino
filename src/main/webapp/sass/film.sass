@@ -34,16 +34,54 @@ $film-page-width: 1060px
 .player
 	width: $film-page-width
 	height: 595px
-	margin: 32px auto
-
+	margin-top: 32px
+	margin-bottom: 16px
 
 
 .rate-wrapper
 	float: right
+	margin: auto 16px
+	margin-top: 8px
+
+.rate-label
+	margin-right: 8px
+
+.stars-wrapper:hover .rate-star
+	color: $primary-color
+
+.rate-star
+	cursor: pointer
+	margin-right: 3px
+
+.rate-star-disabled
+	margin-right: 3px
+
+.rate-tooltip-span:before
+	transform: translate(-8px, -24px)
+	transition: opacity 0s
+
+.zero-star-span
+	width: 10px
+	height: 19px
+	position: absolute
+	cursor: pointer
 
 .rating
 	float: right
 
+.rating-rating
+	text-align: center
+
+.rating-actual-rating
+	font-size: 1.4em
+
+.rating-times-rated
+	font-size: 0.7em
+	text-align: center
+
+
+.comment-section
+	margin-top: 16px
 
 .comment-section-title
 	font-size: 1.4em
@@ -62,6 +100,8 @@ $film-page-width: 1060px
 .comment-input
 	margin-top: 20px
 	display: block
+	&.ng-invalid.ng-touched
+		background-color: #fde
 
 .comment-submit-wrapper
 	margin: 10px 0
