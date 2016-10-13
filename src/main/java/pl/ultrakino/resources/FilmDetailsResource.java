@@ -2,6 +2,7 @@ package pl.ultrakino.resources;
 
 import lombok.Getter;
 import lombok.Setter;
+import pl.ultrakino.model.Category;
 import pl.ultrakino.model.Film;
 
 import java.time.LocalDate;
@@ -49,7 +50,7 @@ public class FilmDetailsResource extends ContentResource {
 //	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Integer views;
 
-	private Set<Integer> categories = new HashSet<>();
+	private Set<Category> categories = new HashSet<>();
 
 	private List<CommentResource> comments = new ArrayList<>();
 

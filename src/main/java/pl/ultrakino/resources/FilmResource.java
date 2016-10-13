@@ -2,6 +2,7 @@ package pl.ultrakino.resources;
 
 import lombok.Getter;
 import lombok.Setter;
+import pl.ultrakino.model.Category;
 import pl.ultrakino.model.Film;
 import pl.ultrakino.model.Player;
 
@@ -27,6 +28,6 @@ public class FilmResource extends ContentResource {
 	private LocalDate worldPremiere;
 	private LocalDate localPremiere;
 	private Set<Player.LanguageVersion> languageVersions = new HashSet<>();
-	private Set<Integer> categories = new HashSet<>();
+	private Set<Category> categories = new HashSet<>();
 
 }

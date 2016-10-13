@@ -6,7 +6,6 @@ Event
 User: List<Event>
 Film: List<Trailer>
 
-FilmwebServiceImpl: Setting production countries and categoires in both series and film methods: insert existing from DB if exists.
 Query ascending results on default
 change title after navigating from film page
 CHECK ON CASCADE TYPES

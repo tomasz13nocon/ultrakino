@@ -3,6 +3,7 @@ package pl.ultrakino.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ import pl.ultrakino.service.CategoryService;
 import pl.ultrakino.service.CountryService;
 import pl.ultrakino.service.FilmwebService;
 
+import javax.naming.OperationNotSupportedException;
 import java.io.*;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -130,7 +132,21 @@ public class FilmwebServiceImpl implements FilmwebService {
 		}
 	}
 
-	public
+	public List<String> searchForFilm(String title) {
+		throw new UnsupportedOperationException();
+	}
+
+	public List<String> searchForFilm(String title, int year) {
+		throw new UnsupportedOperationException();
+	}
+
+	public List<String> searchForSeries(String title) {
+		throw new UnsupportedOperationException();
+	}
+
+	public List<String> searchForSeries(String title, int year) {
+		return null;
+	}
 
 	@SuppressWarnings("Duplicates")
 	@Override
