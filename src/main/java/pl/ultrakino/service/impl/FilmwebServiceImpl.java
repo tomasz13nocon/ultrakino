@@ -181,6 +181,28 @@ public class FilmwebServiceImpl implements FilmwebService {
 		Object[] seriesInfo = fetchContentInfo(filmwebId);
 		Series series = new Series();
 		series.setFilmwebId(filmwebId);
+		/*
+		 * 0 - title
+		 * 1 - originalTitle
+		 * 2 - avgRate
+		 * 3 - votesCount
+		 * 4 - genres
+		 * 5 - year
+		 * 6 - duration
+		 * 7 - commentsCount
+		 * 8 - forumUrl
+		 * 9 - hasReview
+		 * 10 - hasDescription
+		 * 11 - imagePath
+		 * 12 - video
+		 * 13 - premiereWorld
+		 * 14 - premiereCountry
+		 * 15 - filmType
+		 * 16 - seasonsCount
+		 * 17 - episodesCount
+		 * 18 - countriesString
+		 * 19 - description
+		 */
 
 		if ((Integer) seriesInfo[15] != 1)
 			throw new FilmwebException("Not a series.");
@@ -233,6 +255,12 @@ public class FilmwebServiceImpl implements FilmwebService {
 
 		if (seriesInfo[18] != null)
 			series.setProductionCountries(Arrays.stream(((String) seriesInfo[18]).split(", ")).map(countryService::getCountry).collect(Collectors.toSet()));
+
+		if (seriesInfo[16] != null)
+			series.setSeasonCount((Integer) seriesInfo[16]);
+
+		if (seriesInfo[17] != null)
+			series.setEpisodeCount((Integer) seriesInfo[17]);
 
 		return series;
 	}

@@ -55,9 +55,6 @@ public class Series extends Content {
 
 	//////////////////////////////////
 
-	@Column(name = "number_of_seasons")
-	private Integer numberOfSeasons;
-
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "series")
 	private List<Episode> episodes = new ArrayList<>();
 

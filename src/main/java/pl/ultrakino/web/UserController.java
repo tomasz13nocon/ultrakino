@@ -5,13 +5,12 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.*;
 import pl.ultrakino.Constants;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.User;
+import pl.ultrakino.resources.UserResource;
 import pl.ultrakino.resources.assemblers.UserDetailsResourceAsm;
 import pl.ultrakino.resources.assemblers.UserResourceAsm;
 import pl.ultrakino.service.UserService;
@@ -55,6 +54,19 @@ public class UserController {
 			return ResponseEntity.ok(userDetailsResourceAsm.toResource(user));
 		} catch (NoRecordWithSuchIdException e) {
 			return ResponseEntity.notFound().build();
+		}
+	}
+
+	@PostMapping("/users")
+	public ResponseEntity createUser(@RequestBody MultiValueMap<String, String> body) {
+		try {
+			Optional<UserResource> user = userService.create(
+					body.get("username").get(0),
+					body.get("password").get(0),
+					body.get("email").get(0));
+			return ResponseEntity.ok(user);
+		} catch (NullPointerException e) {
+			return ResponseEntity.badRequest().build();
 		}
 	}
 

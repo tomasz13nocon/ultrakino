@@ -20,6 +20,7 @@ import javax.persistence.criteria.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Repository
@@ -36,9 +37,9 @@ public class JpaFilmRepository implements FilmRepository {
 	@Override
 	public Film findById(int id) throws NoRecordWithSuchIdException {
 		List<Film> filmResults = em.createQuery("FROM Film f " +
-						"LEFT JOIN FETCH f.players p " +
+						"LEFT JOIN FETCH f.players " +
 						"LEFT JOIN FETCH f.ratings " +
-						"LEFT JOIN FETCH f.comments c " +
+						"LEFT JOIN FETCH f.comments " +
 						"LEFT JOIN FETCH f.castAndCrew cac " +
 						"LEFT JOIN FETCH cac.person " +
 						"WHERE f.id=:id ",
@@ -201,6 +202,27 @@ public class JpaFilmRepository implements FilmRepository {
 	public Film save(Film film) {
 		em.unwrap(Session.class).saveOrUpdate(film);
 		return film;
+	}
+
+	@Override
+	public Optional<Film> findByTitleAndYear(String title, int year) {
+		List<Film> films = em.createQuery("FROM Film WHERE title=:title AND year=:year", Film.class)
+				.setParameter("title", title)
+				.setParameter("year", year)
+				.getResultList();
+		if (films.isEmpty())
+			return Optional.empty();
+		return Optional.of(films.get(0));
+	}
+
+	@Override
+	public Optional<Film> findByFilmwebId(String filmwebId) {
+		List<Film> films = em.createQuery("FROM Film WHERE filmwebId=:filmwebId", Film.class)
+				.setParameter("filmwebId", filmwebId)
+				.getResultList();
+		if (films.isEmpty())
+			return Optional.empty();
+		return Optional.of(films.get(0));
 	}
 
 }

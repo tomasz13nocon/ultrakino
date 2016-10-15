@@ -57,6 +57,9 @@ public class Player {
 	@Column(name = "lost_src")
 	private boolean lostSrc;
 
+	@Column(name = "full_link")
+	private boolean fullLink;
+
 
 	@PrePersist
 	public void prePersist() {

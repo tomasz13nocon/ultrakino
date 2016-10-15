@@ -38,6 +38,10 @@ public class Episode extends Content {
 
 	private Integer views;
 
+	private Integer season;
+
+	private Integer episodeNumber;
+
 	@ManyToOne
 	@JoinColumn(name = "series_content_id")
 	private Series series;

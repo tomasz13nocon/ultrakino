@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.User;
 import pl.ultrakino.repository.UserRepository;
+import pl.ultrakino.resources.UserResource;
 import pl.ultrakino.service.UserService;
 
 import java.util.Optional;
@@ -57,5 +58,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User findById(int id) throws NoRecordWithSuchIdException {
 		return userRepository.findById(id);
+	}
+
+	@Override
+	public Optional<UserResource> create(String username, String password, String email) {
+		if (findByUsername(username).isPresent())
+			return Optional.empty();
+		return null;
 	}
 }

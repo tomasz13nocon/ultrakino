@@ -72,29 +72,37 @@ public class AlltubeServiceImpl implements AlltubeService {
 				(Pattern.quote("url: 'http://alltube.tv/photos/") + "\\d+" + Pattern.quote("',"))
 				.matcher(body);
 
-		Set<Player> players = new HashSet<>();
+		// players
 		Elements trs = doc.select("#links-container tr");
 		if (trs.isEmpty())
 			return Optional.empty();
 
+		String filmwebId;
 		if (m.find()) {
 			String match = m.group();
-			String filmwebId = match.substring(match.lastIndexOf('/') + 1, match.lastIndexOf('\''));
-			System.out.println("Filmweb ID: " + filmwebId);
+			filmwebId = match.substring(match.lastIndexOf('/') + 1, match.lastIndexOf('\''));
+		}
+		else
+			throw new AlltubeException("Unexpected website format.");
+
+		Optional<Film> existingFilm = filmRepository.findByFilmwebId(filmwebId);
+		if (!existingFilm.isPresent()) {
 			if (filmwebId.length() < 10) { // Else it's not a real filmweb ID
 				try {
 					film = filmwebService.getFullFilmInfo(filmwebId);
 				} catch (FilmwebException e) {
 					throw new AlltubeException(e);
 				}
-			}
-			else {
+			} else {
 				return Optional.empty();
 			}
 		}
-		else
-			throw new AlltubeException("Unexcpected website format.");
+		else {
+			film = existingFilm.get();
+		}
 
+
+		Set<Player> players = new HashSet<>();
 		for (Element tr : trs) { // players
 			Player player = new Player();
 			String link = new String(Base64.getDecoder().decode(tr.select("a.watch").attr("data-iframe")));
@@ -124,7 +132,15 @@ public class AlltubeServiceImpl implements AlltubeService {
 			players.add(player);
 		}
 
-		film.setPlayers(players);
+		for (Player player : film.getPlayers()) {
+			Iterator<Player> it = players.iterator();
+			while (it.hasNext()) {
+				Player newPlayer = it.next();
+				if (player.getHosting().equals(newPlayer.getHosting()) && player.getSrc().equals(newPlayer.getSrc()))
+					it.remove();
+			}
+		}
+		film.getPlayers().addAll(players);
 
 		return Optional.of(film);
 	}

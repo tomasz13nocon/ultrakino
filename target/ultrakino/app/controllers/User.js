@@ -44,6 +44,10 @@ angular.module("app")
 		});
 	};
 
+	ctrl.createAccount = function(credentials) {
+
+	}
+
 	ctrl.accountDropdownVisible = false;
 	ctrl.toggleAccountDropdown = function() {
 		ctrl.accountDropdownVisible = !ctrl.accountDropdownVisible;

@@ -5,6 +5,7 @@ import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Film;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface FilmRepository {
 
@@ -19,4 +20,8 @@ public interface FilmRepository {
 	Page<Film> find(FilmQuery query);
 
 	Film save(Film film);
+
+	Optional<Film> findByTitleAndYear(String title, int year);
+
+	Optional<Film> findByFilmwebId(String filmwebId);
 }
