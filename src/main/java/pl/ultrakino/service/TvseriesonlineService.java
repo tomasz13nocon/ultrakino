@@ -11,6 +11,6 @@ import java.util.List;
 
 public interface TvseriesonlineService {
 
-	List<Series> getAllShows() throws IOException, FilmwebException, TvseriesonlineException;
+	List<Series> fetchAndSaveAllShows() throws IOException, FilmwebException, TvseriesonlineException;
 
 }

@@ -17,6 +17,7 @@ import pl.ultrakino.model.Player;
 import pl.ultrakino.model.Series;
 import pl.ultrakino.repository.EpisodeRepository;
 import pl.ultrakino.repository.FilmRepository;
+import pl.ultrakino.repository.PlayerRepository;
 import pl.ultrakino.repository.SeriesRepository;
 import pl.ultrakino.service.FilmwebService;
 import pl.ultrakino.service.TvseriesonlineService;
@@ -34,6 +35,7 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 	private FilmwebService filmwebService;
 	private SeriesRepository seriesRepository;
 	private EpisodeRepository episodeRepository;
+	private PlayerRepository playerRepository;
 	private int skipped, created, updated;
 	private Map<String, Player.LanguageVersion> langs;
 
@@ -50,10 +52,11 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 	}
 
 	@Autowired
-	public TvseriesonlineServiceImpl(FilmwebService filmwebService, SeriesRepository seriesRepository, EpisodeRepository episodeRepository) {
+	public TvseriesonlineServiceImpl(FilmwebService filmwebService, SeriesRepository seriesRepository, EpisodeRepository episodeRepository, PlayerRepository playerRepository) {
 		this.filmwebService = filmwebService;
 		this.seriesRepository = seriesRepository;
 		this.episodeRepository = episodeRepository;
+		this.playerRepository = playerRepository;
 		langs = new HashMap<>();
 		langs.put("pl-subtitles", Player.LanguageVersion.POLISH_SUBS);
 		langs.put("english-version", Player.LanguageVersion.ORIGINAL);
@@ -63,7 +66,7 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 
 
 	@Override
-	public List<Series> getAllShows() throws IOException, FilmwebException, TvseriesonlineException {
+	public List<Series> fetchAndSaveAllShows() throws IOException, FilmwebException, TvseriesonlineException {
 		skipped = 0; created = 0; updated = 0;
 		Document mainDoc = Jsoup.connect("http://www.tvseriesonline.pl/").userAgent(Constants.USER_AGENT).get();
 		List<String> showLinks = mainDoc.select("ul#categories li a").stream().map(e -> e.attr("href")).collect(Collectors.toList());
@@ -108,6 +111,7 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 					series = filmwebService.getFullSeriesInfo(ids.get(0));
 				else
 					return Optional.empty();
+				seriesRepository.save(series);
 			} catch (Exception e) {
 				throw new FilmwebException(e);
 			}
@@ -147,9 +151,21 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 				Elements links = linkGroup.select("a");
 				for (Element linkEl : links) {
 					String link = linkEl.attr("href");
-					String hosting;
-					if (link.contains("openload.co/"))
-
+					if (playerRepository.findBySrcWithFullLink(link).isPresent())
+						continue;
+					Pattern hostingPattern = Pattern.compile("http[s]?://(?:www\\.)?(.*?)\\.");
+					Matcher matcher = hostingPattern.matcher(link);
+					if (!matcher.find())
+						continue;
+					String hosting = matcher.group(0);
+					System.out.println(hosting);
+					Player player = new Player();
+					player.setHosting(hosting);
+					player.setSrc(link);
+					player.setFullLink(true);
+					player.setForeignSrc(true);
+					player.setLanguageVersion(version);
+					episode.getPlayers().add(player);
 				}
 			}
 

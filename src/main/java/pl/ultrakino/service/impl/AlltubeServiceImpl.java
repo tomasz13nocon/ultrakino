@@ -48,7 +48,7 @@ public class AlltubeServiceImpl implements AlltubeService {
 	}
 
 	@Override
-	public List<Film> getFilms(int pageNumber) throws IOException, AlltubeException {
+	public List<Film> fetchAndSaveFilms(int pageNumber) throws IOException, AlltubeException {
 		if (pageNumber < 1) throw new IllegalArgumentException("pageNumber has to be a positive integer.");
 		Document filmsDoc = Jsoup.connect("http://alltube.tv/filmy-online/strona[" + pageNumber + "]+").userAgent(Constants.USER_AGENT).get();
 		// Iterate through all the films in this page
@@ -90,6 +90,7 @@ public class AlltubeServiceImpl implements AlltubeService {
 			if (filmwebId.length() < 10) { // Else it's not a real filmweb ID
 				try {
 					film = filmwebService.getFullFilmInfo(filmwebId);
+					filmRepository.save(film);
 				} catch (FilmwebException e) {
 					throw new AlltubeException(e);
 				}

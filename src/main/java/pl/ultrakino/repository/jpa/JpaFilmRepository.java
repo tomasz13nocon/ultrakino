@@ -30,8 +30,9 @@ public class JpaFilmRepository implements FilmRepository {
 	private EntityManager em;
 
 	@Override
-	public void create(Film film) {
+	public Film save(Film film) {
 		em.persist(film);
+		return film;
 	}
 
 	@Override
@@ -196,12 +197,6 @@ public class JpaFilmRepository implements FilmRepository {
 		TypedQuery<Film> mainQ = em.createQuery(mainCq);
 
 		return new Page<>(mainQ.getResultList(), pageNumber, pageCount);
-	}
-
-	@Override
-	public Film save(Film film) {
-		em.unwrap(Session.class).saveOrUpdate(film);
-		return film;
 	}
 
 	@Override

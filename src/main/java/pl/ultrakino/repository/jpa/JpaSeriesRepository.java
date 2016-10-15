@@ -26,4 +26,10 @@ public class JpaSeriesRepository implements SeriesRepository {
 			return Optional.empty();
 		return Optional.of(series.get(0));
 	}
+
+	@Override
+	public Series save(Series series) {
+		em.persist(series);
+		return series;
+	}
 }

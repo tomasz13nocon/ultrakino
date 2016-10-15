@@ -1,6 +1,5 @@
 package pl.ultrakino.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
@@ -81,13 +80,8 @@ public class FilmServiceImpl implements FilmService {
 				players.get(0).getAddedBy().getUid()
 		));
 
-		filmRepository.create(film);
+		filmRepository.save(film);
 		return film;
-	}
-
-	@Override
-	public Film save(Film film) {
-		return filmRepository.save(film);
 	}
 
 	// TODO: Change name to be more descriptive

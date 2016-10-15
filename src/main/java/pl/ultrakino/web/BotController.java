@@ -14,7 +14,6 @@ import pl.ultrakino.Constants;
 import pl.ultrakino.exceptions.AlltubeException;
 import pl.ultrakino.exceptions.FilmwebException;
 import pl.ultrakino.exceptions.TvseriesonlineException;
-import pl.ultrakino.exceptions.WebScraperException;
 import pl.ultrakino.model.Film;
 import pl.ultrakino.service.AlltubeService;
 import pl.ultrakino.service.FilmService;
@@ -46,8 +45,8 @@ public class BotController {
 			if (node == null) throw new NullPointerException();
 			int page = node.asInt();
 			if (page == 0) throw new NumberFormatException();
-			List<Film> films = alltubeService.getFilms(page);
-			return ResponseEntity.ok(films.stream().map(filmService::save).map(f -> {
+			List<Film> films = alltubeService.fetchAndSaveFilms(page);
+			return ResponseEntity.ok(films.stream().map(f -> {
 				ObjectNode o = JsonNodeFactory.instance.objectNode()
 						.put("title", f.getTitle())
 						.put("filmwebId", f.getFilmwebId());
@@ -72,7 +71,7 @@ public class BotController {
 	@PostMapping("/series")
 	public synchronized ResponseEntity uploadSeries() {
 		try {
-			tvseriesonlineService.getAllShows();
+			tvseriesonlineService.fetchAndSaveAllShows();
 			return ResponseEntity.ok().build();
 		} catch (FilmwebException e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JsonNodeFactory.instance.objectNode().put("Filmweb error", e.getMessage()));

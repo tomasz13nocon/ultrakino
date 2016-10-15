@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface AlltubeService {
 
-	List<Film> getFilms(int pageNumber) throws IOException, AlltubeException;
+	List<Film> fetchAndSaveFilms(int pageNumber) throws IOException, AlltubeException;
 
 }
