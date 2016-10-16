@@ -6,6 +6,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.ultrakino.exceptions.AlltubeException;
 import pl.ultrakino.exceptions.FilmwebException;
 import pl.ultrakino.model.Film;
@@ -23,6 +24,7 @@ import java.util.regex.Pattern;
 import static pl.ultrakino.model.Player.LanguageVersion.*;
 
 @Service
+@Transactional
 public class AlltubeServiceImpl implements AlltubeService {
 
 	private FilmwebService filmwebService;
@@ -85,17 +87,17 @@ public class AlltubeServiceImpl implements AlltubeService {
 		else
 			throw new AlltubeException("Unexpected website format.");
 
-		Optional<Film> existingFilm = filmRepository.findByFilmwebId(filmwebId);
+		if (filmwebId.length() > 10) { // Else it's not a real filmweb ID
+			return Optional.empty();
+
+		Optional<Film> existingFilm = filmRepository.findByAlltubeFilmwebId(filmwebId);
 		if (!existingFilm.isPresent()) {
-			if (filmwebId.length() < 10) { // Else it's not a real filmweb ID
-				try {
-					film = filmwebService.getFullFilmInfo(filmwebId);
-					filmRepository.save(film);
-				} catch (FilmwebException e) {
-					throw new AlltubeException(e);
-				}
-			} else {
-				return Optional.empty();
+			try {
+				film = filmwebService.getFullFilmInfo(filmwebId);
+				film.setAlltubeFilmwebId(filmwebId);
+				filmRepository.save(film);
+			} catch (FilmwebException e) {
+				throw new AlltubeException(e);
 			}
 		}
 		else {
@@ -110,7 +112,6 @@ public class AlltubeServiceImpl implements AlltubeService {
 
 			String hosting, src;
 
-			System.out.println("link: " + link);
 			int hostingIndex = link.indexOf("hosting=");
 			int idIndex = link.indexOf("&id=");
 			int vIndex = link.indexOf("?v=");
@@ -121,7 +122,6 @@ public class AlltubeServiceImpl implements AlltubeService {
 			else if (vIndex != -1) {
 				hosting = "nowvideo";
 				src = link.substring(vIndex + 3);
-				System.out.println("src: " + src);
 			}
 			else throw new AlltubeException("Unsupported link format: " + link);
 

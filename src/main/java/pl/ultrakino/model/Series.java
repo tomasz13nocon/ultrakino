@@ -67,4 +67,7 @@ public class Series extends Content {
 	@Column(name = "running_time")
 	private Integer runningTime;
 
+	@Column(name = "tvseriesonline_title")
+	private String tvseriesonlineTitle;
+
 }

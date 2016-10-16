@@ -220,4 +220,14 @@ public class JpaFilmRepository implements FilmRepository {
 		return Optional.of(films.get(0));
 	}
 
+	@Override
+	public Optional<Film> findByAlltubeFilmwebId(String alltubeFilmwebId) {
+		List<Film> films = em.createQuery("FROM Film WHERE alltubeFilmwebId=:alltubeFilmwebId", Film.class)
+				.setParameter("alltubeFilmwebId", alltubeFilmwebId)
+				.getResultList();
+		if (films.isEmpty())
+			return Optional.empty();
+		return Optional.of(films.get(0));
+	}
+
 }

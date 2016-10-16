@@ -28,6 +28,17 @@ public class JpaSeriesRepository implements SeriesRepository {
 	}
 
 	@Override
+	public Optional<Series> findByTvseriesonlineTitleAndYear(String tvseriesonlineTitle, int year) {
+		List<Series> series = em.createQuery("FROM Series WHERE tvseriesonlineTitle=:tvseriesonlineTitle AND year=:year", Series.class)
+				.setParameter("tvseriesonlineTitle", tvseriesonlineTitle)
+				.setParameter("year", year)
+				.getResultList();
+		if (series.isEmpty())
+			return Optional.empty();
+		return Optional.of(series.get(0));
+	}
+
+	@Override
 	public Series save(Series series) {
 		em.persist(series);
 		return series;

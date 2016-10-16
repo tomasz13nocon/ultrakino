@@ -165,7 +165,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 			else if (resultList.size() == 1) // No matches
 				return ret;
 
-			Elements results = resultList.get(1).select("li");
+			Elements results = resultList.get(1).children();
 			ret.addAll(results.stream()
 					.map(result -> result.attr("id").substring(5))
 					.collect(Collectors.toList()));

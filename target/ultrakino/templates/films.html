@@ -60,7 +60,8 @@
 		</div>
 	</div>
 
-	<div id="results-wrapper">
+	<div class="spinner-wrapper-wrapper results-wrapper"><div class="spinner-wrapper" ng-hide="films"><div class="spinner-medium"></div></div></div>
+	<div class="results-wrapper" ng-show="films">
 		<div class="pagination-wrapper">
 			<div class="pagination-first" ng-click="filmsCtrl.setPage(0)">◀◀</div>
 			<div class="pagination-prev" ng-click="filmsCtrl.setPage(activePage - 1)">◀</div>
@@ -68,8 +69,7 @@
 			<div class="pagination-next" ng-click="filmsCtrl.setPage(activePage + 1)">▶</div>
 			<div class="pagination-last" ng-click="filmsCtrl.setPage(lastPage)">▶▶</div>
 		</div>
-		<div class="spinner-wrapper spinner-tighter" ng-hide="films"><div class="spinner-medium"></div></div>
-		<div class="filter-result" ng-repeat="film in films" ng-show="films">
+		<div class="filter-result" ng-repeat="film in films">
 			<a ng-href="#filmy/{{film.uid}}/{{film.title}}-{{film.year}}">
 				<img class="filter-result-cover" ng-src="{{film.coverFilename ? images + film.coverFilename : noImage}}" alt="{{film.title}}">
 				<div class="filter-result-details">

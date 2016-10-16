@@ -10,13 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.ultrakino.Constants;
 import pl.ultrakino.exceptions.FilmwebException;
 import pl.ultrakino.exceptions.TvseriesonlineException;
-import pl.ultrakino.exceptions.WebScraperException;
 import pl.ultrakino.model.Episode;
-import pl.ultrakino.model.Film;
 import pl.ultrakino.model.Player;
 import pl.ultrakino.model.Series;
 import pl.ultrakino.repository.EpisodeRepository;
-import pl.ultrakino.repository.FilmRepository;
 import pl.ultrakino.repository.PlayerRepository;
 import pl.ultrakino.repository.SeriesRepository;
 import pl.ultrakino.service.FilmwebService;
@@ -73,7 +70,6 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 		List<Series> result = new ArrayList<>();
 		int i = 0;//TODO: remove
 		for (String showLink : showLinks) {
-			if (i++ < 2) continue;//TODO: remove
 			Optional<Series> op = getShow(showLink);
 			if (!op.isPresent())
 				skipped++;
@@ -81,7 +77,7 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 				result.add(op.get());
 				created++;
 			}
-			break;//TODO: remove
+			if (i++ > 5) break;
 		}
 
 		return result;
@@ -89,7 +85,7 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 
 	private Optional<Series> getShow(String showLink) throws TvseriesonlineException, FilmwebException, IOException {
 		Document showDoc = Jsoup.connect(showLink).userAgent(Constants.USER_AGENT).get();
-		Pattern yearPattern = Pattern.compile("<h2><span.*?>(.+?)</span>\\s*\\(<a href=\"http://www\\.tvseriesonline\\.pl\\?page_id=5573&rok=\\d{4}\">(\\d{4})</a>\\)");
+		Pattern yearPattern = Pattern.compile("<h2><span.*?>(.+?)</span>\\s*\\(<a href=\"http://www\\.tvseriesonline\\.pl\\?page_id=5573(?:&|&amp;)rok=\\d{4}\">(\\d{4})</a>\\)");
 		Elements articles = showDoc.select("article");
 		if (articles.size() != 1)
 			throw new TvseriesonlineException("Web scraper: Unexpected website format.");
@@ -100,7 +96,7 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 		int year = Integer.parseInt(m.group(2));
 
 		Series series;
-		Optional<Series> existingSeries = seriesRepository.findByTitleAndYear(title, year);
+		Optional<Series> existingSeries = seriesRepository.findByTvseriesonlineTitleAndYear(title, year);
 		if (existingSeries.isPresent()) {
 			series = existingSeries.get();
 		}
@@ -111,6 +107,7 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 					series = filmwebService.getFullSeriesInfo(ids.get(0));
 				else
 					return Optional.empty();
+				series.setTvseriesonlineTitle(title);
 				seriesRepository.save(series);
 			} catch (Exception e) {
 				throw new FilmwebException(e);
@@ -118,14 +115,14 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 		}
 
 		Elements episodes = showDoc.select("div.post h4.title");
-		Pattern p = Pattern.compile("^(\\d{1,2})(×|&#215;)(\\d{1,3}).*");
+		Pattern p = Pattern.compile("(\\d{1,2})(×|&#215;)(\\d{1,3}).*");
 		for (Element episodeEl : episodes) {
 			m = p.matcher(episodeEl.select("a").attr("title"));
-			if (!m.matches()) // These are probably whole seasons hosted on weird websites, so we skip.
+			if (!m.find()) // These are probably whole seasons hosted on weird websites, so we skip.
 				continue;
 
-			int season = Integer.parseInt(m.group(0));
-			int episodeNumber = Integer.parseInt(m.group(2));
+			int season = Integer.parseInt(m.group(1));
+			int episodeNumber = Integer.parseInt(m.group(3));
 			Episode episode;
 			Optional<Episode> existingEpisode = episodeRepository.findBySeasonAndEpisodeNumber(season, episodeNumber);
 			if (existingEpisode.isPresent()) {
@@ -139,7 +136,6 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 			}
 
 			String epHref = episodeEl.select("a").attr("href");
-			System.out.println(epHref);
 			Document episodeDoc = Jsoup.connect(epHref).userAgent(Constants.USER_AGENT).get();
 			Elements linkGroups = episodeDoc.select("div.video-links ul li");
 			for (Element linkGroup : linkGroups) {
@@ -157,8 +153,7 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 					Matcher matcher = hostingPattern.matcher(link);
 					if (!matcher.find())
 						continue;
-					String hosting = matcher.group(0);
-					System.out.println(hosting);
+					String hosting = matcher.group(1);
 					Player player = new Player();
 					player.setHosting(hosting);
 					player.setSrc(link);
@@ -168,8 +163,6 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 					episode.getPlayers().add(player);
 				}
 			}
-
-			break;//TODO: remove
 		}
 		return Optional.of(series);
 	}

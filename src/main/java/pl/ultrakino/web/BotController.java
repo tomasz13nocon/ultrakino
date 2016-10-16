@@ -73,12 +73,8 @@ public class BotController {
 		try {
 			tvseriesonlineService.fetchAndSaveAllShows();
 			return ResponseEntity.ok().build();
-		} catch (FilmwebException e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JsonNodeFactory.instance.objectNode().put("Filmweb error", e.getMessage()));
-		} catch (TvseriesonlineException e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JsonNodeFactory.instance.objectNode().put("Tvseriesonline error", e.getMessage()));
-		} catch (IOException e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JsonNodeFactory.instance.objectNode().put("IO error", e.getMessage()));
+		} catch (FilmwebException | TvseriesonlineException | IOException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JsonNodeFactory.instance.objectNode().put("error", e.getClass().getSimpleName() + ": " +e.getStackTrace()[0] + " - " + e.getMessage()));
 		}
 	}
 

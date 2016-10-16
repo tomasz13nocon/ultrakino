@@ -77,6 +77,8 @@ public class Film extends Content {
 	@JoinColumn(name = "content_id")
 	private Set<Comment> comments = new HashSet<>();
 
+	private String alltubeFilmwebId;
+
 
 	@PrePersist
 	public void prePersist() {

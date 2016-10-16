@@ -1,7 +1,8 @@
 <div class="page-content-thingy">
-	<div class="btn-2" ng-click="adminPanelCtrl.getAlltubeFilms()">Get Alltube films</div>
+	<div class="btn-2" ng-click="adminPanelCtrl.alltubeBot()">Alltube bot</div>
+	<div class="btn-2" ng-click="adminPanelCtrl.tvseriesonlineBot()">Tvseriesonline bot</div>
 
-	<div class="spinner-small" ng-show="loading"></div>
+	<div class="spinner-wrapper" ng-show="loading"><div class="spinner-small"></div></div>
 
 	<div class="admin-panel-films" ng-show="films">
 		Filmy:

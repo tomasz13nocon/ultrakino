@@ -2,9 +2,9 @@ angular.module("app")
 	.controller("AdminPanelController", ["$http", "$scope", "Film", function($http, $scope, Film) {
 		var ctrl = this;
 
-		ctrl.getAlltubeFilms = function() {
+		ctrl.alltubeBot = function() {
 			$scope.loading = true;
-			$http.post(api + "/alltube", { page: 1 }).then(function(resp) {
+			$http.post(api + "/bots/films", { page: 1 }).then(function(resp) {
 				$scope.films = resp.data;
 				$scope.error = null;
 				$scope.loading = false;
@@ -17,5 +17,20 @@ angular.module("app")
 				$scope.films = null;
 			});
 		};
+
+		ctrl.tvseriesonlineBot = function() {
+			$scope.loading = true;
+			$scope.error = false;
+			$http.post(api + "/bots/series", {}).then(function(resp) {
+				$scope.loading = false;
+				console.log("OK");
+			}, function(resp) {
+				$scope.error = {
+					status: resp.status,
+					msg: resp.data.error,
+				};
+				$scope.loading = false;
+			});
+		}
 
 	}]);
