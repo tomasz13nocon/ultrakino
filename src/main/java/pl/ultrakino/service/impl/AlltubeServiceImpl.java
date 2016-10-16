@@ -87,7 +87,7 @@ public class AlltubeServiceImpl implements AlltubeService {
 		else
 			throw new AlltubeException("Unexpected website format.");
 
-		if (filmwebId.length() > 10) { // Else it's not a real filmweb ID
+		if (filmwebId.length() > 10) // It's not a real filmweb ID
 			return Optional.empty();
 
 		Optional<Film> existingFilm = filmRepository.findByAlltubeFilmwebId(filmwebId);
