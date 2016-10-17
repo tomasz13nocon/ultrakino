@@ -71,7 +71,7 @@ public class AlltubeServiceImpl implements AlltubeService {
 
 		String body = doc.body().html();
 		Matcher m = Pattern.compile
-				(Pattern.quote("url: 'http://alltube.tv/photos/") + "\\d+" + Pattern.quote("',"))
+				(Pattern.quote("url: 'http://alltube.tv/photos/") + "\\d*" + Pattern.quote("',"))
 				.matcher(body);
 
 		// players
@@ -84,17 +84,20 @@ public class AlltubeServiceImpl implements AlltubeService {
 			String match = m.group();
 			filmwebId = match.substring(match.lastIndexOf('/') + 1, match.lastIndexOf('\''));
 		}
-		else
+		else {
+			System.err.println("Pattern `" + m.pattern().toString() + "` didn't match the string:\n" + body);
 			throw new AlltubeException("Unexpected website format.");
+		}
 
-		if (filmwebId.length() > 10) // It's not a real filmweb ID
+		if (filmwebId.length() > 10 || filmwebId.length() == 0) // It's not a real filmweb ID
 			return Optional.empty();
 
-		Optional<Film> existingFilm = filmRepository.findByAlltubeFilmwebId(filmwebId);
+		System.out.println(filmwebId);//TODO: remove
+
+		Optional<Film> existingFilm = filmRepository.findByFilmwebId(filmwebId);
 		if (!existingFilm.isPresent()) {
 			try {
 				film = filmwebService.getFullFilmInfo(filmwebId);
-				film.setAlltubeFilmwebId(filmwebId);
 				filmRepository.save(film);
 			} catch (FilmwebException e) {
 				throw new AlltubeException(e);
@@ -103,6 +106,8 @@ public class AlltubeServiceImpl implements AlltubeService {
 		else {
 			film = existingFilm.get();
 		}
+
+		System.out.println(film.getTitle());//TODO: remove
 
 
 		Set<Player> players = new HashSet<>();

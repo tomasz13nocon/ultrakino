@@ -91,7 +91,8 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 			throw new TvseriesonlineException("Web scraper: Unexpected website format.");
 		Matcher m = yearPattern.matcher(articles.get(0).html());
 		if (!m.find())
-			throw new TvseriesonlineException("Web scraper: Unexpected website format.");
+			return Optional.empty();
+//			throw new TvseriesonlineException("Web scraper: Unexpected website format.");
 		String title = m.group(1);
 		int year = Integer.parseInt(m.group(2));
 

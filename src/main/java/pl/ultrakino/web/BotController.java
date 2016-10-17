@@ -64,7 +64,7 @@ public class BotController {
 					.body(JsonNodeFactory.instance.objectNode().put("error", "Request body must contain an integer 'page' attribute."));
 		} catch (IOException | AlltubeException e) {
 			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JsonNodeFactory.instance.objectNode().put("error", "Something went hella wrong."));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JsonNodeFactory.instance.objectNode().put("error", e.getClass().getSimpleName() + ": " +e.getStackTrace()[0] + " - " + e.getMessage()));
 		}
 	}
 

@@ -19,6 +19,7 @@ public class PlayerResource extends ResourceSupport {
 	private LocalDateTime additionDate;
 	private UserDetailsResource addedBy;
 	private Content content;
+	private String hosting;
 	private boolean foreignSrc;
 	private boolean lostSrc;
 

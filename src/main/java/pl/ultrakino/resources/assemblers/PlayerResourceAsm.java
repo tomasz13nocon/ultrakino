@@ -24,6 +24,7 @@ public class PlayerResourceAsm extends ResourceAssemblerSupport<Player, PlayerRe
 		res.setForeignSrc(player.isForeignSrc());
 		res.setLostSrc(player.isLostSrc());
 		res.setLanguageVersion(player.getLanguageVersion());
+		res.setHosting(player.getHosting());
 		res.setQuality(player.getQuality());
 		res.setAddedBy(userDetailsResourceAsm.toResource(player.getAddedBy()));
 		return res;
