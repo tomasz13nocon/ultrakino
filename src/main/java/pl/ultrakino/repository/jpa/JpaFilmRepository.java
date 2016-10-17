@@ -133,8 +133,6 @@ public class JpaFilmRepository implements FilmRepository {
 			order = asc ? cb.asc(p) : cb.desc(p);
 			cq.orderBy(order);
 		}
-		// Else we might want to handle the case, when there is no orderBy but we still want to respect the asc parameter
-		// Not necessary right now
 		// ================================================================ //
 
 
