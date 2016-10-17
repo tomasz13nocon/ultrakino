@@ -225,7 +225,8 @@ public class FilmwebServiceImpl implements FilmwebService {
 				InputStream is = new URL(filmwebImg).openStream();
 				String filename = DigestUtils.md5Hex(series.getTitle() + series.getYear()) + ".jpg";
 				// TODO: Change image location on prod
-				OutputStream os = new FileOutputStream("/home/user/Projects/covers/" + filename);
+//				OutputStream os = new FileOutputStream("/home/user/Projects/covers/" + filename);
+				OutputStream os = new FileOutputStream("/opt/images/img/" + filename);
 				IOUtils.copy(is, os);
 				is.close();
 				os.close();

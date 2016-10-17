@@ -1,4 +1,4 @@
-api = "http://localhost:8080/api";
+api = "//ultrakino.com.pl/api";
 templateDir = "templates";
 defaultAvatarFilename = "images/avatar3.png";
 
@@ -63,7 +63,7 @@ angular.module("app")
 
 		$rootScope.authenticated = false;
 		$rootScope.isAdmin = false;
-		$rootScope.images = "//localhost:8000/";
+		$rootScope.images = "//ultrakino.com.pl/";
 		$rootScope.noImage = "images/no-image.png";
 
 	}]);
