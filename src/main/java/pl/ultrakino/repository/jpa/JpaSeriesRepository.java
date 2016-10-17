@@ -1,6 +1,7 @@
 package pl.ultrakino.repository.jpa;
 
 import org.springframework.stereotype.Repository;
+import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Film;
 import pl.ultrakino.model.Series;
 import pl.ultrakino.repository.SeriesRepository;
@@ -42,5 +43,21 @@ public class JpaSeriesRepository implements SeriesRepository {
 	public Series save(Series series) {
 		em.persist(series);
 		return series;
+	}
+
+	@Override
+	public Series findById(int seriesId) throws NoRecordWithSuchIdException {
+		List<Series> seriesList = em.createQuery("FROM Series s " +
+						"LEFT JOIN FETCH s.episodes " +
+//						"LEFT JOIN FETCH s.ratings " +
+						"LEFT JOIN FETCH s.castAndCrew cac " +
+						"LEFT JOIN FETCH cac.person " +
+						"WHERE s.id=:id ",
+				Series.class)
+				.setParameter("id", seriesId)
+				.getResultList();
+		if (seriesList.isEmpty())
+			throw new NoRecordWithSuchIdException();
+		return seriesList.get(0);
 	}
 }
