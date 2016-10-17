@@ -32,9 +32,15 @@ angular.module("app")
 		angular.element(document.querySelector(".rating-actual-rating")).css("color", ratingColor);
 	};
 
+	$scope.isPlayer = false; // TODO: remove
 	Film.get({ id: $routeParams["id"] }, function(film) {
+		console.log(film.players);
 		for (var i = 0; i < film.players.length; i++) {
-			film.players[i].src = "https://openload.co/embed/" + film.players[i].src;
+			if (film.players[i].hosting == "openload") {
+				film.players[i].src = "https://openload.co/embed/" + film.players[i].src;
+				$scope.firstValidPlayer = i;
+				$scope.isPlayer = true;
+			}
 		}
 		for (var i = 0; i < film.comments.length; i++) {
 			ctrl.processComment(film.comments[i]);

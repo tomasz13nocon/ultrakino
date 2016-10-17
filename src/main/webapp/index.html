@@ -23,7 +23,6 @@
 			<div class="nav-links" ng-controller="TabsController as tabsCtrl">
 				<a href="#filmy"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'films'}">FILMY</div></a>
 				<a href="#seriale"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'series'}">SERIALE</div></a>
-				<a href="#dodaj-film"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'addFilm'}">DODAJ FILM/SERIAL</div></a>
 				<a href="#panel-admina" ng-show="isAdmin"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'adminPanel'}">PANEL ADMINA</div></a>
 			</div>
 			<div ng-controller="UserController as userCtrl" ng-init="userCtrl.authenticate()">
@@ -41,6 +40,7 @@
 				<div class="account-dropdown" ng-show="userCtrl.accountDropdownVisible">
 					<ul>
 						<a ng-href="#user/{{userCtrl.User.uid}}"><li><i class="account-dropdown-icon fa fa-user"></i>MOJE KONTO</li></a>
+						<a ng-href="#dodaj-film"><li><i class="account-dropdown-icon fa fa-plus-square"></i>DODAJ FILM/SERIAL</li></a>
 						<li><i class="account-dropdown-icon fa fa-heart"></i>ULUBIONE</li>
 						<li class="link" ng-click="userCtrl.logout()"><i class="account-dropdown-icon fa fa-arrow-circle-left"></i>WYLOGUJ</li>
 					</ul>
@@ -155,7 +155,8 @@
 	<script type="text/javascript" src="app/controllers/AdminTools.js"></script>
 	<script type="text/javascript" src="app/controllers/User.js"></script>
 	<script type="text/javascript" src="app/controllers/UserDetails.js"></script>
-	<script type="text/javascript" src="app/controllers/Shows.js"></script>
+	<script type="text/javascript" src="app/controllers/Series.js"></script>
+	<script type="text/javascript" src="app/controllers/OneSeries.js"></script>
 
 </body>
 </html>

@@ -20,7 +20,8 @@
 
 	<div class="player-section">
 
-		<iframe class="player" ng-src="{{film.players[0].src | trusted}}" scrolling="no" frameborder="0" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+		<iframe ng-if="isPlayer" class="player" ng-src="{{film.players[firstValidPlayer].src | trusted}}" scrolling="no" frameborder="0" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+		<div class="admin-panel-error-box" ng-hide="isPlayer">Nie znaleziono filmu. Prawdopodobnie został usunięty z powodu naruszenia praw autorskich.</div>
 	</div>
 	<div class="below-player-section">
 		<!-- <div class="views"> TODO: VIEWS

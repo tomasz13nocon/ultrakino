@@ -674,7 +674,7 @@ html {
   border-bottom: 1px solid #555;
   border-left: 1px solid #555;
   transition: max-height 0.2s;
-  max-height: 150px;
+  max-height: 200px;
   overflow: hidden; }
   .account-dropdown li {
     margin: 16px; }
