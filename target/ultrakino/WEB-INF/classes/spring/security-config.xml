@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+		xmlns:beans="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="
+	   http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans.xsd
+	   http://www.springframework.org/schema/security
+	   http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<http>
+		<intercept-url pattern="/**/templates/admin-panel.html" access="hasRole('ADMIN')" />
+		<intercept-url pattern="/**/templates/admin-tools.html" access="hasRole('ADMIN')" />
+		<intercept-url pattern="/**" access="true" />
+		<http-basic entry-point-ref="myBasicAuthenticationEntryPoint" />
+		<remember-me user-service-ref="userService" key="superSecretKeyThatNobodyKnows" />
+		<logout logout-success-url="/" />
+		<csrf token-repository-ref="csrfTokenRepository" />
+	</http>
+
+	<beans:bean id="csrfTokenRepository" class="org.springframework.security.web.csrf.CookieCsrfTokenRepository">
+		<beans:property name="cookieHttpOnly" value="false" />
+	</beans:bean>
+
+	<beans:bean id="myBasicAuthenticationEntryPoint" class="pl.ultrakino.security.MyBasicAuthenticationEntryPoint">
+		<beans:property name="realmName" value="User realm" />
+	</beans:bean>
+
+	<beans:bean id="userService" class="pl.ultrakino.service.impl.UserServiceImpl" />
+	<beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+
+	<authentication-manager>
+		<authentication-provider user-service-ref="userService">
+			<password-encoder ref="passwordEncoder" />
+		</authentication-provider>
+	</authentication-manager>
+
+</beans:beans>
