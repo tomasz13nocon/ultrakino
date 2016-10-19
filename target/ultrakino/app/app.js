@@ -63,7 +63,11 @@ angular.module("app")
 
 		$rootScope.authenticated = false;
 		$rootScope.isAdmin = false;
-		$rootScope.images = "//images.ultrakino.pl/";
+		// TODO: Remove on prod
+		if (window.location.href.indexOf(localhost) > -1)
+			$rootScope.images = "localhost:8000/";
+		else
+			$rootScope.images = "//images.ultrakino.pl/";
 		$rootScope.noImage = "images/no-image.png";
 
 	}]);
