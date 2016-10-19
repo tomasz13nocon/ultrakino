@@ -44,6 +44,8 @@ public class FilmwebServiceImpl implements FilmwebService {
 	private static final Map<String, Integer> categories = new HashMap<>();
 	private static final String FILM_INFO_METHOD = "getFilmInfoFull";
 	private static final String PERSONS_METHOD = "getFilmPersons";
+	private static final String IMAGES = "/opt/images/img/";
+//	private static final String IMAGES = "/home/user/Projects/covers/";
 
 	static {
 		categories.put("3D", 47);
@@ -225,8 +227,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 				InputStream is = new URL(filmwebImg).openStream();
 				String filename = DigestUtils.md5Hex(series.getTitle() + series.getYear()) + ".jpg";
 				// TODO: Change image location on prod
-//				OutputStream os = new FileOutputStream("/home/user/Projects/covers/" + filename);
-				OutputStream os = new FileOutputStream("/opt/images/img/" + filename);
+				OutputStream os = new FileOutputStream(IMAGES + filename);
 				IOUtils.copy(is, os);
 				is.close();
 				os.close();
@@ -307,7 +308,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 			InputStream is = new URL(filmwebImg).openStream();
 			String filename = DigestUtils.md5Hex(film.getTitle() + film.getYear()) + ".jpg";
 			// TODO: Change image location on prod
-			OutputStream os = new FileOutputStream("/home/user/Projects/covers/" + filename);
+			OutputStream os = new FileOutputStream(IMAGES + filename);
 			IOUtils.copy(is, os);
 			is.close();
 			os.close();
