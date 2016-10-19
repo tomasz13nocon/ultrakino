@@ -63,7 +63,7 @@ angular.module("app")
 
 		$rootScope.authenticated = false;
 		$rootScope.isAdmin = false;
-		$rootScope.images = "http://images.ultrakino.pl/";
+		$rootScope.images = "//images.ultrakino.pl/";
 		$rootScope.noImage = "images/no-image.png";
 
 	}]);
