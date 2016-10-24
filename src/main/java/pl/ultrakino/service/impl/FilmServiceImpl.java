@@ -15,7 +15,6 @@ import pl.ultrakino.service.FilmService;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -108,102 +107,7 @@ public class FilmServiceImpl implements FilmService {
 
 	@Override
 	public Page<Film> find(MultiValueMap<String, String> params) {
-		FilmQuery query = new FilmQuery();
-
-
-		List<String> titleParam = params.get("title");
-		if (titleParam != null)
-			query.title(titleParam.get(0));
-
-
-		List<String> yearFromParam = params.get("yearFrom");
-		if (yearFromParam != null) {
-			try {
-				query.yearFrom(Integer.parseInt(yearFromParam.get(0)));
-			}
-			catch(NumberFormatException e){
-				throw new IllegalArgumentException("value of yearFrom parameter is not a valid integer");
-			}
-		}
-
-
-		List<String> yearToParam = params.get("yearTo");
-		if (yearToParam != null) {
-			try {
-				query.yearTo(Integer.parseInt(yearToParam.get(0)));
-			}
-			catch(NumberFormatException e){
-				throw new IllegalArgumentException("value of yearTo parameter is not a valid integer");
-			}
-		}
-
-
-		List<String> categoriesParam = params.get("categories");
-		if (categoriesParam != null) {
-			try {
-				List<Integer> categories = categoriesParam.stream().map(Integer::parseInt).collect(Collectors.toList());
-				query.categories(categories);
-			}
-			catch (NumberFormatException e) {
-				throw new IllegalArgumentException("value of categories parameter contains an invalid integer");
-			}
-		}
-
-
-		List<String> versionsParam = params.get("versions");
-		if (versionsParam != null) {
-			try {
-				Set<Player.LanguageVersion> versions = versionsParam.stream().map(Player.LanguageVersion::valueOf).collect(Collectors.toSet());
-				query.versions(versions);
-			}
-			catch (IllegalArgumentException e) {
-				throw new IllegalArgumentException("value of versions parameter is not a valid LanguageVersion constant");
-			}
-		}
-
-
-		List<String> orderByParam = params.get("orderBy");
-		if (orderByParam != null) {
-			try {
-				FilmQuery.OrderBy orderBy = FilmQuery.OrderBy.valueOf(orderByParam.get(0));
-				query.orderBy(orderBy);
-			}
-			catch (IllegalArgumentException e) {
-				throw new IllegalArgumentException("value of orderBy parameter is not a valid OrderBy constant");
-			}
-		}
-
-
-		List<String> ascParam = params.get("asc");
-		if (ascParam != null && ascParam.get(0).equals("true")) {
-			query.asc(true);
-		}
-
-
-		List<String> resultLimitParam = params.get("resultLimit");
-		if (resultLimitParam != null) {
-			try {
-				Integer resultLimit = Integer.parseInt(resultLimitParam.get(0));
-				query.resultLimit(resultLimit);
-			}
-			catch (NumberFormatException e) {
-				throw new IllegalArgumentException("value of resultLimit parameter is not a valid integer");
-			}
-		}
-
-
-		List<String> pageNumberParam = params.get("pageNumber");
-		if (pageNumberParam != null) {
-			try {
-				Integer pageNumber = Integer.parseInt(pageNumberParam.get(0));
-				query.pageNumber(pageNumber);
-			}
-			catch (NumberFormatException e) {
-				throw new IllegalArgumentException("value of pageNumber parameter is not a valid integer");
-			}
-		}
-
-
+		ContentQuery query = new ContentQuery(params);
 		return filmRepository.find(query);
 	}
 

@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -52,6 +53,9 @@ public class Series extends Content {
 
 	@Column(name = "world_premiere")
 	private LocalDate worldPremiere;
+
+	@Column(name = "recommendation_date")
+	private LocalDateTime recommendationDate;
 
 	//////////////////////////////////
 

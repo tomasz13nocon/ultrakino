@@ -1,5 +1,6 @@
 angular.module("app")
-.controller("OneSeriesController", ["$scope", function($scope) {
+.controller("OneSeriesController", ["$scope", "Series", function($scope, Series) {
+	var ctrl = this;
 
 }]);
 

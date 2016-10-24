@@ -16,4 +16,6 @@ public interface SeriesRepository {
 	Series save(Series series);
 
 	Series findById(int seriesId) throws NoRecordWithSuchIdException;
+
+	Page<Series> find(ContentQuery query);
 }

@@ -15,7 +15,7 @@ public interface FilmRepository {
 	 */
 	Film findById(int id) throws NoRecordWithSuchIdException;
 
-	Page<Film> find(FilmQuery query);
+	Page<Film> find(ContentQuery query);
 
 	Optional<Film> findByTitleAndYear(String title, int year);
 

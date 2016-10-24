@@ -1,23 +1,19 @@
 package pl.ultrakino.repository.jpa;
 
-import org.hibernate.Hibernate;
-import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Film;
 import pl.ultrakino.model.Film_;
 import pl.ultrakino.model.Player;
 import pl.ultrakino.model.Player_;
-import pl.ultrakino.repository.FilmQuery;
+import pl.ultrakino.repository.ContentQuery;
 import pl.ultrakino.repository.FilmRepository;
 import pl.ultrakino.repository.Page;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -54,7 +50,7 @@ public class JpaFilmRepository implements FilmRepository {
 
 
 	@Override
-	public Page<Film> find(FilmQuery query) {
+	public Page<Film> find(ContentQuery query) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 
 		// Query needed for fetch joins and pagination to work properly together.
@@ -107,7 +103,7 @@ public class JpaFilmRepository implements FilmRepository {
 		// ========================================================================= //
 
 		// =========================== ORDER BY =========================== //
-		FilmQuery.OrderBy orderBy = query.getOrderBy();
+		ContentQuery.OrderBy orderBy = query.getOrderBy();
 		boolean asc = query.isAsc();
 		Order order = null;
 		if (orderBy != null) {

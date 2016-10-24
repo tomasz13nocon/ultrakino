@@ -9,7 +9,6 @@ Film: List<Trailer>
 violating unique category constraint when failing to check for existing records (not all films have filmwebId on alltube)
 no content_id in filmography_entries table
 
-Query ascending results on default
 change title after navigating from film page
 CHECK ON CASCADE TYPES
 

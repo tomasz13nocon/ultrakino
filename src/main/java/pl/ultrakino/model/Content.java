@@ -11,7 +11,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "contents")
-@Inheritance(strategy = InheritanceType.JOINED) // This table is necessary for foreign keys to work properly
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Content {
 
 	@Id

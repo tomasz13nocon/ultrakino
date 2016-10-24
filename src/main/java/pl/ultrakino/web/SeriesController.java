@@ -1,7 +1,14 @@
 package pl.ultrakino.web;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.*;
+import pl.ultrakino.model.Film;
+import pl.ultrakino.model.Series;
+import pl.ultrakino.repository.Page;
+import pl.ultrakino.resources.FilmResource;
+import pl.ultrakino.resources.SeriesResource;
 import pl.ultrakino.service.SeriesService;
 
 import static pl.ultrakino.Constants.API_PREFIX;
@@ -12,5 +19,26 @@ public class SeriesController {
 
 	private SeriesService seriesService;
 
+
+	@GetMapping("/{seriesId}")
+	public SeriesResource getOneSeries(@PathVariable int seriesId) {
+		return null;
+	}
+
+	@GetMapping
+	public ResponseEntity getSeries(@RequestParam MultiValueMap<String, String> params) {
+		try {
+			Page<Series> series = seriesService.find(params);
+			Page<SeriesResource> result = new Page<>(
+					seriesService.toResources(series.getContent()),
+					series.getPageNumber(),
+					series.getPageCount());
+			return ResponseEntity.ok(result);
+		}
+		catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			return ResponseEntity.badRequest().body(JsonNodeFactory.instance.objectNode().put("error", e.getMessage()));
+		}
+	}
 
 }

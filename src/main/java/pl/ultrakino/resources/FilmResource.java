@@ -21,7 +21,7 @@ public class FilmResource extends ContentResource {
 	private String title;
 	private Integer year;
 	private Float rating;
-	private Integer timesRated;
+	private Integer timesRated = 0;
 	private String originalTitle;
 	private String description;
 	private String coverFilename;
