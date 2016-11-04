@@ -270,14 +270,14 @@ public class FilmwebServiceImpl implements FilmwebService {
 	@Override
 	public Series getFullSeriesInfo(String filmwebId) throws FilmwebException {
 		Series series = getSeriesInfo(filmwebId);
-		series.setCastAndCrew(getFilmPersons(filmwebId));
+		series.setCastAndCrew(getFilmPersons(filmwebId, series));
 		return series;
 	}
 
 	@Override
 	public Film getFullFilmInfo(String filmwebId) throws FilmwebException, IOException {
 		Film film = getFilmInfo(filmwebId);
-		film.setCastAndCrew(getFilmPersons(filmwebId));
+		film.setCastAndCrew(getFilmPersons(filmwebId, film));
 		return film;
 	}
 
@@ -354,7 +354,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 	}
 
 	@Override
-	public Set<FilmographyEntry> getFilmPersons(String filmwebId) throws FilmwebException {
+	public Set<FilmographyEntry> getFilmPersons(String filmwebId, Content content) throws FilmwebException {
 		Set<FilmographyEntry> filmographyEntries = new HashSet<>();
 		for (Person.Role role : Person.Role.values()) {
 			try {
@@ -382,6 +382,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 					entry.setName((String) actor[1]);
 					entry.setAttributes((String) actor[2]);
 					entry.setRole(role.toString());
+					entry.setContent(content);
 					filmographyEntries.add(entry);
 				}
 			} catch (IOException e) {

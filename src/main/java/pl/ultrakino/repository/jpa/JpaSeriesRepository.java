@@ -118,6 +118,8 @@ public class JpaSeriesRepository implements SeriesRepository {
 		if (orderBy != null) {
 			Path p = null;
 			switch (orderBy) {
+				case ADDITION_DATE:
+					p = root.get(Series_.updateDate);
 				case PREMIERE:
 					p = root.get(Series_.worldPremiere);
 					break;

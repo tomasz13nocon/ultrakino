@@ -45,10 +45,10 @@ public class Series extends Content {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "content")
 	private Set<FilmographyEntry> castAndCrew = new HashSet<>();
 
-	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
 	private Set<Category> categories = new HashSet<>();
 
-	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
 	private Set<Country> productionCountries = new HashSet<>();
 
 	@Column(name = "world_premiere")
@@ -63,15 +63,24 @@ public class Series extends Content {
 	private List<Episode> episodes = new ArrayList<>();
 
 	@Column(name = "season_count")
-	private Integer seasonCount;
+	private Integer seasonCount = 0;
 
 	@Column(name = "episode_count")
-	private Integer episodeCount;
+	private Integer episodeCount = 0;
 
 	@Column(name = "running_time")
 	private Integer runningTime;
 
 	@Column(name = "tvseriesonline_title")
 	private String tvseriesonlineTitle;
+
+	@Column(name = "newest_episode_addition_date")
+	private LocalDateTime updateDate;
+
+
+	@PreUpdate
+	public void preUpdate() {
+		updateDate = LocalDateTime.now();
+	}
 
 }

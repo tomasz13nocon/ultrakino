@@ -44,7 +44,7 @@ public class FilmDetailsResourceAsm extends ResourceAssemblerSupport<Film, FilmD
 		res.setRating(film.getRating());
 		res.setTimesRated(film.getTimesRated());
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null && !auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()).contains("ROLE_ANONYMOUS")){
+		if (auth != null && auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()).contains("ROLE_USER")){
 			Optional<Rating> userRating = ratingRepository.findByUsernameAndContentId(
 					((UserDetails) auth.getPrincipal()).getUsername(),
 					film.getId());

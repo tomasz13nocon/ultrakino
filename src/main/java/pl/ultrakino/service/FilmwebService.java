@@ -1,6 +1,7 @@
 package pl.ultrakino.service;
 
 import pl.ultrakino.exceptions.FilmwebException;
+import pl.ultrakino.model.Content;
 import pl.ultrakino.model.Film;
 import pl.ultrakino.model.FilmographyEntry;
 import pl.ultrakino.model.Series;
@@ -19,7 +20,7 @@ public interface FilmwebService {
 
 	Film getFilmInfo(String filmwebId) throws FilmwebException, IOException;
 
-	Set<FilmographyEntry> getFilmPersons(String filmwebId) throws FilmwebException, IOException;
+	Set<FilmographyEntry> getFilmPersons(String filmwebId, Content content) throws FilmwebException, IOException;
 
 	/**
 	 * Gets film info for a given filmwebId, icluding FilmograpgyEntries.

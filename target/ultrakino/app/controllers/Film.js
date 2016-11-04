@@ -1,5 +1,5 @@
 angular.module("app")
-.controller("FilmController", ["$http", "$scope", "$routeParams", "Film", function($http, $scope, $routeParams, Film) {
+.controller("FilmController", ['$http', '$routeParams', '$scope', 'Comment', 'Film', function($http, $routeParams, $scope, Comment, Film) {
 	var ctrl = this;
 
 	$scope.stars = new Array(10);
@@ -34,7 +34,6 @@ angular.module("app")
 
 	$scope.isPlayer = false; // TODO: remove
 	Film.get({ id: $routeParams["id"] }, function(film) {
-		console.log(film.players);
 		for (var i = 0; i < film.players.length; i++) {
 			if (film.players[i].hosting == "openload") {
 				film.players[i].src = "https://openload.co/embed/" + film.players[i].src;

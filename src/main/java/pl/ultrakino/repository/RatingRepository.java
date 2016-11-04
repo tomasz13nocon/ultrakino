@@ -8,4 +8,5 @@ public interface RatingRepository {
 
 	Optional<Rating> findByUsernameAndContentId(String username, int contentId);
 
+	Rating save(Rating rating);
 }

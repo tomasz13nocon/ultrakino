@@ -19,12 +19,14 @@ public class PlayerResourceAsm extends ResourceAssemblerSupport<Player, PlayerRe
 	@Override
 	public PlayerResource toResource(Player player) {
 		PlayerResource res = new PlayerResource();
-		res.setSrc(player.getSrc());
-		res.setAdditionDate(player.getAdditionDate());
-		res.setForeignSrc(player.isForeignSrc());
-		res.setLostSrc(player.isLostSrc());
-		res.setLanguageVersion(player.getLanguageVersion());
 		res.setHosting(player.getHosting());
+		if (player.getHosting().equals("openload")) {
+			res.setSrc("https://openload.co/embed/" + player.getSrc());
+		}
+		else
+			res.setSrc(player.getSrc());
+		res.setAdditionDate(player.getAdditionDate());
+		res.setLanguageVersion(player.getLanguageVersion());
 		res.setQuality(player.getQuality());
 		res.setAddedBy(userDetailsResourceAsm.toResource(player.getAddedBy()));
 		return res;

@@ -327,7 +327,7 @@ input[type="radio"].radio {
 .films-section-cover {
   width: 170px; }
 
-#film-page-wrapper {
+.page-wrapper {
   width: 1060px;
   margin: auto;
   padding-top: 42px; }
@@ -573,6 +573,71 @@ select.filter-input {
   font-size: 2em;
   text-align: center;
   margin-top: 60px; }
+
+.seasons-wrapper {
+  border: 1px solid white;
+  margin-top: 12px;
+  display: table;
+  width: 100%; }
+
+.season-list {
+  width: 24%;
+  border-right: 1px solid #ccc;
+  vertical-align: top;
+  background-color: rgba(0, 0, 0, 0.1);
+  display: table-cell; }
+
+.episode-list {
+  width: 75%;
+  display: table-cell;
+  transition: opacity 0.1s, transform 0.1s; }
+
+.episode-list-animation {
+  opacity: 0;
+  transform: scale(1, 0); }
+
+.season-entry {
+  font-size: 1.2em;
+  padding: 20px;
+  border-bottom: 1px solid #777;
+  background-color: rgba(0, 0, 0, 0.3); }
+  .season-entry:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+    cursor: pointer; }
+
+.active-season-entry {
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #f5cd2e; }
+  .active-season-entry:hover {
+    cursor: inherit;
+    background-color: black;
+    background-color: rgba(0, 0, 0, 0.6); }
+
+.episode-entry:hover {
+  background-color: rgba(0, 0, 0, 0.4); }
+
+.episode-entry-inner {
+  padding: 10px;
+  transition: transform 0.12s; }
+  .episode-entry-inner:hover {
+    transform: translateX(8px); }
+
+.episode-wrapper {
+  margin-top: 26px; }
+
+.episode-list-btn {
+  float: left; }
+
+.episode-next-btn {
+  float: right; }
+
+.episode-btn-arrow {
+  display: inline-block;
+  transform: translateY(-2px); }
+
+.episode-list-btn, .episode-next-btn {
+  padding: 8px; }
 
 body {
   background: #222 url("../images/blacktiles.png") repeat;

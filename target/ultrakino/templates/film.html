@@ -1,5 +1,5 @@
 <div class="spinner-wrapper" ng-hide="film"><div class="spinner-medium"></div></div>
-<div id="film-page-wrapper" ng-show="film">
+<div class="page-wrapper" ng-show="film">
 	<div class="film-info">
 		<img class="film-info-cover" alt="{{film.title}}" ng-src="{{film.coverFilename ? images + film.coverFilename : noImage}}">
 		<div class="film-info-without-cover">
@@ -21,7 +21,7 @@
 	<div class="player-section">
 
 		<iframe ng-if="isPlayer" class="player" ng-src="{{film.players[firstValidPlayer].src | trusted}}" scrolling="no" frameborder="0" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
-		<div class="admin-panel-error-box" ng-hide="isPlayer">Nie znaleziono filmu. Prawdopodobnie został usunięty z powodu naruszenia praw autorskich.</div>
+		<div class="admin-panel-error-box" ng-hide="isPlayer">Nie znaleziono filmu. Prawdopodobnie został usunięty. Przepraszamy za problem.</div>
 	</div>
 	<div class="below-player-section">
 		<!-- <div class="views"> TODO: VIEWS

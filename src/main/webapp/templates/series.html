@@ -4,7 +4,7 @@
 			<span class="filter-input-label">Sortuj według: </span>
 			<div class="radio-wrapper" ng-repeat="(order, orderVal) in orderBy track by $index">
 				<label>
-					<input class="radio" type="radio" value="{{orderVal}}" name="orderByRadio" ng-model="params.orderBy" ng-change="filmsCtrl.modelChanged()">
+					<input class="radio" type="radio" value="{{orderVal}}" name="orderByRadio" ng-model="params.orderBy" ng-change="seriesCtrl.modelChanged()">
 					<span></span>
 					<span ng-bind="order"></span>
 				</label>
@@ -12,7 +12,7 @@
 			<br>
 			<div class="radio-wrapper" ng-repeat="(label, value) in asc track by $index">
 				<label>
-					<input class="radio" type="radio" value="{{value}}" name="ascRadio" ng-model="params.asc" ng-change="filmsCtrl.modelChanged()">
+					<input class="radio" type="radio" value="{{value}}" name="ascRadio" ng-model="params.asc" ng-change="seriesCtrl.modelChanged()">
 					<span></span>
 					<span ng-bind="label"></span>
 				</label>
@@ -21,14 +21,14 @@
 		<div class="filter-wrapper">
 			<label>
 				<span class="filter-input-label">Tytuł: </span>
-				<input class="filter-input" type="text" ng-model="params.title" ng-change="filmsCtrl.modelChanged()">
+				<input class="filter-input" type="text" ng-model="params.title" ng-change="seriesCtrl.modelChanged()">
 			</label>
 		</div>
 		<div class="filter-wrapper">
 			<div class="filter-input-label">Kategorie:</div>
 			<div class="checkbox-wrapper" ng-repeat="(categoryNum, category) in categories track by $index">
 				<label>
-					<input class="checkbox" type="checkbox" ng-change="filmsCtrl.modelChanged()" ng-model="params.categories[categoryNum]">
+					<input class="checkbox" type="checkbox" ng-change="seriesCtrl.modelChanged()" ng-model="params.categories[categoryNum]">
 					<span></span>
 					<span ng-bind="category"></span>
 				</label>
@@ -36,17 +36,17 @@
 		</div>
 	</div>
 
-	<div class="spinner-wrapper-wrapper results-wrapper"><div class="spinner-wrapper" ng-hide="films"><div class="spinner-medium"></div></div></div>
-	<div class="results-wrapper" ng-show="films">
+	<div class="spinner-wrapper-wrapper results-wrapper"><div class="spinner-wrapper" ng-hide="series"><div class="spinner-medium"></div></div></div>
+	<div class="results-wrapper" ng-show="series">
 		<div class="pagination-wrapper">
-			<div class="pagination-first" ng-click="filmsCtrl.setPage(0)">◀◀</div>
-			<div class="pagination-prev" ng-click="filmsCtrl.setPage(activePage - 1)">◀</div>
-			<div class="pagination-num" ng-class="{'active-page': page == activePage}" ng-repeat="page in pages" ng-bind="page + 1" ng-click="filmsCtrl.setPage(page)"></div>
-			<div class="pagination-next" ng-click="filmsCtrl.setPage(activePage + 1)">▶</div>
-			<div class="pagination-last" ng-click="filmsCtrl.setPage(lastPage)">▶▶</div>
+			<div class="pagination-first" ng-click="seriesCtrl.setPage(0)">◀◀</div>
+			<div class="pagination-prev" ng-click="seriesCtrl.setPage(activePage - 1)">◀</div>
+			<div class="pagination-num" ng-class="{'active-page': page == activePage}" ng-repeat="page in pages" ng-bind="page + 1" ng-click="seriesCtrl.setPage(page)"></div>
+			<div class="pagination-next" ng-click="seriesCtrl.setPage(activePage + 1)">▶</div>
+			<div class="pagination-last" ng-click="seriesCtrl.setPage(lastPage)">▶▶</div>
 		</div>
-		<div class="filter-result" ng-repeat="film in films">
-			<a ng-href="#filmy/{{film.uid}}/{{film.title}}-{{film.year}}">
+		<div class="filter-result" ng-repeat="film in series">
+			<a ng-href="#seriale/{{film.uid}}/{{film.title}}-{{film.year}}">
 				<img class="filter-result-cover" ng-src="{{film.coverFilename ? images + film.coverFilename : noImage}}" alt="{{film.title}}">
 				<div class="filter-result-details">
 					<h3 class="filter-result-title" ng-bind="film.title"></h3>
@@ -70,11 +70,11 @@
 			</div>
 		</div>
 		<div class="pagination-wrapper">
-			<div class="pagination-first" ng-click="filmsCtrl.setPage(0)">◀◀</div>
-			<div class="pagination-prev" ng-click="filmsCtrl.setPage(activePage - 1)">◀</div>
-			<div class="pagination-num" ng-class="{'active-page': page == activePage}" ng-repeat="page in pages" ng-bind="page + 1" ng-click="filmsCtrl.setPage(page)"></div>
-			<div class="pagination-next" ng-click="filmsCtrl.setPage(activePage + 1)">▶</div>
-			<div class="pagination-last" ng-click="filmsCtrl.setPage(lastPage)">▶▶</div>
+			<div class="pagination-first" ng-click="seriesCtrl.setPage(0)">◀◀</div>
+			<div class="pagination-prev" ng-click="seriesCtrl.setPage(activePage - 1)">◀</div>
+			<div class="pagination-num" ng-class="{'active-page': page == activePage}" ng-repeat="page in pages" ng-bind="page + 1" ng-click="seriesCtrl.setPage(page)"></div>
+			<div class="pagination-next" ng-click="seriesCtrl.setPage(activePage + 1)">▶</div>
+			<div class="pagination-last" ng-click="seriesCtrl.setPage(lastPage)">▶▶</div>
 		</div>
 	</div>
 

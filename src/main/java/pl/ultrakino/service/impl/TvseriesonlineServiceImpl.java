@@ -77,7 +77,7 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 				result.add(op.get());
 				created++;
 			}
-			if (i++ > 5) break;
+			if (i++ > 2) break;
 		}
 
 		return result;
@@ -131,9 +131,13 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 			}
 			else {
 				episode = new Episode();
-				episode.setSeason(season);
+				episode.setSeason(season); // TODO: Can I delete this? Were there problems with this...?
 				episode.setEpisodeNumber(episodeNumber);
+				episode.setSeries(series);
 				series.getEpisodes().add(episode);
+				series.setEpisodeCount(series.getEpisodeCount() + 1);
+				if (season > series.getSeasonCount())
+					series.setSeasonCount(season);
 			}
 
 			String epHref = episodeEl.select("a").attr("href");
@@ -148,23 +152,44 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 				Elements links = linkGroup.select("a");
 				for (Element linkEl : links) {
 					String link = linkEl.attr("href");
-					if (playerRepository.findBySrcWithFullLink(link).isPresent())
-						continue;
 					Pattern hostingPattern = Pattern.compile("http[s]?://(?:www\\.)?(.*?)\\.");
 					Matcher matcher = hostingPattern.matcher(link);
 					if (!matcher.find())
 						continue;
 					String hosting = matcher.group(1);
+					if (playerRepository.findBySrcAndHosting(link, hosting).isPresent())
+						continue;
 					Player player = new Player();
 					player.setHosting(hosting);
-					player.setSrc(link);
-					player.setFullLink(true);
+					if (hosting.equals("openload")) {
+						if (link.endsWith("/")) {
+							int beginIndex = -1;
+							for (int i = link.length() - 2; i > 0; i--) {
+								if (link.charAt(i) == '/') {
+									beginIndex = i;
+									break;
+								}
+							}
+							if (beginIndex == -1) {
+								throw new TvseriesonlineException("Wrong openload link format on " +
+										series.getTitle() +
+										" S" + episode.getSeason() +
+										"E" + episode.getEpisodeNumber());
+							}
+							player.setSrc(link.substring(beginIndex + 1, link.lastIndexOf('/')));
+						}
+					}
+					else {
+						player.setSrc(link);
+					}
 					player.setForeignSrc(true);
 					player.setLanguageVersion(version);
 					episode.getPlayers().add(player);
 				}
 			}
 		}
+		if (series.getEpisodes().isEmpty())
+			return Optional.empty();
 		return Optional.of(series);
 	}
 

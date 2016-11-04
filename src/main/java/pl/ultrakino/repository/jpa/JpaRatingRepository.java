@@ -26,4 +26,10 @@ public class JpaRatingRepository implements RatingRepository {
 		return Optional.of(ratings.get(0));
 	}
 
+	@Override
+	public Rating save(Rating rating) {
+		em.persist(rating);
+		return rating;
+	}
+
 }

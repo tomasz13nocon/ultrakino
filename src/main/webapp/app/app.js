@@ -5,7 +5,7 @@ defaultAvatarFilename = "images/avatar3.png";
 angular.module("app", ["ngRoute", "ngAnimate", "ngResource"]);
 
 angular.module("app")
-	.run(["$rootScope", function($rootScope) {
+	.run(["$rootScope", "$route", "$location", function($rootScope, $route, $location) {
 
 		$rootScope.languageVersions = {
 			VOICE_OVER: "Lektor",
@@ -70,10 +70,22 @@ angular.module("app")
 			$rootScope.images = "//images.ultrakino.pl/";
 		$rootScope.noImage = "images/no-image.png";
 
+		var original = $location.path;
+		$location.path = function (path, reload) {
+			if (reload === false) {
+				var lastRoute = $route.current;
+				var un = $rootScope.$on('$locationChangeSuccess', function () {
+					$route.current = lastRoute;
+					un();
+				});
+			}
+			return original.apply($location, [path]);
+		};
+
 	}]);
 
 angular.module("app")
-	.config(["$routeProvider", "$httpProvider", function($routeProvider, $httpProvider) {
+	.config(["$routeProvider", "$httpProvider", "$locationProvider", function($routeProvider, $httpProvider, $locationProvider) {
 		$routeProvider
 		.when("/", {
 			templateUrl: templateDir + "/home.html",
@@ -94,7 +106,15 @@ angular.module("app")
 		})
 		.when("/seriale", {
 			templateUrl: templateDir + "/series.html",
+			controller: "SeriesController",
+			controllerAs: "seriesCtrl",
 			activeTab: "series",
+		})
+		.when("/seriale/:id/:title/:episodeId?/:season?/:episode?", {
+			templateUrl: templateDir + "/one-series.html",
+			controller: "OneSeriesController",
+			controllerAs: "oneSeriesCtrl",
+			reloadOnSearch: false,
 		})
 		.when("/dodaj-film", {
 			templateUrl: templateDir + "/add-film.html",
@@ -117,5 +137,7 @@ angular.module("app")
 		});
 
 		// $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
+		
+		//$locationProvider.html5Mode(true);
 
 	}]);

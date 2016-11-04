@@ -20,7 +20,5 @@ public class PlayerResource extends ResourceSupport {
 	private UserDetailsResource addedBy;
 	private Content content;
 	private String hosting;
-	private boolean foreignSrc;
-	private boolean lostSrc;
 
 }

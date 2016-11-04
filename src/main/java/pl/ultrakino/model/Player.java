@@ -40,7 +40,6 @@ public class Player {
 	private String quality;
 
 	@Column(name = "addition_date")
-
 	private LocalDateTime additionDate;
 
 	@ManyToOne
@@ -56,9 +55,6 @@ public class Player {
 
 	@Column(name = "lost_src")
 	private boolean lostSrc;
-
-	@Column(name = "full_link")
-	private boolean fullLink;
 
 
 	@PrePersist

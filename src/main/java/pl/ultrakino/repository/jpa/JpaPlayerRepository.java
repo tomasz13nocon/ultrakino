@@ -16,9 +16,20 @@ public class JpaPlayerRepository implements PlayerRepository {
 	private EntityManager em;
 
 	@Override
-	public Optional<Player> findBySrcWithFullLink(String src) {
-		List<Player> players = em.createQuery("FROM Player WHERE fullLink=true AND src=:src", Player.class)
+	public Optional<Player> findBySrc(String src) {
+		List<Player> players = em.createQuery("SELECT p FROM Player p WHERE p.src=:src", Player.class)
 				.setParameter("src", src)
+				.getResultList();
+		if (players.isEmpty())
+			return Optional.empty();
+		return Optional.of(players.get(0));
+	}
+
+	@Override
+	public Optional<Player> findBySrcAndHosting(String src, String hosting) {
+		List<Player> players = em.createQuery("SELECT p FROM Player p WHERE p.src=:src AND p.hosting=:hosting", Player.class)
+				.setParameter("src", src)
+				.setParameter("hosting", hosting)
 				.getResultList();
 		if (players.isEmpty())
 			return Optional.empty();

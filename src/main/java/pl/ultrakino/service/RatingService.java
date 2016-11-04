@@ -5,7 +5,9 @@ import pl.ultrakino.resources.RatingResource;
 
 public interface RatingService {
 
-	 RatingResource toResource(Rating rating);
+	Rating save(Rating rating);
+
+	RatingResource toResource(Rating rating);
 
 
 }

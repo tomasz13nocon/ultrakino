@@ -1,0 +1,110 @@
+<div class="spinner-wrapper" ng-hide="series"><div class="spinner-medium"></div></div>
+<div class="page-wrapper ng-cloak" ng-show="series" ng-cloak>
+	<div class="film-info">
+		<img class="film-info-cover" alt="{{series.title}}" ng-src="{{series.coverFilename ? images + series.coverFilename : noImage}}">
+		<div class="film-info-without-cover">
+			<h1 class="film-info-title"><span ng-bind="series.title"></span> (<span ng-bind="series.year"></span>)</h1>
+			<div class="film-info-info">
+				<span class="film-info-info-label">Kategorie: </span>
+				<span ng-repeat="category in series.categories"><span ng-bind="categories[category]"></span><span ng-bind="$last ? '' : ', '"></span></span>
+			</div>
+			<p class="film-info-description" ng-bind="series.description"></p>
+		</div>
+	</div>
+	<div class="clear"></div>
+
+	<div class="seasons-wrapper" ng-hide="episode" ng-show="episodes">
+		<div class="season-list">
+			<div class="season-entry" ng-class="{'active-season-entry': season == activeSeason}" ng-click="oneSeriesCtrl.loadEpisodes(season)" ng-repeat="season in seasons">
+				Sezon <span ng-bind="season"></span>
+			</div>
+		</div>
+		<div class="episode-list" ng-class="{'episode-list-animation': episodeListAnimation}">
+			<div class="no-episodes-message" ng-hide="episodes">Brak odcinków</div>
+			<div ng-repeat="episode in episodes">
+				<div class="episode-entry link" ng-click="oneSeriesCtrl.loadEpisode(episode.uid)">
+					<div class="episode-entry-inner">
+						Odcinek <span ng-bind="episode.episodeNumber"><span><span ng-show="episode.title"> - </span><span ng-bind="episode.title"></span></span></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="episode-wrapper" ng-show="episode" ng-hide="episodes">
+		<div class="episode-list-btn link" ng-click="oneSeriesCtrl.loadEpisodes(activeSeason)"><span class="fa fa-bars"></span> LISTA ODCINKÓW</div>
+		<!--<div class="episode-next-btn link" ng-click="oneSeriesCtrl.loadEpisodes(activeSeason)">NASTĘPNY <span class="episode-btn-arrow">▶</span></div>-->
+		<!--<div class="episode-next-btn link" ng-click="oneSeriesCtrl.loadEpisodes(activeSeason)"><span class="episode-btn-arrow">◀</span> POPRZEDNI</div>-->
+		<div class="episode-next-btn link" ng-click="oneSeriesCtrl.loadEpisode(episode.nextEpisode.uid)">NASTĘPNY <span class="fa fa-arrow-right"></span></div>
+		<div class="episode-next-btn link" ng-click="oneSeriesCtrl.loadEpisode(episode.previousEpisode.uid)"><span class="fa fa-arrow-left"></span> POPRZEDNI</div>
+		<!--<div class="episode-next-btn link" ng-click="oneSeriesCtrl.loadEpisodes(activeSeason)">NASTĘPNY <span class="fa fa-arrow-circle-o-right"></span></div>-->
+		<!--<div class="episode-next-btn link" ng-click="oneSeriesCtrl.loadEpisodes(activeSeason)"><span class="fa fa-arrow-circle-o-left"></span> POPRZEDNI</div>-->
+
+		<div class="clear"></div>
+
+		<div class="player-section">
+
+			<iframe ng-if="isPlayer" class="player" ng-src="{{episode.players[firstValidPlayer].src | trusted}}" scrolling="no" frameborder="0" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+			<div class="admin-panel-error-box" ng-hide="isPlayer">Nie znaleziono filmu. Prawdopodobnie został usunięty. Przepraszamy za problem.</div>
+		</div>
+		<div class="below-player-section">
+			<!-- <div class="views"> TODO: VIEWS
+				<span ng-bind="episode.views"></span>
+				<span>odsłon</span>
+			</div> -->
+			<div class="rating">
+				<div class="rating-rating">
+					Ocena:
+					<span class="rating-actual-rating" ng-bind="episode.rating"></span><span class="rating-actual-rating" ng-show="episode.rating !== null">/10</span>
+					<span ng-show="episode.rating === null">brak głosów</span>
+				</div>
+				<div class="rating-times-rated">
+					Liczba głosów:
+					<span ng-bind="episode.timesRated"></span>
+				</div>
+			</div>
+			<div class="rate-wrapper" ng-show="authenticated">
+				<div ng-show="episode.userRating === null">
+					<span class="rate-label">Oceń ten film: </span>
+					<span class="stars-wrapper" ng-mouseleave="filmCtrl.starMouseleave()">
+						<span class="zero-star-span rate-tooltip-span" ng-mouseover="filmCtrl.starMouseover(0)" ng-click="filmCtrl.rate(0)" tooltip="0/10"></span>
+						<span class="rate-tooltip-span" tooltip="{{i}}/10" ng-repeat="i in stars track by $index" ng-mouseover="filmCtrl.starMouseover(i)" ng-click="filmCtrl.rate(i)"><i class="fa fa-lg rate-star" ng-class="{'fa-star': i <= activeStar, 'fa-star-o': i > activeStar}"></i></span>
+					</span>
+				</div>
+				<div ng-show="episode.userRating !== null">
+					<span class="rate-label">Twoja ocena: </span>
+					<i class="fa fa-lg rate-star-disabled" ng-class="{'fa-star': i <= episode.userRating, 'fa-star-o': i > episode.userRating}" ng-repeat="i in stars track by $index"></i>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="comment-section">
+			<div class="comment-section-title">Komentarze</div>
+			<div class="comment-input-wrapper">
+				<form name="commentForm" class="comment-form" ng-submit="filmCtrl.postComment()">
+					<textarea class="comment-input" name="comment" ng-maxlength="255" ng-minlength="3" ng-model="filmCtrl.commentContent" cols="70" rows="4" placeholder="Napisz komentarz..." />
+					<div class="comment-submit-wrapper" ng-attr-tooltip="{{authenticated ? undefined : 'Zaloguj się aby dodać komentarz'}}">
+						<input class="comment-submit" type="submit" value="Opublikuj" ng-disabled="authenticated ? undefined : true" />
+					</div>
+				</form>
+			</div>
+			<div class="comments">
+				<div class="comment-block" ng-repeat="comment in episode.comments | orderBy: 'submissionDate' : true">
+					<div class="comment-info">
+						<a href="#user/{{comment.addedBy.uid}}">
+							<img class="comment-avatar" ng-src="{{comment.addedBy.avatarFilename}}" alt="avatar">
+							<span ng-bind="comment.addedBy.username"></span>
+						</a>
+						<span class="comment-date-span">
+							<span class="comment-time" ng-bind="comment.submissionDate.toLocaleTimeString('pl-PL')"></span>
+							<span class="comment-date" ng-bind="comment.submissionDate.toLocaleDateString('pl-PL')"></span>
+						</span>
+					</div>
+					<div class="comment-contents" ng-bind="comment.contents"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+

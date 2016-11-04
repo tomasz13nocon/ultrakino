@@ -1,5 +1,6 @@
 package pl.ultrakino.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
@@ -12,6 +13,7 @@ import pl.ultrakino.resources.PersonResource;
 import pl.ultrakino.resources.PlayerResource;
 import pl.ultrakino.resources.assemblers.FilmDetailsResourceAsm;
 import pl.ultrakino.service.FilmService;
+import pl.ultrakino.service.RatingService;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -25,13 +27,16 @@ public class FilmServiceImpl implements FilmService {
 	private UserRepository userRepository;
 	private FilmDetailsResourceAsm filmDetailsResourceAsm;
 	private RatingRepository ratingRepository;
+	private RatingService ratingService;
 
-	public FilmServiceImpl(FilmRepository filmRepository, PersonRepository personRepository, UserRepository userRepository, FilmDetailsResourceAsm filmDetailsResourceAsm, RatingRepository ratingRepository) {
+	@Autowired
+	public FilmServiceImpl(FilmRepository filmRepository, PersonRepository personRepository, UserRepository userRepository, FilmDetailsResourceAsm filmDetailsResourceAsm, RatingRepository ratingRepository, RatingService ratingService) {
 		this.filmRepository = filmRepository;
 		this.personRepository = personRepository;
 		this.userRepository = userRepository;
 		this.filmDetailsResourceAsm = filmDetailsResourceAsm;
 		this.ratingRepository = ratingRepository;
+		this.ratingService = ratingService;
 	}
 
 	/**
@@ -93,8 +98,6 @@ public class FilmServiceImpl implements FilmService {
 			player.setSrc(playerResource.getSrc());
 			player.setQuality(playerResource.getQuality());
 			player.setAddedBy(user);
-			player.setForeignSrc(playerResource.isForeignSrc());
-			player.setLostSrc(playerResource.isLostSrc());
 		}
 
 		return players;
@@ -136,6 +139,7 @@ public class FilmServiceImpl implements FilmService {
 		r.setContent(film);
 		r.setRating(rating);
 		r.setRatedBy(user.get());
+		ratingRepository.save(r);
 		film.getRatings().add(r);
 		calculateRating(film);
 		return r;

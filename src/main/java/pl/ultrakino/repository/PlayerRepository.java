@@ -6,6 +6,8 @@ import java.util.Optional;
 
 public interface PlayerRepository {
 
-	Optional<Player> findBySrcWithFullLink(String src);
+	Optional<Player> findBySrc(String src);
+
+	Optional<Player> findBySrcAndHosting(String src, String hosting);
 
 }

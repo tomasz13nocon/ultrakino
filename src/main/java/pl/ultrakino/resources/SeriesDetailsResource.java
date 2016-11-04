@@ -15,21 +15,21 @@ import java.util.Set;
 @Setter
 public class SeriesDetailsResource extends ResourceSupport {
 
+	private Integer uid;
 	private String title;
 	private Integer year;
-	private List<Rating> ratings = new ArrayList<>();
 	private Float rating;
 	private Integer timesRated = 0;
+	private Float userRating;
 	private String originalTitle;
 	private String description;
 	private String coverFilename;
-	private Set<FilmographyEntry> castAndCrew = new HashSet<>();
-	private Set<Category> categories = new HashSet<>();
-	private Set<Country> productionCountries = new HashSet<>();
 	private LocalDate worldPremiere;
+	private Set<Category> categories = new HashSet<>();
 
-
-	private List<Episode> episodes = new ArrayList<>();
+	private Set<FilmographyEntry> castAndCrew = new HashSet<>();
+	private Set<Country> productionCountries = new HashSet<>();
+	private List<EpisodeResource> episodes = new ArrayList<>();
 	private Integer seasonCount;
 	private Integer episodeCount;
 	private Integer runningTime;

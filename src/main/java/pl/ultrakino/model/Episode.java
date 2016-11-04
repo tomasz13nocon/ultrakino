@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -36,6 +37,9 @@ public class Episode extends Content {
 	@JoinColumn(name = "content_id")
 	private Set<Player> players = new HashSet<>();
 
+	@Column(name = "addition_date")
+	private LocalDateTime additionDate;
+
 	private Integer views;
 
 	private Integer season;
@@ -45,5 +49,10 @@ public class Episode extends Content {
 	@ManyToOne
 	@JoinColumn(name = "series_content_id")
 	private Series series;
+
+	@PrePersist
+	public void prePersist() {
+		additionDate = LocalDateTime.now();
+	}
 
 }

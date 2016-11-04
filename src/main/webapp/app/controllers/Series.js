@@ -1,5 +1,5 @@
 angular.module("app")
-.controller("SeriesController", ["$scope", function($scope) {
+.controller("SeriesController", ["$scope", "Series", "$rootScope", function($scope, Series, $rootScope) {
 	var ctrl = this;
 
 	$scope.orderBy = {
@@ -15,7 +15,6 @@ angular.module("app")
 
 	ctrl.modelChanged = function() {
 		var params = ctrl.processParams($scope.params);
-		$location.search(params);
 		ctrl.updateResults(params);
 		$scope.params.pageNumber = 0;
 	};
@@ -43,18 +42,18 @@ angular.module("app")
 	};
 
 	ctrl.updateResults = function(params) {
-		Series.get(params, function(film) {
-			$scope.films = film.content;
-			var first = Math.max(film.pageNumber - 3, 0);
-			var last = Math.min(first + 9, film.pageCount);
+		Series.get(params, function(series) {
+			$scope.series = series.content;
+			var first = Math.max(series.pageNumber - 3, 0);
+			var last = Math.min(first + 9, series.pageCount);
 			var length = last - first;
 			if (length < 9) {
 				first = Math.max(0, last - 9);
 				length = last - first;
 			}
 			$scope.pages = [];
-			$scope.activePage = film.pageNumber;
-			$scope.lastPage = film.pageCount - 1;
+			$scope.activePage = series.pageNumber;
+			$scope.lastPage = series.pageCount - 1;
 			for (var i = 0; i < length; i++) {
 				$scope.pages[i] = first + i;
 			}

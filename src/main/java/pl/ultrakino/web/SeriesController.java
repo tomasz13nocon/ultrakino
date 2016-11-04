@@ -1,9 +1,11 @@
 package pl.ultrakino.web;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Film;
 import pl.ultrakino.model.Series;
 import pl.ultrakino.repository.Page;
@@ -19,10 +21,18 @@ public class SeriesController {
 
 	private SeriesService seriesService;
 
+	@Autowired
+	public SeriesController(SeriesService seriesService) {
+		this.seriesService = seriesService;
+	}
 
-	@GetMapping("/{seriesId}")
-	public SeriesResource getOneSeries(@PathVariable int seriesId) {
-		return null;
+	@GetMapping("/{id}")
+	public ResponseEntity getOneSeries(@PathVariable int id) {
+		try {
+			return ResponseEntity.ok(seriesService.toResource(seriesService.findById(id)));
+		} catch (NoRecordWithSuchIdException e) {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@GetMapping

@@ -5,6 +5,7 @@ import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Film;
 import pl.ultrakino.model.Series;
 import pl.ultrakino.repository.Page;
+import pl.ultrakino.resources.SeriesDetailsResource;
 import pl.ultrakino.resources.SeriesResource;
 
 import java.util.List;
@@ -14,6 +15,8 @@ public interface SeriesService {
 	Series findById(int seriesId) throws NoRecordWithSuchIdException;
 
 	Page<Series> find(MultiValueMap<String, String> params);
+
+	SeriesDetailsResource toDetailsResource(Series series);
 
 	SeriesResource toResource(Series series);
 
