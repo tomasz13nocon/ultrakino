@@ -29,8 +29,7 @@ angular.module("app")
 			$route.updateParams({ episodeId: episode.uid, season: "sezon-" + episode.season, episode: "odcinek-" + episode.episodeNumber });
 			for (var i = 0; i < episode.players.length; i++) {
 				if (episode.players[i].hosting == "openload") {
-					$scope.isPlayer = true;
-					$scope.firstValidPlayer = i;
+					$scope.currentPlayerIndex = i;
 					break;
 				}
 			}
