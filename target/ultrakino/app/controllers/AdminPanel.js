@@ -2,9 +2,11 @@ angular.module("app")
 	.controller("AdminPanelController", ["$http", "$scope", "Film", function($http, $scope, Film) {
 		var ctrl = this;
 
+		$scope.page = 1;
+
 		ctrl.alltubeBot = function() {
 			$scope.loading = true;
-			$http.post(api + "/bots/films", { page: 1 }).then(function(resp) {
+			$http.post(api + "/bots/films", { page: $scope.page }).then(function(resp) {
 				$scope.films = resp.data;
 				$scope.error = null;
 				$scope.loading = false;

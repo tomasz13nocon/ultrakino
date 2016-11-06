@@ -3,8 +3,7 @@ package pl.ultrakino.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.ultrakino.model.Category;
-import pl.ultrakino.model.Country;
+import pl.ultrakino.model.FilmCategory;
 import pl.ultrakino.repository.CategoryRepository;
 import pl.ultrakino.service.CategoryService;
 
@@ -22,12 +21,12 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Category getCategory(String name) {
-		Optional<Category> op = categoryRepository.findByName(name);
+	public FilmCategory getCategory(String name) {
+		Optional<FilmCategory> op = categoryRepository.findByName(name);
 		if (op.isPresent())
 			return op.get();
 		else {
-			Category category = new Category(name);
+			FilmCategory category = new FilmCategory(name);
 			return categoryRepository.save(category);
 		}
 	}

@@ -11,6 +11,7 @@ import pl.ultrakino.model.Film;
 import pl.ultrakino.model.Rating;
 import pl.ultrakino.repository.RatingRepository;
 import pl.ultrakino.resources.FilmDetailsResource;
+import pl.ultrakino.service.CommentService;
 import pl.ultrakino.web.FilmController;
 
 import java.util.Optional;
@@ -23,16 +24,16 @@ public class FilmDetailsResourceAsm extends ResourceAssemblerSupport<Film, FilmD
 
 	private PersonResourceAsm personResourceAsm;
 	private PlayerResourceAsm playerResourceAsm;
-	private CommentResourceAsm commentResourceAsm;
 	private RatingRepository ratingRepository;
+	private CommentService commentService;
 
 	@Autowired
-	public FilmDetailsResourceAsm(PersonResourceAsm personResourceAsm, PlayerResourceAsm playerResourceAsm, CommentResourceAsm commentResourceAsm, RatingRepository ratingRepository) {
+	public FilmDetailsResourceAsm(PersonResourceAsm personResourceAsm, PlayerResourceAsm playerResourceAsm, RatingRepository ratingRepository, CommentService commentService) {
 		super(FilmController.class, FilmDetailsResource.class);
 		this.personResourceAsm = personResourceAsm;
 		this.playerResourceAsm = playerResourceAsm;
-		this.commentResourceAsm = commentResourceAsm;
 		this.ratingRepository = ratingRepository;
+		this.commentService = commentService;
 	}
 
 
@@ -62,7 +63,7 @@ public class FilmDetailsResourceAsm extends ResourceAssemblerSupport<Film, FilmD
 		res.setCast(personResourceAsm.toResources(film.getCastAndCrew()));
 		res.setPlayers(playerResourceAsm.toResources(film.getPlayers()));
 		res.setCategories(film.getCategories());
-		res.setComments(commentResourceAsm.toResources(film.getComments()));
+		res.setComments(commentService.toResources(film.getComments()));
 
 		res.add(linkTo(FilmController.class).slash(film.getId()).withSelfRel());
 		//res.add(li);

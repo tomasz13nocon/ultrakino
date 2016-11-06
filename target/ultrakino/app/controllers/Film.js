@@ -32,13 +32,18 @@ angular.module("app")
 		angular.element(document.querySelector(".rating-actual-rating")).css("color", ratingColor);
 	};
 
+	ctrl.setPlayer = function(index) {
+		$scope.currentPlayerIndex = index;
+	};
+
 	$scope.isPlayer = false; // TODO: remove
 	Film.get({ id: $routeParams["id"] }, function(film) {
 		for (var i = 0; i < film.players.length; i++) {
 			if (film.players[i].hosting == "openload") {
-				film.players[i].src = "https://openload.co/embed/" + film.players[i].src;
-				$scope.firstValidPlayer = i;
+				$scope.currentPlayer = film.players[i];
+				$scope.currentPlayerIndex = i;
 				$scope.isPlayer = true;
+				break;
 			}
 		}
 		for (var i = 0; i < film.comments.length; i++) {
@@ -48,13 +53,10 @@ angular.module("app")
 		document.title = film.title + " - Ultrakino";
 		$scope.film = film;
 		ctrl.calculateRatingColor();
-		//$scope.$on("$locationChanged")
 	});
 
 	ctrl.postComment = function() {
-		Film.postComment({ id: $scope.film.uid }, {
-			contents: ctrl.commentContent,
-		}, function(comment) {
+		Comment.save({ comment: ctrl.commentContent, contentId: $scope.film.uid }, function(comment) {
 			$scope.film.comments.push(ctrl.processComment(comment));
 		});
 	};

@@ -20,11 +20,27 @@ public class PlayerResourceAsm extends ResourceAssemblerSupport<Player, PlayerRe
 	public PlayerResource toResource(Player player) {
 		PlayerResource res = new PlayerResource();
 		res.setHosting(player.getHosting());
-		if (player.getHosting().equals("openload")) {
-			res.setSrc("https://openload.co/embed/" + player.getSrc());
+		String src = player.getSrc();
+		int width = 1060;
+		int height = 595;
+		switch (player.getHosting()) {
+			case "openload":
+				src = "https://openload.co/embed/" + src;
+				break;
+			case "streamin":
+				src = "http://streamin.to/embed-" + src + ".html";
+				break;
+			case "vshare":
+				src = "https://vshare.io/v/" + src + "/width-" + width + "/height-" + height + "/";
+				break;
+			case "vidto":
+				src = "http://vidto.me/embed-" + src + "-" + width + "x" + height + ".html";
+				break;
+			case "videowood":
+				src = "http://videowood.tv/embed/" + src;
+				break;
 		}
-		else
-			res.setSrc(player.getSrc());
+		res.setSrc(src);
 		res.setAdditionDate(player.getAdditionDate());
 		res.setLanguageVersion(player.getLanguageVersion());
 		res.setQuality(player.getQuality());

@@ -8,13 +8,10 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.exceptions.NoUserWithSuchUsernameException;
-import pl.ultrakino.model.Comment;
 import pl.ultrakino.model.Film;
 import pl.ultrakino.model.Rating;
 import pl.ultrakino.repository.Page;
-import pl.ultrakino.resources.FilmDetailsResource;
 import pl.ultrakino.resources.FilmResource;
-import pl.ultrakino.resources.assemblers.CommentResourceAsm;
 import pl.ultrakino.resources.assemblers.FilmDetailsResourceAsm;
 import pl.ultrakino.resources.assemblers.FilmResourceAsm;
 import pl.ultrakino.service.CommentService;
@@ -22,8 +19,6 @@ import pl.ultrakino.service.FilmService;
 import pl.ultrakino.service.RatingService;
 import pl.ultrakino.service.UserService;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.security.Principal;
 
 import static pl.ultrakino.Constants.API_PREFIX;
@@ -33,19 +28,15 @@ import static pl.ultrakino.Constants.API_PREFIX;
 public class FilmController {
 
 	private FilmService filmService;
-	private CommentService commentService;
 	private UserService userService;
 	private FilmResourceAsm filmResourceAsm;
-	private CommentResourceAsm commentResourceAsm;
 	private RatingService ratingService;
 
 	@Autowired
-	public FilmController(FilmService filmService, FilmResourceAsm filmResourceAsm, FilmDetailsResourceAsm filmDetailsResourceAsm, CommentService commentService, UserService userService, CommentResourceAsm commentResourceAsm, RatingService ratingService) {
+	public FilmController(FilmService filmService, FilmResourceAsm filmResourceAsm, UserService userService, RatingService ratingService) {
 		this.filmService = filmService;
-		this.commentService = commentService;
 		this.userService = userService;
 		this.filmResourceAsm = filmResourceAsm;
-		this.commentResourceAsm = commentResourceAsm;
 		this.ratingService = ratingService;
 	}
 
@@ -104,21 +95,6 @@ public class FilmController {
 		}
 	}
 
-	@PostMapping("/{contentId}/comments")
-	public ResponseEntity postComment(@PathVariable int contentId, @RequestBody Comment comment, Principal principal) {
-		if (principal == null)
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		try {
-			return ResponseEntity.ok(commentResourceAsm.toResource(commentService.save(comment, contentId, principal.getName())));
-		} catch (NoRecordWithSuchIdException e) {
-			return ResponseEntity.notFound().build();
-		} catch (NoUserWithSuchUsernameException e) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-		} catch (IllegalArgumentException e) {
-			return ResponseEntity.badRequest().body(JsonNodeFactory.instance.objectNode().put("error", "Comment must be less than 255 characters and more than 2"));
-		}
-	}
-
 	@GetMapping
 	public ResponseEntity getFilms(@RequestParam MultiValueMap<String, String> params) {
 		try {
@@ -133,6 +109,11 @@ public class FilmController {
 			e.printStackTrace();
 			return ResponseEntity.badRequest().body(JsonNodeFactory.instance.objectNode().put("error", e.getMessage()));
 		}
+	}
+
+	@GetMapping("/categories")
+	public ResponseEntity getCategories() {
+		return ResponseEntity.ok().build();
 	}
 
 }

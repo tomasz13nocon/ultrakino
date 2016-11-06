@@ -12,7 +12,7 @@ import java.util.Set;
 @Entity
 @Table(name = "contents")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Content {
+public class Content {
 
 	@Id
 	@SequenceGenerator(name = "content_id_gen", sequenceName = "contents_content_id_seq")

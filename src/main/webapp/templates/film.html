@@ -19,8 +19,14 @@
 	<admin-tools ng-if="isAdmin"></admin-tools>
 
 	<div class="player-section">
+		<div class="player-select">
+			<div class="player-entry" ng-repeat="player in film.players track by $index" ng-class="{'player-entry-active': $index===currentPlayerIndex}" ng-click="filmCtrl.setPlayer($index)">
+				<div ng-bind="player.hosting"></div>
+				<div ng-bind="languageVersions[player.languageVersion]"></div>
+			</div>
+		</div>
 
-		<iframe ng-if="isPlayer" class="player" ng-src="{{film.players[firstValidPlayer].src | trusted}}" scrolling="no" frameborder="0" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+		<iframe ng-if="isPlayer" class="player" ng-src="{{film.players[currentPlayerIndex].src | trusted}}" scrolling="no" frameborder="0" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
 		<div class="admin-panel-error-box" ng-hide="isPlayer">Nie znaleziono filmu. Prawdopodobnie został usunięty. Przepraszamy za problem.</div>
 	</div>
 	<div class="below-player-section">

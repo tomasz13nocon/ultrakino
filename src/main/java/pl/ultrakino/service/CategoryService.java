@@ -1,9 +1,9 @@
 package pl.ultrakino.service;
 
-import pl.ultrakino.model.Category;
+import pl.ultrakino.model.FilmCategory;
 
 public interface CategoryService {
 
-	Category getCategory(String name);
+	FilmCategory getCategory(String name);
 
 }

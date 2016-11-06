@@ -352,10 +352,30 @@ input[type="radio"].radio {
 .film-info-description {
   line-height: 1.2; }
 
+.player-section {
+  margin-top: 32px; }
+
+.player-select {
+  background-color: #111; }
+
+.player-entry {
+  display: inline-block;
+  padding: 6px;
+  text-align: center;
+  font-size: 0.8em; }
+  .player-entry:hover {
+    background-color: #222;
+    cursor: pointer; }
+
+.player-entry-active {
+  background-color: #222; }
+  .player-entry-active:hover {
+    cursor: default; }
+
 .player {
+  background-color: #090909;
   width: 1060px;
   height: 595px;
-  margin-top: 32px;
   margin-bottom: 16px; }
 
 .rate-wrapper {

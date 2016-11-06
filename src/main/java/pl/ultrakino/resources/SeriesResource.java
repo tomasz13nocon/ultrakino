@@ -3,7 +3,7 @@ package pl.ultrakino.resources;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.hateoas.ResourceSupport;
-import pl.ultrakino.model.Category;
+import pl.ultrakino.model.FilmCategory;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -22,7 +22,7 @@ public class SeriesResource extends ResourceSupport {
 	private String description;
 	private String coverFilename;
 	private LocalDate worldPremiere;
-	private Set<Category> categories = new HashSet<>();
+	private Set<FilmCategory> categories = new HashSet<>();
 
 	//	private List<EpisodeResource> episodes = new ArrayList<>();
 	private Integer seasonCount;

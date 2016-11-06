@@ -33,19 +33,21 @@
 
 	<div class="episode-wrapper" ng-show="episode" ng-hide="episodes">
 		<div class="episode-list-btn link" ng-click="oneSeriesCtrl.loadEpisodes(activeSeason)"><span class="fa fa-bars"></span> LISTA ODCINKÓW</div>
-		<!--<div class="episode-next-btn link" ng-click="oneSeriesCtrl.loadEpisodes(activeSeason)">NASTĘPNY <span class="episode-btn-arrow">▶</span></div>-->
-		<!--<div class="episode-next-btn link" ng-click="oneSeriesCtrl.loadEpisodes(activeSeason)"><span class="episode-btn-arrow">◀</span> POPRZEDNI</div>-->
 		<div class="episode-next-btn link" ng-click="oneSeriesCtrl.loadEpisode(episode.nextEpisode.uid)">NASTĘPNY <span class="fa fa-arrow-right"></span></div>
 		<div class="episode-next-btn link" ng-click="oneSeriesCtrl.loadEpisode(episode.previousEpisode.uid)"><span class="fa fa-arrow-left"></span> POPRZEDNI</div>
-		<!--<div class="episode-next-btn link" ng-click="oneSeriesCtrl.loadEpisodes(activeSeason)">NASTĘPNY <span class="fa fa-arrow-circle-o-right"></span></div>-->
-		<!--<div class="episode-next-btn link" ng-click="oneSeriesCtrl.loadEpisodes(activeSeason)"><span class="fa fa-arrow-circle-o-left"></span> POPRZEDNI</div>-->
 
 		<div class="clear"></div>
 
 		<div class="player-section">
+			<div class="player-select">
+				<div class="player-entry" ng-repeat="player in episode.players track by $index" ng-class="{'player-entry-active': $index===currentPlayerIndex}" ng-click="oneSeriesCtrl.setPlayer($index)">
+					<div ng-bind="player.hosting"></div>
+					<div ng-bind="languageVersions[player.languageVersion]"></div>
+				</div>
+			</div>
 
-			<iframe ng-if="isPlayer" class="player" ng-src="{{episode.players[firstValidPlayer].src | trusted}}" scrolling="no" frameborder="0" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
-			<div class="admin-panel-error-box" ng-hide="isPlayer">Nie znaleziono filmu. Prawdopodobnie został usunięty. Przepraszamy za problem.</div>
+			<iframe ng-if="episode.players.length" class="player" ng-src="{{episode.players[firstValidPlayer].src | trusted}}" scrolling="no" frameborder="0" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+			<div class="admin-panel-error-box" ng-hide="episode.players.length">Nie znaleziono filmu. Prawdopodobnie został usunięty. Przepraszamy za problem.</div>
 		</div>
 		<div class="below-player-section">
 			<!-- <div class="views"> TODO: VIEWS

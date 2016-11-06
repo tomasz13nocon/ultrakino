@@ -25,7 +25,7 @@ public class SeriesDetailsResource extends ResourceSupport {
 	private String description;
 	private String coverFilename;
 	private LocalDate worldPremiere;
-	private Set<Category> categories = new HashSet<>();
+	private Set<FilmCategory> categories = new HashSet<>();
 
 	private Set<FilmographyEntry> castAndCrew = new HashSet<>();
 	private Set<Country> productionCountries = new HashSet<>();

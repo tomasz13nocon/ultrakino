@@ -25,4 +25,5 @@ public interface FilmService {
 	void deleteRecommendation(int filmId) throws NoRecordWithSuchIdException;
 
 	Rating rate(int filmId, String username, float rating) throws NoRecordWithSuchIdException, NoUserWithSuchUsernameException;
+
 }

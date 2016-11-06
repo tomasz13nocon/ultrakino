@@ -45,7 +45,7 @@ public class Film extends Content {
 	private Set<FilmographyEntry> castAndCrew = new HashSet<>();
 
 	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
-	private Set<Category> categories = new HashSet<>();
+	private Set<FilmCategory> categories = new HashSet<>();
 
 	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
 	private Set<Country> productionCountries = new HashSet<>();
