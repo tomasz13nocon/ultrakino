@@ -6,7 +6,7 @@
 			<h1 class="film-info-title"><span ng-bind="series.title"></span> (<span ng-bind="series.year"></span>)</h1>
 			<div class="film-info-info">
 				<span class="film-info-info-label">Kategorie: </span>
-				<span ng-repeat="category in series.categories"><span ng-bind="categories[category]"></span><span ng-bind="$last ? '' : ', '"></span></span>
+				<span ng-repeat="category in series.categories"><span ng-bind="category.name"></span><span ng-bind="$last ? '' : ', '"></span></span>
 			</div>
 			<p class="film-info-description" ng-bind="series.description"></p>
 		</div>
@@ -46,7 +46,7 @@
 				</div>
 			</div>
 
-			<iframe ng-if="episode.players.length" class="player" ng-src="{{episode.players[firstValidPlayer].src | trusted}}" scrolling="no" frameborder="0" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+			<iframe ng-if="episode.players.length" class="player" ng-src="{{episode.players[currentPlayerIndex].src | trusted}}" scrolling="no" frameborder="0" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
 			<div class="admin-panel-error-box" ng-hide="episode.players.length">Nie znaleziono filmu. Prawdopodobnie został usunięty. Przepraszamy za problem.</div>
 		</div>
 		<div class="below-player-section">

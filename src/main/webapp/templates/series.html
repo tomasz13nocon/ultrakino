@@ -26,7 +26,7 @@
 		</div>
 		<div class="filter-wrapper">
 			<div class="filter-input-label">Kategorie:</div>
-			<div class="checkbox-wrapper" ng-repeat="(categoryNum, category) in categories track by $index">
+			<div class="checkbox-wrapper" ng-repeat="(categoryNum, category) in seriesCategories track by $index">
 				<label>
 					<input class="checkbox" type="checkbox" ng-change="seriesCtrl.modelChanged()" ng-model="params.categories[categoryNum]">
 					<span></span>
@@ -59,7 +59,7 @@
 				</div>
 				<div class="filter-result-categories">
 					<span class="filter-result-label">Kategorie: </span>
-					<span ng-repeat="category in film.categories"><span ng-bind="categories[category]"></span><span ng-bind="$last ? '' : ', '"></span></span>
+					<span ng-repeat="category in film.categories"><span ng-bind="category.name"></span><span ng-bind="$last ? '' : ', '"></span></span>
 				</div>
 				<div class="filter-result-versions">
 					<span class="filter-result-label">Wersje językowe: </span>

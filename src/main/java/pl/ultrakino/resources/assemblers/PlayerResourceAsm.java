@@ -39,6 +39,9 @@ public class PlayerResourceAsm extends ResourceAssemblerSupport<Player, PlayerRe
 			case "videowood":
 				src = "http://videowood.tv/embed/" + src;
 				break;
+			case "cda":
+				src = "http://ebd.cda.pl/" + width + "x" + height + "/" + src;
+				break;
 		}
 		res.setSrc(src);
 		res.setAdditionDate(player.getAdditionDate());

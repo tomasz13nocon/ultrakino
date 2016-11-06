@@ -92,7 +92,6 @@ public class AlltubeServiceImpl implements AlltubeService {
 		if (filmwebId.length() > 8 || filmwebId.length() == 0) // It's not a real filmweb ID
 			return Optional.empty();
 
-		System.out.println(filmwebId);//TODO: remove
 
 		Optional<Film> existingFilm = filmRepository.findByFilmwebId(filmwebId);
 		if (!existingFilm.isPresent()) {
@@ -106,8 +105,6 @@ public class AlltubeServiceImpl implements AlltubeService {
 		else {
 			film = existingFilm.get();
 		}
-
-		System.out.println(film.getTitle());//TODO: remove
 
 
 		Set<Player> players = new HashSet<>();

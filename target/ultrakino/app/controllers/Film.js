@@ -38,14 +38,16 @@ angular.module("app")
 
 	$scope.isPlayer = false; // TODO: remove
 	Film.get({ id: $routeParams["id"] }, function(film) {
+		$scope.currentPlayerIndex = 0;
 		for (var i = 0; i < film.players.length; i++) {
 			if (film.players[i].hosting == "openload") {
-				$scope.currentPlayer = film.players[i];
 				$scope.currentPlayerIndex = i;
 				$scope.isPlayer = true;
 				break;
 			}
 		}
+		console.log($scope.currentPlayerIndex);
+		console.log(film.players);
 		for (var i = 0; i < film.comments.length; i++) {
 			ctrl.processComment(film.comments[i]);
 		}

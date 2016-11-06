@@ -12,12 +12,8 @@ import pl.ultrakino.model.Film;
 import pl.ultrakino.model.Rating;
 import pl.ultrakino.repository.Page;
 import pl.ultrakino.resources.FilmResource;
-import pl.ultrakino.resources.assemblers.FilmDetailsResourceAsm;
 import pl.ultrakino.resources.assemblers.FilmResourceAsm;
-import pl.ultrakino.service.CommentService;
-import pl.ultrakino.service.FilmService;
-import pl.ultrakino.service.RatingService;
-import pl.ultrakino.service.UserService;
+import pl.ultrakino.service.*;
 
 import java.security.Principal;
 
@@ -31,13 +27,15 @@ public class FilmController {
 	private UserService userService;
 	private FilmResourceAsm filmResourceAsm;
 	private RatingService ratingService;
+	private FilmCategoryService filmCategoryService;
 
 	@Autowired
-	public FilmController(FilmService filmService, FilmResourceAsm filmResourceAsm, UserService userService, RatingService ratingService) {
+	public FilmController(FilmService filmService, FilmResourceAsm filmResourceAsm, UserService userService, RatingService ratingService, FilmCategoryService filmCategoryService) {
 		this.filmService = filmService;
 		this.userService = userService;
 		this.filmResourceAsm = filmResourceAsm;
 		this.ratingService = ratingService;
+		this.filmCategoryService = filmCategoryService;
 	}
 
 //	@JsonView(Views.FilmCreation.class)
@@ -113,7 +111,7 @@ public class FilmController {
 
 	@GetMapping("/categories")
 	public ResponseEntity getCategories() {
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(filmCategoryService.findAll());
 	}
 
 }

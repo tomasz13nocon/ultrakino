@@ -28,6 +28,7 @@ angular.module("app")
 			$scope.episode = episode;
 			$route.updateParams({ episodeId: episode.uid, season: "sezon-" + episode.season, episode: "odcinek-" + episode.episodeNumber });
 			for (var i = 0; i < episode.players.length; i++) {
+				$scope.currentPlayerIndex = 0;
 				if (episode.players[i].hosting == "openload") {
 					$scope.currentPlayerIndex = i;
 					break;

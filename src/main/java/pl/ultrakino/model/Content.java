@@ -15,8 +15,7 @@ import java.util.Set;
 public class Content {
 
 	@Id
-	@SequenceGenerator(name = "content_id_gen", sequenceName = "contents_content_id_seq")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "content_id_gen")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "content_id")
 	private Integer id;
 

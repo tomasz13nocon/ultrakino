@@ -6,11 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
-import pl.ultrakino.model.Film;
 import pl.ultrakino.model.Series;
 import pl.ultrakino.repository.Page;
-import pl.ultrakino.resources.FilmResource;
 import pl.ultrakino.resources.SeriesResource;
+import pl.ultrakino.service.SeriesCategoryService;
 import pl.ultrakino.service.SeriesService;
 
 import static pl.ultrakino.Constants.API_PREFIX;
@@ -20,10 +19,12 @@ import static pl.ultrakino.Constants.API_PREFIX;
 public class SeriesController {
 
 	private SeriesService seriesService;
+	private SeriesCategoryService seriesCategoryService;
 
 	@Autowired
-	public SeriesController(SeriesService seriesService) {
+	public SeriesController(SeriesService seriesService, SeriesCategoryService seriesCategoryService) {
 		this.seriesService = seriesService;
+		this.seriesCategoryService = seriesCategoryService;
 	}
 
 	@GetMapping("/{id}")
@@ -49,6 +50,11 @@ public class SeriesController {
 			e.printStackTrace();
 			return ResponseEntity.badRequest().body(JsonNodeFactory.instance.objectNode().put("error", e.getMessage()));
 		}
+	}
+
+	@GetMapping("/categories")
+	public ResponseEntity getCategories() {
+		return ResponseEntity.ok(seriesCategoryService.findAll());
 	}
 
 }

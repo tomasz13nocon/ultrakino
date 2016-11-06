@@ -3,10 +3,8 @@ package pl.ultrakino.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.NotImplementedException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,14 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.ultrakino.Constants;
 import pl.ultrakino.exceptions.FilmwebException;
 import pl.ultrakino.model.*;
-import pl.ultrakino.repository.CategoryRepository;
-import pl.ultrakino.repository.CountryRepository;
 import pl.ultrakino.repository.PersonRepository;
-import pl.ultrakino.service.CategoryService;
+import pl.ultrakino.service.FilmCategoryService;
 import pl.ultrakino.service.CountryService;
 import pl.ultrakino.service.FilmwebService;
+import pl.ultrakino.service.SeriesCategoryService;
 
-import javax.naming.OperationNotSupportedException;
 import java.io.*;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -38,65 +34,21 @@ public class FilmwebServiceImpl implements FilmwebService {
 
 	private PersonRepository personRepository;
 	private CountryService countryService;
-	private CategoryService categoryService;
+	private FilmCategoryService filmCategoryService;
+	private SeriesCategoryService seriesCategoryService;
 
-//	private static final String WEB_SCRAPER_EXCEPTION_MSG = "Unexcpected filmweb website format";
-	private static final Map<String, Integer> categories = new HashMap<>();
 	private static final String FILM_INFO_METHOD = "getFilmInfoFull";
 	private static final String PERSONS_METHOD = "getFilmPersons";
 	private static final String IMAGES = "/opt/images/img/";
 //	private static final String IMAGES = "/home/user/Projects/covers/";
 
-	static {
-		categories.put("3D", 47);
-		categories.put("Akcja", 4);
-		categories.put("Animacja", 48);
-		categories.put("Anime", 49);
-		categories.put("Baśń", 50);
-		categories.put("Biograficzny", 6);
-		categories.put("Czarna komedia", 51);
-		categories.put("Dokumentalny", 7);
-		categories.put("Dramat", 8);
-		categories.put("Dramat historyczny", 62);
-		categories.put("Erotyczny", 52);
-		categories.put("Familijny", 9);
-		categories.put("Fantasy", 10);
-		categories.put("Film-Noir", 64);
-		categories.put("Gangsterski", 53);
-		categories.put("Historyczny", 11);
-		categories.put("Horror", 12);
-		categories.put("Katastroficzny", 54);
-		categories.put("Komedia", 13);
-		categories.put("Komedia kryminalna", 63);
-		categories.put("Komedia romantyczna", 55);
-		categories.put("Kostiumowy", 56);
-		categories.put("Kryminał", 14);
-		categories.put("Musical", 57);
-		categories.put("Muzyczny", 15);
-		categories.put("Obyczajowy", 16);
-		categories.put("Polityczny", 58);
-		categories.put("Przygodowy", 18);
-		categories.put("Przyrodniczy", 59);
-		categories.put("Psychologiczny", 19);
-		categories.put("Romans", 20);
-		categories.put("Sci-Fi", 21);
-		categories.put("Sensacyjny", 22);
-		categories.put("Sportowy", 23);
-		categories.put("Surrealistyczny", 61);
-		categories.put("Szpiegowski", 60);
-		categories.put("Thriller", 24);
-		categories.put("Western", 25);
-		categories.put("Wojenny", 26);
-	}
-
 	@Autowired
-	public FilmwebServiceImpl(PersonRepository personRepository, CountryService countryService, CategoryService categoryService) {
+	public FilmwebServiceImpl(PersonRepository personRepository, CountryService countryService, FilmCategoryService filmCategoryService, SeriesCategoryService seriesCategoryService) {
 		this.personRepository = personRepository;
 		this.countryService = countryService;
-		this.categoryService = categoryService;
+		this.filmCategoryService = filmCategoryService;
+		this.seriesCategoryService = seriesCategoryService;
 	}
-
-
 
 
 	/**
@@ -183,28 +135,6 @@ public class FilmwebServiceImpl implements FilmwebService {
 		Object[] seriesInfo = fetchContentInfo(filmwebId);
 		Series series = new Series();
 		series.setFilmwebId(filmwebId);
-		/*
-		 * 0 - title
-		 * 1 - originalTitle
-		 * 2 - avgRate
-		 * 3 - votesCount
-		 * 4 - genres
-		 * 5 - year
-		 * 6 - duration
-		 * 7 - commentsCount
-		 * 8 - forumUrl
-		 * 9 - hasReview
-		 * 10 - hasDescription
-		 * 11 - imagePath
-		 * 12 - video
-		 * 13 - premiereWorld
-		 * 14 - premiereCountry
-		 * 15 - filmType
-		 * 16 - seasonsCount
-		 * 17 - episodesCount
-		 * 18 - countriesString
-		 * 19 - description
-		 */
 
 		if ((Integer) seriesInfo[15] != 1)
 			throw new FilmwebException("Not a series.");
@@ -213,7 +143,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 		if (!series.getTitle().equals(seriesInfo[1])) // If original title is the same as the title then we do nothing
 			series.setOriginalTitle((String) seriesInfo[1]);
 
-		series.setCategories(Arrays.stream(((String) seriesInfo[4]).split(",")).map(categoryService::getCategory).collect(Collectors.toSet()));
+		series.setCategories(Arrays.stream(((String) seriesInfo[4]).split(",")).map(seriesCategoryService::findByName).collect(Collectors.toSet()));
 
 		series.setYear((Integer) seriesInfo[5]);
 		series.setRunningTime((Integer) seriesInfo[6]);
@@ -295,7 +225,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 		if (!film.getTitle().equals(filmInfo[1])) // If original title is the same as the title then we do nothing
 			film.setOriginalTitle((String) filmInfo[1]);
 
-		film.setCategories(Arrays.stream(((String) filmInfo[4]).split(",")).map(categoryService::getCategory).collect(Collectors.toSet()));
+		film.setCategories(Arrays.stream(((String) filmInfo[4]).split(",")).map(filmCategoryService::findByName).collect(Collectors.toSet()));
 
 		film.setYear((Integer) filmInfo[5]);
 		film.setRunningTime((Integer) filmInfo[6]);
