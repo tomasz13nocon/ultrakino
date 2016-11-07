@@ -76,23 +76,6 @@ public class FilmController {
 		}
 	}
 
-	@PostMapping("/{filmId}/ratings")
-	public ResponseEntity rate(@PathVariable int filmId, @RequestBody Rating rating, Principal principal) {
-		if (principal == null)
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		try {
-			return ResponseEntity.ok(ratingService.toResource(filmService.rate(filmId, principal.getName(), rating.getRating())));
-		} catch (NoRecordWithSuchIdException e) {
-			return ResponseEntity.notFound().build();
-		} catch (NoUserWithSuchUsernameException e) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-		} catch (IllegalStateException e) {
-			return ResponseEntity.badRequest().body(JsonNodeFactory.instance.objectNode().put("error", "This content has been already rated by this user."));
-		} catch (IllegalArgumentException e) {
-			return ResponseEntity.badRequest().body(JsonNodeFactory.instance.objectNode().put("error", "Rating has to be between 0 and 10."));
-		}
-	}
-
 	@GetMapping
 	public ResponseEntity getFilms(@RequestParam MultiValueMap<String, String> params) {
 		try {

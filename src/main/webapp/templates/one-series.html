@@ -67,10 +67,10 @@
 			</div>
 			<div class="rate-wrapper" ng-show="authenticated">
 				<div ng-show="episode.userRating === null">
-					<span class="rate-label">Oceń ten film: </span>
-					<span class="stars-wrapper" ng-mouseleave="filmCtrl.starMouseleave()">
-						<span class="zero-star-span rate-tooltip-span" ng-mouseover="filmCtrl.starMouseover(0)" ng-click="filmCtrl.rate(0)" tooltip="0/10"></span>
-						<span class="rate-tooltip-span" tooltip="{{i}}/10" ng-repeat="i in stars track by $index" ng-mouseover="filmCtrl.starMouseover(i)" ng-click="filmCtrl.rate(i)"><i class="fa fa-lg rate-star" ng-class="{'fa-star': i <= activeStar, 'fa-star-o': i > activeStar}"></i></span>
+					<span class="rate-label">Oceń ten odcinek: </span>
+					<span class="stars-wrapper" ng-mouseleave="oneSeriesCtrl.starMouseleave()">
+						<span class="zero-star-span rate-tooltip-span" ng-mouseover="oneSeriesCtrl.starMouseover(0)" ng-click="oneSeriesCtrl.rate(0)" tooltip="0/10"></span>
+						<span class="rate-tooltip-span" tooltip="{{i}}/10" ng-repeat="i in stars track by $index" ng-mouseover="oneSeriesCtrl.starMouseover(i)" ng-click="oneSeriesCtrl.rate(i)"><i class="fa fa-lg rate-star" ng-class="{'fa-star': i <= activeStar, 'fa-star-o': i > activeStar}"></i></span>
 					</span>
 				</div>
 				<div ng-show="episode.userRating !== null">

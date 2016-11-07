@@ -1,12 +1,17 @@
 package pl.ultrakino.service.impl;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Episode;
+import pl.ultrakino.model.Rating;
 import pl.ultrakino.repository.EpisodeRepository;
+import pl.ultrakino.repository.RatingRepository;
 import pl.ultrakino.resources.EpisodeDetailsResource;
 import pl.ultrakino.resources.EpisodeResource;
 import pl.ultrakino.resources.assemblers.PlayerResourceAsm;
@@ -24,12 +29,14 @@ public class EpisodeServiceImpl implements EpisodeService {
 	private PlayerResourceAsm playerResourceAsm;
 	private EpisodeRepository episodeRepository;
 	private CommentService commentService;
+	private RatingRepository ratingRepository;
 
 	@Autowired
-	public EpisodeServiceImpl(PlayerResourceAsm playerResourceAsm, EpisodeRepository episodeRepository, CommentService commentService) {
+	public EpisodeServiceImpl(PlayerResourceAsm playerResourceAsm, EpisodeRepository episodeRepository, CommentService commentService, RatingRepository ratingRepository) {
 		this.playerResourceAsm = playerResourceAsm;
 		this.episodeRepository = episodeRepository;
 		this.commentService = commentService;
+		this.ratingRepository = ratingRepository;
 	}
 
 	@Override
@@ -68,6 +75,14 @@ public class EpisodeServiceImpl implements EpisodeService {
 		res.setViews(episode.getViews());
 		res.setSeason(episode.getSeason());
 		res.setEpisodeNumber(episode.getEpisodeNumber());
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null && auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()).contains("ROLE_USER")){
+			Optional<Rating> userRating = ratingRepository.findByUsernameAndContentId(
+					((UserDetails) auth.getPrincipal()).getUsername(),
+					episode.getId());
+			if (userRating.isPresent())
+				res.setUserRating(userRating.get().getRating());
+		}
 		res.setComments(commentService.toResources(episode.getComments()));
 		res.setPlayers(playerResourceAsm.toResources(episode.getPlayers()));
 		Optional<Episode> previous = findPrevious(episode);

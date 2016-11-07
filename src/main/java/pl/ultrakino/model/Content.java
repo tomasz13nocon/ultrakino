@@ -12,7 +12,7 @@ import java.util.Set;
 @Entity
 @Table(name = "contents")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Content {
+public abstract class Content implements Rateable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

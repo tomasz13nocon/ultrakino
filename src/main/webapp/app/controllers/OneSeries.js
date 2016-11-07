@@ -1,5 +1,5 @@
 angular.module("app")
-.controller("OneSeriesController", ['$interval', '$location', '$route', '$routeParams', '$scope', '$timeout', 'Comment', 'Episode', 'Series', function($interval, $location, $route, $routeParams, $scope, $timeout, Comment, Episode, Series) {
+.controller("OneSeriesController", ['$interval', '$location', '$route', '$routeParams', '$scope', '$timeout', 'Comment', 'Episode', 'Rating', 'Series', function($interval, $location, $route, $routeParams, $scope, $timeout, Comment, Episode, Rating, Series) {
 	var ctrl = this;
 
 	ctrl.loadEpisodes = function(season = $scope.seasons[0]) {
@@ -39,6 +39,40 @@ angular.module("app")
 			}
 		});
 		$scope.episodes = null;
+	};
+
+	$scope.stars = new Array(10);
+	for (var i = 0; i < $scope.stars.length; i++) {
+		$scope.stars[i] = i + 1;
+	};
+	$scope.activeStar = -1;
+
+	ctrl.starMouseover = function(i) {
+		$scope.activeStar = i;
+	};
+	ctrl.starMouseleave = function() {
+		$scope.activeStar = -1;
+	};
+
+	ctrl.rate = function(i) {
+		Rating.save({}, {
+			contentId: $scope.episode.uid,
+			rating: i,
+		}, function(rating) {
+			$scope.episode.userRating = rating.rating;
+			$scope.episode.rating = ($scope.episode.rating * $scope.episode.timesRated + rating.rating) / ++$scope.episode.timesRated;
+			ctrl.calculateRatingColor();
+		});
+	};
+
+	ctrl.calculateRatingColor = function() {
+		ratingColor = "rgb(" +
+			Math.min(255, $scope.episode.rating * -51 + 510) + "," +
+			Math.min(255, $scope.episode.rating * 51) + ",0)";
+		angular.element(document.querySelector(".rating-actual-rating")).css("color", ratingColor);
+	};
+	ctrl.setPlayer = function(index) {
+		$scope.currentPlayerIndex = index;
 	};
 
 	ctrl.postComment = function() {
