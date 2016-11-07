@@ -46,8 +46,6 @@ angular.module("app")
 				break;
 			}
 		}
-		console.log($scope.currentPlayerIndex);
-		console.log(film.players);
 		for (var i = 0; i < film.comments.length; i++) {
 			ctrl.processComment(film.comments[i]);
 		}
