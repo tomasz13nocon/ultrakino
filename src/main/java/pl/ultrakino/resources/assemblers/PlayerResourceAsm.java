@@ -28,19 +28,19 @@ public class PlayerResourceAsm extends ResourceAssemblerSupport<Player, PlayerRe
 				src = "https://openload.co/embed/" + src;
 				break;
 			case "streamin":
-				src = "http://streamin.to/embed-" + src + ".html";
+				src = "https://streamin.to/embed-" + src + ".html";
 				break;
 			case "vshare":
 				src = "https://vshare.io/v/" + src + "/width-" + width + "/height-" + height + "/";
 				break;
 			case "vidto":
-				src = "http://vidto.me/embed-" + src + "-" + width + "x" + height + ".html";
+				src = "https://vidto.me/embed-" + src + "-" + width + "x" + height + ".html";
 				break;
 			case "videowood":
-				src = "http://videowood.tv/embed/" + src;
+				src = "https://videowood.tv/embed/" + src;
 				break;
 			case "cda":
-				src = "http://ebd.cda.pl/" + width + "x" + height + "/" + src;
+				src = "https://ebd.cda.pl/" + width + "x" + height + "/" + src;
 				break;
 		}
 		res.setSrc(src);
