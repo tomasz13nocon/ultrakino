@@ -30,8 +30,6 @@ angular.module("app")
 				$rootScope.seriesCategories[resp.data[i].id] = resp.data[i].name;
 			}
 		});
-		console.log($rootScope.filmCategories);
-		console.log($rootScope.seriesCategories);
 
 		//$rootScope.categories = {
 			//47: "3D",
