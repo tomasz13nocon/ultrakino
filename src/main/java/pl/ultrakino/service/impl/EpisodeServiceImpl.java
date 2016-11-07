@@ -1,5 +1,6 @@
 package pl.ultrakino.service.impl;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,6 +10,7 @@ import pl.ultrakino.repository.EpisodeRepository;
 import pl.ultrakino.resources.EpisodeDetailsResource;
 import pl.ultrakino.resources.EpisodeResource;
 import pl.ultrakino.resources.assemblers.PlayerResourceAsm;
+import pl.ultrakino.service.CommentService;
 import pl.ultrakino.service.EpisodeService;
 
 import java.util.List;
@@ -21,11 +23,13 @@ public class EpisodeServiceImpl implements EpisodeService {
 
 	private PlayerResourceAsm playerResourceAsm;
 	private EpisodeRepository episodeRepository;
+	private CommentService commentService;
 
 	@Autowired
-	public EpisodeServiceImpl(PlayerResourceAsm playerResourceAsm, EpisodeRepository episodeRepository) {
+	public EpisodeServiceImpl(PlayerResourceAsm playerResourceAsm, EpisodeRepository episodeRepository, CommentService commentService) {
 		this.playerResourceAsm = playerResourceAsm;
 		this.episodeRepository = episodeRepository;
+		this.commentService = commentService;
 	}
 
 	@Override
@@ -64,6 +68,7 @@ public class EpisodeServiceImpl implements EpisodeService {
 		res.setViews(episode.getViews());
 		res.setSeason(episode.getSeason());
 		res.setEpisodeNumber(episode.getEpisodeNumber());
+		res.setComments(commentService.toResources(episode.getComments()));
 		res.setPlayers(playerResourceAsm.toResources(episode.getPlayers()));
 		Optional<Episode> previous = findPrevious(episode);
 		if (previous.isPresent())

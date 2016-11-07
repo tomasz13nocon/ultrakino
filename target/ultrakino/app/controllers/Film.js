@@ -47,7 +47,7 @@ angular.module("app")
 			}
 		}
 		for (var i = 0; i < film.comments.length; i++) {
-			ctrl.processComment(film.comments[i]);
+			Comment.process(film.comments[i]);
 		}
 
 		document.title = film.title + " - Ultrakino";
@@ -57,21 +57,8 @@ angular.module("app")
 
 	ctrl.postComment = function() {
 		Comment.save({ comment: ctrl.commentContent, contentId: $scope.film.uid }, function(comment) {
-			$scope.film.comments.push(ctrl.processComment(comment));
+			$scope.film.comments.push(Comment.process(comment));
 		});
-	};
-
-	ctrl.processComment = function(comment) {
-		if (!comment.addedBy.avatarFilename)
-			comment.addedBy.avatarFilename = defaultAvatarFilename;
-		comment.submissionDate = new Date(
-			comment.submissionDate[0],
-			comment.submissionDate[1],
-			comment.submissionDate[2],
-			comment.submissionDate[3],
-			comment.submissionDate[4],
-			comment.submissionDate[5]);
-		return comment;
 	};
 
 }]);

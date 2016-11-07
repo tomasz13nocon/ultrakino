@@ -9,7 +9,7 @@
 				<span ng-repeat="player in film.players"><span ng-bind="languageVersions[player.languageVersion]"></span><span ng-bind="$last ? '' : ', '"></span></span>
 				<br>
 				<span class="film-info-info-label">Kategorie: </span>
-				<span ng-repeat="category in film.categories"><span ng-bind="categories[category]"></span><span ng-bind="$last ? '' : ', '"></span></span>
+				<span ng-repeat="category in film.categories"><span ng-bind="category.name"></span><span ng-bind="$last ? '' : ', '"></span></span>
 			</div>
 			<p class="film-info-description" ng-bind="film.description"></p>
 		</div>

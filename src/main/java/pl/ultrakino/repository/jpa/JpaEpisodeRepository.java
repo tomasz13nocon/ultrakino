@@ -52,6 +52,7 @@ public class JpaEpisodeRepository implements EpisodeRepository {
 		List<Episode> episodes = em.createQuery("SELECT e FROM Episode e " +
 				"LEFT JOIN FETCH e.ratings " +
 				"LEFT JOIN FETCH e.players " +
+				"LEFT JOIN FETCH e.comments " +
 				"WHERE e.id=:id AND e.series.id=:seriesId", Episode.class)
 				.setParameter("id", id)
 				.setParameter("seriesId", seriesId)

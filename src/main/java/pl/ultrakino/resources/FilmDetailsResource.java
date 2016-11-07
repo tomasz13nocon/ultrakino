@@ -15,44 +15,23 @@ import java.util.Set;
 @Setter
 public class FilmDetailsResource extends ContentResource {
 
-//	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Integer uid;
-
-//	@JsonView(Views.FilmCreation.class)
 	private String title;
-
 	private Integer year;
-
-//	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Float rating;
-
-//	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-	private Integer timesRated;
-
-	private Float userRating;
-
+	private Integer timesRated = 0;
 	private String originalTitle;
-
 	private String description;
-
 	private String coverFilename;
-
-	private List<PersonResource> cast = new ArrayList<>();
-
 	private LocalDate worldPremiere;
-
 	private LocalDate localPremiere;
-
-	private List<PlayerResource> players = new ArrayList<>();
-
-//	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-	private Integer views;
-
 	private Set<FilmCategory> categories = new HashSet<>();
 
+	private Float userRating;
+	private List<PersonResource> cast = new ArrayList<>();
+	private List<PlayerResource> players = new ArrayList<>();
+	private Integer views;
 	private List<CommentResource> comments = new ArrayList<>();
-
-//	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private LocalDateTime recommendationDate;
 
 }

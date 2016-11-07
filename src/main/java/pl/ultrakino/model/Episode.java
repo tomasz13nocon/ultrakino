@@ -50,6 +50,10 @@ public class Episode extends Content {
 	@JoinColumn(name = "series_content_id")
 	private Series series;
 
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "content_id")
+	private Set<Comment> comments = new HashSet<>();
+
 	@PrePersist
 	public void prePersist() {
 		additionDate = LocalDateTime.now();

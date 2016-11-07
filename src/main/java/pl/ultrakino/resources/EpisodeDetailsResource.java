@@ -31,6 +31,7 @@ public class EpisodeDetailsResource extends ResourceSupport {
 	private EpisodeResource previousEpisode;
 	private EpisodeResource nextEpisode;
 
+	private List<CommentResource> comments = new ArrayList<>();
 	private List<PlayerResource> players = new ArrayList<>();
 
 }

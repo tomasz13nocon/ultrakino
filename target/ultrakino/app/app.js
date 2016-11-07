@@ -145,6 +145,9 @@ angular.module("app")
 			controller: "UserDetailsController",
 			controllerAs: "userDetailsCtrl",
 		})
+		.when("/redirect", {
+			templateUrl: templateDir + "/redirect.html",
+		})
 		
 		.otherwise({
 			templateUrl: templateDir + "/404.html",

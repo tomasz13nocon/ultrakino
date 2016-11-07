@@ -34,12 +34,17 @@ angular.module("app")
 					break;
 				}
 			}
+			for (var i = 0; i < episode.comments.length; i++) {
+				Comment.process(episode.comments[i]);
+			}
 		});
 		$scope.episodes = null;
 	};
 
-	ctrl.postComment = function(comment) {
-		Comment.postComment(comment);
+	ctrl.postComment = function() {
+		Comment.save({ comment: ctrl.commentContent, contentId: $scope.episode.uid }, function(comment) {
+			$scope.episode.comments.push(Comment.process(comment));
+		});
 	};
 
 	Series.get({ id: $routeParams["id"] }, function(series) {
