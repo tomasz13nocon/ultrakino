@@ -111,7 +111,7 @@
 			<div ng-cloak click-anywhere-but-here="showResults = false" id="search-results-wrapper" ng-show="showResults" ng-class="{'search-results-show': showResults == true && searchCtrl.query.length > 2}">
 				<div class="search-result" ng-repeat="film in searchCtrl.films">
 					<span class="search-result-link" ng-click="searchCtrl.resultClicked(film)">
-						<img class="search-result-cover" ng-src="{{images + film.coverFilename}}" alt="{{film.title}}">
+						<img class="search-result-cover" ng-src="{{film.coverFilename ? images + film.coverFilename : noImage}}" alt="{{film.title}}">
 						<h4 class="search-result-title" ng-bind="film.title"></h4>
 					</span>
 					<h6>Rok: <span ng-bind="film.year"></span></h6>
