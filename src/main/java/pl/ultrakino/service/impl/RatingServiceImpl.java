@@ -53,6 +53,8 @@ public class RatingServiceImpl implements RatingService {
 		r.setContent(content);
 		r.setRating(rating);
 		r.setRatedBy(user.get());
+		content.getRatings().add(r);
+		calculateRating(content);
 		ratingRepository.save(r);
 		return r;
 	}

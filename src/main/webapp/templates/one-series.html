@@ -32,6 +32,7 @@
 	</div>
 
 	<div class="episode-wrapper" ng-show="episode" ng-hide="episodes">
+		<h2 class="episode-title"><span class="episode-title-label">Sezon</span> <span ng-bind="episode.season"></span> - <span class="episode-title-label">Odcinek</span> <span ng-bind="episode.episodeNumber"></span></h2>
 		<div class="episode-list-btn link" ng-click="oneSeriesCtrl.loadEpisodes(activeSeason)"><span class="fa fa-bars"></span> LISTA ODCINKÓW</div>
 		<div class="episode-next-btn link" ng-click="oneSeriesCtrl.loadEpisode(episode.nextEpisode.uid)">NASTĘPNY <span class="fa fa-arrow-right"></span></div>
 		<div class="episode-next-btn link" ng-click="oneSeriesCtrl.loadEpisode(episode.previousEpisode.uid)"><span class="fa fa-arrow-left"></span> POPRZEDNI</div>

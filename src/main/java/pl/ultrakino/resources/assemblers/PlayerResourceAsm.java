@@ -42,6 +42,9 @@ public class PlayerResourceAsm extends ResourceAssemblerSupport<Player, PlayerRe
 			case "cda":
 				src = "http://ebd.cda.pl/" + width + "x" + height + "/" + src;
 				break;
+			case "youtube":
+				src = "https://www.youtube.com/embed/" + src;
+				break;
 		}
 		res.setSrc(src);
 		res.setAdditionDate(player.getAdditionDate());

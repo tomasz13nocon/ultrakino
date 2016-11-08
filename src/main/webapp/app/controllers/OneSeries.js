@@ -37,6 +37,7 @@ angular.module("app")
 			for (var i = 0; i < episode.comments.length; i++) {
 				Comment.process(episode.comments[i]);
 			}
+			ctrl.calculateRatingColor();
 		});
 		$scope.episodes = null;
 	};

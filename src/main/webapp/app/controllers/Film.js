@@ -1,5 +1,5 @@
 angular.module("app")
-.controller("FilmController", ['$http', '$routeParams', '$scope', 'Comment', 'Film', function($http, $routeParams, $scope, Comment, Film) {
+.controller("FilmController", ['$http', '$routeParams', '$scope', 'Comment', 'Film', 'Rating', function($http, $routeParams, $scope, Comment, Film, Rating) {
 	var ctrl = this;
 
 	$scope.stars = new Array(10);
@@ -16,7 +16,8 @@ angular.module("app")
 	};
 
 	ctrl.rate = function(i) {
-		Film.rate({ id: $scope.film.uid }, {
+		Rating.save({}, {
+			contentId: $scope.film.uid,
 			rating: i,
 		}, function(rating) {
 			$scope.film.userRating = rating.rating;

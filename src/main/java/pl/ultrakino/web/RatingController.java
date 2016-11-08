@@ -32,14 +32,13 @@ public class RatingController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		JsonNode rating = body.get("rating");
 		JsonNode contentId = body.get("contentId");
-		if (rating == null ||
-				!rating.isNumber() ||
-				contentId == null ||
-				!contentId.isInt())
+		if (rating == null || !rating.isNumber() ||
+				contentId == null || !contentId.isInt()) {
 			return ResponseEntity.badRequest().build();
+		}
+
 		try {
 			Rating r = ratingService.save(contentId.asInt(), principal.getName(), (float) rating.asDouble());
-			ratingService.calculateRating(r.getContent());
 			return ResponseEntity.ok(ratingService.toResource(r));
 		} catch (NoRecordWithSuchIdException e) {
 			return ResponseEntity.notFound().build();

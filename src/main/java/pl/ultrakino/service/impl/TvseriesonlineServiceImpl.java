@@ -162,25 +162,30 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 					Player player = new Player();
 					player.setHosting(hosting);
 					if (hosting.equals("openload")) {
-						if (link.endsWith("/")) {
-							int beginIndex = -1;
-							for (int i = link.length() - 2; i > 0; i--) {
-								if (link.charAt(i) == '/') {
-									beginIndex = i;
-									break;
-								}
+						int beginIndex = -1;
+						int endIndex = link.lastIndexOf('/');
+						for (int i = endIndex - 1; i > 0; i--) {
+							if (link.charAt(i) == '/') {
+								beginIndex = i;
+								break;
 							}
-							if (beginIndex == -1) {
-								throw new TvseriesonlineException("Wrong openload link format on " +
-										series.getTitle() +
-										" S" + episode.getSeason() +
-										"E" + episode.getEpisodeNumber());
-							}
-							player.setSrc(link.substring(beginIndex + 1, link.lastIndexOf('/')));
 						}
+						if (beginIndex == -1) {
+							throw new TvseriesonlineException("Wrong openload link format on " +
+									series.getTitle() +
+									" S" + episode.getSeason() +
+									"E" + episode.getEpisodeNumber());
+						}
+						player.setSrc(link.substring(beginIndex + 1, endIndex));
+					}
+					else if (hosting.equals("vidto")) {
+						player.setSrc(link.substring(link.lastIndexOf('/') + 1, link.lastIndexOf('.')));
+					}
+					else if (hosting.equals("videomega")) {
+						player.setSrc(link.substring(link.lastIndexOf('=') + 1));
 					}
 					else {
-						player.setSrc(link);
+						player.setSrc(link.substring(link.lastIndexOf('/') + 1));
 					}
 					player.setForeignSrc(true);
 					player.setLanguageVersion(version);
