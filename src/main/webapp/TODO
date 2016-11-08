@@ -1,15 +1,6 @@
-śledzenie filmu/serialu
-User: śledzone
-powiadomienia kiedy wyjdzie nowy film
-nowa klasa:
-Event
-User: List<Event>
-Film: List<Trailer>
-
 flashing error msg in oneseries
 duplicate languageversions
 ocena i komenty seriali
-obrazki w szukajce
 viewsy (1 na dzień na usera, dodać datę viewsu, w najpopularniejszych dać najcześćiej oglądane filmy w ostatnim miesiącu)
 aktorzy
 jeden koment na minutę/30 sekund
@@ -27,4 +18,11 @@ AFTER START:
 comments pagination
 url based filters
 sort series by addition date of their episodes
+
+śledzenie filmu/serialu
+User: śledzone
+powiadomienia kiedy wyjdzie nowy film
+Event
+User: List<Event>
+Film: List<Trailer>
 

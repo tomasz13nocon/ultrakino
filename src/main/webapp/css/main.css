@@ -325,7 +325,9 @@ input[type="radio"].radio {
   overflow: hidden; }
 
 .films-section-cover {
-  width: 170px; }
+  width: 170px;
+  max-height: 260px;
+  min-height: 230px; }
 
 .page-wrapper {
   width: 1060px;
