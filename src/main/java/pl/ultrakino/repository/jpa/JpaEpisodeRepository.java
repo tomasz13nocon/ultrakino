@@ -75,8 +75,7 @@ public class JpaEpisodeRepository implements EpisodeRepository {
 				.getResultList();
 		if (!episodes.isEmpty())
 			return Optional.of(episodes.get(0));
-		if (episode.getSeason() == 1)
-			return Optional.empty();
+
 		episodes = em.createQuery("SELECT e FROM Episode e WHERE " +
 				"e.series=:series AND " +
 				"e.season=(SELECT MIN(e.season) FROM Episode e WHERE e.season>:season) AND " +
@@ -107,6 +106,7 @@ public class JpaEpisodeRepository implements EpisodeRepository {
 			return Optional.of(episodes.get(0));
 		if (episode.getSeason() == 1)
 			return Optional.empty();
+
 		episodes = em.createQuery("SELECT e FROM Episode e WHERE " +
 				"e.series=:series AND " +
 				"e.season=(SELECT MAX(e.season) FROM Episode e WHERE e.season<:season) AND " +
