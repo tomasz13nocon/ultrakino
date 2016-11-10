@@ -110,7 +110,7 @@ angular.module("app")
 			templateUrl: templateDir + "/my-account.html",
 			controller: "MyAccountController",
 			controllerAs: "myAccountCtrl",
-		}
+		})
 		.when("/redirect", {
 			templateUrl: templateDir + "/redirect.html",
 		})
