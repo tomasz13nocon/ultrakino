@@ -31,45 +31,6 @@ angular.module("app")
 			}
 		});
 
-		//$rootScope.categories = {
-			//47: "3D",
-			//4: "Akcja",
-			//48: "Animacja",
-			//49: "Anime",
-			//50: "Baśń",
-			//6: "Biograficzny",
-			//51: "Czarna komedia",
-			//7: "Dokumentalny",
-			//8: "Dramat",
-			//52: "Erotyczny",
-			//9: "Familijny",
-			//10: "Fantasy",
-			//53: "Gangsterski",
-			//11: "Historyczny",
-			//12: "Horror",
-			//54: "Katastroficzny",
-			//13: "Komedia",
-			//55: "Komedia romantyczna",
-			//56: "Kostiumowy",
-			//14: "Kryminał",
-			//57: "Musical",
-			//15: "Muzyczny",
-			//16: "Obyczajowy",
-			//58: "Polityczny",
-			//18: "Przygodowy",
-			//59: "Przyrodniczy",
-			//19: "Psychologiczny",
-			//20: "Romans",
-			//21: "Sci-Fi",
-			//22: "Sensacyjny",
-			//23: "Sportowy",
-			//61: "Surrealistyczny",
-			//60: "Szpiegowski",
-			//24: "Thriller",
-			//25: "Western",
-			//26: "Wojenny",
-		//};
-
 		$rootScope.years = [];
 		for (var i = new Date().getFullYear(); i > 1900; i--) {
 			$rootScope.years.push(i);
@@ -140,11 +101,16 @@ angular.module("app")
 			controllerAs: "adminPanelCtrl",
 			activeTab: "adminPanel",
 		})
-		.when("/user/:id", {
-			templateUrl: templateDir + "/user-details.html",
-			controller: "UserDetailsController",
-			controllerAs: "userDetailsCtrl",
-		})
+		//.when("/user/:id", {
+			//templateUrl: templateDir + "/user-details.html",
+			//controller: "UserDetailsController",
+			//controllerAs: "userDetailsCtrl",
+		//})
+		.when("/moje-konto", {
+			templateUrl: templateDir + "/my-account.html",
+			controller: "MyAccountController",
+			controllerAs: "myAccountCtrl",
+		}
 		.when("/redirect", {
 			templateUrl: templateDir + "/redirect.html",
 		})

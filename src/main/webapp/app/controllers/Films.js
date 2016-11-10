@@ -13,29 +13,12 @@ angular.module("app")
 			"Rosnąco": true,
 		};
 
-		//var skipLocationEvent = false;
 		ctrl.modelChanged = function() {
 			var params = ctrl.processParams($scope.params);
-			//skipLocationEvent = true;
-			//$location.search(params);
 			ctrl.updateResults(params);
 			$scope.params.pageNumber = 0;
 		};
 
-		/*ctrl.locationChanged = function() {
-			if (!skipLocationEvent) {
-				var params = ctrl.processParams($location.search());
-				ctrl.updateResults(params);
-				$scope.params = params;
-				for (var i = 0; i < params.categories.length; i++)
-					$scope.params.categories[params.categories[i]] = true;
-			}
-			else {
-				skipLocationEvent = false;
-			}
-		};
-		$scope.$on("$locationChangeSuccess", ctrl.locationChanged);*/
-		
 		// Convert params to be eligible for API request
 		ctrl.processParams = function(params) {
 			var p = {
@@ -49,18 +32,9 @@ angular.module("app")
 			if (params.yearFrom && params.yearFrom != $rootScope.years[$rootScope.years.length-1]) p.yearFrom = params.yearFrom;
 			if (params.yearTo && params.yearTo != $rootScope.years[0]) p.yearTo = params.yearTo;
 			if (params.categories) {
-				var type = Object.prototype.toString.call(params.categories);
-				if (type === "[object Object]") {
-					for (category in params.categories) {
-						if (params.categories[category])
-							p.categories.push(category);
-					}
-				}
-				else if (type === "[object Array]") {
-					p.categories = params.categories;
-				}
-				else { // a single number (a string actually)
-					p.categories.push(params.categories);
+				for (category in params.categories) {
+					if (params.categories[category])
+						p.categories.push(category);
 				}
 			}
 
@@ -104,23 +78,14 @@ angular.module("app")
 			ctrl.modelChanged();
 		};
 
-		// ctrl.toggleVersion = function(version) {
-
-		// };
-
 		var params = $location.search();
-		// if (Object.keys(params).length === 0) {
-			$scope.params = {
-				categories: {},
-				orderBy: "ADDITION_DATE",
-				asc: false,
-				yearFrom: $rootScope.years[$rootScope.years.length-1],
-				yearTo: $rootScope.years[0],
-			};
-			ctrl.modelChanged();
-		// }
-		// else {
-			// ctrl.locationChanged();
-		// }
+		$scope.params = {
+			categories: {},
+			orderBy: "ADDITION_DATE",
+			asc: false,
+			yearFrom: $rootScope.years[$rootScope.years.length-1],
+			yearTo: $rootScope.years[0],
+		};
+		ctrl.modelChanged();
 
 	}]);
