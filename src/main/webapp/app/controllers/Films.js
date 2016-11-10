@@ -2,7 +2,6 @@ angular.module("app")
 	.controller("FilmsController", ["$http", "$scope", "Film", "$location", "$rootScope", "$window", function($http, $scope, Film, $location, $rootScope, $window) {
 		var ctrl = this;
 
-
 		$scope.orderBy = {
 			"Daty dodania": "ADDITION_DATE",
 			"Tytułu": "TITLE",
@@ -14,16 +13,16 @@ angular.module("app")
 			"Rosnąco": true,
 		};
 
-		var skipLocationEvent = false;
+		//var skipLocationEvent = false;
 		ctrl.modelChanged = function() {
 			var params = ctrl.processParams($scope.params);
-			skipLocationEvent = true;
-			$location.search(params);
+			//skipLocationEvent = true;
+			//$location.search(params);
 			ctrl.updateResults(params);
 			$scope.params.pageNumber = 0;
 		};
 
-		ctrl.locationChanged = function() {
+		/*ctrl.locationChanged = function() {
 			if (!skipLocationEvent) {
 				var params = ctrl.processParams($location.search());
 				ctrl.updateResults(params);
@@ -35,7 +34,7 @@ angular.module("app")
 				skipLocationEvent = false;
 			}
 		};
-		$scope.$on("$locationChangeSuccess", ctrl.locationChanged);
+		$scope.$on("$locationChangeSuccess", ctrl.locationChanged);*/
 		
 		// Convert params to be eligible for API request
 		ctrl.processParams = function(params) {

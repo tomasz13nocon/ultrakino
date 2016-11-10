@@ -5,6 +5,10 @@
 	<meta charset="UTF-8">
 	<title>Ultrakino.pl - oglądaj najlepsze darmowe filmy i seriale!</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#282828">
+	<meta name="msapplication-navbutton-color" content="#4285f4">
+	<meta name="apple-mobile-web-app-status-bar-style" content="#4285f4">
+
 	<link rel="icon" href="images/favicon.png">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
 	<!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
@@ -13,6 +17,7 @@
 	<link rel="stylesheet" href="plugins/owl/owl.theme.css">
 	<link rel="stylesheet" href="plugins/owl/owl.transitions.css">
 	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<!--<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">-->
 	<link rel="stylesheet" href="css/main.css">
 </head>
 <body>
@@ -42,7 +47,6 @@
 					<ul>
 						<a ng-href="#user/{{userCtrl.User.uid}}"><li><i class="account-dropdown-icon fa fa-user"></i>MOJE KONTO</li></a>
 						<a ng-href="#dodaj-film"><li><i class="account-dropdown-icon fa fa-plus-square"></i>DODAJ FILM/SERIAL</li></a>
-						<li><i class="account-dropdown-icon fa fa-heart"></i>ULUBIONE</li>
 						<li class="link" ng-click="userCtrl.logout()"><i class="account-dropdown-icon fa fa-arrow-circle-left"></i>WYLOGUJ</li>
 					</ul>
 				</div>

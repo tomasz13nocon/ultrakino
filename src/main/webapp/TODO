@@ -2,19 +2,20 @@ flashing error msg in oneseries
 duplicate languageversions
 ocena i komenty seriali
 viewsy (1 na dzień na usera, dodać datę viewsu, w najpopularniejszych dać najcześćiej oglądane filmy w ostatnim miesiącu)
-aktorzy
 jeden koment na minutę/30 sekund
 edytowanie i usuwanie komentów
 sortowanie playerów po wersji (i hostingu)
 player bazowany na route, link do konkretnego playera
-
+przejście z serialu (listy epizodów) do zakładki seriale nie działa
 change title after navigating from film page
+
 CHECK ON CASCADE TYPES
 
 AFTER IMPLEMENTING REGISTRATION:
 test rating system
 
 AFTER START:
+aktorzy
 comments pagination
 url based filters
 sort series by addition date of their episodes
