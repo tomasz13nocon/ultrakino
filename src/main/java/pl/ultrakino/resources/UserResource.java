@@ -6,7 +6,7 @@ import org.springframework.hateoas.ResourceSupport;
 
 @Getter
 @Setter
-public class UserResource extends ResourceSupport {
+public class UserResource {
 
 	private int uid;
 	private String username;

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class PersonResource extends ResourceSupport {
+public class PersonResource {
 
 	private int uid;
 	private String name;

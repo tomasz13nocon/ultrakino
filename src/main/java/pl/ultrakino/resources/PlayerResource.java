@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class PlayerResource extends ResourceSupport {
+public class PlayerResource {
 
 	private int uid;
 	private Player.LanguageVersion languageVersion;

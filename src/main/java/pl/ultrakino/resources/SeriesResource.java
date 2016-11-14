@@ -2,8 +2,6 @@ package pl.ultrakino.resources;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.hateoas.ResourceSupport;
-import pl.ultrakino.model.FilmCategory;
 import pl.ultrakino.model.SeriesCategory;
 
 import java.time.LocalDate;
@@ -12,7 +10,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class SeriesResource extends ResourceSupport {
+public class SeriesResource implements ContentResource {
 
 	private Integer uid;
 	private String title;

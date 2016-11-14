@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class SeriesDetailsResource extends ResourceSupport {
+public class SeriesDetailsResource {
 
 	private Integer uid;
 	private String title;

@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class FilmResource extends ContentResource {
+public class FilmResource implements ContentResource {
 
 	private Integer uid;
 	private String title;

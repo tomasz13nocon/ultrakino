@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Getter
 @Setter
-public class CommentResource extends ResourceSupport {
+public class CommentResource {
 
 	private Long uid;
 	private String contents;
@@ -25,11 +25,11 @@ public class CommentResource extends ResourceSupport {
 		if (!(o instanceof CommentResource)) return false;
 		if (!super.equals(o)) return false;
 		CommentResource that = (CommentResource) o;
-		return Objects.equals(getId(), that.getId());
+		return Objects.equals(getUid(), that.getUid());
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(super.hashCode(), getId());
+		return Objects.hash(super.hashCode(), getUid());
 	}
 }

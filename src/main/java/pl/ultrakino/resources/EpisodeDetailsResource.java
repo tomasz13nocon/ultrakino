@@ -16,7 +16,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class EpisodeDetailsResource extends ResourceSupport {
+public class EpisodeDetailsResource {
 
 	private Integer uid;
 	private String title;

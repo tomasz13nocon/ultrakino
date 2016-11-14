@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class UserDetailsResource extends ResourceSupport {
+public class UserDetailsResource {
 
 	private Integer uid;
 	private String username;

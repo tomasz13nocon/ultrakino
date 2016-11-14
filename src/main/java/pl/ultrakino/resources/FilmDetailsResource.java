@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class FilmDetailsResource extends ContentResource {
+public class FilmDetailsResource {
 
 	private Integer uid;
 	private String title;
