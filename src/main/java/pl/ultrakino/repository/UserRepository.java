@@ -21,6 +21,7 @@ public interface UserRepository {
 	 */
 	User getUserReference(Integer userId);
 
+	Optional<User> findByUsername(String username, boolean fetchCollections);
 	Optional<User> findByUsername(String username);
 
 	User findById(int id) throws NoRecordWithSuchIdException;

@@ -32,7 +32,7 @@ public class UserController {
 		if (principal == null) return ResponseEntity.ok().build();
 		ObjectMapper mapper = new ObjectMapper();
 		ObjectNode node = mapper.valueToTree(principal);
-		Optional<User> userOp = userService.findByUsername(principal.getName());
+		Optional<User> userOp = userService.findByUsername(principal.getName(), false); // TODO: make it true if we want e.g. watched content of current user
 		if (!userOp.isPresent()) // I think this can never happen
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("hacking detected, pls no hack us");
 		User user = userOp.get();
@@ -48,7 +48,7 @@ public class UserController {
 	public ResponseEntity getUserDetails(Principal principal) {
 		if (principal == null)
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		Optional<User> user = userService.findByUsername(principal.getName());
+		Optional<User> user = userService.findByUsername(principal.getName(), true);
 		if (!user.isPresent())
 			throw new AssertionError();
 		return ResponseEntity.ok(userService.toDetailsResource(user.get()));

@@ -39,12 +39,25 @@ public class JpaUserRepository implements UserRepository {
 	}
 
 	@Override
-	public Optional<User> findByUsername(String username) {
+	public Optional<User> findByUsername(String username, boolean fetchCollections) {
 		List<User> list = em
-				.createQuery("FROM User u WHERE u.username=:username", User.class)
+				.createQuery("SELECT u FROM User u " +
+						(fetchCollections ?
+								"LEFT JOIN FETCH u.addedPlayers " +
+								"LEFT JOIN FETCH u.watchlist " +
+								"LEFT JOIN FETCH u.favorites " +
+								"LEFT JOIN FETCH u.watchedContent " +
+								"LEFT JOIN FETCH u.ratings "
+								: "") +
+						"WHERE u.username=:username", User.class)
 				.setParameter("username", username)
 				.getResultList();
 		return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
+	}
+
+	@Override
+	public Optional<User> findByUsername(String username) {
+		return findByUsername(username, false);
 	}
 
 	@Override

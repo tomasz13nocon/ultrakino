@@ -10,7 +10,13 @@ import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
 
+	Optional<User> findByUsername(String username, boolean fetchCollections);
+
+	/**
+	 * Calls findByUsername with fetchCollections false.
+	 */
 	Optional<User> findByUsername(String username);
+
 	User findById(int id) throws NoRecordWithSuchIdException;
 
 	User create(String username, String password, String email);
