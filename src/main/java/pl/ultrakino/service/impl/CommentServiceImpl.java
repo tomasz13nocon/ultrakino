@@ -12,10 +12,9 @@ import pl.ultrakino.repository.CommentRepository;
 import pl.ultrakino.repository.ContentRepository;
 import pl.ultrakino.repository.UserRepository;
 import pl.ultrakino.resources.CommentResource;
-import pl.ultrakino.resources.assemblers.UserResourceAsm;
 import pl.ultrakino.service.CommentService;
+import pl.ultrakino.service.UserService;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -28,14 +27,14 @@ public class CommentServiceImpl implements CommentService {
 	private CommentRepository commentRepository;
 	private UserRepository userRepository;
 	private ContentRepository contentRepository;
-	private UserResourceAsm userResourceAsm;
+	private UserService userService;
 
 	@Autowired
-	public CommentServiceImpl(CommentRepository commentRepository, UserRepository userRepository, ContentRepository contentRepository, UserResourceAsm userResourceAsm) {
+	public CommentServiceImpl(CommentRepository commentRepository, UserRepository userRepository, ContentRepository contentRepository, UserService userService) {
 		this.commentRepository = commentRepository;
 		this.userRepository = userRepository;
 		this.contentRepository = contentRepository;
-		this.userResourceAsm = userResourceAsm;
+		this.userService = userService;
 	}
 
 	@Override
@@ -62,7 +61,7 @@ public class CommentServiceImpl implements CommentService {
 		CommentResource res = new CommentResource();
 		res.setUid(comment.getId());
 		res.setContents(comment.getContents());
-		res.setAddedBy(userResourceAsm.toResource(comment.getAddedBy()));
+		res.setAddedBy(userService.toResource(comment.getAddedBy()));
 		if (comment.getParentComment() != null)
 			res.setParentComment(toResource(comment.getParentComment()));
 		res.setSubmissionDate(comment.getSubmissionDate());

@@ -1,22 +1,28 @@
 package pl.ultrakino.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
-import pl.ultrakino.exceptions.NoUserWithSuchUsernameException;
 import pl.ultrakino.model.*;
 import pl.ultrakino.repository.*;
 import pl.ultrakino.resources.FilmDetailsResource;
+import pl.ultrakino.resources.FilmResource;
 import pl.ultrakino.resources.PersonResource;
 import pl.ultrakino.resources.PlayerResource;
-import pl.ultrakino.resources.assemblers.FilmDetailsResourceAsm;
-import pl.ultrakino.service.FilmService;
-import pl.ultrakino.service.RatingService;
+import pl.ultrakino.service.*;
+import pl.ultrakino.web.FilmController;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 @Service
 @Transactional
@@ -25,18 +31,26 @@ public class FilmServiceImpl implements FilmService {
 	private FilmRepository filmRepository;
 	private PersonRepository personRepository;
 	private UserRepository userRepository;
-	private FilmDetailsResourceAsm filmDetailsResourceAsm;
 	private RatingRepository ratingRepository;
-	private RatingService ratingService;
+	private PersonService personService;
+	private PlayerService playerService;
+	private CommentService commentService;
 
 	@Autowired
-	public FilmServiceImpl(FilmRepository filmRepository, PersonRepository personRepository, UserRepository userRepository, FilmDetailsResourceAsm filmDetailsResourceAsm, RatingRepository ratingRepository, RatingService ratingService) {
+	public FilmServiceImpl(FilmRepository filmRepository,
+						   PersonRepository personRepository,
+						   UserRepository userRepository,
+						   RatingRepository ratingRepository,
+						   PersonService personService,
+						   PlayerService playerService,
+						   CommentService commentService) {
 		this.filmRepository = filmRepository;
 		this.personRepository = personRepository;
 		this.userRepository = userRepository;
-		this.filmDetailsResourceAsm = filmDetailsResourceAsm;
 		this.ratingRepository = ratingRepository;
-		this.ratingService = ratingService;
+		this.personService = personService;
+		this.playerService = playerService;
+		this.commentService = commentService;
 	}
 
 	/**
@@ -104,8 +118,8 @@ public class FilmServiceImpl implements FilmService {
 	}
 
 	@Override
-	public FilmDetailsResource findById(Integer id) throws NoRecordWithSuchIdException {
-		return filmDetailsResourceAsm.toResource(filmRepository.findById(id));
+	public Film findById(Integer id) throws NoRecordWithSuchIdException {
+		return filmRepository.findById(id);
 	}
 
 	@Override
@@ -124,6 +138,60 @@ public class FilmServiceImpl implements FilmService {
 	public void deleteRecommendation(int filmId) throws NoRecordWithSuchIdException {
 		Film film = filmRepository.findById(filmId);
 		film.setRecommendationDate(null);
+	}
+
+
+	@Override
+	public FilmResource toResource(Film film) {
+		FilmResource res = new FilmResource();
+		res.setUid(film.getId());
+		res.setTitle(film.getTitle());
+		res.setRating(film.getRating());
+		res.setTimesRated(film.getTimesRated());
+		res.setOriginalTitle(film.getOriginalTitle());
+		res.setDescription(film.getDescription());
+		res.setCoverFilename(film.getCoverFilename());
+		res.setWorldPremiere(film.getWorldPremiere());
+		res.setLocalPremiere(film.getLocalPremiere());
+		res.setYear(film.getYear());
+		res.setCategories(film.getCategories());
+		res.setLanguageVersions(film.getPlayers().stream().map(Player::getLanguageVersion).collect(Collectors.toSet()));
+		return res;
+	}
+
+	@Override
+	public List<FilmResource> toResources(Collection<Film> films) {
+		return films.stream().map(this::toResource).collect(Collectors.toList());
+	}
+
+	@Override
+	public FilmDetailsResource toDetailsResource(Film film) {
+		FilmDetailsResource res = new FilmDetailsResource();
+		res.setUid(film.getId());
+		res.setTitle(film.getTitle());
+		res.setRating(film.getRating());
+		res.setTimesRated(film.getTimesRated());
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null && auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()).contains("ROLE_USER")){
+			Optional<Rating> userRating = ratingRepository.findByUsernameAndContentId(
+					((UserDetails) auth.getPrincipal()).getUsername(),
+					film.getId());
+			if (userRating.isPresent())
+				res.setUserRating(userRating.get().getRating());
+		}
+		res.setOriginalTitle(film.getOriginalTitle());
+		res.setDescription(film.getDescription());
+		res.setCoverFilename(film.getCoverFilename());
+		res.setWorldPremiere(film.getWorldPremiere());
+		res.setLocalPremiere(film.getLocalPremiere());
+		res.setViews(film.getViews());
+		res.setYear(film.getYear());
+		res.setRecommendationDate(film.getRecommendationDate());
+		res.setCast(personService.toResources(film.getCastAndCrew()));
+		res.setPlayers(playerService.toResources(film.getPlayers()));
+		res.setCategories(film.getCategories());
+		res.setComments(commentService.toResources(film.getComments()));
+		return res;
 	}
 
 }

@@ -5,38 +5,28 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import pl.ultrakino.Constants;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.User;
-import pl.ultrakino.resources.UserResource;
-import pl.ultrakino.resources.assemblers.UserDetailsResourceAsm;
-import pl.ultrakino.resources.assemblers.UserResourceAsm;
 import pl.ultrakino.service.UserService;
 
 import java.security.Principal;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(Constants.API_PREFIX)
 public class UserController {
 
 	private UserService userService;
-	private UserResourceAsm userResourceAsm;
-	private UserDetailsResourceAsm userDetailsResourceAsm;
 
 	@Autowired
-	public UserController(UserService userService, UserResourceAsm userResourceAsm, UserDetailsResourceAsm userDetailsResourceAsm) {
+	public UserController(UserService userService) {
 		this.userService = userService;
-		this.userResourceAsm = userResourceAsm;
-		this.userDetailsResourceAsm = userDetailsResourceAsm;
 	}
 
+	// Authenticate
 	@GetMapping("/user")
 	public ResponseEntity getCurrentUser(Principal principal) {
 		if (principal == null) return ResponseEntity.ok().build();
@@ -51,24 +41,48 @@ public class UserController {
 		return ResponseEntity.ok(node);
 	}
 
+
+
+	// Current user details
+	@GetMapping("/userdetails")
+	public ResponseEntity getUserDetails(Principal principal) {
+		if (principal == null)
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		Optional<User> user = userService.findByUsername(principal.getName());
+		if (!user.isPresent())
+			throw new AssertionError();
+		return ResponseEntity.ok(userService.toDetailsResource(user.get()));
+	}
+
+	// Other user details
 	@GetMapping("/users/{userId}")
 	public ResponseEntity getUser(@PathVariable int userId) {
 		try {
 			User user = userService.findById(userId);
-			return ResponseEntity.ok(userDetailsResourceAsm.toResource(user));
+			return ResponseEntity.ok(userService.toResource(user));
 		} catch (NoRecordWithSuchIdException e) {
 			return ResponseEntity.notFound().build();
 		}
 	}
 
+	// Get users with given username
+	// For registration, checking whether a user exists.
+	@GetMapping("/users")
+	public ResponseEntity findUser(@RequestParam String name) {
+		Optional<User> user = userService.findByUsername(name);
+		if (user.isPresent())
+			return ResponseEntity.ok(userService.toResource(user.get()));
+		return ResponseEntity.ok().build();
+	}
+
+	// Create user
 	@PostMapping("/users")
 	public ResponseEntity createUser(@RequestBody MultiValueMap<String, String> body) {
 		try {
-			Optional<UserResource> user = userService.create(
+			return ResponseEntity.ok(userService.create(
 					body.get("username").get(0),
 					body.get("password").get(0),
-					body.get("email").get(0));
-			return ResponseEntity.ok(user);
+					body.get("email").get(0)));
 		} catch (NullPointerException e) {
 			return ResponseEntity.badRequest().build();
 		}

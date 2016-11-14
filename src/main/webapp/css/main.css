@@ -232,6 +232,14 @@ input[type="radio"].radio {
       border-radius: 50%;
       opacity: 0; }
 
+.error-box {
+  padding: 12px;
+  background: #eaa;
+  border: 1px solid #e33;
+  border-radius: 2px;
+  color: #111;
+  margin: 12px; }
+
 .btn, .btn-2 {
   border: none;
   border-bottom: 2px solid #111;
@@ -667,6 +675,33 @@ select.filter-input {
 
 .episode-title-label {
   color: #999; }
+
+.account-info-left {
+  width: 40%;
+  float: left;
+  text-align: center;
+  border-right: 1px solid #777;
+  box-sizing: border-box; }
+
+.account-info-right {
+  text-align: left;
+  width: 60%;
+  float: right; }
+
+.account-tabs-wrapper {
+  margin: 0 30px;
+  overflow: hidden;
+  box-shadow: 0 0 10px #333;
+  padding: 0 7px; }
+
+.account-films-wrapper {
+  margin: 0 30px;
+  overflow: hidden;
+  box-shadow: 0 0 10px #333; }
+
+.account-info-username {
+  font-size: 1.6em;
+  margin-top: 22px; }
 
 body {
   background: #222 url("../images/blacktiles.png") repeat;

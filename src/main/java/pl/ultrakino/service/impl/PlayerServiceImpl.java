@@ -1,19 +1,26 @@
-package pl.ultrakino.resources.assemblers;
+package pl.ultrakino.service.impl;
 
-import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.ultrakino.model.Player;
 import pl.ultrakino.resources.PlayerResource;
-import pl.ultrakino.web.PlayerController;
+import pl.ultrakino.service.PlayerService;
+import pl.ultrakino.service.UserService;
 
-@Component
-public class PlayerResourceAsm extends ResourceAssemblerSupport<Player, PlayerResource> {
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
-	private UserDetailsResourceAsm userDetailsResourceAsm;
+@Service
+@Transactional
+public class PlayerServiceImpl implements PlayerService {
 
-	public PlayerResourceAsm(UserDetailsResourceAsm userDetailsResourceAsm) {
-		super(PlayerController.class, PlayerResource.class);
-		this.userDetailsResourceAsm = userDetailsResourceAsm;
+	private UserService userService;
+
+	@Autowired
+	public PlayerServiceImpl(UserService userService) {
+		this.userService = userService;
 	}
 
 	@Override
@@ -50,8 +57,13 @@ public class PlayerResourceAsm extends ResourceAssemblerSupport<Player, PlayerRe
 		res.setAdditionDate(player.getAdditionDate());
 		res.setLanguageVersion(player.getLanguageVersion());
 		res.setQuality(player.getQuality());
-		res.setAddedBy(userDetailsResourceAsm.toResource(player.getAddedBy()));
+		res.setAddedBy(userService.toDetailsResource(player.getAddedBy()));
 		return res;
+	}
+
+	@Override
+	public List<PlayerResource> toResources(Collection<Player> players) {
+		return players.stream().map(this::toResource).collect(Collectors.toList());
 	}
 
 }

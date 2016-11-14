@@ -2,20 +2,14 @@ package pl.ultrakino.web;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
-import pl.ultrakino.exceptions.NoUserWithSuchUsernameException;
 import pl.ultrakino.model.Film;
-import pl.ultrakino.model.Rating;
 import pl.ultrakino.repository.Page;
 import pl.ultrakino.resources.FilmResource;
-import pl.ultrakino.resources.assemblers.FilmResourceAsm;
 import pl.ultrakino.service.*;
-
-import java.security.Principal;
 
 import static pl.ultrakino.Constants.API_PREFIX;
 
@@ -25,15 +19,13 @@ public class FilmController {
 
 	private FilmService filmService;
 	private UserService userService;
-	private FilmResourceAsm filmResourceAsm;
 	private RatingService ratingService;
 	private FilmCategoryService filmCategoryService;
 
 	@Autowired
-	public FilmController(FilmService filmService, FilmResourceAsm filmResourceAsm, UserService userService, RatingService ratingService, FilmCategoryService filmCategoryService) {
+	public FilmController(FilmService filmService, UserService userService, RatingService ratingService, FilmCategoryService filmCategoryService) {
 		this.filmService = filmService;
 		this.userService = userService;
-		this.filmResourceAsm = filmResourceAsm;
 		this.ratingService = ratingService;
 		this.filmCategoryService = filmCategoryService;
 	}
@@ -50,7 +42,7 @@ public class FilmController {
 	@GetMapping("/{filmId}")
 	public ResponseEntity getFilm(@PathVariable int filmId) {
 		try {
-			return ResponseEntity.ok(filmService.findById(filmId));
+			return ResponseEntity.ok(filmService.toDetailsResource(filmService.findById(filmId)));
 		} catch (NoRecordWithSuchIdException e) {
 			return ResponseEntity.notFound().build();
 		}
@@ -81,7 +73,7 @@ public class FilmController {
 		try {
 			Page<Film> films = filmService.find(params);
 			Page<FilmResource> result = new Page<>(
-					filmResourceAsm.toResources(films.getContent()),
+					filmService.toResources(films.getContent()),
 					films.getPageNumber(),
 					films.getPageCount());
 			return ResponseEntity.ok(result);

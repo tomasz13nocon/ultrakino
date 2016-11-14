@@ -1,2 +1,23 @@
-test
+<div class="page-wrapper">
+	<div class="error-box account-info-login-msg" ng-hide="authenticated">Zaloguj się aby zobaczyć swoje konto.</div>
+	<div class="account-info-wrapper" ng-show="authenticated">
+		<div class="account-info-left">
+			<img class="account-info-avatar" ng-src="{{user.avatarFilename}}" alt="Twój avatar" />
+			<h3 class="account-info-username" ng-bind="user.username"></h3>
+		</div>
+		<div class="account-info-right">
+			<div class="account-tabs-wrapper">
+				<div class="account-tab nav-link link"><i class="fa fa-clock-o"></i> DO OBEJRZENIA</div>
+				<div class="account-tab nav-link link"><i class="fa fa-heart"></i> ULUBIONE</div>
+			</div>
+			<div class="account-films-wrapper">
+				<div ng-repeat="content in contents">
+					<img ng-src="{{content.coverFilename}}" alt="okładka" />
+					<div ng-bind="content.title"></div>
+				</div>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
 

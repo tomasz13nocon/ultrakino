@@ -27,7 +27,7 @@
 		</div>
 
 		<iframe ng-if="film.players.length" class="player" ng-src="{{film.players[currentPlayerIndex].src | trusted}}" scrolling="no" frameborder="0" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
-		<div class="admin-panel-error-box" ng-hide="film.players.length">Nie znaleziono filmu. Prawdopodobnie został usunięty. Przepraszamy za problem.</div>
+		<div class="error-box" ng-hide="film.players.length">Nie znaleziono filmu. Prawdopodobnie został usunięty. Przepraszamy za problem.</div>
 	</div>
 	<div class="below-player-section">
 		<!-- <div class="views"> TODO: VIEWS

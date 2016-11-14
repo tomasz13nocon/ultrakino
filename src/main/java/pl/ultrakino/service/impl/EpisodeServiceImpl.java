@@ -14,9 +14,9 @@ import pl.ultrakino.repository.EpisodeRepository;
 import pl.ultrakino.repository.RatingRepository;
 import pl.ultrakino.resources.EpisodeDetailsResource;
 import pl.ultrakino.resources.EpisodeResource;
-import pl.ultrakino.resources.assemblers.PlayerResourceAsm;
 import pl.ultrakino.service.CommentService;
 import pl.ultrakino.service.EpisodeService;
+import pl.ultrakino.service.PlayerService;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,14 +26,14 @@ import java.util.stream.Collectors;
 @Transactional
 public class EpisodeServiceImpl implements EpisodeService {
 
-	private PlayerResourceAsm playerResourceAsm;
+	private PlayerService playerService;
 	private EpisodeRepository episodeRepository;
 	private CommentService commentService;
 	private RatingRepository ratingRepository;
 
 	@Autowired
-	public EpisodeServiceImpl(PlayerResourceAsm playerResourceAsm, EpisodeRepository episodeRepository, CommentService commentService, RatingRepository ratingRepository) {
-		this.playerResourceAsm = playerResourceAsm;
+	public EpisodeServiceImpl(PlayerService playerService, EpisodeRepository episodeRepository, CommentService commentService, RatingRepository ratingRepository) {
+		this.playerService = playerService;
 		this.episodeRepository = episodeRepository;
 		this.commentService = commentService;
 		this.ratingRepository = ratingRepository;
@@ -84,7 +84,7 @@ public class EpisodeServiceImpl implements EpisodeService {
 				res.setUserRating(userRating.get().getRating());
 		}
 		res.setComments(commentService.toResources(episode.getComments()));
-		res.setPlayers(playerResourceAsm.toResources(episode.getPlayers()));
+		res.setPlayers(playerService.toResources(episode.getPlayers()));
 		Optional<Episode> previous = findPrevious(episode);
 		if (previous.isPresent())
 			res.setPreviousEpisode(toResource(previous.get()));
