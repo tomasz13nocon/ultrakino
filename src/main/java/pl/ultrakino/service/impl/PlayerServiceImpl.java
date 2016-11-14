@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.ultrakino.model.Player;
-import pl.ultrakino.resources.PlayerResource;
+import pl.ultrakino.resource.PlayerResource;
 import pl.ultrakino.service.PlayerService;
 import pl.ultrakino.service.UserService;
 
@@ -16,12 +16,9 @@ import java.util.stream.Collectors;
 @Transactional
 public class PlayerServiceImpl implements PlayerService {
 
-	private UserService userService;
-
+	// Autowired at fields, because of circular dependencies
 	@Autowired
-	public PlayerServiceImpl(UserService userService) {
-		this.userService = userService;
-	}
+	private UserService userService;
 
 	@Override
 	public PlayerResource toResource(Player player) {
@@ -57,7 +54,7 @@ public class PlayerServiceImpl implements PlayerService {
 		res.setAdditionDate(player.getAdditionDate());
 		res.setLanguageVersion(player.getLanguageVersion());
 		res.setQuality(player.getQuality());
-		res.setAddedBy(userService.toDetailsResource(player.getAddedBy()));
+		res.setAddedBy(userService.toResource(player.getAddedBy()));
 		return res;
 	}
 

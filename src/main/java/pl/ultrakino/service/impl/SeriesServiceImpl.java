@@ -15,8 +15,8 @@ import pl.ultrakino.repository.ContentQuery;
 import pl.ultrakino.repository.Page;
 import pl.ultrakino.repository.RatingRepository;
 import pl.ultrakino.repository.SeriesRepository;
-import pl.ultrakino.resources.SeriesDetailsResource;
-import pl.ultrakino.resources.SeriesResource;
+import pl.ultrakino.resource.SeriesDetailsResource;
+import pl.ultrakino.resource.SeriesResource;
 import pl.ultrakino.service.EpisodeService;
 import pl.ultrakino.service.SeriesService;
 

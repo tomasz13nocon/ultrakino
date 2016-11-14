@@ -11,7 +11,7 @@ import pl.ultrakino.model.User;
 import pl.ultrakino.repository.CommentRepository;
 import pl.ultrakino.repository.ContentRepository;
 import pl.ultrakino.repository.UserRepository;
-import pl.ultrakino.resources.CommentResource;
+import pl.ultrakino.resource.CommentResource;
 import pl.ultrakino.service.CommentService;
 import pl.ultrakino.service.UserService;
 
@@ -27,14 +27,15 @@ public class CommentServiceImpl implements CommentService {
 	private CommentRepository commentRepository;
 	private UserRepository userRepository;
 	private ContentRepository contentRepository;
+	// Autowired at fields, because of circular dependencies
+	@Autowired
 	private UserService userService;
 
 	@Autowired
-	public CommentServiceImpl(CommentRepository commentRepository, UserRepository userRepository, ContentRepository contentRepository, UserService userService) {
+	public CommentServiceImpl(CommentRepository commentRepository, UserRepository userRepository, ContentRepository contentRepository) {
 		this.commentRepository = commentRepository;
 		this.userRepository = userRepository;
 		this.contentRepository = contentRepository;
-		this.userService = userService;
 	}
 
 	@Override

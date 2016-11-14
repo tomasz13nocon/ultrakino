@@ -2,9 +2,8 @@ package pl.ultrakino.service;
 
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Episode;
-import pl.ultrakino.model.Series;
-import pl.ultrakino.resources.EpisodeDetailsResource;
-import pl.ultrakino.resources.EpisodeResource;
+import pl.ultrakino.resource.EpisodeDetailsResource;
+import pl.ultrakino.resource.EpisodeResource;
 
 import java.util.List;
 

@@ -3,7 +3,7 @@ package pl.ultrakino.service;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.exceptions.NoUserWithSuchUsernameException;
 import pl.ultrakino.model.Comment;
-import pl.ultrakino.resources.CommentResource;
+import pl.ultrakino.resource.CommentResource;
 
 import java.util.Collection;
 import java.util.List;

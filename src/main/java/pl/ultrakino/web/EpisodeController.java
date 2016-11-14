@@ -5,8 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.ultrakino.Constants;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
-import pl.ultrakino.model.Series;
-import pl.ultrakino.resources.EpisodeDetailsResource;
 import pl.ultrakino.service.EpisodeService;
 
 @RestController

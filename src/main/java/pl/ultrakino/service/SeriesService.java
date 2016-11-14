@@ -2,11 +2,10 @@ package pl.ultrakino.service;
 
 import org.springframework.util.MultiValueMap;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
-import pl.ultrakino.model.Film;
 import pl.ultrakino.model.Series;
 import pl.ultrakino.repository.Page;
-import pl.ultrakino.resources.SeriesDetailsResource;
-import pl.ultrakino.resources.SeriesResource;
+import pl.ultrakino.resource.SeriesDetailsResource;
+import pl.ultrakino.resource.SeriesResource;
 
 import java.util.List;
 

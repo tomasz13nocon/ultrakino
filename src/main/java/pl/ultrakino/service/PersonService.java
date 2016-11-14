@@ -1,7 +1,7 @@
 package pl.ultrakino.service;
 
 import pl.ultrakino.model.FilmographyEntry;
-import pl.ultrakino.resources.PersonResource;
+import pl.ultrakino.resource.PersonResource;
 
 import java.util.Collection;
 import java.util.List;

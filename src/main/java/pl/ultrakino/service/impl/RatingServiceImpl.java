@@ -9,7 +9,7 @@ import pl.ultrakino.model.*;
 import pl.ultrakino.repository.ContentRepository;
 import pl.ultrakino.repository.RatingRepository;
 import pl.ultrakino.repository.UserRepository;
-import pl.ultrakino.resources.RatingResource;
+import pl.ultrakino.resource.RatingResource;
 import pl.ultrakino.service.RatingService;
 
 import java.util.Optional;

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Film;
 import pl.ultrakino.repository.Page;
-import pl.ultrakino.resources.FilmResource;
+import pl.ultrakino.resource.FilmResource;
 import pl.ultrakino.service.*;
 
 import static pl.ultrakino.Constants.API_PREFIX;
@@ -30,14 +30,6 @@ public class FilmController {
 		this.filmCategoryService = filmCategoryService;
 	}
 
-//	@JsonView(Views.FilmCreation.class)
-	/*@PostMapping
-	public ResponseEntity<FilmDetailsResource> createFilm(@RequestBody FilmDetailsResource filmDetailsResource) throws URISyntaxException {
-		Film film = filmService.save(filmDetailsResource);
-		// Get resource representation of actually created Film and its links
-		filmDetailsResource = filmDetailsResourceAsm.toResource(film);
-		return ResponseEntity.created(new URI(filmDetailsResource.getLink("self").getHref())).body(filmDetailsResource);
-	}*/
 
 	@GetMapping("/{filmId}")
 	public ResponseEntity getFilm(@PathVariable int filmId) {

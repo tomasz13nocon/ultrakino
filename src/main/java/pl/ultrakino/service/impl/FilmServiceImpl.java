@@ -11,12 +11,11 @@ import org.springframework.util.MultiValueMap;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.*;
 import pl.ultrakino.repository.*;
-import pl.ultrakino.resources.FilmDetailsResource;
-import pl.ultrakino.resources.FilmResource;
-import pl.ultrakino.resources.PersonResource;
-import pl.ultrakino.resources.PlayerResource;
+import pl.ultrakino.resource.FilmDetailsResource;
+import pl.ultrakino.resource.FilmResource;
+import pl.ultrakino.resource.PersonResource;
+import pl.ultrakino.resource.PlayerResource;
 import pl.ultrakino.service.*;
-import pl.ultrakino.web.FilmController;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -53,54 +52,6 @@ public class FilmServiceImpl implements FilmService {
 		this.commentService = commentService;
 	}
 
-	/**
-	 * Creates Film entity and inserts it into the database
-	 * @param filmResource
-	 * @return created film
-	 * @throws
-	 */
-	@Override
-	public Film create(FilmDetailsResource filmResource) {
-		Film film = new Film();
-		film.setTitle(filmResource.getTitle());
-		film.setOriginalTitle(filmResource.getOriginalTitle());
-		film.setDescription(filmResource.getDescription());
-		film.setCoverFilename(filmResource.getCoverFilename());
-		film.setWorldPremiere(filmResource.getWorldPremiere());
-		film.setLocalPremiere(filmResource.getLocalPremiere());
-		film.setCategories(filmResource.getCategories());
-		film.setRecommendationDate(filmResource.getRecommendationDate()); // TODO: Can i have it here?
-
-		// If a Person already exists in DB, insert the existing one into the cast list.
-		ListIterator<PersonResource> iterator = filmResource.getCast().listIterator();
-		List<Person> cast = new ArrayList<>();
-		while (iterator.hasNext()) {
-			PersonResource personResource = iterator.next();
-			Optional<Person> dbPerson = personRepository.findByName(personResource.getName());
-			if (dbPerson.isPresent())
-				cast.add(dbPerson.get());
-			else {
-				Person person = new Person();
-				person.setName(personResource.getName());
-				// TODO
-//				person.setRole(personResource.getRole());
-				cast.add(person);
-			}
-		}
-		// TODO
-//		film.setCast(cast);
-
-		List<PlayerResource> players = filmResource.getPlayers();
-		if (players.get(0).getAddedBy().getUid() == null)
-			throw new IllegalStateException("user ID cannot be null");
-		film.setPlayers(createPlayers(
-				players,
-				players.get(0).getAddedBy().getUid()
-		));
-
-		filmRepository.save(film);
-		return film;
-	}
 
 	// TODO: Change name to be more descriptive
 	private Set<Player> createPlayers(List<PlayerResource> resources, Integer userId) {

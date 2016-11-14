@@ -3,7 +3,7 @@ package pl.ultrakino.service.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.ultrakino.model.FilmographyEntry;
-import pl.ultrakino.resources.PersonResource;
+import pl.ultrakino.resource.PersonResource;
 import pl.ultrakino.service.PersonService;
 
 import java.util.Collection;

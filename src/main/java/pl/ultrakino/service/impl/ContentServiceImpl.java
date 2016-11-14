@@ -8,7 +8,7 @@ import pl.ultrakino.model.Content;
 import pl.ultrakino.model.Episode;
 import pl.ultrakino.model.Film;
 import pl.ultrakino.model.Series;
-import pl.ultrakino.resources.ContentResource;
+import pl.ultrakino.resource.ContentResource;
 import pl.ultrakino.service.ContentService;
 import pl.ultrakino.service.EpisodeService;
 import pl.ultrakino.service.FilmService;
@@ -32,8 +32,6 @@ public class ContentServiceImpl implements ContentService {
 		this.seriesService = seriesService;
 		this.episodeService = episodeService;
 	}
-
-	// TODO: Make Content implement some interface (or do it in content..?) to return title, cover etc. Episodes will return details of their series.
 
 	@Override
 	public ContentResource toResource(Content content) {

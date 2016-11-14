@@ -1,7 +1,7 @@
 package pl.ultrakino.service;
 
 import pl.ultrakino.model.Content;
-import pl.ultrakino.resources.ContentResource;
+import pl.ultrakino.resource.ContentResource;
 
 import java.util.Collection;
 import java.util.List;

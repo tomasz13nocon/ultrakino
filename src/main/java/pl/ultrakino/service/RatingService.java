@@ -4,7 +4,7 @@ import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.exceptions.NoUserWithSuchUsernameException;
 import pl.ultrakino.model.Rateable;
 import pl.ultrakino.model.Rating;
-import pl.ultrakino.resources.RatingResource;
+import pl.ultrakino.resource.RatingResource;
 
 public interface RatingService {
 

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Series;
 import pl.ultrakino.repository.Page;
-import pl.ultrakino.resources.SeriesResource;
+import pl.ultrakino.resource.SeriesResource;
 import pl.ultrakino.service.SeriesCategoryService;
 import pl.ultrakino.service.SeriesService;
 

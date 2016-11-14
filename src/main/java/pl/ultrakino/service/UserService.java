@@ -3,8 +3,8 @@ package pl.ultrakino.service;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.User;
-import pl.ultrakino.resources.UserDetailsResource;
-import pl.ultrakino.resources.UserResource;
+import pl.ultrakino.resource.UserDetailsResource;
+import pl.ultrakino.resource.UserResource;
 
 import java.util.Optional;
 

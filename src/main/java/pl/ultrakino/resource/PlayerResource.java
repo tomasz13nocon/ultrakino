@@ -1,8 +1,7 @@
-package pl.ultrakino.resources;
+package pl.ultrakino.resource;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.hateoas.ResourceSupport;
 import pl.ultrakino.model.Content;
 import pl.ultrakino.model.Player;
 
@@ -17,7 +16,7 @@ public class PlayerResource {
 	private String src;
 	private String quality;
 	private LocalDateTime additionDate;
-	private UserDetailsResource addedBy;
+	private UserResource addedBy;
 	private Content content;
 	private String hosting;
 

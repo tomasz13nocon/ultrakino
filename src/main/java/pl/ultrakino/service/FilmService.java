@@ -4,15 +4,13 @@ import org.springframework.util.MultiValueMap;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Film;
 import pl.ultrakino.repository.Page;
-import pl.ultrakino.resources.FilmDetailsResource;
-import pl.ultrakino.resources.FilmResource;
+import pl.ultrakino.resource.FilmDetailsResource;
+import pl.ultrakino.resource.FilmResource;
 
 import java.util.Collection;
 import java.util.List;
 
 public interface FilmService {
-
-	Film create(FilmDetailsResource film);
 
 	Film findById(Integer id) throws NoRecordWithSuchIdException;
 

@@ -9,9 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.User;
 import pl.ultrakino.repository.UserRepository;
-import pl.ultrakino.resources.UserDetailsResource;
-import pl.ultrakino.resources.UserResource;
+import pl.ultrakino.resource.UserDetailsResource;
+import pl.ultrakino.resource.UserResource;
 import pl.ultrakino.service.ContentService;
+import pl.ultrakino.service.PlayerService;
 import pl.ultrakino.service.UserService;
 
 import java.util.HashSet;
@@ -23,14 +24,15 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
 	private UserRepository userRepository;
-	private PlayerServiceImpl playerService;
+	// Autowired at fields, because of circular dependencies
+	@Autowired
+	private PlayerService playerService;
+	@Autowired
 	private ContentService contentService;
 
 	@Autowired
-	public UserServiceImpl(UserRepository userRepository, PlayerServiceImpl playerService, ContentService contentService) {
+	public UserServiceImpl(UserRepository userRepository) {
 		this.userRepository = userRepository;
-		this.playerService = playerService;
-		this.contentService = contentService;
 	}
 
 	@Override

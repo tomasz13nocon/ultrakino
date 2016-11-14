@@ -1,19 +1,10 @@
-package pl.ultrakino.resources;
+package pl.ultrakino.resource;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.hateoas.ResourceSupport;
-import pl.ultrakino.model.Player;
-import pl.ultrakino.model.Rating;
-import pl.ultrakino.model.Series;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter

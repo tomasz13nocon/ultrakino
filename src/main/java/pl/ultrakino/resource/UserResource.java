@@ -1,14 +1,13 @@
-package pl.ultrakino.resources;
+package pl.ultrakino.resource;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.hateoas.ResourceSupport;
 
 @Getter
 @Setter
 public class UserResource {
 
-	private int uid;
+	private Integer uid;
 	private String username;
 	private String avatarFilename;
 

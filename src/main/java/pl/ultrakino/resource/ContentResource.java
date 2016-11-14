@@ -1,3 +1,3 @@
-package pl.ultrakino.resources;
+package pl.ultrakino.resource;
 
 public interface ContentResource {}

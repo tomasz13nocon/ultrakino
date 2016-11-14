@@ -1,4 +1,4 @@
-package pl.ultrakino.resources;
+package pl.ultrakino.resource;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,8 +1,7 @@
-package pl.ultrakino.resources;
+package pl.ultrakino.resource;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.hateoas.ResourceSupport;
 import pl.ultrakino.model.*;
 
 import java.time.LocalDate;
