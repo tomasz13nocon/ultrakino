@@ -54,7 +54,8 @@ public class PlayerServiceImpl implements PlayerService {
 		res.setAdditionDate(player.getAdditionDate());
 		res.setLanguageVersion(player.getLanguageVersion());
 		res.setQuality(player.getQuality());
-		res.setAddedBy(userService.toResource(player.getAddedBy()));
+		if (player.getAddedBy() != null)
+			res.setAddedBy(userService.toResource(player.getAddedBy()));
 		return res;
 	}
 

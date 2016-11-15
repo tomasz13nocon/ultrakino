@@ -16,9 +16,9 @@ public class UserDetailsResource {
 	private String username;
 	private String email;
 	private String avatarFilename;
-	private List<PlayerResource> addedPlayers = new ArrayList<>();
+	private Set<PlayerResource> addedPlayers = new HashSet<>();
 	private List<RatingResource> ratings = new ArrayList<>();
-	private List<ContentResource> watchedContent = new ArrayList<>();
+	private Set<ContentResource> watchedContent = new HashSet<>();
 	private Set<ContentResource> watchlist = new HashSet<>();
 	private Set<ContentResource> favorites = new HashSet<>();
 

@@ -7,10 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -83,4 +80,20 @@ public class Series extends Content {
 		updateDate = LocalDateTime.now();
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Series)) return false;
+		Series series = (Series) o;
+		if (getId() == null || series.getId() == null)
+			throw new IllegalStateException("Can't use equals before persisting.");
+		return Objects.equals(getTitle(), series.getTitle());
+	}
+
+	@Override
+	public int hashCode() {
+		if (getId() == null)
+			throw new IllegalStateException("Can't use hashCode before persisting.");
+		return Objects.hash(getTitle());
+	}
 }

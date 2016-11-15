@@ -94,8 +94,8 @@ public class UserServiceImpl implements UserService {
 		res.setUsername(user.getUsername());
 		res.setAvatarFilename(user.getAvatarFilename());
 		res.setEmail(user.getEmail());
-		res.setAddedPlayers(playerService.toResources(user.getAddedPlayers()));
-		res.setWatchedContent(contentService.toResources(user.getWatchedContent()));
+		res.setAddedPlayers(new HashSet<>(playerService.toResources(user.getAddedPlayers())));
+		res.setWatchedContent(new HashSet<>(contentService.toResources(user.getWatchedContent())));
 		res.setFavorites(new HashSet<>(contentService.toResources(user.getFavorites())));
 		res.setWatchlist(new HashSet<>(contentService.toResources(user.getWatchlist())));
 		return res;

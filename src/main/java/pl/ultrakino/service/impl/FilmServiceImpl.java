@@ -141,6 +141,7 @@ public class FilmServiceImpl implements FilmService {
 		res.setCast(personService.toResources(film.getCastAndCrew()));
 		res.setPlayers(playerService.toResources(film.getPlayers()));
 		res.setCategories(film.getCategories());
+		res.setLanguageVersions(film.getPlayers().stream().map(Player::getLanguageVersion).collect(Collectors.toSet()));
 		res.setComments(commentService.toResources(film.getComments()));
 		return res;
 	}

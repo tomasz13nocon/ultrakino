@@ -4,9 +4,11 @@
 		<img class="film-info-cover" alt="{{film.title}}" ng-src="{{film.coverFilename ? images + film.coverFilename : noImage}}">
 		<div class="film-info-without-cover">
 			<h1 class="film-info-title"><span ng-bind="film.title"></span> (<span ng-bind="film.year"></span>)</h1>
+			<div class="film-button" tooltip="Dodaj do objerzenia" ng-show="authenticated"><div class="link film-button-inner"><i class="fa fa-clock-o"></i></div></div>
+			<div class="film-button" tooltip="Dodaj do ulubionych" ng-show="authenticated"><div class="link film-button-inner"><i class="fa fa-heart"></i></div></div>
 			<div class="film-info-info">
-				<span class="film-info-info-label">Wersja: </span>
-				<span ng-repeat="player in film.players"><span ng-bind="languageVersions[player.languageVersion]"></span><span ng-bind="$last ? '' : ', '"></span></span>
+				<span class="film-info-info-label">Wersje językowe: </span>
+				<span ng-repeat="version in film.languageVersions"><span ng-bind="languageVersions[version]"></span><span ng-bind="$last ? '' : ', '"></span></span>
 				<br>
 				<span class="film-info-info-label">Kategorie: </span>
 				<span ng-repeat="category in film.categories"><span ng-bind="category.name"></span><span ng-bind="$last ? '' : ', '"></span></span>

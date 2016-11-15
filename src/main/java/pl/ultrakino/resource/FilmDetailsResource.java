@@ -3,6 +3,7 @@ package pl.ultrakino.resource;
 import lombok.Getter;
 import lombok.Setter;
 import pl.ultrakino.model.FilmCategory;
+import pl.ultrakino.model.Player;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -26,6 +27,7 @@ public class FilmDetailsResource {
 	private LocalDate worldPremiere;
 	private LocalDate localPremiere;
 	private Set<FilmCategory> categories = new HashSet<>();
+	private Set<Player.LanguageVersion> languageVersions = new HashSet<>();
 
 	private Float userRating;
 	private List<PersonResource> cast = new ArrayList<>();
