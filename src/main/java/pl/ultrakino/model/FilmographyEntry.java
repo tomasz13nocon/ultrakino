@@ -1,5 +1,7 @@
 package pl.ultrakino.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -8,11 +10,12 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "filmography_entries")
+@Getter
+@Setter
 public class FilmographyEntry {
 
 	@Id
-	@SequenceGenerator(name = "filmography_entry_id_gen", sequenceName = "filmography_entries_filmography_entry_id_seq")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "filmography_entry_id_gen")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "filmography_entry_id")
 	private Integer id;
 
@@ -30,54 +33,8 @@ public class FilmographyEntry {
 
 	private String role;
 
+	private int number;
 
-	public Person getPerson() {
-		return person;
-	}
-
-	public void setPerson(Person person) {
-		this.person = person;
-	}
-
-	public Content getContent() {
-		return content;
-	}
-
-	public void setContent(Content content) {
-		this.content = content;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getAttributes() {
-		return attributes;
-	}
-
-	public void setAttributes(String attributes) {
-		this.attributes = attributes;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
 
 	@Override
 	public String toString() {

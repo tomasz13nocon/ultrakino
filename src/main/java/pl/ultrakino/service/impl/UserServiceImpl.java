@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
 		UserDetailsResource res = new UserDetailsResource();
 		res.setUid(user.getId());
 		res.setUsername(user.getUsername());
-		res.setAvatarFilename(user.getAvatarFilename());
+		res.setAvatarFilename(user.getAvatarFilename() == null ? "images/avatar3.png" : user.getAvatarFilename());
 		res.setEmail(user.getEmail());
 		res.setAddedPlayers(new HashSet<>(playerService.toResources(user.getAddedPlayers())));
 		res.setWatchedContent(new HashSet<>(contentService.toResources(user.getWatchedContent())));
@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
 		UserResource res = new UserResource();
 		res.setUid(user.getId());
 		res.setUsername(user.getUsername());
-		res.setAvatarFilename(user.getAvatarFilename());
+		res.setAvatarFilename(user.getAvatarFilename() == null ? "images/avatar3.png" : user.getAvatarFilename());
 		return res;
 	}
 

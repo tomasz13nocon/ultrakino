@@ -17,10 +17,8 @@ angular.module("app")
 					if (resp.data.authorities[i].authority === "ROLE_ADMIN")
 						$rootScope.isAdmin = true;
 				}
-				ctrl.User.username = resp.data.name;
-				var avatar = resp.data.avatarFilename;
-				ctrl.User.avatar = avatar ? avatar : defaultAvatarFilename;
-				ctrl.User.uid = resp.data.uid;
+				if (!$rootScope.user)
+					$rootScope.user = resp.data.details;
 				ctrl.TheBox.theBoxVisible = false;
 			}
 			else {

@@ -1,5 +1,5 @@
 angular.module("app")
-.controller("FilmController", ['$http', '$routeParams', '$scope', 'Comment', 'Film', 'Rating', function($http, $routeParams, $scope, Comment, Film, Rating) {
+.controller("FilmController", ['TheBox', '$rootScope', '$http', '$routeParams', '$scope', 'Comment', 'Film', 'Rating', function(TheBox, $rootScope, $http, $routeParams, $scope, Comment, Film, Rating) {
 	var ctrl = this;
 
 	$scope.stars = new Array(10);
@@ -16,14 +16,20 @@ angular.module("app")
 	};
 
 	ctrl.rate = function(i) {
-		Rating.save({}, {
-			contentId: $scope.film.uid,
-			rating: i,
-		}, function(rating) {
-			$scope.film.userRating = rating.rating;
-			$scope.film.rating = ($scope.film.rating * $scope.film.timesRated + rating.rating) / ++$scope.film.timesRated;
-			ctrl.calculateRatingColor();
-		});
+		if ($rootScope.authenticated) {
+			Rating.save({}, {
+				contentId: $scope.film.uid,
+				rating: i,
+			}, function(rating) {
+				$scope.film.userRating = rating.rating;
+				$scope.film.rating = ($scope.film.rating * $scope.film.timesRated + rating.rating) / ++$scope.film.timesRated;
+				ctrl.calculateRatingColor();
+			});
+		}
+		else {
+			TheBox.message = "Załóż konto żeby móc oceniać filmy i wiele więcej!";
+			TheBox.showRegisterBox();
+		}
 	};
 
 	ctrl.calculateRatingColor = function() {
@@ -33,9 +39,24 @@ angular.module("app")
 		angular.element(document.querySelector(".rating-actual-rating")).css("color", ratingColor);
 	};
 
+
 	ctrl.setPlayer = function(index) {
 		$scope.currentPlayerIndex = index;
 	};
+
+	ctrl.addToWatchlist = function(list) {
+		$scope.inWatchlist = true;
+	}
+
+
+	ctrl.isIdIn = function(list) {
+		for (var i = 0; i < list.length; i++) {
+			if (list[i].uid === $scope.film.uid) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	$scope.isPlayer = false; // TODO: remove
 	Film.get({ id: $routeParams["id"] }, function(film) {
@@ -50,10 +71,25 @@ angular.module("app")
 		for (var i = 0; i < film.comments.length; i++) {
 			Comment.process(film.comments[i]);
 		}
+		$scope.visibleCast = film.castAndCrew.filter(function(el) {
+			return el.role === "ACTOR";
+		}).sort(function(a, b) {
+			if (a.number < b.number) return -1;
+			if (a.number > b.number) return 1;
+			return 0;
+		}).slice(0, 6);
 
 		document.title = film.title + " - Ultrakino";
 		$scope.film = film;
 		ctrl.calculateRatingColor();
+		if ($rootScope.authenticated) {
+			if (ctrl.isIdIn($rootScope.user.watchlist)) {
+				$scope.inWatchlist = true;
+			}
+			if (ctrl.isIdIn($rootScope.user.favorites)) {
+				$scope.isFavorite = true;
+			}
+		}
 	});
 
 	ctrl.postComment = function() {

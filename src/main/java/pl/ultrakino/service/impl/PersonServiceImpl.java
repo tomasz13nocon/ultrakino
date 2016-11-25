@@ -17,8 +17,11 @@ public class PersonServiceImpl implements PersonService {
 	@Override
 	public PersonResource toResource(FilmographyEntry entry) {
 		PersonResource res = new PersonResource();
+		res.setUid(entry.getPerson().getId());
 		res.setName(entry.getPerson().getName());
-		//TODO
+		res.setAvatarFilename(entry.getPerson().getAvatarFilename());
+		res.setRole(entry.getRole());
+		res.setNumber(entry.getNumber());
 		return res;
 	}
 

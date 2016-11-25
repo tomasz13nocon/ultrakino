@@ -2,10 +2,22 @@
 <div class="page-wrapper" ng-show="film">
 	<div class="film-info">
 		<img class="film-info-cover" alt="{{film.title}}" ng-src="{{film.coverFilename ? images + film.coverFilename : noImage}}">
+		<div class="cast-wrapper">
+			<h4 class="cast-title">Obsada</h4>
+			<ul class="cast-list">
+				<li class="cast-list-element" ng-repeat="person in visibleCast">
+					<img class="cast-person-avatar" ng-src="{{person.avatarFilename ? images + person.avatarFilename : noImage}}" alt="Portret aktora" />
+					<span class="cast-person-name" ng-bind="person.name"></span>
+					<div class="clear"></div>
+				</li>
+			</ul>
+		</div>
 		<div class="film-info-without-cover">
 			<h1 class="film-info-title"><span ng-bind="film.title"></span> (<span ng-bind="film.year"></span>)</h1>
-			<div class="film-button" tooltip="Dodaj do objerzenia" ng-show="authenticated"><div class="link film-button-inner"><i class="fa fa-clock-o"></i></div></div>
-			<div class="film-button" tooltip="Dodaj do ulubionych" ng-show="authenticated"><div class="link film-button-inner"><i class="fa fa-heart"></i></div></div>
+			<div class="film-buttons" ng-if="authenticated">
+				<div class="film-button" tooltip="Dodaj do objerzenia" ng-class="{'film-button-on': user}"><div class="link film-button-inner"><i class="fa fa-clock-o"></i></div></div>
+				<div class="film-button" tooltip="Dodaj do ulubionych"><div class="link film-button-inner"><i class="fa fa-heart"></i></div></div>
+			</div>
 			<div class="film-info-info">
 				<span class="film-info-info-label">Wersje językowe: </span>
 				<span ng-repeat="version in film.languageVersions"><span ng-bind="languageVersions[version]"></span><span ng-bind="$last ? '' : ', '"></span></span>
@@ -47,7 +59,7 @@
 				<span ng-bind="film.timesRated"></span>
 			</div>
 		</div>
-		<div class="rate-wrapper" ng-show="authenticated">
+		<div class="rate-wrapper">
 			<div ng-show="film.userRating === null">
 				<span class="rate-label">Oceń ten film: </span>
 				<span class="stars-wrapper" ng-mouseleave="filmCtrl.starMouseleave()">

@@ -24,8 +24,7 @@ public class Player {
 	}
 
 	@Id
-	@SequenceGenerator(name = "player_id_gen", sequenceName = "players_player_id_seq")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "player_id_gen")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "player_id")
 	private Integer id;
 

@@ -30,7 +30,7 @@ public class FilmDetailsResource {
 	private Set<Player.LanguageVersion> languageVersions = new HashSet<>();
 
 	private Float userRating;
-	private List<PersonResource> cast = new ArrayList<>();
+	private List<PersonResource> castAndCrew = new ArrayList<>();
 	private List<PlayerResource> players = new ArrayList<>();
 	private Integer views;
 	private List<CommentResource> comments = new ArrayList<>();

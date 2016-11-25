@@ -15,8 +15,7 @@ import java.util.Objects;
 public class Comment {
 
 	@Id
-	@SequenceGenerator(name = "comment_id_gen", sequenceName = "comments_comment_id_seq")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_id_gen")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "comment_id")
 	private Long id;
 

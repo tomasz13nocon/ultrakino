@@ -95,8 +95,7 @@ public class Film extends Content {
 		if (!(o instanceof Film)) return false;
 		Film film = (Film) o;
 		return Objects.equals(getTitle(), film.getTitle()) &&
-				Objects.equals(getWorldPremiere(), film.getWorldPremiere()) &&
-				Objects.equals(getId(), film.getId());
+				Objects.equals(getWorldPremiere(), film.getWorldPremiere());
 	}
 
 	@Override

@@ -3,8 +3,6 @@ angular.module("app")
 	var res = $resource(api + "/comments/:id", { id: "@id" }, {});
 
 	res.process = function(comment) {
-		if (!comment.addedBy.avatarFilename)
-			comment.addedBy.avatarFilename = defaultAvatarFilename;
 		comment.submissionDate = new Date(
 			comment.submissionDate[0],
 			comment.submissionDate[1],

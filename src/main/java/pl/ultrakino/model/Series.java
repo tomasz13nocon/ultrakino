@@ -85,15 +85,12 @@ public class Series extends Content {
 		if (this == o) return true;
 		if (!(o instanceof Series)) return false;
 		Series series = (Series) o;
-		if (getId() == null || series.getId() == null)
-			throw new IllegalStateException("Can't use equals before persisting.");
-		return Objects.equals(getTitle(), series.getTitle());
+		return Objects.equals(getTitle(), series.getTitle()) &&
+				Objects.equals(getWorldPremiere(), series.getWorldPremiere());
 	}
 
 	@Override
 	public int hashCode() {
-		if (getId() == null)
-			throw new IllegalStateException("Can't use hashCode before persisting.");
-		return Objects.hash(getTitle());
+		return Objects.hash(getTitle(), getWorldPremiere());
 	}
 }

@@ -19,8 +19,7 @@ public class Country {
 	}
 
 	@Id
-	@SequenceGenerator(name = "country_id_gen", sequenceName = "countries_country_id_seq")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "country_id_gen")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "country_id")
 	private int id;
 

@@ -2,7 +2,7 @@ angular.module("app")
 .controller("OneSeriesController", ['$interval', '$location', '$route', '$routeParams', '$scope', '$timeout', 'Comment', 'Episode', 'Rating', 'Series', function($interval, $location, $route, $routeParams, $scope, $timeout, Comment, Episode, Rating, Series) {
 	var ctrl = this;
 
-	ctrl.loadEpisodes = function(season = $scope.seasons[0]) {
+	ctrl.loadEpisodes = function(season) {
 		if (season == $scope.activeSeason && $scope.episode == null)
 			return;
 		$scope.episodeListAnimation = true;
@@ -13,14 +13,19 @@ angular.module("app")
 				$scope.episodes = ctrl.episodes;
 				$interval.cancel(ctrl.stop);
 			}
-		}, 10);
+		}, 20);
+		if (season === undefined)
+			season = Series.activeSeason;
+		else
+			Series.activeSeason = season;
 		$scope.activeSeason = season;
 		Episode.query({ seriesId: $routeParams["id"], season: season }, function(episodes) {
 			ctrl.episodes = episodes;
 			fetchedEpisodes = true;
 		});
 		$scope.episode = null;
-		$location.path("seriale/" + $scope.series.uid + "/" + $scope.series.title + "-" + $scope.series.year, false);
+//		var path = "/seriale/" + $scope.series.uid + "/" + $scope.series.title + "-" + $scope.series.year;
+//		$location.path(path, false);
 	};
 
 	ctrl.loadEpisode = function(id) {
@@ -92,7 +97,7 @@ angular.module("app")
 			ctrl.loadEpisode($routeParams["episodeId"]);
 		}
 		else {
-			ctrl.loadEpisodes();
+			ctrl.loadEpisodes($scope.seasons[0]);
 		}
 	});
 

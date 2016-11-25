@@ -81,9 +81,15 @@ public class FilmwebServiceImpl implements FilmwebService {
 		try {
 			String response = IOUtils.toString(new URL(createFilmwebAPIUrl(FILM_INFO_METHOD, filmwebId)).openStream(), StandardCharsets.UTF_8);
 			if (!response.startsWith("ok")) {
-				throw new FilmwebException("API call didn't return ok");
+				throw new FilmwebException("API call didn't return ok. filmwebId: " + filmwebId);
 			}
-			String arrayString = response.substring(response.indexOf('['), response.lastIndexOf(']') + 1);
+			String arrayString;
+			try {
+				arrayString = response.substring(response.indexOf('['), response.lastIndexOf(']') + 1);
+			}
+			catch (StringIndexOutOfBoundsException e) {
+				throw new FilmwebException("Wrong format of filmweb API. filmwebId: " + filmwebId);
+			}
 			ObjectMapper mapper = new ObjectMapper();
 			return mapper.readValue(arrayString, Object[].class);
 		} catch (IOException e) {
@@ -237,7 +243,6 @@ public class FilmwebServiceImpl implements FilmwebService {
 			String filmwebImg = "http://1.fwcdn.pl/po" + ((String) filmInfo[11]).replaceFirst("\\.\\d\\.jp", ".3.jp");
 			InputStream is = new URL(filmwebImg).openStream();
 			String filename = DigestUtils.md5Hex(film.getTitle() + film.getYear()) + ".jpg";
-			// TODO: Change image location on prod
 			OutputStream os = new FileOutputStream(IMAGES + filename);
 			IOUtils.copy(is, os);
 			is.close();
@@ -285,6 +290,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 
 	@Override
 	public Set<FilmographyEntry> getFilmPersons(String filmwebId, Content content) throws FilmwebException {
+		System.out.println("FILM PERSONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		Set<FilmographyEntry> filmographyEntries = new HashSet<>();
 		for (Person.Role role : Person.Role.values()) {
 			try {
@@ -297,6 +303,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 
 				ObjectMapper mapper = new ObjectMapper();
 				Object[][] actors = mapper.readValue(personsResponse.substring(firstBracketPos, personsResponse.lastIndexOf(']') + 1), Object[][].class);
+				int i = 1;
 				for (Object[] actor : actors) {
 					FilmographyEntry entry = new FilmographyEntry();
 					Optional<Person> person = personRepository.findByFilmwebId(String.valueOf(actor[0]));
@@ -306,6 +313,20 @@ public class FilmwebServiceImpl implements FilmwebService {
 						Person p = new Person();
 						p.setFilmwebId(String.valueOf(actor[0]));
 						p.setName((String) actor[3]);
+
+						System.out.println(actor[4]);
+						if (actor[4] != null) {
+							String filmwebImg = "http://1.fwcdn.pl/p" + actor[4];
+							try (InputStream is = new URL(filmwebImg).openStream()) {
+								String filename = DigestUtils.md5Hex(p.getName() + filmwebImg) + ".jpg";
+								try (OutputStream os = new FileOutputStream(IMAGES + filename)) {
+									IOUtils.copy(is, os);
+								}
+								p.setAvatarFilename(filename);
+							}
+						}
+						System.out.println(p.getAvatarFilename());
+
 						personRepository.save(p);
 						entry.setPerson(p);
 					}
@@ -313,6 +334,9 @@ public class FilmwebServiceImpl implements FilmwebService {
 					entry.setAttributes((String) actor[2]);
 					entry.setRole(role.toString());
 					entry.setContent(content);
+					entry.setNumber(i++);
+					System.out.println(Arrays.toString(actor));
+					System.out.println(entry.getNumber() + " | " + entry.getRole());
 					filmographyEntries.add(entry);
 				}
 			} catch (IOException e) {

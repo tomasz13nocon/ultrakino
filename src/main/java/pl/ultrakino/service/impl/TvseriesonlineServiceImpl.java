@@ -33,20 +33,7 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 	private SeriesRepository seriesRepository;
 	private EpisodeRepository episodeRepository;
 	private PlayerRepository playerRepository;
-	private int skipped, created, updated;
 	private Map<String, Player.LanguageVersion> langs;
-
-	public int getSkipped() {
-		return skipped;
-	}
-
-	public int getCreated() {
-		return created;
-	}
-
-	public int getUpdated() {
-		return updated;
-	}
 
 	@Autowired
 	public TvseriesonlineServiceImpl(FilmwebService filmwebService, SeriesRepository seriesRepository, EpisodeRepository episodeRepository, PlayerRepository playerRepository) {
@@ -64,20 +51,19 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 
 	@Override
 	public List<Series> fetchAndSaveAllShows() throws IOException, FilmwebException, TvseriesonlineException {
-		skipped = 0; created = 0; updated = 0;
 		Document mainDoc = Jsoup.connect("http://www.tvseriesonline.pl/").userAgent(Constants.USER_AGENT).get();
 		List<String> showLinks = mainDoc.select("ul#categories li a").stream().map(e -> e.attr("href")).collect(Collectors.toList());
 		List<Series> result = new ArrayList<>();
 		int i = 0;//TODO: remove
 		for (String showLink : showLinks) {
 			Optional<Series> op = getShow(showLink);
-			if (!op.isPresent())
-				skipped++;
-			else {
+			if (op.isPresent()) {
 				result.add(op.get());
-				created++;
 			}
-			if (i++ > 2) break;
+			else {
+				System.err.println("EMPTY SERIES");
+			}
+			if (i++ > 8) break;
 		}
 
 		return result;
@@ -85,14 +71,15 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 
 	private Optional<Series> getShow(String showLink) throws TvseriesonlineException, FilmwebException, IOException {
 		Document showDoc = Jsoup.connect(showLink).userAgent(Constants.USER_AGENT).get();
-		Pattern yearPattern = Pattern.compile("<h2><span.*?>(.+?)</span>\\s*\\(<a href=\"http://www\\.tvseriesonline\\.pl\\?page_id=5573(?:&|&amp;)rok=\\d{4}\">(\\d{4})</a>\\)");
+		Pattern yearPattern = Pattern.compile("<h1 class=\"title-category\"><span.*?>(.+?)</span>\\s*\\(<a href=\"http://www\\.tvseriesonline\\.pl\\?page_id=5573(?:&|&amp;)rok=\\d{4}\">(\\d{4})</a>\\)");
 		Elements articles = showDoc.select("article");
 		if (articles.size() != 1)
 			throw new TvseriesonlineException("Web scraper: Unexpected website format.");
 		Matcher m = yearPattern.matcher(articles.get(0).html());
-		if (!m.find())
-			return Optional.empty();
-//			throw new TvseriesonlineException("Web scraper: Unexpected website format.");
+		if (!m.find()) {
+			throw new TvseriesonlineException("Web scraper: Unexpected website format.");
+//			return Optional.empty();
+		}
 		String title = m.group(1);
 		int year = Integer.parseInt(m.group(2));
 
@@ -106,8 +93,10 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 				List<String> ids = filmwebService.searchForSeries(title, year);
 				if (ids.size() == 1)
 					series = filmwebService.getFullSeriesInfo(ids.get(0));
-				else
+				else {
+					System.err.println("RETURNING EMPTY");
 					return Optional.empty();
+				}
 				series.setTvseriesonlineTitle(title);
 				seriesRepository.save(series);
 			} catch (Exception e) {
@@ -193,8 +182,10 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 				}
 			}
 		}
-		if (series.getEpisodes().isEmpty())
+		if (series.getEpisodes().isEmpty()) {
+			System.err.println("RETURNING EMPTY 2");
 			return Optional.empty();
+		}
 		return Optional.of(series);
 	}
 

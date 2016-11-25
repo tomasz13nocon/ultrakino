@@ -1,5 +1,4 @@
 flashing error msg in oneseries
-ocena i komenty całych seriali
 viewsy (1 na dzień na usera, dodać datę viewsu, w najpopularniejszych dać najcześćiej oglądane filmy w ostatnim miesiącu)
 jeden koment na minutę/30 sekund
 edytowanie i usuwanie komentów
@@ -18,6 +17,9 @@ aktorzy
 comments pagination
 url based filters
 sort series by addition date of their episodes
+ocena i komenty całych seriali
+delay tooltip in add to watchlist and favs
+make actors appear in the right order (same as on filmweb)
 
 śledzenie filmu/serialu
 User: śledzone

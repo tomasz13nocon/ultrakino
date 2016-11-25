@@ -58,6 +58,7 @@ public class User {
 	private Set<Content> favorites = new HashSet<>();
 
 	@ElementCollection
+	@Column(name = "role")
 	private Set<String> roles = new HashSet<>();
 
 	@Override

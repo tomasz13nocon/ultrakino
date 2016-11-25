@@ -63,16 +63,14 @@ public class Episode extends Content {
 		if (this == o) return true;
 		if (!(o instanceof Episode)) return false;
 		Episode episode = (Episode) o;
-		if (getId() == null || episode.getId() == null)
-			throw new IllegalStateException("Can't use equals before persisting.");
-		return Objects.equals(getId(), episode.getId());
+		return Objects.equals(getSeason(), episode.getSeason()) &&
+				Objects.equals(getEpisodeNumber(), episode.getEpisodeNumber()) &&
+				Objects.equals(getSeries(), episode.getSeries());
 	}
 
 	@Override
 	public int hashCode() {
-		if (getId() == null)
-			throw new IllegalStateException("Can't use hashCode before persisting.");
-		return Objects.hash(getId());
+		return Objects.hash(getSeason(), getEpisodeNumber(), getSeries());
 	}
 
 	@Override

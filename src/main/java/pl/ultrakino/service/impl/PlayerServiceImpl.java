@@ -49,6 +49,9 @@ public class PlayerServiceImpl implements PlayerService {
 			case "youtube":
 				src = "https://www.youtube.com/embed/" + src;
 				break;
+			case "nowvideo":
+				src = "http://embed.nowvideo.sx/embed.php?v=" + src; // + "&width=" + width + "&height=" + height;
+				break;
 		}
 		res.setSrc(src);
 		res.setAdditionDate(player.getAdditionDate());

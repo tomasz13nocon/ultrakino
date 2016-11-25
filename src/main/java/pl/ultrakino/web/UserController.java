@@ -1,6 +1,7 @@
 package pl.ultrakino.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,10 +33,11 @@ public class UserController {
 		if (principal == null) return ResponseEntity.ok().build();
 		ObjectMapper mapper = new ObjectMapper();
 		ObjectNode node = mapper.valueToTree(principal);
-		Optional<User> userOp = userService.findByUsername(principal.getName(), false); // TODO: make it true if we want e.g. watched content of current user
+		Optional<User> userOp = userService.findByUsername(principal.getName(), true);
 		if (!userOp.isPresent()) // I think this can never happen
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("hacking detected, pls no hack us");
 		User user = userOp.get();
+		node.set("details", mapper.convertValue(userService.toDetailsResource(user), ObjectNode.class));
 		node.put("avatarFilename", user.getAvatarFilename());
 		node.put("uid", user.getId());
 		return ResponseEntity.ok(node);

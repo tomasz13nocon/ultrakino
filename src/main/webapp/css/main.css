@@ -344,10 +344,13 @@ input[type="radio"].radio {
 
 .film-info-cover {
   width: 200px;
-  float: left; }
+  float: left;
+  max-width: 20%;
+  padding-right: 20px; }
 
 .film-info-without-cover {
-  margin-left: 232px; }
+  margin-left: 200px;
+  width: 64%; }
 
 .film-info-title {
   font-size: 2.8em; }
@@ -373,6 +376,28 @@ input[type="radio"].radio {
   border-radius: 3px;
   padding: 4px 6px 3px;
   font-size: 1.1em; }
+
+.cast-wrapper {
+  float: right;
+  width: 16%;
+  border-left: 1px solid #eed;
+  padding-left: 16px; }
+
+.cast-title {
+  font-size: 1.5em;
+  text-align: center;
+  padding-bottom: 5px; }
+
+.cast-list-element {
+  padding: 2px; }
+
+.cast-person-avatar {
+  height: 60px;
+  padding-right: 10px;
+  float: left; }
+
+.cast-person-name {
+  padding-top: 30px; }
 
 .player-section {
   margin-top: 32px; }
@@ -620,7 +645,8 @@ select.filter-input {
   border: 1px solid white;
   margin-top: 12px;
   display: table;
-  width: 100%; }
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3); }
 
 .season-list {
   width: 24%;
@@ -863,6 +889,16 @@ html {
   box-shadow: 0 0 10px 2px black;
   border: 2px ridge #666;
   padding-bottom: 16px; }
+
+.the-box-message {
+  width: 80%;
+  padding: 6px;
+  display: inline-block;
+  margin: 4px 0;
+  background-color: #cec;
+  color: #484;
+  border: 1px solid #5d2;
+  border-radius: 4px; }
 
 .login-form label {
   display: block;

@@ -14,6 +14,7 @@ public class PersonResource {
 	private int uid;
 	private String name;
 	private String role;
-	private List<Content> filmography = new ArrayList<>();
+	private String avatarFilename;
+	private int number;
 
 }

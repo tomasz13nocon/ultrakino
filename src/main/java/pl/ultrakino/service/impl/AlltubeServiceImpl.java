@@ -89,7 +89,7 @@ public class AlltubeServiceImpl implements AlltubeService {
 			throw new AlltubeException("Unexpected website format.");
 		}
 
-		if (filmwebId.length() > 8 || filmwebId.length() == 0) // It's not a real filmweb ID
+		if (filmwebId.length() > 8 || filmwebId.length() == 0 || filmwebId.equals("000000")) // It's not a real filmweb ID
 			return Optional.empty();
 
 

@@ -1,6 +1,5 @@
 api = "/api";
 templateDir = "templates";
-defaultAvatarFilename = "images/avatar3.png";
 
 angular.module("app", ["ngRoute", "ngAnimate", "ngResource"]);
 
@@ -48,9 +47,11 @@ angular.module("app")
 		var original = $location.path;
 		$location.path = function (path, reload) {
 			if (reload === false) {
+				console.log("location path with reload false");
 				var lastRoute = $route.current;
 				var un = $rootScope.$on('$locationChangeSuccess', function () {
 					$route.current = lastRoute;
+					console.log("changing to last route");
 					un();
 				});
 			}

@@ -16,6 +16,7 @@ angular.module("app")
 	theBox.hideTheBox = function() {
 		theBox.theBoxVisible = false;
 		theBox.authenticationFailed = false;
+		theBox.message = undefined;
 	};
 
 	return theBox;
