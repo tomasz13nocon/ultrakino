@@ -343,14 +343,13 @@ input[type="radio"].radio {
   padding-top: 42px; }
 
 .film-info-cover {
-  width: 200px;
+  width: 210px;
   float: left;
   max-width: 20%;
   padding-right: 20px; }
 
 .film-info-without-cover {
-  margin-left: 200px;
-  width: 64%; }
+  margin-left: 200px; }
 
 .film-info-title {
   font-size: 2.8em; }
@@ -379,7 +378,7 @@ input[type="radio"].radio {
 
 .cast-wrapper {
   float: right;
-  width: 16%;
+  width: 20%;
   border-left: 1px solid #eed;
   padding-left: 16px; }
 
@@ -395,9 +394,6 @@ input[type="radio"].radio {
   height: 60px;
   padding-right: 10px;
   float: left; }
-
-.cast-person-name {
-  padding-top: 30px; }
 
 .player-section {
   margin-top: 32px; }

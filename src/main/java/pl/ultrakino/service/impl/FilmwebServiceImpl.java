@@ -190,6 +190,9 @@ public class FilmwebServiceImpl implements FilmwebService {
 			}
 			series.setWorldPremiere(LocalDate.parse(worldPremiere));
 		}
+		else if (series.getYear() != null) {
+			series.setWorldPremiere(LocalDate.ofYearDay(series.getYear(), 1));
+		}
 
 		if (seriesInfo[18] != null)
 			series.setProductionCountries(Arrays.stream(((String) seriesInfo[18]).split(", ")).map(countryService::getCountry).collect(Collectors.toSet()));
@@ -266,6 +269,9 @@ public class FilmwebServiceImpl implements FilmwebService {
 					throw new FilmwebException("Unsupported date format: " + worldPremiere);
 			}
 			film.setWorldPremiere(LocalDate.parse(worldPremiere));
+		}
+		else if (film.getYear() != null) {
+			film.setWorldPremiere(LocalDate.ofYearDay(film.getYear(), 1));
 		}
 
 		if (filmInfo[14] != null) {

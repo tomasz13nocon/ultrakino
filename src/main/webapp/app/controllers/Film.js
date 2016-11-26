@@ -27,7 +27,7 @@ angular.module("app")
 			});
 		}
 		else {
-			TheBox.message = "Załóż konto żeby móc oceniać filmy i wiele więcej!";
+			TheBox.message = "Załóż konto żeby móc oceniać filmy!";
 			TheBox.showRegisterBox();
 		}
 	};
