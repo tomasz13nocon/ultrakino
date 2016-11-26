@@ -29,7 +29,6 @@ public class SeriesDetailsResource {
 	private Integer episodeCount;
 
 	private List<PersonResource> castAndCrew = new ArrayList<>();
-	private List<EpisodeResource> episodes = new ArrayList<>();
 	private Integer runningTime;
 
 }

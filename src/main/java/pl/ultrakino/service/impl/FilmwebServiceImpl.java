@@ -328,6 +328,9 @@ public class FilmwebServiceImpl implements FilmwebService {
 								}
 								p.setAvatarFilename(filename);
 							}
+							catch (FileNotFoundException e) {
+								System.err.println("COULDN'T FIND OR SAVE PERSON IMAGE\n" + e);
+							}
 						}
 
 						personRepository.save(p);

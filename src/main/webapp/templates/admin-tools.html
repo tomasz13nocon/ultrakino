@@ -1,2 +1,9 @@
-<div class="btn-2" ng-click="adminToolsCtrl.recommendFilm()">Poleć ten film</div>
-<div class="btn" ng-show="adminToolsCtrl.film.recommendationDate" ng-click="adminToolsCtrl.deleteRecommendation()">Usuń z polecanych</div>
+<style>
+#admin-tools-title {
+		font-size: 1.3em;
+		margin: 10px 0;
+}
+</style>
+<h6 id="admin-tools-title">Narzędzia admina</h6>
+<div class="btn-2" ng-click="adminToolsCtrl.recommendFilm()">Dodaj do polecanych</div>
+<div class="btn" ng-show="adminToolsCtrl.content.recommendationDate" ng-click="adminToolsCtrl.deleteRecommendation()">Usuń z polecanych</div>

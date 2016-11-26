@@ -687,6 +687,11 @@ select.filter-input {
   .episode-entry-inner:hover {
     transform: translateX(8px); }
 
+.no-episodes-message {
+  margin: 24px;
+  font-size: 1.2em;
+  text-align: center; }
+
 .episode-wrapper {
   margin-top: 26px; }
 

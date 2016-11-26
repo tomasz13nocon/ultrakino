@@ -77,7 +77,6 @@ public class SeriesServiceImpl implements SeriesService {
 		res.setEpisodeCount(series.getEpisodeCount());
 
 		res.setCastAndCrew(personService.toResources(series.getCastAndCrew()));
-		res.setEpisodes(episodeService.toResources(series.getEpisodes()));
 		res.setSeasonCount(series.getSeasonCount());
 		res.setEpisodeCount(series.getEpisodeCount());
 		res.setRunningTime(series.getRunningTime());

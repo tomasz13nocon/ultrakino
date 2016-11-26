@@ -3,4 +3,5 @@ angular.module("app")
 	templateUrl: templateDir + "/admin-tools.html",
 	controller: "AdminToolsController",
 	controllerAs: "adminToolsCtrl",
+	bindings: { content: '=' },
 });

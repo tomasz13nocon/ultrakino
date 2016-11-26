@@ -20,6 +20,7 @@ angular.module("app")
 				if (!$rootScope.user)
 					$rootScope.user = resp.data.details;
 				ctrl.TheBox.theBoxVisible = false;
+				ctrl.TheBox.authenticationFailed = false;
 			}
 			else {
 				$rootScope.authenticated = false;
@@ -30,6 +31,7 @@ angular.module("app")
 		}, function(resp) {
 			$rootScope.authenticated = false;
 			$rootScope.isAdmin = false;
+			// TODO: Custom error msgs. Here there can be 500 status code, not wrong credentials.
 			if (ctrl.TheBox.theBoxVisible)
 				ctrl.TheBox.authenticationFailed = true;
 		});

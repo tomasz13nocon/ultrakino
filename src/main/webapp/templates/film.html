@@ -15,6 +15,7 @@
 		<div class="film-info-without-cover">
 			<h1 class="film-info-title"><span ng-bind="film.title"></span> (<span ng-bind="film.year"></span>)</h1>
 			<div class="film-buttons" ng-if="authenticated">
+				<!-- TODO: Ability to remove from those lists. -->
 				<div class="film-button" tooltip="Dodaj do objerzenia" ng-class="{'film-button-on': user}"><div class="link film-button-inner"><i class="fa fa-clock-o"></i></div></div>
 				<div class="film-button" tooltip="Dodaj do ulubionych"><div class="link film-button-inner"><i class="fa fa-heart"></i></div></div>
 			</div>
@@ -30,7 +31,7 @@
 	</div>
 	<div class="clear"></div>
 
-	<admin-tools ng-if="isAdmin"></admin-tools>
+	<admin-tools ng-if="isAdmin" content="film"></admin-tools>
 
 	<div class="player-section">
 		<div class="player-select">

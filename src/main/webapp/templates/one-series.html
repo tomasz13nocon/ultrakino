@@ -30,7 +30,7 @@
 			</div>
 		</div>
 		<div class="episode-list" ng-class="{'episode-list-animation': episodeListAnimation}">
-			<div class="no-episodes-message" ng-hide="episodes">Brak odcinków</div>
+			<div class="no-episodes-message" ng-hide="episodes && episodes.length">Brak odcinków w tym sezonie.</div>
 			<div ng-repeat="episode in episodes">
 				<div class="episode-entry link" ng-click="oneSeriesCtrl.loadEpisode(episode.uid)">
 					<div class="episode-entry-inner">
