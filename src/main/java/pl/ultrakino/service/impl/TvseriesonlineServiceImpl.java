@@ -54,7 +54,7 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 		Document mainDoc = Jsoup.connect("http://www.tvseriesonline.pl/").userAgent(Constants.USER_AGENT).get();
 		List<String> showLinks = mainDoc.select("ul#categories li a").stream().map(e -> e.attr("href")).collect(Collectors.toList());
 		List<Series> result = new ArrayList<>();
-		int i = 0;//TODO: remove
+		int i = 1;//TODO: remove
 		for (String showLink : showLinks) {
 			Optional<Series> op = getShow(showLink);
 			if (op.isPresent()) {
@@ -63,7 +63,7 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 			else {
 				System.err.println("EMPTY SERIES");
 			}
-			if (i++ > 8) break;
+			if (i++ == 4) break;
 		}
 
 		return result;
@@ -114,7 +114,7 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 			int season = Integer.parseInt(m.group(1));
 			int episodeNumber = Integer.parseInt(m.group(3));
 			Episode episode;
-			Optional<Episode> existingEpisode = episodeRepository.findBySeasonAndEpisodeNumber(season, episodeNumber);
+			Optional<Episode> existingEpisode = episodeRepository.findBySeriesIdAndSeasonAndEpisodeNumber(series.getId(), season, episodeNumber);
 			if (existingEpisode.isPresent()) {
 				episode = existingEpisode.get();
 			}

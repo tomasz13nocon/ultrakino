@@ -13,7 +13,7 @@ public interface EpisodeRepository {
 
 	Episode findById(int id) throws NoRecordWithSuchIdException;
 
-	Optional<Episode> findBySeasonAndEpisodeNumber(int season, int episodeNumber);
+	Optional<Episode> findBySeriesIdAndSeasonAndEpisodeNumber(int seriesId, int season, int episodeNumber);
 
 	List<Episode> findBySeriesIdAndSeason(int seriesId, int season);
 

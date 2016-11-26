@@ -296,7 +296,6 @@ public class FilmwebServiceImpl implements FilmwebService {
 
 	@Override
 	public Set<FilmographyEntry> getFilmPersons(String filmwebId, Content content) throws FilmwebException {
-		System.out.println("FILM PERSONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		Set<FilmographyEntry> filmographyEntries = new HashSet<>();
 		for (Person.Role role : Person.Role.values()) {
 			try {
@@ -320,7 +319,6 @@ public class FilmwebServiceImpl implements FilmwebService {
 						p.setFilmwebId(String.valueOf(actor[0]));
 						p.setName((String) actor[3]);
 
-						System.out.println(actor[4]);
 						if (actor[4] != null) {
 							String filmwebImg = "http://1.fwcdn.pl/p" + actor[4];
 							try (InputStream is = new URL(filmwebImg).openStream()) {
@@ -331,7 +329,6 @@ public class FilmwebServiceImpl implements FilmwebService {
 								p.setAvatarFilename(filename);
 							}
 						}
-						System.out.println(p.getAvatarFilename());
 
 						personRepository.save(p);
 						entry.setPerson(p);
@@ -341,8 +338,6 @@ public class FilmwebServiceImpl implements FilmwebService {
 					entry.setRole(role.toString());
 					entry.setContent(content);
 					entry.setNumber(i++);
-					System.out.println(Arrays.toString(actor));
-					System.out.println(entry.getNumber() + " | " + entry.getRole());
 					filmographyEntries.add(entry);
 				}
 			} catch (IOException e) {

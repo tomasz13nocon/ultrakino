@@ -3,6 +3,7 @@ package pl.ultrakino.repository.jpa;
 import org.springframework.stereotype.Repository;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Episode;
+import pl.ultrakino.model.Series;
 import pl.ultrakino.repository.EpisodeRepository;
 
 import javax.persistence.EntityManager;
@@ -29,8 +30,12 @@ public class JpaEpisodeRepository implements EpisodeRepository {
 	}
 
 	@Override
-	public Optional<Episode> findBySeasonAndEpisodeNumber(int season, int episodeNumber) {
-		List<Episode> episodes = em.createQuery("SELECT e FROM Episode e WHERE e.season=:season AND e.episodeNumber=:episodeNumber", Episode.class)
+	public Optional<Episode> findBySeriesIdAndSeasonAndEpisodeNumber(int seriesId, int season, int episodeNumber) {
+		List<Episode> episodes = em.createQuery("SELECT e FROM Episode e WHERE " +
+				"e.series.id=:seriesId AND " +
+				"e.season=:season AND " +
+				"e.episodeNumber=:episodeNumber", Episode.class)
+				.setParameter("seriesId", seriesId)
 				.setParameter("season", season)
 				.setParameter("episodeNumber", episodeNumber)
 				.getResultList();

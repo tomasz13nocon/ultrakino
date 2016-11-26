@@ -52,7 +52,7 @@ public class JpaSeriesRepository implements SeriesRepository {
 
 	@Override
 	public Series findById(int seriesId) throws NoRecordWithSuchIdException {
-		List<Series> seriesList = em.createQuery("FROM Series s " +
+		List<Series> seriesList = em.createQuery("SELECT s FROM Series s " +
 						"LEFT JOIN FETCH s.episodes " +
 //						"LEFT JOIN FETCH s.ratings " +
 						"LEFT JOIN FETCH s.castAndCrew cac " +
