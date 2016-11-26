@@ -2,6 +2,16 @@
 <div class="page-wrapper ng-cloak" ng-show="series" ng-cloak>
 	<div class="film-info">
 		<img class="film-info-cover" alt="{{series.title}}" ng-src="{{series.coverFilename ? images + series.coverFilename : noImage}}">
+		<div class="cast-wrapper">
+			<h4 class="cast-title">Obsada</h4>
+			<ul class="cast-list">
+				<li class="cast-list-element" ng-repeat="person in visibleCast">
+					<img class="cast-person-avatar" ng-src="{{person.avatarFilename ? images + person.avatarFilename : noImage}}" alt="Portret aktora" />
+					<span class="cast-person-name" ng-bind="person.name"></span>
+					<div class="clear"></div>
+				</li>
+			</ul>
+		</div>
 		<div class="film-info-without-cover">
 			<h1 class="film-info-title"><span ng-bind="series.title"></span> (<span ng-bind="series.year"></span>)</h1>
 			<div class="film-info-info">

@@ -30,7 +30,7 @@ public class SeriesController {
 	@GetMapping("/{id}")
 	public ResponseEntity getOneSeries(@PathVariable int id) {
 		try {
-			return ResponseEntity.ok(seriesService.toResource(seriesService.findById(id)));
+			return ResponseEntity.ok(seriesService.toDetailsResource(seriesService.findById(id)));
 		} catch (NoRecordWithSuchIdException e) {
 			return ResponseEntity.notFound().build();
 		}

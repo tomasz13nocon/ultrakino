@@ -18,6 +18,7 @@ import pl.ultrakino.repository.SeriesRepository;
 import pl.ultrakino.resource.SeriesDetailsResource;
 import pl.ultrakino.resource.SeriesResource;
 import pl.ultrakino.service.EpisodeService;
+import pl.ultrakino.service.PersonService;
 import pl.ultrakino.service.SeriesService;
 
 import java.util.List;
@@ -31,12 +32,14 @@ public class SeriesServiceImpl implements SeriesService {
 	private SeriesRepository seriesRepository;
 	private EpisodeService episodeService;
 	private RatingRepository ratingRepository;
+	private PersonService personService;
 
 	@Autowired
-	public SeriesServiceImpl(SeriesRepository seriesRepository, EpisodeService episodeService, RatingRepository ratingRepository) {
+	public SeriesServiceImpl(SeriesRepository seriesRepository, EpisodeService episodeService, RatingRepository ratingRepository, PersonService personService) {
 		this.seriesRepository = seriesRepository;
 		this.episodeService = episodeService;
 		this.ratingRepository = ratingRepository;
+		this.personService = personService;
 	}
 
 	@Override
@@ -73,8 +76,7 @@ public class SeriesServiceImpl implements SeriesService {
 		res.setSeasonCount(series.getSeasonCount());
 		res.setEpisodeCount(series.getEpisodeCount());
 
-		res.setCastAndCrew(series.getCastAndCrew());
-		res.setProductionCountries(series.getProductionCountries());
+		res.setCastAndCrew(personService.toResources(series.getCastAndCrew()));
 		res.setEpisodes(episodeService.toResources(series.getEpisodes()));
 		res.setSeasonCount(series.getSeasonCount());
 		res.setEpisodeCount(series.getEpisodeCount());

@@ -93,6 +93,15 @@ angular.module("app")
 		for (var i = 0; i < series.seasonCount; i++) {
 			$scope.seasons[i] = series.seasonCount - i;
 		}
+		console.log(series);
+		$scope.visibleCast = series.castAndCrew.filter(function(el) {
+			return el.role === "ACTOR";
+		}).sort(function(a, b) {
+			if (a.number < b.number) return -1;
+			if (a.number > b.number) return 1;
+			return 0;
+		}).slice(0, 6);
+
 		if ($routeParams["episodeId"]) {
 			ctrl.loadEpisode($routeParams["episodeId"]);
 		}

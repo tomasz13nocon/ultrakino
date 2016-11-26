@@ -54,7 +54,6 @@ public class Series extends Content {
 	@Column(name = "recommendation_date")
 	private LocalDateTime recommendationDate;
 
-	//////////////////////////////////
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "series")
 	private List<Episode> episodes = new ArrayList<>();

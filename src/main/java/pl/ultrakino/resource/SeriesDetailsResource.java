@@ -25,12 +25,11 @@ public class SeriesDetailsResource {
 	private String coverFilename;
 	private LocalDate worldPremiere;
 	private Set<SeriesCategory> categories = new HashSet<>();
-
-	private Set<FilmographyEntry> castAndCrew = new HashSet<>();
-	private Set<Country> productionCountries = new HashSet<>();
-	private List<EpisodeResource> episodes = new ArrayList<>();
 	private Integer seasonCount;
 	private Integer episodeCount;
+
+	private List<PersonResource> castAndCrew = new ArrayList<>();
+	private List<EpisodeResource> episodes = new ArrayList<>();
 	private Integer runningTime;
 
 }

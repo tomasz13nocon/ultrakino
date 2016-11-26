@@ -22,8 +22,6 @@ public class SeriesResource implements ContentResource {
 	private String coverFilename;
 	private LocalDate worldPremiere;
 	private Set<SeriesCategory> categories = new HashSet<>();
-
-	//	private List<EpisodeResource> episodes = new ArrayList<>();
 	private Integer seasonCount;
 	private Integer episodeCount;
 

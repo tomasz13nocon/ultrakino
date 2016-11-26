@@ -25,7 +25,7 @@
           <factory-entry name="dev" />
           <factory-entry name="noname-persistence.xml@120" />
           <factory-entry name="noname-persistence.xml@301" />
-          <factory-entry name="noname-spring-config.xml@747" value="dataSource" />
+          <factory-entry name="noname-spring-config.xml@747" value="1a0dedba-ee29-4b0e-978d-184ef09734d8" />
           <factory-entry name="noname-spring-context.xml@306" />
           <factory-entry name="prod" />
           <factory-entry name="test" />
