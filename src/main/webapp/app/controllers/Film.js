@@ -79,7 +79,7 @@ angular.module("app")
 			return 0;
 		}).slice(0, 6);
 
-		document.title = film.title + " - Ultrakino";
+		setTitle(film.title + " - Ultrakino");
 		$scope.film = film;
 		ctrl.calculateRatingColor();
 		if ($rootScope.authenticated) {

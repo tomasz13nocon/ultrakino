@@ -44,20 +44,9 @@ angular.module("app")
 			$rootScope.images = "//images.ultrakino.pl/";
 		$rootScope.noImage = "images/no-image.png";
 
-		var original = $location.path;
-		$location.path = function (path, reload) {
-			if (reload === false) {
-				console.log("location path with reload false");
-				var lastRoute = $route.current;
-				var un = $rootScope.$on('$locationChangeSuccess', function () {
-					$route.current = lastRoute;
-					console.log("changing to last route");
-					un();
-				});
-			}
-			return original.apply($location, [path]);
-		};
-
+		$rootScope.$on("$locationChangeSuccess", function() {
+			setTitle("Ultrakino.pl - oglądaj najlepsze filmy i seriale za darmo!");
+		});
 	}]);
 
 angular.module("app")

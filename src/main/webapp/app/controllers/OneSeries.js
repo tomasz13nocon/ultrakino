@@ -20,7 +20,6 @@ angular.module("app")
 		else
 			Series.activeSeason = season;
 		$scope.activeSeason = season;
-		console.log(season); // TODO: Assign sth to season after reload
 		Episode.query({ seriesId: $routeParams["id"], season: season }, function(episodes) {
 			ctrl.episodes = episodes;
 			fetchedEpisodes = true;
@@ -31,6 +30,7 @@ angular.module("app")
 		Episode.get({ seriesId: $routeParams["id"], id: id }, function(episode) {
 			$scope.episode = episode;
 			$scope.episodes = null;
+			$scope.activeSeason = episode.season;
 			$route.updateParams({ episodeId: episode.uid, season: "sezon-" + episode.season, episode: "odcinek-" + episode.episodeNumber });
 			for (var i = 0; i < episode.players.length; i++) {
 				$scope.currentPlayerIndex = 0;
@@ -99,6 +99,8 @@ angular.module("app")
 			if (a.number > b.number) return 1;
 			return 0;
 		}).slice(0, 6);
+
+		setTitle(series.title + " - Ultrakino");
 
 		if ($routeParams["episodeId"]) {
 			ctrl.loadEpisode($routeParams["episodeId"]);
