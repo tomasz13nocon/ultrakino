@@ -11,6 +11,7 @@ angular.module("app")
 			if (fetchedEpisodes) {
 				$scope.episodeListAnimation = false;
 				$scope.episodes = ctrl.episodes;
+				$scope.episode = null;
 				$interval.cancel(ctrl.stop);
 			}
 		}, 20);
@@ -19,18 +20,17 @@ angular.module("app")
 		else
 			Series.activeSeason = season;
 		$scope.activeSeason = season;
+		console.log(season); // TODO: Assign sth to season after reload
 		Episode.query({ seriesId: $routeParams["id"], season: season }, function(episodes) {
 			ctrl.episodes = episodes;
 			fetchedEpisodes = true;
 		});
-		$scope.episode = null;
-//		var path = "/seriale/" + $scope.series.uid + "/" + $scope.series.title + "-" + $scope.series.year;
-//		$location.path(path, false);
 	};
 
 	ctrl.loadEpisode = function(id) {
 		Episode.get({ seriesId: $routeParams["id"], id: id }, function(episode) {
 			$scope.episode = episode;
+			$scope.episodes = null;
 			$route.updateParams({ episodeId: episode.uid, season: "sezon-" + episode.season, episode: "odcinek-" + episode.episodeNumber });
 			for (var i = 0; i < episode.players.length; i++) {
 				$scope.currentPlayerIndex = 0;
@@ -44,7 +44,6 @@ angular.module("app")
 			}
 			ctrl.calculateRatingColor();
 		});
-		$scope.episodes = null;
 	};
 
 	$scope.stars = new Array(10);
