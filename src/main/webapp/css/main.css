@@ -337,8 +337,7 @@ input[type="radio"].radio {
   max-height: 260px;
   min-height: 238px; }
 
-.page-wrapper {
-  width: 1060px;
+.film-page-wrapper {
   margin: auto;
   padding-top: 42px; }
 
@@ -417,8 +416,8 @@ input[type="radio"].radio {
 
 .player {
   background-color: #090909;
-  width: 1060px;
-  height: 595px;
+  width: 1100px;
+  height: 617px;
   margin-bottom: 16px; }
 
 .rate-wrapper {
@@ -714,6 +713,9 @@ select.filter-input {
 
 .episode-title-label {
   color: #999; }
+
+.account-page-wrapper {
+  padding-top: 20px; }
 
 .account-info-left {
   width: 40%;

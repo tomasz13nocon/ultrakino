@@ -25,8 +25,8 @@ public class PlayerServiceImpl implements PlayerService {
 		PlayerResource res = new PlayerResource();
 		res.setHosting(player.getHosting());
 		String src = player.getSrc();
-		int width = 1060;
-		int height = 595;
+		int width = 1100;
+		int height = 617;
 		switch (player.getHosting()) {
 			case "openload":
 				src = "https://openload.co/embed/" + src;
