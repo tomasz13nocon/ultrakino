@@ -84,12 +84,27 @@
 	&:hover
 		cursor: default
 
+$player-ar: 1.78
+$player-height: $page-content-width / $player-ar
+$player-height-medium: $page-content-width-medium / $player-ar
 .player
 	background-color: #090909
-	width: $page-content-width
-	height: 617px
 	margin-bottom: 16px
 
+@media (min-width: $large)
+	.player
+		width: $page-content-width
+		height: $player-height
+		
+@media (min-width: $medium) and (max-width: $large)
+	.player
+		width: $page-content-width-medium
+		height: $player-height-medium
+
+@media (max-width: $medium)
+	.player
+		width: 100%
+		height: $medium / $player-ar - 16px
 
 .rate-wrapper
 	float: right
