@@ -21,6 +21,7 @@ angular.module("app")
 					$rootScope.user = resp.data.details;
 				ctrl.TheBox.theBoxVisible = false;
 				ctrl.TheBox.authenticationFailed = false;
+				$route.reload();
 			}
 			else {
 				$rootScope.authenticated = false;
