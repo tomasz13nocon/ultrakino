@@ -63,14 +63,14 @@
 		<div class="rate-wrapper">
 			<div ng-show="film.userRating === null">
 				<span class="rate-label">Oceń ten film: </span>
-				<span class="stars-wrapper" ng-mouseleave="filmCtrl.starMouseleave()">
-					<span class="zero-star-span rate-tooltip-span" ng-mouseover="filmCtrl.starMouseover(0)" ng-click="filmCtrl.rate(0)" tooltip="0/10"></span>
-					<span class="rate-tooltip-span" tooltip="{{i}}/10" ng-repeat="i in stars track by $index" ng-mouseover="filmCtrl.starMouseover(i)" ng-click="filmCtrl.rate(i)"><i class="fa fa-lg rate-star" ng-class="{'fa-star': i <= activeStar, 'fa-star-o': i > activeStar}"></i></span>
+				<span class="stars-wrapper" ng-mouseleave="Rating.starMouseleave()">
+					<span class="zero-star-span rate-tooltip-span" ng-mouseover="Rating.starMouseover(0)" ng-click="Rating.rate(film, 0)" tooltip="0/10"></span>
+					<span class="rate-tooltip-span" tooltip="{{i}}/10" ng-repeat="i in Rating.stars track by $index" ng-mouseover="Rating.starMouseover(i)" ng-click="Rating.rate(film, i)"><i class="fa fa-lg rate-star" ng-class="{'fa-star': i <= Rating.activeStar, 'fa-star-o': i > Rating.activeStar}"></i></span>
 				</span>
 			</div>
 			<div ng-show="film.userRating !== null">
 				<span class="rate-label">Twoja ocena: </span>
-				<i class="fa fa-lg rate-star-disabled" ng-class="{'fa-star': i <= film.userRating, 'fa-star-o': i > film.userRating}" ng-repeat="i in stars track by $index"></i>
+				<i class="fa fa-lg rate-star-disabled" ng-class="{'fa-star': i <= film.userRating, 'fa-star-o': i > film.userRating}" ng-repeat="i in Rating.stars track by $index"></i>
 			</div>
 		</div>
 		<div class="clear"></div>

@@ -76,17 +76,17 @@
 					<span ng-bind="episode.timesRated"></span>
 				</div>
 			</div>
-			<div class="rate-wrapper" ng-show="authenticated">
+			<div class="rate-wrapper">
 				<div ng-show="episode.userRating === null">
 					<span class="rate-label">Oceń ten odcinek: </span>
-					<span class="stars-wrapper" ng-mouseleave="oneSeriesCtrl.starMouseleave()">
-						<span class="zero-star-span rate-tooltip-span" ng-mouseover="oneSeriesCtrl.starMouseover(0)" ng-click="oneSeriesCtrl.rate(0)" tooltip="0/10"></span>
-						<span class="rate-tooltip-span" tooltip="{{i}}/10" ng-repeat="i in stars track by $index" ng-mouseover="oneSeriesCtrl.starMouseover(i)" ng-click="oneSeriesCtrl.rate(i)"><i class="fa fa-lg rate-star" ng-class="{'fa-star': i <= activeStar, 'fa-star-o': i > activeStar}"></i></span>
+					<span class="stars-wrapper" ng-mouseleave="Rating.starMouseleave()">
+						<span class="zero-star-span rate-tooltip-span" ng-mouseover="Rating.starMouseover(0)" ng-click="Rating.rate(episode, 0)" tooltip="0/10"></span>
+						<span class="rate-tooltip-span" tooltip="{{i}}/10" ng-repeat="i in Rating.stars track by $index" ng-mouseover="Rating.starMouseover(i)" ng-click="Rating.rate(episode, i)"><i class="fa fa-lg rate-star" ng-class="{'fa-star': i <= Rating.activeStar, 'fa-star-o': i > Rating.activeStar}"></i></span>
 					</span>
 				</div>
 				<div ng-show="episode.userRating !== null">
 					<span class="rate-label">Twoja ocena: </span>
-					<i class="fa fa-lg rate-star-disabled" ng-class="{'fa-star': i <= episode.userRating, 'fa-star-o': i > episode.userRating}" ng-repeat="i in stars track by $index"></i>
+					<i class="fa fa-lg rate-star-disabled" ng-class="{'fa-star': i <= episode.userRating, 'fa-star-o': i > episode.userRating}" ng-repeat="i in Rating.stars track by $index"></i>
 				</div>
 			</div>
 			<div class="clear"></div>

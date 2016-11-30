@@ -1,5 +1,5 @@
 angular.module("app")
-.controller("UserController", ["$http", "$rootScope", "User", "TheBox", function($http, $rootScope, User, TheBox) {
+.controller("UserController", ['$http', '$rootScope', '$route', '$window', 'TheBox', 'User', function($http, $rootScope, $route, $window, TheBox, User) {
 	var ctrl = this;
 
 	ctrl.User = User;
@@ -41,6 +41,9 @@ angular.module("app")
 		$http.post("/logout").then(function(resp) {
 			$rootScope.authenticated = false;
 			$rootScope.isAdmin = false;
+			$rootScope.user = undefined;
+			$route.reload();
+			//$window.location.reload();
 		});
 	};
 

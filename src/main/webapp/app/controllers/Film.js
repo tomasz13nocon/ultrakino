@@ -2,43 +2,7 @@ angular.module("app")
 .controller("FilmController", ['TheBox', '$rootScope', '$http', '$routeParams', '$scope', 'Comment', 'Film', 'Rating', function(TheBox, $rootScope, $http, $routeParams, $scope, Comment, Film, Rating) {
 	var ctrl = this;
 
-	$scope.stars = new Array(10);
-	for (var i = 0; i < $scope.stars.length; i++) {
-		$scope.stars[i] = i + 1;
-	};
-	$scope.activeStar = -1;
-
-	ctrl.starMouseover = function(i) {
-		$scope.activeStar = i;
-	};
-	ctrl.starMouseleave = function() {
-		$scope.activeStar = -1;
-	};
-
-	ctrl.rate = function(i) {
-		if ($rootScope.authenticated) {
-			Rating.save({}, {
-				contentId: $scope.film.uid,
-				rating: i,
-			}, function(rating) {
-				$scope.film.userRating = rating.rating;
-				$scope.film.rating = ($scope.film.rating * $scope.film.timesRated + rating.rating) / ++$scope.film.timesRated;
-				ctrl.calculateRatingColor();
-			});
-		}
-		else {
-			TheBox.message = "Załóż konto żeby móc oceniać filmy!";
-			TheBox.showRegisterBox();
-		}
-	};
-
-	ctrl.calculateRatingColor = function() {
-		ratingColor = "rgb(" +
-			Math.min(255, $scope.film.rating * -51 + 510) + "," +
-			Math.min(255, $scope.film.rating * 51) + ",0)";
-		angular.element(document.querySelector(".rating-actual-rating")).css("color", ratingColor);
-	};
-
+	$scope.Rating = Rating;
 
 	ctrl.setPlayer = function(index) {
 		$scope.currentPlayerIndex = index;
@@ -81,7 +45,7 @@ angular.module("app")
 
 		setTitle(film.title + " - Ultrakino");
 		$scope.film = film;
-		ctrl.calculateRatingColor();
+		Rating.calculateRatingColor(film.rating);
 		if ($rootScope.authenticated) {
 			if (ctrl.isIdIn($rootScope.user.watchlist)) {
 				$scope.inWatchlist = true;
