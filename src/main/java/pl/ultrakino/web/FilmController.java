@@ -9,7 +9,10 @@ import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Film;
 import pl.ultrakino.repository.Page;
 import pl.ultrakino.resource.FilmResource;
-import pl.ultrakino.service.*;
+import pl.ultrakino.service.FilmCategoryService;
+import pl.ultrakino.service.FilmService;
+import pl.ultrakino.service.RatingService;
+import pl.ultrakino.service.UserService;
 
 import static pl.ultrakino.Constants.API_PREFIX;
 
