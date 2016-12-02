@@ -1,23 +1,30 @@
 angular.module("app")
 .factory("TheBox", [function() {
-	var theBox = this;
+	var self = this;
 
-	theBox.showLoginBox = function() {
-		theBox.showTheBox();
-		theBox.loginTab = true;
+	self.showLoginBox = function(msg) {
+		if (msg) {
+			self.loginMessage = msg;
+		}
+		self.showTheBox();
+		self.loginTab = true;
 	};
-	theBox.showRegisterBox = function() {
-		theBox.showTheBox();
-		theBox.loginTab = false; 
+	self.showRegisterBox = function(msg) {
+		if (msg) {
+			self.registerMessage = msg;
+		}
+		self.showTheBox();
+		self.loginTab = false; 
 	};
-	theBox.showTheBox = function() {
-		theBox.theBoxVisible = true;
+	self.showTheBox = function() {
+		self.theBoxVisible = true;
 	};
-	theBox.hideTheBox = function() {
-		theBox.theBoxVisible = false;
-		theBox.authenticationFailed = false;
-		theBox.message = undefined;
+	self.hideTheBox = function() {
+		self.theBoxVisible = false;
+		self.authenticationFailed = false;
+		self.loginMessage = undefined;
+		self.registerMessage = undefined;
 	};
 
-	return theBox;
+	return self;
 }]);

@@ -1,5 +1,5 @@
 angular.module("app")
-.factory("Rating", ['$resource', '$rootScope', 'TheBox', function($resource, $rootScope, TheBox) {
+.factory("Rating", ['$resource', '$rootScope', 'TheBox', 'User', function($resource, $rootScope, TheBox, User) {
 	var service = $resource(api + "/ratings");
 
 	service.stars = new Array(10);
@@ -24,11 +24,15 @@ angular.module("app")
 				rateTarget.userRating = rating.rating;
 				rateTarget.rating = (rateTarget.rating * rateTarget.timesRated + rating.rating) / ++rateTarget.timesRated;
 				service.calculateRatingColor(rateTarget.rating);
+			}, function(resp) {
+				if (resp.status === 401) {
+					User.invalidate();
+					TheBox.showLoginBox("Sesja wygasła. Zaloguj się ponownie.");
+				}
 			});
 		}
 		else {
-			TheBox.message = "Załóż konto żeby móc oceniać filmy!";
-			TheBox.showRegisterBox();
+			TheBox.showRegisterBox("Załóż konto, lub zaloguj się żeby móc oceniać filmy!");
 		}
 	};
 

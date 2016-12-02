@@ -69,6 +69,9 @@
 						<div class="login-error" ng-show="userCtrl.TheBox.authenticationFailed">
 							Podana kombinacja loginu i hasła jest nieprawidłowa.
 						</div>
+						<div class="the-box-message the-box-message-yellow" ng-show="userCtrl.TheBox.loginMessage">
+							<span ng-bind="userCtrl.TheBox.loginMessage"></span>
+						</div>
 						<form class="login-form" ng-submit="userCtrl.authenticate(form)">
 							<label>
 								<span class="login-label-text">Login:</span>
@@ -83,8 +86,8 @@
 					</div>
 
 					<div class="register-box" ng-hide="userCtrl.TheBox.loginTab">
-						<div class="the-box-message" ng-show="userCtrl.TheBox.message">
-							<span ng-bind="userCtrl.TheBox.message"></span>
+						<div class="the-box-message the-box-message-green" ng-show="userCtrl.TheBox.registerMessage">
+							<span ng-bind="userCtrl.TheBox.registerMessage"></span>
 						</div>
 						<form class="login-form" ng-submit="">
 							<label>
@@ -139,7 +142,6 @@
 	<script type="text/javascript" src="vendors/angular-route.min.js"></script>
 	<script type="text/javascript" src="vendors/angular-animate.min.js"></script>
 	<script type="text/javascript" src="vendors/angular-resource.min.js"></script>
-	<!-- <script type="text/javascript" src="plugins/owl2/owl.carousel.js"></script> -->
 	<script type="text/javascript" src="plugins/owl/owl.carousel.js"></script>
 	<script type="text/javascript" src="app/common.js"></script>
 	<script type="text/javascript" src="app/app.js"></script>
@@ -156,6 +158,7 @@
 	<script type="text/javascript" src="app/components/spinner.js"></script>
 	<script type="text/javascript" src="app/components/adminTools.js"></script>
 	<script type="text/javascript" src="app/filters/trusted.js"></script>
+	<script type="text/javascript" src="app/filters/seourl.js"></script>
 	<script type="text/javascript" src="app/controllers/Home.js"></script>
 	<script type="text/javascript" src="app/controllers/Search.js"></script>
 	<script type="text/javascript" src="app/controllers/Film.js"></script>

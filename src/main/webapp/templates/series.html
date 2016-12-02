@@ -46,7 +46,7 @@
 			<div class="pagination-last" ng-click="seriesCtrl.setPage(lastPage)">▶▶</div>
 		</div>
 		<div class="filter-result" ng-repeat="film in series">
-			<a ng-href="#seriale/{{film.uid}}/{{film.title}}-{{film.year}}">
+			<a ng-href="#seriale/{{film.uid}}/{{film.title | seourl}}-{{film.year}}">
 				<img class="filter-result-cover" ng-src="{{film.coverFilename ? images + film.coverFilename : noImage}}" alt="{{film.title}}">
 				<div class="filter-result-details">
 					<h3 class="filter-result-title" ng-bind="film.title"></h3>

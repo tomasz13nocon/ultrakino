@@ -395,6 +395,10 @@ input[type="radio"].radio {
   text-align: center;
   padding-bottom: 5px; }
 
+.cast-list {
+  overflow-y: scroll;
+  height: 320px; }
+
 .cast-list-element {
   padding: 2px; }
 
@@ -917,10 +921,19 @@ html {
   padding: 6px;
   display: inline-block;
   margin: 4px 0;
-  background-color: #cec;
-  color: #484;
-  border: 1px solid #5d2;
+  border-width: 1px;
+  border-style: solid;
   border-radius: 4px; }
+
+.the-box-message-green {
+  color: #484;
+  background-color: #cec;
+  border-color: #5d2; }
+
+.the-box-message-yellow {
+  background-color: #eea;
+  border-color: #fd3;
+  color: #970; }
 
 .login-form label {
   display: block;

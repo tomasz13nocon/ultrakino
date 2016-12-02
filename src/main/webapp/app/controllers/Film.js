@@ -41,7 +41,7 @@ angular.module("app")
 			if (a.number < b.number) return -1;
 			if (a.number > b.number) return 1;
 			return 0;
-		}).slice(0, 6);
+		}).slice(0, 20);
 
 		setTitle(film.title + " - Ultrakino");
 		$scope.film = film;

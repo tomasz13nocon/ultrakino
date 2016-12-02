@@ -1,4 +1,12 @@
 angular.module("app")
-.factory("User", ["$resource", function($resource) {
-	return $resource(api + "/users/:id");
+.factory("User", ['$resource', '$rootScope', function($resource, $rootScope) {
+	var service = $resource(api + "/users/:id");
+
+	service.invalidate = function() {
+		$rootScope.authenticated = false;
+		$rootScope.isAdmin = false;
+		$rootScope.user = undefined;
+	};
+
+	return service;
 }]);

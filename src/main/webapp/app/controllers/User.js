@@ -40,9 +40,7 @@ angular.module("app")
 
 	ctrl.logout = function() {
 		$http.post("/logout").then(function(resp) {
-			$rootScope.authenticated = false;
-			$rootScope.isAdmin = false;
-			$rootScope.user = undefined;
+			User.invalidate();
 			$route.reload();
 			//$window.location.reload();
 		});
