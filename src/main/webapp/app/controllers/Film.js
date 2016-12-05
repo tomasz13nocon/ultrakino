@@ -3,13 +3,14 @@ angular.module("app")
 	var ctrl = this;
 
 	$scope.Rating = Rating;
+	$scope.Comment = Comment;
 
 	ctrl.setPlayer = function(index) {
 		$scope.currentPlayerIndex = index;
 	};
 
 	ctrl.addToWatchlist = function(list) {
-		$scope.inWatchlist = true;
+
 	}
 
 
@@ -32,9 +33,7 @@ angular.module("app")
 				break;
 			}
 		}
-		for (var i = 0; i < film.comments.length; i++) {
-			Comment.process(film.comments[i]);
-		}
+		Comment.processComments(film);
 		$scope.visibleCast = film.castAndCrew.filter(function(el) {
 			return el.role === "ACTOR";
 		}).sort(function(a, b) {
@@ -55,11 +54,5 @@ angular.module("app")
 			}
 		}
 	});
-
-	ctrl.postComment = function() {
-		Comment.save({ comment: ctrl.commentContent, contentId: $scope.film.uid }, function(comment) {
-			$scope.film.comments.push(Comment.process(comment));
-		});
-	};
 
 }]);

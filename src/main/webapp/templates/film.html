@@ -17,8 +17,8 @@
 			<h1 class="film-info-title"><span ng-bind="film.title"></span> (<span ng-bind="film.year"></span>)</h1>
 			<div class="film-buttons" ng-if="authenticated">
 				<!-- TODO: Ability to remove from those lists. -->
-				<div class="film-button" tooltip="Dodaj do objerzenia" ng-class="{'film-button-on': user}"><div class="link film-button-inner"><i class="fa fa-clock-o"></i></div></div>
-				<div class="film-button" tooltip="Dodaj do ulubionych"><div class="link film-button-inner"><i class="fa fa-heart"></i></div></div>
+				<div class="film-button" tooltip="Dodaj do objerzenia" ng-click="filmCtrl.Playlist.addToWatchlist(film)" ng-class="{'film-button-on': film.inWatchlist}"><div class="link film-button-inner"><i class="fa fa-clock-o"></i></div></div>
+				<div class="film-button" tooltip="Dodaj do ulubionych" ng-class="{'film-button-on': film.inFavorites}"><div class="link film-button-inner"><i class="fa fa-heart"></i></div></div>
 			</div>
 			<div class="film-info-info">
 				<span class="film-info-info-label">Wersje językowe: </span>
@@ -79,7 +79,7 @@
 	<div class="comment-section">
 		<div class="comment-section-title">Komentarze</div>
 		<div class="comment-input-wrapper">
-			<form name="commentForm" class="comment-form" ng-submit="filmCtrl.postComment()">
+			<form name="commentForm" class="comment-form" ng-submit="Comment.postComment(filmCtrl.commentContent, film)">
 				<textarea class="comment-input" name="comment" ng-maxlength="255" ng-minlength="3" ng-model="filmCtrl.commentContent" cols="70" rows="4" placeholder="Napisz komentarz..." />
 				<div class="comment-submit-wrapper" ng-attr-tooltip="{{authenticated ? undefined : 'Zaloguj się aby dodać komentarz'}}">
 					<input class="comment-submit" type="submit" value="Opublikuj" ng-disabled="authenticated ? undefined : true" />

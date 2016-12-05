@@ -1,8 +1,8 @@
 angular.module("app")
 .factory("Comment", ["$resource", function($resource) {
-	var res = $resource(api + "/comments/:id", { id: "@id" }, {});
+	var self = $resource(api + "/comments/:id", { id: "@id" }, {});
 
-	res.process = function(comment) {
+	self.process = function(comment) {
 		comment.submissionDate = new Date(
 			comment.submissionDate[0],
 			comment.submissionDate[1],
@@ -13,6 +13,20 @@ angular.module("app")
 		return comment;
 	};
 
-	return res;
+	self.processComments = function(content) {
+		for (var i = 0; i < content.comments.length; i++) {
+			self.process(content.comments[i]);
+		}
+	};
+
+
+	// TODO: Maybe refresh all comments here
+	self.postComment = function(comment, content) {
+		self.save({ comment: comment, contentId: content.uid }, function(comment) {
+			content.comments.push(self.process(comment));
+		});
+	};
+
+	return self;
 }]);
 

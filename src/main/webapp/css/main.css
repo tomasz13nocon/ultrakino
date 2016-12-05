@@ -383,6 +383,10 @@ input[type="radio"].radio {
   padding: 4px 6px 3px;
   font-size: 1.1em; }
 
+.film-button-on {
+  color: #f5cd2e;
+  background-color: #3c3c3c; }
+
 .cast-wrapper {
   float: right;
   width: 20%;
