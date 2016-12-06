@@ -24,4 +24,6 @@ public interface UserService extends UserDetailsService {
 	UserDetailsResource toDetailsResource(User user);
 
 	UserResource toResource(User user);
+
+	void merge(User user);
 }

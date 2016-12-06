@@ -536,7 +536,7 @@ input[type="radio"].radio {
   margin: 6px; }
 
 #films-wrapper {
-  margin-top: 60px;
+  margin-top: 30px;
   background: rgba(0, 0, 0, 0.3);
   padding: 16px;
   border: 1px solid #ddd; }
@@ -612,10 +612,8 @@ select.filter-input {
 
 .filter-result-cover {
   width: 200px;
-  float: left; }
-
-.filter-result-details {
-  margin-left: 210px; }
+  float: left;
+  margin-right: 10px; }
 
 .filter-result-title {
   font-size: 2em; }
@@ -760,12 +758,24 @@ select.filter-input {
   margin: 0 30px;
   overflow: hidden;
   box-shadow: 0 0 10px #333;
-  padding: 0 7px; }
+  padding: 0 7px;
+  margin-bottom: 18px; }
 
 .account-films-wrapper {
   margin: 0 30px;
   overflow: hidden;
-  box-shadow: 0 0 10px #333; }
+  box-shadow: 0 0 10px #333;
+  padding: 11px; }
+
+.account-films-empty-msg {
+  font-size: 1.2em;
+  margin: 8px;
+  color: #777; }
+
+.account-film-cover {
+  width: 140px;
+  float: left;
+  margin-right: 16px; }
 
 .account-info-username {
   font-size: 1.6em;
@@ -1012,20 +1022,23 @@ html {
 #search-results-wrapper {
   background: #000;
   transition: all 0.3s;
-  max-height: 200px;
-  overflow: hidden; }
+  max-height: 185px;
+  overflow: hidden;
+  padding: 6px 0; }
   #search-results-wrapper.ng-hide {
     max-height: 0; }
 
 .search-results-show {
-  height: 200px; }
+  height: 185px; }
 
 .search-result {
   display: inline-block;
   width: 20%;
   height: 183px;
   overflow: hidden;
-  position: relative; }
+  position: relative;
+  border-right: 1px solid #444;
+  box-sizing: border-box; }
 
 .search-result-link:hover {
   color: #f5cd2e;
@@ -1052,6 +1065,12 @@ html {
   height: 100%;
   bottom: 0;
   pointer-events: none; }
+
+.search-result-not-found {
+  text-align: center;
+  font-size: 1.2em;
+  height: 185px;
+  line-height: 185px; }
 
 /**********
  * FOOTER *

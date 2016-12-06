@@ -25,4 +25,6 @@ public interface UserRepository {
 	Optional<User> findByUsername(String username);
 
 	User findById(int id) throws NoRecordWithSuchIdException;
+
+	void merge(User user);
 }

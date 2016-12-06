@@ -12,11 +12,19 @@ angular.module("app")
 				ctrl.films = [];
 				return;
 			}
+//			$timeout(function() {
 			ctrl.films = Film.get({
 				title: ctrl.query,
 				resultLimit: 5,
-			}, function(film) {
-				ctrl.films = film.content;
+			}, function(results) {
+//				$timeout(function() {
+				if (results.content.length === 0)
+					$scope.noResults = true;
+				else
+					$scope.noResults = false;
+				ctrl.films = results.content;
+//				}, 1000);
 			});
+//			}, 1000);
 		};
 	}]);

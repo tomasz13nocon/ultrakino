@@ -66,4 +66,9 @@ public class JpaUserRepository implements UserRepository {
 		if (user == null) throw new NoRecordWithSuchIdException();
 		return user;
 	}
+
+	@Override
+	public void merge(User user) {
+		em.merge(user);
+	}
 }

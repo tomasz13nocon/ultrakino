@@ -1,11 +1,14 @@
 package pl.ultrakino.web;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.ultrakino.Constants;
+import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
+import pl.ultrakino.model.Content;
 import pl.ultrakino.model.User;
 import pl.ultrakino.service.ContentService;
 import pl.ultrakino.service.UserService;
@@ -41,11 +44,75 @@ public class PlaylistController {
 
 	@PostMapping("/watchlist")
 	public ResponseEntity addToWatchlist(@PathVariable int userId, Principal principal, @RequestBody ObjectNode body) {
-		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+		if (principal == null)
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		Optional<User> userOp = userService.findByUsername(principal.getName(), true);
+		if (!userOp.isPresent())
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		User user = userOp.get();
+		if (user.getId() != userId)
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
+		JsonNode contentId = body.get("contentId");
+		if (contentId == null || !contentId.isInt())
+			return ResponseEntity.badRequest().build();
+		Content content;
+		try {
+			content = contentService.findById(contentId.asInt());
+		} catch (NoRecordWithSuchIdException e) {
+			return ResponseEntity.badRequest().body("No Content with given contentId");
+		}
+		user.getWatchlist().add(content);
+		userService.merge(user);
+		return ResponseEntity.ok().build();
 	}
 
 	@DeleteMapping("/watchlist")
 	public ResponseEntity deleteFromWatchlist(@PathVariable int userId, Principal principal) {
+		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+	}
+
+
+	@GetMapping("/favorites")
+	public ResponseEntity getFavorites(@PathVariable int userId, Principal principal) {
+		if (principal == null)
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		Optional<User> userOp = userService.findByUsername(principal.getName(), true);
+		if (!userOp.isPresent())
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		User user = userOp.get();
+		if (user.getId() != userId)
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		return ResponseEntity.ok(contentService.toResources(user.getFavorites()));
+	}
+
+	@PostMapping("/favorites")
+	public ResponseEntity addToFavorites(@PathVariable int userId, Principal principal, @RequestBody ObjectNode body) {
+		if (principal == null)
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		Optional<User> userOp = userService.findByUsername(principal.getName(), true);
+		if (!userOp.isPresent())
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		User user = userOp.get();
+		if (user.getId() != userId)
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
+		JsonNode contentId = body.get("contentId");
+		if (contentId == null || !contentId.isInt())
+			return ResponseEntity.badRequest().build();
+		Content content;
+		try {
+			content = contentService.findById(contentId.asInt());
+		} catch (NoRecordWithSuchIdException e) {
+			return ResponseEntity.badRequest().body("No Content with given contentId");
+		}
+		user.getFavorites().add(content);
+		userService.merge(user);
+		return ResponseEntity.ok().build();
+	}
+
+	@DeleteMapping("/favorites")
+	public ResponseEntity deleteFromFavorites(@PathVariable int userId, Principal principal) {
 		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
 	}
 

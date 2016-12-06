@@ -1,6 +1,6 @@
 angular.module("app")
 .factory("User", ['$resource', '$rootScope', function($resource, $rootScope) {
-	var self = $resource(api + "/users/:id");
+	var self = $resource(api + "/users/:id/:sub");
 
 	self.invalidate = function() {
 		$rootScope.authenticated = false;

@@ -111,4 +111,9 @@ public class UserServiceImpl implements UserService {
 		return res;
 	}
 
+	@Override
+	public void merge(User user) {
+		userRepository.merge(user);
+	}
+
 }

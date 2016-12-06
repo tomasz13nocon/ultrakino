@@ -1,5 +1,5 @@
 angular.module("app")
-.controller("FilmController", ['TheBox', '$rootScope', '$http', '$routeParams', '$scope', 'Comment', 'Film', 'Rating', function(TheBox, $rootScope, $http, $routeParams, $scope, Comment, Film, Rating) {
+.controller("FilmController", ['$http', '$rootScope', '$routeParams', '$scope', 'Comment', 'Film', 'Rating', 'TheBox', 'User', function($http, $rootScope, $routeParams, $scope, Comment, Film, Rating, TheBox, User) {
 	var ctrl = this;
 
 	$scope.Rating = Rating;
@@ -9,8 +9,16 @@ angular.module("app")
 		$scope.currentPlayerIndex = index;
 	};
 
-	ctrl.addToWatchlist = function(list) {
+	ctrl.addToWatchlist = function(film) {
+		User.save({ id: $rootScope.user.uid, sub: "watchlist" }, { contentId: film.uid }, function(resp) {
+			// TODO: something
+		});
+	}
 
+	ctrl.addToFavorites = function(film) {
+		User.save({ id: $rootScope.user.uid, sub: "favorites" }, { contentId: film.uid }, function(resp) {
+			// TODO: something
+		});
 	}
 
 

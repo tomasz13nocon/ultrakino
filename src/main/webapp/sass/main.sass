@@ -264,12 +264,13 @@ $navbar-height: 64px
 	-webkit-user-select: none
 	user-select: none
 
-$search-resutls-height: 200px
+$search-resutls-height: 185px
 #search-results-wrapper
 	background: #000
 	transition: all 0.3s
 	max-height: $search-resutls-height
 	overflow: hidden
+	padding: 6px 0
 	&.ng-hide
 		max-height: 0
 
@@ -282,6 +283,9 @@ $search-resutls-height: 200px
 	height: 183px
 	overflow: hidden
 	position: relative
+	border-right: 1px solid #444
+	box-sizing: border-box
+
 
 .search-result-link:hover
 	color: $primary-color
@@ -309,6 +313,11 @@ $search-resutls-height: 200px
 	bottom: 0
 	pointer-events: none
 
+.search-result-not-found
+	text-align: center
+	font-size: 1.2em
+	height: $search-resutls-height
+	line-height: $search-resutls-height
 
 
 /**********

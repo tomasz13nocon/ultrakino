@@ -1,5 +1,6 @@
 package pl.ultrakino.service.impl;
 
+import org.hibernate.LazyInitializationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -106,7 +107,10 @@ public class FilmServiceImpl implements FilmService {
 		res.setLocalPremiere(film.getLocalPremiere());
 		res.setYear(film.getYear());
 		res.setCategories(film.getCategories());
-		res.setLanguageVersions(film.getPlayers().stream().map(Player::getLanguageVersion).collect(Collectors.toSet()));
+		try {
+			res.setLanguageVersions(film.getPlayers().stream().map(Player::getLanguageVersion).collect(Collectors.toSet()));
+		}
+		catch (LazyInitializationException e) {}
 		return res;
 	}
 
