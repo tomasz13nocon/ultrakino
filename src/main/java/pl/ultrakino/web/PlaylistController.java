@@ -67,9 +67,26 @@ public class PlaylistController {
 		return ResponseEntity.ok().build();
 	}
 
-	@DeleteMapping("/watchlist")
-	public ResponseEntity deleteFromWatchlist(@PathVariable int userId, Principal principal) {
-		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+	@DeleteMapping("/watchlist/{contentId}")
+	public ResponseEntity deleteFromWatchlist(@PathVariable int userId, Principal principal, @PathVariable int contentId) {
+		if (principal == null)
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		Optional<User> userOp = userService.findByUsername(principal.getName(), true);
+		if (!userOp.isPresent())
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		User user = userOp.get();
+		if (user.getId() != userId)
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
+		Content content;
+		try {
+			content = contentService.findById(contentId);
+		} catch (NoRecordWithSuchIdException e) {
+			return ResponseEntity.badRequest().body("No Content with given contentId");
+		}
+		user.getWatchlist().remove(content);
+		userService.merge(user);
+		return ResponseEntity.ok().build();
 	}
 
 
@@ -111,9 +128,26 @@ public class PlaylistController {
 		return ResponseEntity.ok().build();
 	}
 
-	@DeleteMapping("/favorites")
-	public ResponseEntity deleteFromFavorites(@PathVariable int userId, Principal principal) {
-		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+	@DeleteMapping("/favorites/{contentId}")
+	public ResponseEntity deleteFromFavorites(@PathVariable int userId, Principal principal, @PathVariable int contentId) {
+		if (principal == null)
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		Optional<User> userOp = userService.findByUsername(principal.getName(), true);
+		if (!userOp.isPresent())
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		User user = userOp.get();
+		if (user.getId() != userId)
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
+		Content content;
+		try {
+			content = contentService.findById(contentId);
+		} catch (NoRecordWithSuchIdException e) {
+			return ResponseEntity.badRequest().body("No Content with given contentId");
+		}
+		user.getFavorites().remove(content);
+		userService.merge(user);
+		return ResponseEntity.ok().build();
 	}
 
 }

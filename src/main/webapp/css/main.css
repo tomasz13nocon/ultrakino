@@ -797,10 +797,26 @@ select.filter-input {
   margin: 8px;
   color: #777; }
 
+.account-films-entry {
+  margin-bottom: 10px;
+  position: relative;
+  opacity: 1;
+  transition: opacity 0.3s, transform 0.3s; }
+  .account-films-entry.ng-leave-active {
+    opacity: 0;
+    transform: translateX(80px); }
+
 .account-film-cover {
-  width: 140px;
+  width: 120px;
   float: left;
   margin-right: 16px; }
+
+.account-film-details {
+  font-size: 0.9em; }
+
+.playlist-delete-button {
+  position: absolute;
+  left: 6px; }
 
 .account-info-username {
   font-size: 1.6em;

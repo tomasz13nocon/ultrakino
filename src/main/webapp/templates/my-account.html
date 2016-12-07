@@ -12,15 +12,16 @@
 			</div>
 			<div class="account-films-wrapper">
 				<div class="account-films-empty-msg" ng-hide="contentList.length">Ta lista jest pusta</div>
-				<div ng-repeat="content in contentList">
+				<div class="account-films-entry" ng-repeat="content in contentList">
 
+					<div class="film-button playlist-delete-button" tooltip="Usuń z tej listy" ng-click="myAccountCtrl.removeFromList(content)"><div class="link film-button-inner"><i class="fa fa-minus"></i></div></div>
 					<a ng-href="#filmy/{{content.uid}}/{{content.title | seourl}}-{{content.year}}">
 						<img class="account-film-cover" ng-src="{{content.coverFilename ? images + content.coverFilename : noImage}}" alt="{{content.title}}">
 						<div class="filter-result-details">
 							<h3 class="filter-result-title" ng-bind="content.title"></h3>
 						</div>
 					</a>
-					<div class="filter-result-details">
+					<div class="filter-result-details account-film-details">
 						<div class="filter-result-year">
 							<span class="filter-result-label">Rok: </span>
 							<span ng-bind="content.year"></span>
@@ -29,7 +30,7 @@
 							<span class="filter-result-label">Kategorie: </span>
 							<span ng-repeat="category in content.categories"><span ng-bind="category.name"></span><span ng-bind="$last ? '' : ', '"></span></span>
 						</div>
-						<div class="filter-result-description"><p ng-bind="content.description"></p></div>
+						<div class="filter-result-description account-film-description"><p ng-bind="content.description"></p></div>
 						<div class="clear"></div>
 					</div>
 
