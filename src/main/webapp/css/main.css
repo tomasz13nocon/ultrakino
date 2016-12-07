@@ -1,3 +1,4 @@
+@charset "UTF-8";
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important; }
 
@@ -373,10 +374,34 @@ input[type="radio"].radio {
 
 .film-button {
   display: inline-block;
-  margin-top: 6px; }
+  margin-top: 6px;
+  position: relative; }
   .film-button:before {
     transform: translate(6px, 30px); }
 
+.film-button-watchlist-anim:after {
+  content: ""; }
+
+.film-button-favorites-anim:after {
+  content: ""; }
+
+.film-button-watchlist-anim:after, .film-button-favorites-anim:after {
+  padding: 4px 6px 3px;
+  font-size: 1.1em;
+  font-family: FontAwesome;
+  animation: scaleAndFade 0.35s;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0; }
+
+@keyframes scaleAndFade {
+  0% {
+    opacity: 1;
+    transform: scale(1); }
+  100% {
+    opacity: 0;
+    transform: scale(2); } }
 .film-button-inner {
   background-color: #333;
   border-radius: 3px;
@@ -854,6 +879,46 @@ html {
   #register:hover, #login:hover {
     opacity: 1; }
 
+.notification-wrapper-outer {
+  float: right;
+  margin-right: 16px;
+  display: table;
+  height: 64px; }
+
+.notification-wrapper-inner {
+  display: table-cell;
+  vertical-align: middle; }
+
+.notification {
+  font-size: 0.8em;
+  width: 280px;
+  background-color: #7a2;
+  border-radius: 3px;
+  padding: 3px 6px;
+  box-shadow: 0 0 15px -2px black;
+  display: table;
+  transform: translateY(0px);
+  opacity: 1;
+  transition: transform 0.2s, opacity 0.2s; }
+  .notification.ng-hide {
+    transform: translateY(-16px);
+    opacity: 0; }
+
+.notification-icon {
+  font-size: 1em;
+  display: table-cell;
+  vertical-align: middle;
+  padding-right: 4px; }
+
+.notification-text {
+  display: table-cell; }
+
+.notification-close {
+  cursor: pointer;
+  font-size: 1.2em; }
+  .notification-close:hover {
+    color: #f5cd2e; }
+
 .account-box {
   float: right;
   cursor: pointer;
@@ -1037,8 +1102,11 @@ html {
   height: 183px;
   overflow: hidden;
   position: relative;
-  border-right: 1px solid #444;
+  padding-right: 3px;
   box-sizing: border-box; }
+
+.search-result-border {
+  border-left: 1px solid #666; }
 
 .search-result-link:hover {
   color: #f5cd2e;

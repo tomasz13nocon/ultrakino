@@ -9,15 +9,25 @@ angular.module("app")
 		$scope.currentPlayerIndex = index;
 	};
 
+	ctrl.animateButton = function(elementId, animClass) {
+		var element = document.getElementById(elementId);
+		element.classList.remove(animClass);
+		window.setTimeout(function() {
+			element.classList.add(animClass);
+		}, 0);
+	};
+
 	ctrl.addToWatchlist = function(film) {
+		ctrl.animateButton("film-button-watchlist", "film-button-watchlist-anim");
 		User.save({ id: $rootScope.user.uid, sub: "watchlist" }, { contentId: film.uid }, function(resp) {
-			// TODO: something
+			User.pushNotification("Film '" + film.title + "' został dodany do 'Do obejrzenia'.");
 		});
 	}
 
 	ctrl.addToFavorites = function(film) {
+		ctrl.animateButton("film-button-favorites", "film-button-favorites-anim");
 		User.save({ id: $rootScope.user.uid, sub: "favorites" }, { contentId: film.uid }, function(resp) {
-			// TODO: something
+			User.pushNotification("Film '" + film.title + "' został dodany do ulubionych.");
 		});
 	}
 

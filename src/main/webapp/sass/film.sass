@@ -31,8 +31,33 @@
 .film-button
 	display: inline-block
 	margin-top: 6px
+	position: relative
 	&:before
 		transform: translate(6px, 30px)
+
+.film-button-watchlist-anim:after
+	content: "\f017"
+	
+.film-button-favorites-anim:after
+	content: "\f004"
+
+.film-button-watchlist-anim:after, .film-button-favorites-anim:after
+	padding: 4px 6px 3px
+	font-size: 1.1em
+	font-family: FontAwesome
+	animation: scaleAndFade 0.35s
+	position: absolute
+	top: 0
+	left: 0
+	opacity: 0
+
+@keyframes scaleAndFade
+	0%
+		opacity: 1
+		transform: scale(1)
+	100%
+		opacity: 0
+		transform: scale(2)
 
 .film-button-inner
 	background-color: #333
