@@ -6,26 +6,31 @@ angular.module("app")
 
 		ctrl.alltubeBot = function() {
 			$scope.loading = true;
+			$scope.error = null;
+			$scope.success = false;
+			$scope.films = null;
+
 			$http.post(api + "/bots/films", { page: $scope.page }).then(function(resp) {
 				$scope.films = resp.data;
-				$scope.error = null;
 				$scope.loading = false;
+				$scope.success = true;
 			}, function(resp) {
 				$scope.error = {
 					status: resp.status,
 					msg: resp.data.error,
 				};
 				$scope.loading = false;
-				$scope.films = null;
 			});
 		};
 
 		ctrl.tvseriesonlineBot = function() {
 			$scope.loading = true;
-			$scope.error = false;
+			$scope.error = null;
+			$scope.success = false;
+
 			$http.post(api + "/bots/series", {}).then(function(resp) {
 				$scope.loading = false;
-				console.log("OK");
+				$scope.success = true;
 			}, function(resp) {
 				$scope.error = {
 					status: resp.status,

@@ -1,31 +1,21 @@
 <div class="page-content-thingy">
-	<label>
-		Strona
-		<input type="number" ng-model="page" value="1" />
-	</label>
-	<div class="btn-2" ng-click="adminPanelCtrl.alltubeBot()">Alltube bot</div>
-	<div class="btn-2" ng-click="adminPanelCtrl.tvseriesonlineBot()">Tvseriesonline bot</div>
+	<h4 class="admin-title">Alltube bot</h4>
+	<div class="admin-section">
+		<label>
+			Page
+			<input type="number" ng-model="page" value="1" />
+		</label>
+		<div class="btn-2" ng-click="adminPanelCtrl.alltubeBot()">Run</div>
+	</div>
+
+	<h4 class="admin-title">Tvseriesonline bot</h4>
+	<div class="admin-section">
+		<div class="btn-2" ng-click="adminPanelCtrl.tvseriesonlineBot()">Run</div>
+	</div>
+
+	<div class="admin-success-info" ng-show="success">Success.</div>
 
 	<div class="spinner-wrapper" ng-show="loading"><div class="spinner-small"></div></div>
-
-	<div class="admin-panel-films" ng-show="films">
-		Filmy:
-		<div class="admin-panel-film" ng-repeat="film in films">
-			Tytuł: <span ng-bind="film.title"></span>
-			<br />
-			Filmweb ID: <span ng-bind="film.filmwebId"></span>
-			<br />
-			Linki:
-			<div class="admin-panel-film-player" ng-repeat="player in film.players">
-				Hosting: <span ng-bind="player.hosting"></span>
-				<br />
-				Wersja: <span ng-bind="player.languageVersion"></span>
-				<br />
-				Src: <span ng-bind="player.src"></span>
-			</div>
-			<hr />
-		</div>
-	</div>
 
 	<div class="admin-panel-error-box" ng-show="error">
 		<span class="admin-panel-error-label">HTTP status code: </span>

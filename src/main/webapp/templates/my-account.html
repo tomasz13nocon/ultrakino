@@ -13,8 +13,9 @@
 			</div>
 
 			<div class="account-films-wrapper" ng-show="activeTab === 'watchlist' || activeTab === 'favorites'">
-				<div class="spinner-wrapper-wrapper"><div class="spinner-wrapper"><div class="spinner-small"></div></div></div>
-				<div ng-hide="loadingTab">
+				<div class="spinner-wrapper-wrapper"><div class="spinner-wrapper-alt" ng-show="loadingTab"><div class="spinner-small"></div></div></div>
+				<div class="spinner-sibling" ng-show="loadingTab"></div>
+				<div class="account-films" ng-hide="loadingTab">
 					<div class="account-films-empty-msg" ng-hide="contentList.length">Ta lista jest pusta</div>
 					<div class="account-films-entry" ng-repeat="content in contentList">
 						<div class="film-button playlist-delete-button" tooltip="Usuń z tej listy" ng-click="myAccountCtrl.removeFromList(content)"><div class="link film-button-inner"><i class="fa fa-minus"></i></div></div>
