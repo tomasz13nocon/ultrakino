@@ -1,25 +1,52 @@
 angular.module("app")
-.controller("MyAccountController", ['$animate', '$http', '$rootScope', '$scope', 'User', function($animate, $http, $rootScope, $scope, User) {
+.controller("MyAccountController", ['$animate', '$http', '$interval', '$rootScope', '$scope', '$timeout', 'User', function($animate, $http, $interval, $rootScope, $scope, $timeout, User) {
 	var ctrl = this;
+
+	console.log("QWE");
+	$interval(function() {
+//		console.log($scope.activeTab + "     " + $scope.loadingTab);
+	}, 500);
 
 	ctrl.setActiveTab = function(tab) {
 		if (tab === $scope.activeTab) return;
 		$scope.activeTab = tab;
-		User.query({ id: $rootScope.user.uid, sub: tab }, function(resp) {
-			$animate.enabled(false);
-			$scope.contentList = resp;
-			window.setTimeout(function() {
-				$animate.enabled(true);
-			}, 0);
-		});
+		$scope.loadingTab = true;
+		switch (tab) {
+			case "watchlist":
+			case "favorites":
+				$timeout(function() {
+				User.query({ id: $rootScope.user.uid, sub: tab }, function(resp) {
+					$scope.loadingTab = false;
+					var element = angular.element(document.querySelector(".account-films-entry"));
+//					$animate.enabled(element, false);
+					$scope.contentList = resp;
+					window.setTimeout(function() {
+//						$animate.enabled(element, true);
+					}, 0);
+				});
+				}, 1000);
+				break;
+			case "settings":
+
+				break;
+		}
 	};
 	if ($rootScope.user) {
 		ctrl.setActiveTab("watchlist");
 	}
 
 	ctrl.removeFromList = function(content) {
-		User.delete({ id: $rootScope.user.uid, sub: $scope.activeTab, subId: content.uid }, function(resp) {
-			$scope.contentList.splice($scope.contentList.indexOf(content), 1);
+		tab = $scope.activeTab;
+		User.delete({ id: $rootScope.user.uid, sub: tab, subId: content.uid }, function(resp) {
+			var index = $scope.contentList.indexOf(content);
+			$scope.contentList.splice(index, 1);
+			User.pushNotification("'" + content.title + "' został usunięty z tej listy", 8000, function() {
+				User.save({ id: $rootScope.user.uid, sub: tab }, { contentId: content.uid }, function(resp) {
+					User.pushNotification("Akcja została cofnięta.", 3500);
+					if (tab === $scope.activeTab)
+						$scope.contentList.splice(index, 0, content);
+				});
+			});
 		});
 	};
 

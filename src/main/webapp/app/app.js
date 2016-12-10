@@ -40,6 +40,8 @@ angular.module("app")
 		// TODO: Remove on prod
 		if (window.location.href.indexOf("localhost") > -1)
 			$rootScope.images = "//localhost:8000/";
+		else if (window.location.href.indexOf("192.168.1.13") > -1)
+			$rootScope.images = "//192.168.1.13:8000/";
 		else
 			$rootScope.images = "//images.ultrakino.pl/";
 		$rootScope.noImage = "images/no-image.png";
@@ -89,7 +91,6 @@ angular.module("app")
 			templateUrl: templateDir + "/admin-panel.html",
 			controller: "AdminPanelController",
 			controllerAs: "adminPanelCtrl",
-			activeTab: "adminPanel",
 		})
 		//.when("/user/:id", {
 			//templateUrl: templateDir + "/user-details.html",

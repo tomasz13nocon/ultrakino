@@ -275,12 +275,10 @@ input[type="radio"].radio {
 
 .page-content-thingy {
   margin-left: auto;
-  margin-right: auto; }
+  margin-right: auto;
+  width: 1100px; }
 
-@media (min-width: 1150px) {
-  .page-content-thingy {
-    width: 1100px; } }
-@media (min-width: 970px) and (max-width: 1150px) {
+@media (max-width: 1150px) {
   .page-content-thingy {
     width: 940px; } }
 @media (max-width: 970px) {
@@ -342,10 +340,12 @@ input[type="radio"].radio {
   overflow: hidden; }
 
 .films-section-cover {
-  width: 170px;
-  max-height: 260px;
-  min-height: 238px; }
+  width: 100%;
+  max-height: 282px; }
 
+@media (max-width: 1150px) {
+  .films-section-cover {
+    max-height: 230px; } }
 .film-page-wrapper {
   margin: auto;
   padding-top: 42px; }
@@ -768,29 +768,28 @@ select.filter-input {
   padding-top: 20px; }
 
 .account-info-left {
-  width: 40%;
+  width: 30%;
   float: left;
-  text-align: center;
-  border-right: 1px solid #777;
-  box-sizing: border-box; }
+  text-align: center; }
 
 .account-info-right {
   text-align: left;
-  width: 60%;
+  width: 70%;
   float: right; }
 
 .account-tabs-wrapper {
   margin: 0 30px;
   overflow: hidden;
-  box-shadow: 0 0 10px #333;
+  box-shadow: 0 0 10px #555;
   padding: 0 7px;
   margin-bottom: 18px; }
 
 .account-films-wrapper {
   margin: 0 30px;
   overflow: hidden;
-  box-shadow: 0 0 10px #333;
-  padding: 11px; }
+  box-shadow: 0 0 10px #555;
+  padding: 11px;
+  margin-bottom: 6px; }
 
 .account-films-empty-msg {
   font-size: 1.2em;
@@ -817,6 +816,8 @@ select.filter-input {
 .playlist-delete-button {
   position: absolute;
   left: 6px; }
+  .playlist-delete-button:before {
+    max-width: 100px; }
 
 .account-info-username {
   font-size: 1.6em;
@@ -908,7 +909,7 @@ html {
 .notification {
   font-size: 0.8em;
   width: 280px;
-  background-color: #7a2;
+  background-color: #692;
   border-radius: 3px;
   padding: 3px 6px;
   box-shadow: 0 0 15px -2px black;
@@ -924,10 +925,18 @@ html {
   font-size: 1em;
   display: table-cell;
   vertical-align: middle;
-  padding-right: 4px; }
+  padding-right: 4px;
+  padding-top: 3px; }
 
 .notification-text {
   display: table-cell; }
+
+.notification-undo {
+  text-decoration: underline;
+  padding-right: 3px;
+  cursor: pointer;
+  display: table-cell;
+  vertical-align: middle; }
 
 .notification-close {
   cursor: pointer;

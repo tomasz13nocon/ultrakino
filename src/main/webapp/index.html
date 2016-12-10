@@ -27,7 +27,6 @@
 			<div class="nav-links" ng-controller="TabsController as tabsCtrl">
 				<a href="#filmy"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'films'}">FILMY</div></a>
 				<a href="#seriale"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'series'}">SERIALE</div></a>
-				<a href="#panel-admina" ng-show="isAdmin"><div class="nav-link" ng-class="{'nav-link-active': $route.current.activeTab == 'adminPanel'}">PANEL ADMINA</div></a>
 			</div>
 			<div ng-controller="UserController as userCtrl" ng-init="userCtrl.authenticate()">
 				<div id="login-wrapper" ng-hide="authenticated">
@@ -44,8 +43,9 @@
 				</div>
 				<div class="account-dropdown" ng-show="userCtrl.accountDropdownVisible">
 					<ul>
-						<a ng-href="#moje-konto"><li><i class="account-dropdown-icon fa fa-user"></i>MOJE KONTO</li></a>
-						<a ng-href="#dodaj-film"><li><i class="account-dropdown-icon fa fa-plus-square"></i>DODAJ FILM/SERIAL</li></a>
+						<a href="#moje-konto"><li><i class="account-dropdown-icon fa fa-user"></i>MOJE KONTO</li></a>
+						<a href="#dodaj-film"><li><i class="account-dropdown-icon fa fa-plus-square"></i>DODAJ FILM/SERIAL</li></a>
+						<a href="#panel-admina" ng-show="isAdmin"><li>PANEL ADMINA</li></a>
 						<li class="link" ng-click="userCtrl.logout()"><i class="account-dropdown-icon fa fa-arrow-circle-left"></i>WYLOGUJ</li>
 					</ul>
 				</div>
@@ -54,6 +54,7 @@
 						<div class="notification" ng-show="userCtrl.User.showNotification">
 							<i class="fa fa-check notification-icon"></i>
 							<span class="notification-text" ng-bind="userCtrl.User.notification"></span>
+							<span class="notification-undo" ng-show="userCtrl.User.undo" ng-click="userCtrl.User.undo()">Cofnij</span>
 							<i class="fa fa-close notification-close" ng-click="userCtrl.User.closeNotification()"></i>
 						</div>
 					</div>

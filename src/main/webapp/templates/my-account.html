@@ -9,32 +9,40 @@
 			<div class="account-tabs-wrapper">
 				<div class="account-tab nav-link link" ng-class="{'nav-link-active': activeTab === 'watchlist'}" ng-click="myAccountCtrl.setActiveTab('watchlist')"><i class="fa fa-clock-o"></i> DO OBEJRZENIA</div>
 				<div class="account-tab nav-link link" ng-class="{'nav-link-active': activeTab === 'favorites'}" ng-click="myAccountCtrl.setActiveTab('favorites')"><i class="fa fa-heart"></i> ULUBIONE</div>
+				<div class="account-tab nav-link link" ng-class="{'nav-link-active': activeTab === 'settings'}" ng-click="myAccountCtrl.setActiveTab('settings')"><i class="fa fa-cog"></i> USTAWIENIA</div>
 			</div>
-			<div class="account-films-wrapper">
-				<div class="account-films-empty-msg" ng-hide="contentList.length">Ta lista jest pusta</div>
-				<div class="account-films-entry" ng-repeat="content in contentList">
 
-					<div class="film-button playlist-delete-button" tooltip="Usuń z tej listy" ng-click="myAccountCtrl.removeFromList(content)"><div class="link film-button-inner"><i class="fa fa-minus"></i></div></div>
-					<a ng-href="#filmy/{{content.uid}}/{{content.title | seourl}}-{{content.year}}">
-						<img class="account-film-cover" ng-src="{{content.coverFilename ? images + content.coverFilename : noImage}}" alt="{{content.title}}">
-						<div class="filter-result-details">
-							<h3 class="filter-result-title" ng-bind="content.title"></h3>
+			<div class="account-films-wrapper" ng-show="activeTab === 'watchlist' || activeTab === 'favorites'">
+				<div class="spinner-wrapper-wrapper"><div class="spinner-wrapper"><div class="spinner-small"></div></div></div>
+				<div ng-hide="loadingTab">
+					<div class="account-films-empty-msg" ng-hide="contentList.length">Ta lista jest pusta</div>
+					<div class="account-films-entry" ng-repeat="content in contentList">
+						<div class="film-button playlist-delete-button" tooltip="Usuń z tej listy" ng-click="myAccountCtrl.removeFromList(content)"><div class="link film-button-inner"><i class="fa fa-minus"></i></div></div>
+						<a ng-href="#filmy/{{content.uid}}/{{content.title | seourl}}-{{content.year}}">
+							<img class="account-film-cover" ng-src="{{content.coverFilename ? images + content.coverFilename : noImage}}" alt="{{content.title}}">
+							<div class="filter-result-details">
+								<h3 class="filter-result-title" ng-bind="content.title"></h3>
+							</div>
+						</a>
+						<div class="filter-result-details account-film-details">
+							<div class="filter-result-year">
+								<span class="filter-result-label">Rok: </span>
+								<span ng-bind="content.year"></span>
+							</div>
+							<div class="filter-result-categories">
+								<span class="filter-result-label">Kategorie: </span>
+								<span ng-repeat="category in content.categories"><span ng-bind="category.name"></span><span ng-bind="$last ? '' : ', '"></span></span>
+							</div>
+							<div class="filter-result-description account-film-description"><p ng-bind="content.description"></p></div>
+							<div class="clear"></div>
 						</div>
-					</a>
-					<div class="filter-result-details account-film-details">
-						<div class="filter-result-year">
-							<span class="filter-result-label">Rok: </span>
-							<span ng-bind="content.year"></span>
-						</div>
-						<div class="filter-result-categories">
-							<span class="filter-result-label">Kategorie: </span>
-							<span ng-repeat="category in content.categories"><span ng-bind="category.name"></span><span ng-bind="$last ? '' : ', '"></span></span>
-						</div>
-						<div class="filter-result-description account-film-description"><p ng-bind="content.description"></p></div>
-						<div class="clear"></div>
 					</div>
-
 				</div>
+			</div>
+
+			<div class="account-films-wrapper" ng-show="activeTab === 'settings'">
+				
+
 			</div>
 		</div>
 		<div class="clear"></div>

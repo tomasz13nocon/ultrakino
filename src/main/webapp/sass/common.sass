@@ -312,12 +312,9 @@ $page-content-width-medium: 940px
 .page-content-thingy
 	margin-left: auto
 	margin-right: auto
+	width: $page-content-width
 
-@media (min-width: $large)
-	.page-content-thingy
-		width: $page-content-width
-
-@media (min-width: $medium) and (max-width: $large)
+@media (max-width: $large)
 	.page-content-thingy
 		width: $page-content-width-medium
 
