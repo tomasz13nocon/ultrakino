@@ -380,6 +380,9 @@ input[type="radio"].radio {
 .film-info-description {
   line-height: 1.2; }
 
+.film-buttons {
+  margin-top: 6px; }
+
 .film-button {
   display: inline-block;
   margin-top: 6px;
@@ -417,8 +420,13 @@ input[type="radio"].radio {
   font-size: 1.1em; }
 
 .film-button-on {
-  color: #f5cd2e;
-  background-color: #3c3c3c; }
+  color: #555;
+  background-color: #d8bb26; }
+  .film-button-on:hover {
+    color: #fff; }
+
+.no-tooltip:before {
+  display: none; }
 
 .cast-wrapper {
   float: right;
@@ -689,10 +697,51 @@ select.filter-input {
 .bg-dark {
   background-color: #282828; }
 
+.add-film-page {
+  margin-top: 20px;
+  text-align: center; }
+
 .login-to-add-msg {
   font-size: 2em;
   text-align: center;
   margin-top: 60px; }
+
+.add-film-find-film {
+  font-size: 1.6em;
+  text-align: center;
+  margin-bottom: 28px; }
+
+.radios-wrapper {
+  font-size: 1.3em;
+  margin-bottom: 14px; }
+
+.my-hr {
+  margin: 0 auto;
+  width: 300px;
+  border-bottom: 1px solid #444; }
+
+.add-film-radio-wrapper {
+  text-align: left;
+  display: inline-block;
+  margin-right: 6px;
+  margin-left: 6px; }
+
+.add-film-title-inputs-wrapper {
+  margin: 18px auto; }
+
+.add-film-title {
+  text-align: right;
+  font-size: 1.3em;
+  display: inline-block;
+  width: 10em;
+  margin-right: 22px; }
+
+.add-film-input {
+  display: inline-block; }
+
+.add-film-or {
+  margin: 8px 20px;
+  font-size: 0.9em; }
 
 .seasons-wrapper {
   border: 1px solid white;

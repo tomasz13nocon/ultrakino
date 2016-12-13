@@ -17,18 +17,36 @@ angular.module("app")
 		}, 0);
 	};
 
-	ctrl.addToWatchlist = function(film) {
+	ctrl.toggleWatchlist = function(film) {
 		ctrl.animateButton("film-button-watchlist", "film-button-watchlist-anim");
-		User.save({ id: $rootScope.user.uid, sub: "watchlist" }, { contentId: film.uid }, function(resp) {
-			User.pushNotification("Film '" + film.title + "' został dodany do 'Do obejrzenia'.");
-		});
+		if (!film.inWatchlist) {
+			User.save({ id: $rootScope.user.uid, sub: "watchlist" }, { contentId: film.uid }, function(resp) {
+				User.pushNotification("Film '" + film.title + "' został dodany do 'Do obejrzenia'.");
+				film.inWatchlist = true;
+			});
+		}
+		else {
+			User.delete({ id: $rootScope.user.uid, sub: "watchlist", subId: film.uid }, function(resp) {
+				User.pushNotification("Film '" + film.title + "' został usunięty z 'Do obejrzenia'.");
+				film.inWatchlist = false;
+			});
+		}
 	}
 
-	ctrl.addToFavorites = function(film) {
+	ctrl.toggleFavorites = function(film) {
 		ctrl.animateButton("film-button-favorites", "film-button-favorites-anim");
-		User.save({ id: $rootScope.user.uid, sub: "favorites" }, { contentId: film.uid }, function(resp) {
-			User.pushNotification("Film '" + film.title + "' został dodany do ulubionych.");
-		});
+		if (!film.inFavorites) {
+			User.save({ id: $rootScope.user.uid, sub: "favorites" }, { contentId: film.uid }, function(resp) {
+				User.pushNotification("Film '" + film.title + "' został dodany do ulubionych.");
+				film.inFavorites = true;
+			});
+		}
+		else {
+			User.delete({ id: $rootScope.user.uid, sub: "favorites", subId: film.uid }, function(resp) {
+				User.pushNotification("Film '" + film.title + "' został usunięty z ulubionych.");
+				film.inFavorites = false;
+			});
+		}
 	}
 
 
@@ -65,10 +83,10 @@ angular.module("app")
 		Rating.calculateRatingColor(film.rating);
 		if ($rootScope.authenticated) {
 			if (ctrl.isIdIn($rootScope.user.watchlist)) {
-				$scope.inWatchlist = true;
+				film.inWatchlist = true;
 			}
 			if (ctrl.isIdIn($rootScope.user.favorites)) {
-				$scope.isFavorite = true;
+				film.isFavorite = true;
 			}
 		}
 	});

@@ -185,6 +185,16 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.wildfly.plugins</groupId>
+				<artifactId>wildfly-maven-plugin</artifactId>
+				<version>1.1.0.Beta1</version>
+				<configuration>
+					<jboss-home>/opt/wildfly</jboss-home>
+					<username>tomasz</username>
+					<password>tomasz1</password>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 

@@ -12,7 +12,11 @@ import java.util.Set;
 
 public interface FilmwebService {
 
+	List<String> searchForFilm(String title) throws FilmwebException;
+
 	List<String> searchForSeries(String title, Integer year) throws FilmwebException;
+
+	List<String> search(ContentType contentType, String title, Integer year) throws FilmwebException;
 
 	Series getSeriesInfo(String filmwebId) throws FilmwebException;
 

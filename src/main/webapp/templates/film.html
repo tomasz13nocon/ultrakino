@@ -17,8 +17,8 @@
 			<h1 class="film-info-title"><span ng-bind="film.title"></span> (<span ng-bind="film.year"></span>)</h1>
 			<div class="film-buttons" ng-if="authenticated">
 				<!-- TODO: Ability to remove from those lists. -->
-				<div class="film-button" tooltip="Dodaj do objerzenia" ng-click="filmCtrl.addToWatchlist(film)" ng-class="{'film-button-on': film.inWatchlist}"><div class="link film-button-inner" id="film-button-watchlist"><i class="fa fa-clock-o"></i></div></div>
-				<div class="film-button" tooltip="Dodaj do ulubionych" ng-click="filmCtrl.addToFavorites(film)" ng-class="{'film-button-on': film.inFavorites}"><div class="link film-button-inner" id="film-button-favorites"><i class="fa fa-heart"></i></div></div>
+				<div class="film-button" ng-attr-tooltip="{{film.inWatchlist ? 'Usuń z \'Do obejrzenia\'' : 'Dodaj do \'Do objerzenia\''}}" ng-click="filmCtrl.toggleWatchlist(film)"><div class="link film-button-inner" id="film-button-watchlist" ng-class="{'film-button-on': film.inWatchlist}"><i class="fa fa-clock-o"></i></div></div>
+				<div class="film-button" ng-attr-tooltip="{{film.inFavorites ? 'Usuń z ulubionych' : 'Dodaj do ulubionych'}}" ng-click="filmCtrl.toggleFavorites(film)"><div class="link film-button-inner" id="film-button-favorites" ng-class="{'film-button-on': film.inFavorites}"><i class="fa fa-heart"></i></div></div>
 			</div>
 			<div class="film-info-info">
 				<span class="film-info-info-label">Wersje językowe: </span>

@@ -13,10 +13,7 @@ import pl.ultrakino.Constants;
 import pl.ultrakino.exceptions.FilmwebException;
 import pl.ultrakino.model.*;
 import pl.ultrakino.repository.PersonRepository;
-import pl.ultrakino.service.FilmCategoryService;
-import pl.ultrakino.service.CountryService;
-import pl.ultrakino.service.FilmwebService;
-import pl.ultrakino.service.SeriesCategoryService;
+import pl.ultrakino.service.*;
 
 import java.io.*;
 import java.net.URL;
@@ -97,8 +94,9 @@ public class FilmwebServiceImpl implements FilmwebService {
 		}
 	}
 
-	public List<String> searchForFilm(String title) {
-		throw new UnsupportedOperationException();
+	@Override
+	public List<String> searchForFilm(String title) throws FilmwebException {
+		return search(ContentType.FILM, title, null);
 	}
 
 	public List<String> searchForFilm(String title, int year) {
@@ -109,10 +107,27 @@ public class FilmwebServiceImpl implements FilmwebService {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public List<String> searchForSeries(String title, Integer year) throws FilmwebException {
+		return search(ContentType.SERIES, title, year);
+	}
+
+	@Override
+	public List<String> search(ContentType contentType, String title, Integer year) throws FilmwebException {
 		try {
+			String type = "";
+			switch (contentType) {
+				case FILM:
+					type = "/film";
+					break;
+				case SERIES:
+					type = "/serial";
+					break;
+			}
 			String yearStr = year == null ? "" : String.valueOf(year);
-			String url = "http://www.filmweb.pl/search/serial?&q=" +
+			String url = "http://www.filmweb.pl/search" +
+					type +
+					"?&q=" +
 					URLEncoder.encode(title, StandardCharsets.UTF_8.name())
 					+ "&startYear=" + yearStr + "&endYear=" + yearStr +
 					"&startRate=&endRate=&startCount=&endCount="; // These are apparently necessary

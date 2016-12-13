@@ -2,8 +2,41 @@
 	<h6 class="login-to-add-msg">Zaloguj się, lub utwórz konto, aby móc dodawać filmy i seriale</h6>
 </div>
 <div ng-show="authenticated">
-	<div class="page-content-thingy">
-		<input type="text" />
+	<div class="page-content-thingy add-film-page">
+		<h4 class="add-film-find-film">Znajdź film na filmwebie:</h4>
+		<div class="radios-wrapper">
+			<div class="radio-wrapper add-film-radio-wrapper">
+				<label>
+					<input type="radio" class="radio" name="content-type" checked />
+					<span></span>
+					<span>Film</span>
+				</label>
+			</div>
+			<div class="radio-wrapper add-film-radio-wrapper">
+				<label>
+					<input type="radio" class="radio" name="content-type" />
+					<span></span>
+					<span>Serial</span>
+				</label>
+			</div>
+		</div>
+		<div class="my-hr"></div>
+		<div class="add-film-title-inputs-wrapper">
+			<label class="add-film-label">
+				<h5 class="add-film-title">Tytuł:</h5>
+				<input type="text" class="add-film-input" />
+			</label>
+			<div class="add-film-or">lub</div>
+			<label class="add-film-label">
+				<h5 class="add-film-title">Link do filmweba:</h5>
+				<input type="text" class="add-film-input" />
+			</label>
+		</div>
+		<div class="my-hr"></div>
+
+		<div class="filmweb-search-results">
+
+		</div>
 	</div>
 </div>
 

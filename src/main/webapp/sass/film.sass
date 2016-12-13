@@ -27,6 +27,7 @@
 	line-height: 1.2
 
 .film-buttons
+	margin-top: 6px
 
 .film-button
 	display: inline-block
@@ -66,8 +67,15 @@
 	font-size: 1.1em
 
 .film-button-on
-	color: $primary-color
-	background-color: #3c3c3c
+	color: #555
+	background-color: #d8bb26
+	&:hover
+		color: #fff
+		//background-color: #b32
+
+.no-tooltip
+	&:before
+		display: none
 
 .cast-wrapper
 	float: right
