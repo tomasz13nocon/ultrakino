@@ -3,7 +3,9 @@ angular.module("app")
 	var ctrl = this;
 
 	ctrl.searchFilmweb = function() {
+	};
 
+	ctrl.fetchFilmwebLink = function() {
 	};
 
 }]);

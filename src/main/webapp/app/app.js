@@ -13,7 +13,6 @@ angular.module("app")
 			POLISH_FILM: "Polski Film",
 			POLISH_SUBS: "Napisy PL",
 			ENGLISH_SUBS: "Napisy ENG",
-			"": "Nieznana",
 		};
 
 		$rootScope.filmCategories = {};

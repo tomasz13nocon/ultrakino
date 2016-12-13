@@ -77,6 +77,20 @@ angular.module("app")
 				$scope.params.versions.splice(index, 1);
 			ctrl.modelChanged();
 		};
+		
+		ctrl.clearCategories = function() {
+			$scope.params.categories = []
+			ctrl.modelChanged();
+		};
+
+		ctrl.clearVersions = function() {
+			$scope.params.versions = [];
+			var inputs = document.getElementsByClassName("version-checkbox");
+			for (var i = 0; i < inputs.length; i++) {
+				inputs[i].checked = false;
+			}
+			ctrl.modelChanged();
+		};
 
 		var params = $location.search();
 		$scope.params = {

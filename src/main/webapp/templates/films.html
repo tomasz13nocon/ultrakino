@@ -40,9 +40,10 @@
 		</div>
 		<div class="filter-wrapper">
 			<div class="filter-input-label">Wersje:</div>
+			<div class="small-btn" ng-click="filmsCtrl.clearVersions()">Odznacz wszystko</div>
 			<div class="checkbox-wrapper" ng-repeat="(version, label) in languageVersions">
 				<label>
-					<input class="checkbox" type="checkbox" ng-click="filmsCtrl.toggleVersion(version)">
+					<input class="checkbox version-checkbox" type="checkbox" ng-click="filmsCtrl.toggleVersion(version)">
 					<span></span>
 					<span ng-bind="label"></span>
 				</label>
@@ -50,6 +51,7 @@
 		</div>
 		<div class="filter-wrapper">
 			<div class="filter-input-label">Kategorie:</div>
+			<div class="small-btn" ng-click="filmsCtrl.clearCategories()">Odznacz wszystko</div>
 			<div class="checkbox-wrapper" ng-repeat="(categoryNum, category) in filmCategories track by $index">
 				<label>
 					<input class="checkbox" type="checkbox" ng-change="filmsCtrl.modelChanged()" ng-model="params.categories[categoryNum]">
