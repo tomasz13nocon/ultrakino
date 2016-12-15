@@ -114,6 +114,12 @@ input[type="text"], input[type="password"], input[type="email"] {
   border: none;
   height: 30px; }
 
+input[type="text"].small-input-text {
+  padding: 3px 5px;
+  height: initial;
+  font-size: 0.75em;
+  display: block; }
+
 textarea {
   font-family: "Montserrat", sans-serif;
   padding: 10px 14px;
@@ -280,6 +286,7 @@ input[type="radio"].radio {
   .error-box {
     width: 92%; } }
 .btn, .btn-2 {
+  font-family: "Montserrat", sans-serif;
   border: none;
   border-bottom: 2px solid #111;
   outline: none;
@@ -481,6 +488,9 @@ input[type="radio"].radio {
   height: 60px;
   padding-right: 10px;
   float: left; }
+
+.cast-person-name {
+  word-wrap: break-word; }
 
 .player-section {
   margin-top: 32px; }
@@ -779,6 +789,12 @@ select.filter-input {
 
 .add-film-next-buttons {
   margin-top: 12px; }
+
+.btn-disabled {
+  color: #aaa;
+  cursor: disabled; }
+  .btn-disabled:hover {
+    box-shadow: none; }
 
 .seasons-wrapper {
   border: 1px solid white;

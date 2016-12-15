@@ -26,7 +26,7 @@
 		</div>
 		<div class="filter-wrapper">
 			<div class="filter-input-label">Kategorie:</div>
-			<div class="checkbox-wrapper" ng-repeat="(categoryNum, category) in seriesCategories track by $index">
+			<div class="checkbox-wrapper" ng-repeat="(categoryNum, category) in seriesCategories | objectOrderBy track by $index">
 				<label>
 					<input class="checkbox" type="checkbox" ng-change="seriesCtrl.modelChanged()" ng-model="params.categories[categoryNum]">
 					<span></span>

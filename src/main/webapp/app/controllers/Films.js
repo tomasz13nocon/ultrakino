@@ -79,7 +79,7 @@ angular.module("app")
 		};
 		
 		ctrl.clearCategories = function() {
-			$scope.params.categories = []
+			$scope.params.categories = {}
 			ctrl.modelChanged();
 		};
 
@@ -92,7 +92,6 @@ angular.module("app")
 			ctrl.modelChanged();
 		};
 
-		var params = $location.search();
 		$scope.params = {
 			categories: {},
 			orderBy: "ADDITION_DATE",

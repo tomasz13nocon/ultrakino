@@ -20,6 +20,7 @@ angular.module("app")
 			for (var i = 0; i < resp.data.length; i++) {
 				$rootScope.filmCategories[resp.data[i].id] = resp.data[i].name;
 			}
+			console.log($rootScope.filmCategories);
 		});
 
 		$rootScope.seriesCategories = {};
@@ -84,7 +85,8 @@ angular.module("app")
 		})
 		.when("/dodaj-film", {
 			templateUrl: templateDir + "/add-film.html",
-			activeTab: "addFilm",
+			controller: "AddFilmController",
+			controllerAs: "addFilmCtrl",
 		})
 		.when("/panel-admina", {
 			templateUrl: templateDir + "/admin-panel.html",

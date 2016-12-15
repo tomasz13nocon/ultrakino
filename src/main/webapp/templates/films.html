@@ -51,8 +51,9 @@
 		</div>
 		<div class="filter-wrapper">
 			<div class="filter-input-label">Kategorie:</div>
+			<input type="text" class="small-input-text" ng-model="categoriesFilter"></input>
 			<div class="small-btn" ng-click="filmsCtrl.clearCategories()">Odznacz wszystko</div>
-			<div class="checkbox-wrapper" ng-repeat="(categoryNum, category) in filmCategories track by $index">
+			<div class="checkbox-wrapper" ng-repeat="(categoryNum, category) in filmCategories | objectOrderBy | filter:categoriesFilter track by $index">
 				<label>
 					<input class="checkbox" type="checkbox" ng-change="filmsCtrl.modelChanged()" ng-model="params.categories[categoryNum]">
 					<span></span>

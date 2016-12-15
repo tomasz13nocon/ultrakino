@@ -37,13 +37,18 @@
 
 		<div class="my-hr"></div>
 
-		<div class="filmweb-search-results">
+		<div ng-show="films.length">
+			<div class="filmweb-search-results">
+				<div class="filmweb-search-entry" ng-repeat="film in films">
+					{{film.title}}
+				</div>
+			</div>
+
+			<div class="my-hr"></div>
 		</div>
 
-		<div class="my-hr"></div>
-
 		<div class="add-film-next-buttons">
-			<div class="btn-2" ng-class="{'btn-disabled': content}">Dalej</div>
+			<input type="submit" disabled="disabled" class="btn-2" value="Dalej"></input>
 		</div>
 
 	</div>
