@@ -10,12 +10,23 @@
 @import "myAccount"
 
 
+$footer-height: 80px
+$footer-height-medium: 94px
+$footer-height-small: 120px
 body
 	// background: linear-gradient(0deg, #1a1d21, #383a3f)
 	background: #222 url($images + "/blacktiles.png") repeat
 	color: #f5edce
 	font-family: $font
-	padding-bottom: 80px
+	padding-bottom: $footer-height
+
+@media (max-width: $medium)
+	body
+		padding-bottom: $footer-height-medium
+
+@media (max-width: $small)
+	body
+		padding-bottom: $footer-height-medium
 
 html
 	position: relative
@@ -479,6 +490,13 @@ $search-resutls-height: 185px
 	color: #666
 	width: 900px
 	font-family: sans-serif
-	@media(max-width: 1000px)
-		width: 96%
 		
+@media (max-width: $medium)
+	#footer
+		height: $footer-height-medium
+	#legal-notice
+		width: 96%
+
+@media (max-width: $small)
+	#footer
+		height: $footer-height-small

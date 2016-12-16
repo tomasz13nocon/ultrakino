@@ -940,6 +940,12 @@ body {
   font-family: "Montserrat", sans-serif;
   padding-bottom: 80px; }
 
+@media (max-width: 970px) {
+  body {
+    padding-bottom: 94px; } }
+@media (max-width: 760px) {
+  body {
+    padding-bottom: 94px; } }
 html {
   position: relative;
   min-height: 100%;
@@ -1390,8 +1396,15 @@ html {
   color: #666;
   width: 900px;
   font-family: sans-serif; }
-@media(max-width: 1000px) {
+
+@media (max-width: 970px) {
+  #footer {
+    height: 94px; }
+
   #legal-notice {
     width: 96%; } }
+@media (max-width: 760px) {
+  #footer {
+    height: 120px; } }
 
 /*# sourceMappingURL=main.css.map */
