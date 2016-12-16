@@ -36,14 +36,19 @@ html
 $navbar-height: 64px
 
 #navbar
-	height: $navbar-height
+	//height: $navbar-height
 	background: linear-gradient(#444,#303030)
 	border-bottom: 1px solid #555
-	padding: 0 12px
 
 #title-img-wrapper
 	float: left
-	margin: 10px 14px 0 0
+	margin-right: 14px
+	display: table
+	height: $navbar-height
+	margin-left: 12px
+	& a
+		display: table-cell
+		vertical-align: middle
 
 #title-img 
 	height: 42px
@@ -65,11 +70,13 @@ $navbar-height: 64px
 	opacity: 1
 	color: $primary-color
 
+.navbar-nav-link
 
 #login-wrapper
 	float: right
 	margin-top: 10px
 	text-align: right
+	margin-right: 12px
 
 #register
 	font-size: 1.2em
@@ -90,10 +97,12 @@ $navbar-height: 64px
 		opacity: 1
 
 .notification-wrapper-outer
-	float: right
 	margin-right: 16px
 	display: table
 	height: $navbar-height
+	position: fixed
+	bottom: 0
+	right: 20px
 
 .notification-wrapper-inner
 	display: table-cell
@@ -144,6 +153,7 @@ $navbar-height: 64px
 	-moz-user-select: none
 	-ms-user-select: none
 	user-select: none
+	margin-right: 12px
 
 .hello-user
 	display: inline-block
@@ -179,6 +189,58 @@ $navbar-height: 64px
 	&:hover
 		color: inherit
 
+
+.hamburger-wrapper
+	display: none
+	margin-right: 12px
+	float: right
+	font-size: 3em
+	height: $navbar-height
+	cursor: pointer
+	& > .fa
+		display: table-cell
+		vertical-align: middle
+
+@media (max-width: $medium)
+	.account-box
+		display: none
+	.hamburger-wrapper
+		display: table
+	.navbar-nav-link
+		float: none
+		width: 70%
+		display: block
+		margin-left: auto
+		margin-right: auto
+		padding: 6px 20px
+		font-size: 1em
+		text-align: center
+		letter-spacing: 1px
+	.navbar-dropdown
+		border-top: 1px solid #555
+		overflow: hidden
+		max-height: 0
+		transition: max-height 0.3s
+		background-color: #222
+		background-image: linear-gradient(to bottom, #333, #181818)
+		width: 100%
+		margin: 0 auto
+	.navbar-dropdown-down
+		max-height: 500px
+		display: block
+
+	
+
+	.notification-wrapper-outer
+		position: absolute
+		right: 68px
+		top: 0
+
+@media (max-width: $small)
+	.notification-wrapper-outer
+		position: fixed
+		bottom: 0
+	
 
 .the-box-wrapper
 	width: 100%
@@ -327,19 +389,27 @@ $search-resutls-height: 185px
 	
 .search-result
 	display: inline-block
-	width: 20%
+	width: 25%
 	height: 183px
 	overflow: hidden
 	position: relative
 	padding-right: 3px
 	box-sizing: border-box
-.search-result-border
-	border-left: 1px solid #666
-
-
-.search-result-link:hover
-	color: $primary-color
-	cursor: pointer
+	border-left: 2px solid #444
+	&:hover
+		border-color: #fff
+		cursor: pointer
+		background-color: #171717
+		& .search-result-title
+			color: $primary-color
+	&:before
+		content: ""
+		background: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0) 15%)
+		position: absolute
+		width: 100%
+		height: 100%
+		bottom: 0
+		pointer-events: none
 
 .search-result-title
 	margin: 6px
@@ -348,26 +418,37 @@ $search-resutls-height: 185px
 	float: left
 	width: 120px
 	margin: 6px
+	z-index: 5
 
 .search-result-description
 	margin-top: 10px
 	font-size: 0.8em
-
-.search-result-description-wrapper:after
-	content: ""
-	background: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0) 15%)
-	position: absolute
-	width: 100%
-	margin-left: 130px
-	height: 100%
-	bottom: 0
-	pointer-events: none
 
 .search-result-not-found
 	text-align: center
 	font-size: 1.2em
 	height: $search-resutls-height
 	line-height: $search-resutls-height
+
+@media (max-width: $large)
+	#search-bar
+		width: 560px
+	#search-results-wrapper
+		max-height: $search-resutls-height * 2
+	.search-results-show
+		height: $search-resutls-height * 2
+	.search-result
+		width: 50%
+	
+@media (max-width: $small)
+	#search-bar
+		width: 85%
+	#search-results-wrapper
+		max-height: $search-resutls-height * 4
+	.search-results-show
+		height: $search-resutls-height * 4
+	.search-result
+		width: 100%
 
 
 /**********

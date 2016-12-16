@@ -20,9 +20,9 @@ angular.module("app")
 			self.save({}, {
 				contentId: rateTarget.uid,
 				rating: i,
-			}, function(rating) {
-				rateTarget.userRating = rating.rating;
-				rateTarget.rating = (rateTarget.rating * rateTarget.timesRated + rating.rating) / ++rateTarget.timesRated;
+			}, function(resp) {
+				rateTarget.userRating = resp.rating;
+				rateTarget.rating = (rateTarget.rating * rateTarget.timesRated + resp.rating) / ++rateTarget.timesRated;
 				self.calculateRatingColor(rateTarget.rating);
 			}, function(resp) {
 				if (resp.status === 401) {

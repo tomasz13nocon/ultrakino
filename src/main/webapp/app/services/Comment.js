@@ -1,5 +1,5 @@
 angular.module("app")
-.factory("Comment", ["$resource", function($resource) {
+.factory("Comment", ['$resource', 'User', function($resource, User) {
 	var self = $resource(api + "/comments/:id", { id: "@id" }, {});
 
 	self.process = function(comment) {
@@ -24,6 +24,11 @@ angular.module("app")
 	self.postComment = function(comment, content) {
 		self.save({ comment: comment, contentId: content.uid }, function(comment) {
 			content.comments.push(self.process(comment));
+		}, function(resp) {
+			if (resp.status === 401) {
+				User.invalidate();
+				TheBox.showLoginBox("Sesja wygasła. Zaloguj się ponownie.");
+			}
 		});
 	};
 

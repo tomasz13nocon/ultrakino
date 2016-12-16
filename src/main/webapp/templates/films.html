@@ -51,11 +51,11 @@
 		</div>
 		<div class="filter-wrapper">
 			<div class="filter-input-label">Kategorie:</div>
-			<input type="text" class="small-input-text" ng-model="categoriesFilter"></input>
+			<!--<input type="text" class="small-input-text" ng-model="categoriesFilter" ng-change="filmsCtrl.stopAnimation()"></input>-->
 			<div class="small-btn" ng-click="filmsCtrl.clearCategories()">Odznacz wszystko</div>
-			<div class="checkbox-wrapper" ng-repeat="(categoryNum, category) in filmCategories | objectOrderBy | filter:categoriesFilter track by $index">
+			<div class="checkbox-wrapper" ng-repeat="category in filmCategories | filter:categoriesFilter track by $index">
 				<label>
-					<input class="checkbox" type="checkbox" ng-change="filmsCtrl.modelChanged()" ng-model="params.categories[categoryNum]">
+					<input class="checkbox" type="checkbox" ng-change="filmsCtrl.modelChanged()" ng-model="params.categories[category]">
 					<span></span>
 					<span ng-bind="category"></span>
 				</label>

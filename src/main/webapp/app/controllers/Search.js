@@ -12,9 +12,10 @@ angular.module("app")
 			ctrl.films = [];
 			return;
 		}
+		resultLimit = 4;
 		ctrl.films = Film.get({
 			title: ctrl.query,
-			resultLimit: 5,
+			resultLimit: resultLimit,
 		}, function(results) {
 			if (results.content.length === 0)
 				$scope.noResults = true;

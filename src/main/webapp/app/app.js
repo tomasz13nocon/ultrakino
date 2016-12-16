@@ -15,12 +15,14 @@ angular.module("app")
 			ENGLISH_SUBS: "Napisy ENG",
 		};
 
-		$rootScope.filmCategories = {};
+		$rootScope.filmCategoriesIds = {};
+		$rootScope.filmCategories = [];
 		$http.get(api + "/films/categories").then(function(resp) {
 			for (var i = 0; i < resp.data.length; i++) {
-				$rootScope.filmCategories[resp.data[i].id] = resp.data[i].name;
+				$rootScope.filmCategories.push(resp.data[i].name);
+				$rootScope.filmCategoriesIds[resp.data[i].name] = resp.data[i].id;
 			}
-			console.log($rootScope.filmCategories);
+			$rootScope.filmCategories.sort();
 		});
 
 		$rootScope.seriesCategories = {};

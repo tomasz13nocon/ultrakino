@@ -1,10 +1,11 @@
 angular.module("app")
-.controller("UserController", ['$http', '$rootScope', '$route', '$window', 'TheBox', 'User', function($http, $rootScope, $route, $window, TheBox, User) {
+.controller("UserController", ['$http', '$rootScope', '$route', '$scope', '$window', 'TheBox', 'User', function($http, $rootScope, $route, $scope, $window, TheBox, User) {
 	var ctrl = this;
 
 	ctrl.User = User;
 	ctrl.TheBox = TheBox;
 	ctrl.form = {};
+	$scope.dropdown = false;
 
 	ctrl.authenticate = function(credentials) {
 		var headers = credentials ? {
