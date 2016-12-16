@@ -47,7 +47,7 @@
 							<span ng-bind="user.username"></span> <span ng-hide="userCtrl.accountDropdownVisible">▼</span><span ng-show="userCtrl.accountDropdownVisible">▲</span>
 						</div>
 					</div>
-					<div class="account-dropdown" ng-show="userCtrl.accountDropdownVisible">
+					<div class="account-dropdown" ng-class="{'account-dropdown-down': userCtrl.accountDropdownVisible}" ng-show="authenticated">
 						<ul>
 							<a href="#moje-konto"><li><i class="account-dropdown-icon fa fa-user"></i>MOJE KONTO</li></a>
 							<a href="#dodaj-film"><li><i class="account-dropdown-icon fa fa-plus-square"></i>DODAJ FILM/SERIAL</li></a>
@@ -61,15 +61,11 @@
 			<div class="clear"></div>
 		</div>
 
-		<div class="notification-wrapper-outer" ng-controller="UserController as userCtrl">
-			<div class="notification-wrapper-inner">
-				<div class="notification" ng-show="userCtrl.User.showNotification">
-					<i class="fa fa-check notification-icon"></i>
-					<span class="notification-text" ng-bind="userCtrl.User.notification"></span>
-					<span class="notification-undo" ng-show="userCtrl.User.undo" ng-click="userCtrl.User.undo()">Cofnij</span>
-					<i class="fa fa-close notification-close" ng-click="userCtrl.User.closeNotification()"></i>
-				</div>
-			</div>
+		<div class="notification" ng-show="userCtrl.User.showNotification" ng-controller="UserController as userCtrl">
+			<i class="fa fa-check notification-icon"></i>
+			<span class="notification-text" ng-bind="userCtrl.User.notification"></span>
+			<span class="notification-undo" ng-show="userCtrl.User.undo" ng-click="userCtrl.User.undo()">Cofnij</span>
+			<i class="fa fa-close notification-close" ng-click="userCtrl.User.closeNotification()"></i>
 		</div>
 			
 		<div class="the-box-wrapper" ng-show="userCtrl.TheBox.theBoxVisible" ng-click="userCtrl.TheBox.hideTheBox()" ng-controller="UserController as userCtrl">

@@ -1012,27 +1012,19 @@ html {
   #register:hover, #login:hover {
     opacity: 1; }
 
-.notification-wrapper-outer {
-  margin-right: 16px;
-  display: table;
-  height: 64px;
-  position: fixed;
-  bottom: 0;
-  right: 20px; }
-
-.notification-wrapper-inner {
-  display: table-cell;
-  vertical-align: middle; }
-
 .notification {
-  font-size: 0.8em;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  font-size: 0.9em;
   width: 280px;
   background-color: #692;
   border-radius: 3px;
-  padding: 3px 6px;
-  box-shadow: 0 0 15px -2px black;
+  padding: 5px 7px;
+  box-shadow: 0 0 15px 2px black;
   display: table;
   transform: translateY(0px);
+  z-index: 3;
   opacity: 1;
   transition: transform 0.2s, opacity 0.2s; }
   .notification.ng-hide {
@@ -1043,8 +1035,7 @@ html {
   font-size: 1em;
   display: table-cell;
   vertical-align: middle;
-  padding-right: 4px;
-  padding-top: 3px; }
+  padding-right: 5px; }
 
 .notification-text {
   display: table-cell; }
@@ -1080,22 +1071,23 @@ html {
   width: 32px; }
 
 .account-dropdown {
-  background: #313131;
+  background-color: #313131;
   border-bottom-left-radius: 4px;
   position: absolute;
   top: 64px;
   right: 0;
-  padding: 6px;
+  padding: 0 4px;
   z-index: 3;
   border-bottom: 1px solid #555;
   border-left: 1px solid #555;
   transition: max-height 0.2s;
-  max-height: 200px;
+  max-height: 0;
   overflow: hidden; }
   .account-dropdown li {
-    margin: 16px; }
-  .account-dropdown.ng-hide {
-    max-height: 0; }
+    padding: 12px; }
+
+.account-dropdown-down {
+  max-height: 200px; }
 
 .account-dropdown-icon {
   font-size: 24px;
@@ -1123,6 +1115,9 @@ html {
   .hamburger-wrapper {
     display: table; }
 
+  .nav-links {
+    border-bottom: 1px solid #444; }
+
   .navbar-nav-link {
     float: none;
     width: 70%;
@@ -1148,14 +1143,30 @@ html {
     max-height: 500px;
     display: block; }
 
-  .notification-wrapper-outer {
-    position: absolute;
-    right: 68px;
-    top: 0; } }
-@media (max-width: 760px) {
-  .notification-wrapper-outer {
-    position: fixed;
-    bottom: 0; } }
+  .account-dropdown {
+    position: static;
+    max-height: none;
+    background-color: transparent;
+    border: none;
+    text-align: center;
+    font-size: 1.2em; }
+    .account-dropdown li {
+      border-bottom: 1px solid #111; }
+      .account-dropdown li:hover {
+        background-color: #333; }
+
+  #login-wrapper {
+    float: none;
+    text-align: center;
+    font-size: 140%;
+    margin-bottom: 10px; }
+
+  #register {
+    border-bottom: 1px solid #666;
+    padding-bottom: 6px; }
+
+  #login {
+    padding-top: 10px; } }
 .the-box-wrapper {
   width: 100%;
   height: 100%;
