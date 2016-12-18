@@ -23,12 +23,14 @@ angular.module("app")
 			User.save({ id: $rootScope.user.uid, sub: "watchlist" }, { contentId: film.uid }, function(resp) {
 				User.pushNotification("Film '" + film.title + "' został dodany do 'Do obejrzenia'.");
 				film.inWatchlist = true;
+				$rootScope.user.watchlist.push(film);
 			});
 		}
 		else {
 			User.delete({ id: $rootScope.user.uid, sub: "watchlist", subId: film.uid }, function(resp) {
 				User.pushNotification("Film '" + film.title + "' został usunięty z 'Do obejrzenia'.");
 				film.inWatchlist = false;
+				$rootScope.user.watchlist.splice($rootScope.user.watchlist.indexOf(film), 1);
 			});
 		}
 	}
@@ -39,12 +41,14 @@ angular.module("app")
 			User.save({ id: $rootScope.user.uid, sub: "favorites" }, { contentId: film.uid }, function(resp) {
 				User.pushNotification("Film '" + film.title + "' został dodany do ulubionych.");
 				film.inFavorites = true;
+				$rootScope.user.favorites.push(film);
 			});
 		}
 		else {
 			User.delete({ id: $rootScope.user.uid, sub: "favorites", subId: film.uid }, function(resp) {
 				User.pushNotification("Film '" + film.title + "' został usunięty z ulubionych.");
 				film.inFavorites = false;
+				$rootScope.user.favorites.splice($rootScope.user.favorites.indexOf(film), 1);
 			});
 		}
 	}
@@ -86,7 +90,7 @@ angular.module("app")
 				film.inWatchlist = true;
 			}
 			if (ctrl.isIdIn($rootScope.user.favorites)) {
-				film.isFavorite = true;
+				film.inFavorites = true;
 			}
 		}
 	});

@@ -10,7 +10,7 @@ angular.module("app")
 
 	self.pushNotification = function(msg, duration, undoCallback) {
 		if (typeof duration === "undefined")
-			duration = 5000;
+			duration = 50000;
 		self.closeNotification();
 		self.notification = msg;
 		self.undo = undoCallback;

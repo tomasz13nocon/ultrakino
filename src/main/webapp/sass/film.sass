@@ -7,7 +7,6 @@
 .film-info-cover
 	width: 210px
 	float: left
-	max-width: 20%
 	padding-right: 20px
 
 .film-info-without-cover
@@ -50,6 +49,7 @@
 	position: absolute
 	top: 0
 	left: 0
+	transform: scale(1)
 	opacity: 0
 
 @keyframes scaleAndFade
@@ -103,6 +103,62 @@
 
 .cast-person-name
 	word-wrap: break-word
+
+@media (max-width: $small)
+	.film-info
+		text-align: center
+		display: flex
+		flex-direction: column
+	.film-info-cover
+		margin: auto
+		float: none
+		width: auto
+		max-width: 300px
+		padding-right: 0
+		order: 1
+	.film-info-without-cover
+		margin: 18px 6px
+		order: 2
+
+	.film-button-inner
+		font-size: 1.5em
+	.film-button-watchlist-anim:after, .film-button-favorites-anim:after
+		padding: 0
+		top: -1px
+		left: 1px
+		font-size: 1.5em
+
+	.cast-wrapper
+		order: 3
+		float: none
+		width: 100%
+		border: none
+		margin-left: auto
+		padding-left: 0
+		white-space: nowrap
+	.cast-title
+		font-size: 1.6em
+		margin: 10px
+	.cast-list
+		overflow-y: hidden
+		overflow-x: scroll
+		height: auto
+	.cast-list-element
+		display: inline-block
+		border-right: 1px solid #666
+		padding: 0 4px
+	.cast-person-avatar
+		float: none
+		height: 80px
+		padding-right: 0
+		display: block
+		margin: auto
+	.cast-person-name
+		padding: 4px 0
+		word-wrap: normal
+		display: table-caption
+	
+
 
 
 .player-section
@@ -188,20 +244,44 @@ $player-height-medium: $page-content-width-medium / $player-ar
 	font-size: 0.7em
 	text-align: center
 
+@media (max-width: $medium)
+	.below-player-section
+		margin: 0 16px
+
+@media (max-width: $small)
+	.rating
+		float: none
+		margin-bottom: 22px
+	.rate-wrapper
+		float: none
+		text-align: center
+	.rate-label
+		display: block
+		margin-bottom: 6px
+	.stars-wrapper
+		margin-top: 6px
+		display: block
+	.below-player-section
+		margin: auto
+
 
 .comment-section
 	margin-top: 16px
 
+$left-spacer-width: 150px
+$left-spacer-width-medium: 140px
+$left-spacer-width-small: 116px
+$left-spacer-width-xsmall: 60px
 .comment-section-title
 	font-size: 1.4em
-	margin-left: 180px
+	margin-left: $left-spacer-width + 30
 	&:before, &:after
 		content: ""
 		border-top: 2px solid $font-color
 		position: absolute
 	&:before
-		width: 150px
-		transform: translate(-180px, 12px)
+		width: $left-spacer-width
+		transform: translate(-$left-spacer-width - 30, 12px)
 	&:after
 		width: 500px
 		transform: translate(30px, 12px)
@@ -237,3 +317,47 @@ $player-height-medium: $page-content-width-medium / $player-ar
 .comment-contents
 	font-size: 0.8em
 	margin: 6px
+
+@media (max-width: $medium)
+	.comment-section-title
+		margin-left: $left-spacer-width-medium + 30
+		&:before
+			width: $left-spacer-width-medium
+			transform: translate(-$left-spacer-width-medium - 30, 12px)
+		&:after
+			width: 340px
+	.comment-input
+		margin-left: 16px
+	.comment-submit-wrapper
+		margin-left: 48px
+
+@media (max-width: $small)
+	.comment-section-title
+		margin: auto
+		text-align: center
+		&:before
+			width: $left-spacer-width-small
+			transform: translate(-$left-spacer-width-small - 20, 12px)
+		&:after
+			width: $left-spacer-width-small
+			transform: translate(20px, 12px)
+	.comment-input
+		margin-left: auto
+		margin-right: auto
+		width: 85%
+
+@media (max-width: 430px)
+	.comment-section-title
+		&:before
+			width: $left-spacer-width-xsmall
+			transform: translate(-$left-spacer-width-xsmall - 20, 12px)
+		&:after
+			width: $left-spacer-width-xsmall
+
+@media (max-width: 320px)
+	.comment-section-title
+		&:before
+			display: none
+		&:after
+			display: none
+	

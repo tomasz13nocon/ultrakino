@@ -1,6 +1,3 @@
-/************
- * CAROUSEL *
- ***********/
 .section-heading
 	font-size: 1.4em
 	text-align: center
@@ -9,27 +6,54 @@
 	font-weight: bold
 	opacity: 0.8
 
+/************
+ * CAROUSEL *
+ ***********/
 .carousel-heading
-	// margin-bottom: 16px
 
 #carousel-wrapper
-
 
 .owl-item
 	a
 		&:hover
 			// color: inherit
-	img.carousel-film-cover
-		width: 200px
-		float: left
-		margin-left: 24px
+.carousel-film-cover
+	width: 200px
+	float: left
+	margin-left: 24px
+.carousel-film-info
+	margin-left: 260px
+	width: 60%
+.carousel-film-title
+	font-size: 2.6em
+	margin-bottom: 16px
+.carousel-film-description
+
+@media (min-width: $small + 1)
+	.carousel-element
+		background-image: none !important
+		
+@media (max-width: $small)
+	.owl-item
+		text-align: center
+	.carousel-film-cover
+		float: none
+		margin-left: 0
+		display: none
 	.carousel-film-info
-		margin-left: 260px
-		width: 60%
+		margin: 6px auto
 	.carousel-film-title
-		font-size: 2.6em
-		margin-bottom: 16px
+		padding: 40px 0
 	.carousel-film-description
+		padding-bottom: 32px
+		
+	.carousel-element
+		background-size: cover
+		background-position: center
+		background-repeat: no-repeat
+	.carousel-element-inner
+		background-color: rgba(0,0,0,0.6)
+		min-height: 340px
 		
 
 
@@ -79,3 +103,8 @@ $film-entry-width: 20%
 	.films-section-cover
 		max-height: 230px
 
+@media (max-width: $small)
+	.films-section-cover
+		max-height: none
+	.films-section-film
+		width: 50%

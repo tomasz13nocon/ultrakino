@@ -8,7 +8,7 @@
 				<li class="cast-list-element" ng-repeat="person in visibleCast">
 					<img class="cast-person-avatar" ng-src="{{person.avatarFilename ? images + person.avatarFilename : noImage}}" alt="Portret aktora" />
 					<span class="cast-person-name" ng-bind="person.name"></span>
-					<div class="clear"></div>
+					<div class="clear cast-element-clear"></div>
 				</li>
 			</ul>
 		</div>
@@ -17,8 +17,8 @@
 			<h1 class="film-info-title"><span ng-bind="film.title"></span> (<span ng-bind="film.year"></span>)</h1>
 			<div class="film-buttons" ng-if="authenticated">
 				<!-- TODO: Ability to remove from those lists. -->
-				<div class="film-button" ng-attr-tooltip="{{film.inWatchlist ? 'Usuń z \'Do obejrzenia\'' : 'Dodaj do \'Do objerzenia\''}}" ng-click="filmCtrl.toggleWatchlist(film)"><div class="link film-button-inner" id="film-button-watchlist" ng-class="{'film-button-on': film.inWatchlist}"><i class="fa fa-clock-o"></i></div></div>
-				<div class="film-button" ng-attr-tooltip="{{film.inFavorites ? 'Usuń z ulubionych' : 'Dodaj do ulubionych'}}" ng-click="filmCtrl.toggleFavorites(film)"><div class="link film-button-inner" id="film-button-favorites" ng-class="{'film-button-on': film.inFavorites}"><i class="fa fa-heart"></i></div></div>
+				<div class="film-button" ng-click="filmCtrl.toggleWatchlist(film)"><div class="link film-button-inner" id="film-button-watchlist" ng-class="{'film-button-on': film.inWatchlist}"><i class="fa fa-clock-o"></i></div></div>
+				<div class="film-button" ng-click="filmCtrl.toggleFavorites(film)"><div class="link film-button-inner" id="film-button-favorites" ng-class="{'film-button-on': film.inFavorites}"><i class="fa fa-heart"></i></div></div>
 			</div>
 			<div class="film-info-info">
 				<span class="film-info-info-label">Wersje językowe: </span>

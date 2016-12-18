@@ -7,6 +7,10 @@ angular.module("app")
 	ctrl.form = {};
 	$scope.dropdown = false;
 
+	$scope.$on("$locationChangeSuccess", function() {
+		$scope.dropdown = false;
+	});
+
 	ctrl.authenticate = function(credentials) {
 		var headers = credentials ? {
 			Authorization: "Basic " + btoa(credentials.username + ":" + credentials.password) 

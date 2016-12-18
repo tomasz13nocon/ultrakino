@@ -3,18 +3,20 @@
 	<div id="carousel-wrapper">
 		<h3 class="section-heading carousel-heading">Polecane</h3>
 		<div class="owl-carousel">
-			<div ng-repeat="film in homeCtrl.recommendedFilms" enable-carousel>
-				<a ng-href="#filmy/{{film.uid}}/{{film.title | seourl}}-{{film.year}}">
-					<img class="carousel-film-cover" ng-src="{{film.coverFilename ? images + film.coverFilename : noImage}}" alt="{{film.title}} cover">
+			<div class="carousel-element" ng-repeat="film in homeCtrl.recommendedFilms" ng-style="{'background-image': 'url(\'' + (film.coverFilename ? images + film.coverFilename : noImage) + '\')'}" enable-carousel>
+				<div class="carousel-element-inner">
+					<a ng-href="#filmy/{{film.uid}}/{{film.title | seourl}}-{{film.year}}">
+						<img class="carousel-film-cover" ng-src="{{film.coverFilename ? images + film.coverFilename : noImage}}" alt="{{film.title}} cover">
+						<div class="carousel-film-info">
+							<h2 class="carousel-film-title"><span ng-bind="film.title"></span> (<span ng-bind="film.year"></span>)</h2>
+						</div>
+					</a>
 					<div class="carousel-film-info">
-						<h2 class="carousel-film-title"><span ng-bind="film.title"></span> (<span ng-bind="film.year"></span>)</h2>
+						<span ng-bind="film.languageVersion"></span>
+						<p class="carousel-film-description" ng-bind="film.description"></p>
 					</div>
-				</a>
-				<div class="carousel-film-info">
-					<span ng-bind="film.languageVersion"></span>
-					<p class="carousel-film-description" ng-bind="film.description"></p>
+					<div class="clear"></div>
 				</div>
-				<div class="clear"></div>
 			</div>
 		</div>
 	</div>

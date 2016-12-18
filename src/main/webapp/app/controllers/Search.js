@@ -9,11 +9,10 @@ angular.module("app")
 
 	ctrl.search = function() {
 		if (ctrl.query.length < 2) {
-			ctrl.films = [];
 			return;
 		}
 		resultLimit = 4;
-		ctrl.films = Film.get({
+		Film.get({
 			title: ctrl.query,
 			resultLimit: resultLimit,
 		}, function(results) {
