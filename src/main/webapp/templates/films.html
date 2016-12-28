@@ -1,15 +1,15 @@
-<div id="films-wrapper" class="page-content-thingy">
-	<div id="filters-wrapper">
+<div class="films-wrapper" class="page-content-thingy">
+	<div class="filters-wrapper">
 		<div class="filter-wrapper">
 			<div class="filter-input-label">Sortuj według: </div>
-			<div class="radio-wrapper" ng-repeat="(order, orderVal) in orderBy track by $index">
+			<div ng-repeat="(order, orderVal) in orderBy track by $index">
 				<label class="radio-label">
 					<input class="radio" type="radio" value="{{orderVal}}" name="orderByRadio" ng-model="params.orderBy" ng-change="filmsCtrl.modelChanged()">
 					<span ng-bind="order"></span>
 				</label>
 			</div>
 			<br>
-			<div class="radio-wrapper" ng-repeat="(label, value) in asc track by $index">
+			<div ng-repeat="(label, value) in asc track by $index">
 				<label class="radio-label">
 					<input class="radio" type="radio" value="{{value}}" name="ascRadio" ng-model="params.asc" ng-change="filmsCtrl.modelChanged()">
 					<span ng-bind="label"></span>

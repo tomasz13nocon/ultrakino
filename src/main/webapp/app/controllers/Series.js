@@ -28,13 +28,10 @@ angular.module("app")
 		p.asc = params.asc ? true : false; // In case of undefined
 		if (params.title) p.title = params.title;
 		if (params.pageNumber) p.pageNumber = params.pageNumber;
-		if (params.versions) p.versions = params.versions;
-		if (params.yearFrom && params.yearFrom != $rootScope.years[$rootScope.years.length-1]) p.yearFrom = params.yearFrom;
-		if (params.yearTo && params.yearTo != $rootScope.years[0]) p.yearTo = params.yearTo;
 		if (params.categories) {
 			for (category in params.categories) {
 				if (params.categories[category])
-					p.categories.push(category);
+					p.categories.push($rootScope.seriesCategoriesIds[category]);
 			}
 		}
 
@@ -68,13 +65,8 @@ angular.module("app")
 		$window.scrollTo(0, 0);
 	}
 
-	ctrl.toggleVersion = function(version) {
-		if (!$scope.params.versions) $scope.params.versions = [];
-		var index = $scope.params.versions.indexOf(version);
-		if (index === -1)
-			$scope.params.versions.push(version);
-		else
-			$scope.params.versions.splice(index, 1);
+	ctrl.clearCategories = function() {
+		$scope.params.categories = {}
 		ctrl.modelChanged();
 	};
 
@@ -82,8 +74,6 @@ angular.module("app")
 		categories: {},
 		orderBy: "ADDITION_DATE",
 		asc: false,
-		yearFrom: $rootScope.years[$rootScope.years.length-1],
-		yearTo: $rootScope.years[0],
 	};
 	ctrl.modelChanged();
 

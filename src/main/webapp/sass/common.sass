@@ -192,7 +192,6 @@ select
 
 // =========== CHECKBOX =========== //
 .checkbox-label
-	position: relative
 	cursor: pointer
 	font-size: 0.8em
 	@extend .user-select-none
@@ -201,6 +200,7 @@ select
 		border-color: $primary-color
 
 input[type="checkbox"].checkbox
+	position: relative
 	visibility: hidden
 	&:not(:checked):after
 		transition: width 0.1s linear, height 0.1s linear 0.1s, opacity 0.2s cubic-bezier(1,0,1,0)
@@ -208,7 +208,7 @@ input[type="checkbox"].checkbox
 		visibility: visible
 		content: ""
 		position: absolute
-		top: 0
+		cursor: pointer
 		border: 2px solid rgba(245, 205, 46, 0.5)
 		background: #000
 		width: 11px
@@ -219,7 +219,8 @@ input[type="checkbox"].checkbox
 		content: ""
 		position: absolute
 		top: 7px
-		left: 6px
+		left: 2px
+		cursor: pointer
 		transition: height 0.1s linear, width 0.1s linear 0.1s
 		transform-origin: left top
 		width: 0
@@ -241,7 +242,6 @@ input[type="checkbox"].checkbox
 
 // =========== RADIO =========== //
 .radio-label
-	position: relative
 	cursor: pointer
 	@extend .user-select-none
 	font-size: 0.8em
@@ -250,32 +250,31 @@ input[type="checkbox"].checkbox
 		border-color: $primary-color
 
 input[type="radio"].radio
+	position: relative
 	visibility: hidden
 	&:before
 		content: ""
 		visibility: visible
 		position: absolute
-		bottom: 5px
-		left: 22px
+		cursor: pointer
 		border: 2px solid rgba(245, 205, 46, 0.5)
 		border-radius: 50%
 		background: #000
 		width: 10px
 		height: 10px
 		display: inline-block
-		transform: translate(-19px, 4px)
 	&:after
 		content: ""
 		visibility: visible
 		position: absolute
-		left: 7px
+		left: 4px
 		top: 4px
+		cursor: pointer
 		transition: opacity 0.2s, transform 0.2s
 		transform: scale(0.2)
 		width: 6px
 		height: 6px
 		background: $primary-color
-		// border: 3px solid $primary-color
 		border-radius: 50%
 		opacity: 0
 	&:checked

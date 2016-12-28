@@ -1,37 +1,42 @@
-<div id="films-wrapper" class="page-content-thingy">
-	<div id="filters-wrapper">
+<div class="films-wrapper" class="page-content-thingy">
+	<div class="filters-wrapper">
 		<div class="filter-wrapper">
-			<span class="filter-input-label">Sortuj według: </span>
-			<div class="radio-wrapper" ng-repeat="(order, orderVal) in orderBy track by $index">
-				<label>
+			<div class="filter-input-label">Sortuj według: </div>
+			<div ng-repeat="(order, orderVal) in orderBy track by $index">
+				<label class="radio-label">
 					<input class="radio" type="radio" value="{{orderVal}}" name="orderByRadio" ng-model="params.orderBy" ng-change="seriesCtrl.modelChanged()">
-					<span></span>
 					<span ng-bind="order"></span>
 				</label>
 			</div>
 			<br>
-			<div class="radio-wrapper" ng-repeat="(label, value) in asc track by $index">
-				<label>
+			<div ng-repeat="(label, value) in asc track by $index">
+				<label class="radio-label">
 					<input class="radio" type="radio" value="{{value}}" name="ascRadio" ng-model="params.asc" ng-change="seriesCtrl.modelChanged()">
-					<span></span>
 					<span ng-bind="label"></span>
 				</label>
 			</div>
 		</div>
 		<div class="filter-wrapper">
 			<label>
-				<span class="filter-input-label">Tytuł: </span>
-				<input class="filter-input" type="text" ng-model="params.title" ng-change="seriesCtrl.modelChanged()">
+				<div class="filter-input-label">Tytuł: </div>
+				<input class="filter-input title-filter-input" type="text" ng-model="params.title" ng-change="seriesCtrl.modelChanged()">
 			</label>
 		</div>
 		<div class="filter-wrapper">
 			<div class="filter-input-label">Kategorie:</div>
-			<div class="checkbox-wrapper" ng-repeat="(categoryNum, category) in seriesCategories | objectOrderBy track by $index">
-				<label>
-					<input class="checkbox" type="checkbox" ng-change="seriesCtrl.modelChanged()" ng-model="params.categories[categoryNum]">
-					<span></span>
-					<span ng-bind="category"></span>
-				</label>
+			<div class="checkboxes-toggle" ng-init="categoriesVisible = false" ng-click="categoriesVisible = !categoriesVisible">
+				<div ng-hide="categoriesVisible">Rozwiń</div>
+				<div ng-show="categoriesVisible">Zwiń</div>
+			</div>
+			<div class="checkboxes-wrapper" ng-class="{'checkboxes-visible': categoriesVisible}">
+				<!--<input type="text" class="small-input-text" ng-model="categoriesFilter" ng-change="filmsCtrl.stopAnimation()"></input>-->
+				<div class="small-btn" ng-click="seriesCtrl.clearCategories()">Odznacz wszystko</div>
+				<div ng-repeat="category in seriesCategories | filter:categoriesFilter track by $index">
+					<label class="checkbox-label">
+						<input class="checkbox" type="checkbox" ng-change="seriesCtrl.modelChanged()" ng-model="params.categories[category]">
+						<span ng-bind="category"></span>
+					</label>
+				</div>
 			</div>
 		</div>
 	</div>

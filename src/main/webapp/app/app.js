@@ -19,18 +19,29 @@ angular.module("app")
 		$rootScope.filmCategories = [];
 		$http.get(api + "/films/categories").then(function(resp) {
 			for (var i = 0; i < resp.data.length; i++) {
+				if (resp.data[i].name === "") {
+					resp.data.splice(i--, 1);
+					continue;
+				}
 				$rootScope.filmCategories.push(resp.data[i].name);
 				$rootScope.filmCategoriesIds[resp.data[i].name] = resp.data[i].id;
 			}
 			$rootScope.filmCategories.sort();
 		});
+		console.log($rootScope.filmCategories);
+		console.log($rootScope.filmCategoriesIds);
 
-		$rootScope.seriesCategories = {};
+		$rootScope.seriesCategoriesIds = {};
+		$rootScope.seriesCategories = [];
 		$http.get(api + "/series/categories").then(function(resp) {
 			for (var i = 0; i < resp.data.length; i++) {
-				$rootScope.seriesCategories[resp.data[i].id] = resp.data[i].name;
+				$rootScope.seriesCategories.push(resp.data[i].name);
+				$rootScope.seriesCategoriesIds[resp.data[i].name] = resp.data[i].id;
 			}
+			$rootScope.seriesCategories.sort();
 		});
+		console.log($rootScope.seriesCategories);
+		console.log($rootScope.seriesCategoriesIds);
 
 		$rootScope.years = [];
 		for (var i = new Date().getFullYear(); i > 1900; i--) {
