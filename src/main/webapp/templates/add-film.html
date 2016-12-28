@@ -7,14 +7,14 @@
 		<div class="radios-wrapper">
 			<div class="radio-wrapper add-film-radio-wrapper">
 				<label>
-					<input type="radio" class="radio" name="content-type" checked />
+					<input type="radio" class="radio" name="content-type" ng-model="contentType" value="FILM" checked />
 					<span></span>
 					<span>Film</span>
 				</label>
 			</div>
 			<div class="radio-wrapper add-film-radio-wrapper">
 				<label>
-					<input type="radio" class="radio" name="content-type" />
+					<input type="radio" class="radio" name="content-type" ng-model="contentType" value="SERIES" />
 					<span></span>
 					<span>Serial</span>
 				</label>
@@ -37,10 +37,13 @@
 
 		<div class="my-hr"></div>
 
-		<div ng-show="films.length">
+		<div ng-show="films.length || retrievingFilms">
 			<div class="filmweb-search-results">
-				<div class="filmweb-search-entry" ng-repeat="film in films">
-					{{film.title}}
+				<div ng-show="retrievingFilms" class="spinner-wrapper-wrapper add-film-spinner"><div class="spinner-wrapper"><div class="spinner-small"></div></div></div>
+				<div class="filmweb-search-entry" ng-repeat="film in films" ng-hide="retrievingFilms">
+					<img src="{{film.coverFilename || noImage}}" alt="Okładka filmu" class="filmweb-search-cover" />
+					<h5 class="filmweb-search-title" ng-bind="film.title"></h5>
+					<div class="clear"></div>
 				</div>
 			</div>
 

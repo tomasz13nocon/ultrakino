@@ -9,7 +9,7 @@ $images: "../images"
 
 $large: 1150px
 $medium: 970px
-$small: 760px
+$small: 767px
 
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak
@@ -28,6 +28,14 @@ a
 	cursor: pointer
 	&:hover
 		color: $primary-color
+
+.user-select-none
+	-webkit-touch-callout: none
+	-webkit-user-select: none
+	-khtml-user-select: none
+	-moz-user-select: none
+	-ms-user-select: none
+	user-select: none
 
 /* Rules for sizing the icon. */
 .material-icons.md-18
@@ -183,119 +191,99 @@ select
 
 
 // =========== CHECKBOX =========== //
-.checkbox-wrapper
+.checkbox-label
 	position: relative
-	& > label
-		cursor: pointer
-		-webkit-touch-callout: none
-		-webkit-user-select: none
-		-khtml-user-select: none
-		-moz-user-select: none
-		-ms-user-select: none
-		user-select: none
-		font-size: 0.8em
-		&:hover
-			// text-decoration: underline
-			& > span:first-of-type
-				background: #111
-				border-color: $primary-color
-
-@keyframes uncheck
-	0%
-		opacity: 1
-		width: 10px
-		height: 5px
-	50%
-		width: 0
-		height: 5px
-	80%
-		opacity: 1
-	100%
-		height: 0
-		opacity: 0
+	cursor: pointer
+	font-size: 0.8em
+	@extend .user-select-none
+	&:hover > input[type="checkbox"].checkbox:before
+		background: #111
+		border-color: $primary-color
 
 input[type="checkbox"].checkbox
 	visibility: hidden
-	&:checked + span
-		border-color: $primary-color
-		&:before
-			opacity: 1
-			width: 10px
-			height: 5px
-	&:not(:checked) + span:before
+	&:not(:checked):after
 		transition: width 0.1s linear, height 0.1s linear 0.1s, opacity 0.2s cubic-bezier(1,0,1,0)
-	& + span
+	&:before
+		visibility: visible
+		content: ""
+		position: absolute
+		top: 0
 		border: 2px solid rgba(245, 205, 46, 0.5)
 		background: #000
 		width: 11px
 		height: 11px
 		display: inline-block
+	&:after
+		visibility: visible
+		content: ""
 		position: absolute
-		left: 5px
-		top: 4px
+		top: 7px
+		left: 6px
+		transition: height 0.1s linear, width 0.1s linear 0.1s
+		transform-origin: left top
+		width: 0
+		height: 0
+		border: 3px solid $primary-color
+		border-top: none
+		border-right: none
+		transform: rotate(-45deg)
+		opacity: 0
+	&:checked
 		&:before
-			transition: height 0.1s linear, width 0.1s linear 0.1s
-			transform-origin: left top
-			width: 0
-			height: 0
-			content: ""
-			position: absolute
-			top: 5px
-			border: 3px solid $primary-color
-			border-top: none
-			border-right: none
-			transform: rotate(-45deg)
-			opacity: 0
+			border-color: #b93
+		&:after
+			opacity: 1
+			width: 10px
+			height: 5px
+	
 // ================================ //
 
 // =========== RADIO =========== //
-.radio-wrapper
+.radio-label
 	position: relative
-	& > label
-		cursor: pointer
-		-webkit-touch-callout: none
-		-webkit-user-select: none
-		-khtml-user-select: none
-		-moz-user-select: none
-		-ms-user-select: none
-		user-select: none
-		font-size: 0.8em
-		&:hover
-			// text-decoration: underline
-			& > span:first-of-type
-				background: #111
-				border-color: $primary-color
+	cursor: pointer
+	@extend .user-select-none
+	font-size: 0.8em
+	&:hover > input[type="radio"].radio:before
+		background: #111
+		border-color: $primary-color
 
 input[type="radio"].radio
 	visibility: hidden
-	&:checked + span
-		border-color: $primary-color
-		&:before
-			opacity: 1
-			transform: scale(1)
-	& + span
+	&:before
+		content: ""
+		visibility: visible
+		position: absolute
+		bottom: 5px
+		left: 22px
 		border: 2px solid rgba(245, 205, 46, 0.5)
 		border-radius: 50%
 		background: #000
 		width: 10px
 		height: 10px
 		display: inline-block
+		transform: translate(-19px, 4px)
+	&:after
+		content: ""
+		visibility: visible
 		position: absolute
-		left: 5px
+		left: 7px
 		top: 4px
+		transition: opacity 0.2s, transform 0.2s
+		transform: scale(0.2)
+		width: 6px
+		height: 6px
+		background: $primary-color
+		// border: 3px solid $primary-color
+		border-radius: 50%
+		opacity: 0
+	&:checked
 		&:before
-			transition: opacity 0.2s, transform 0.2s
-			transform: scale(0.2)
-			content: ""
-			width: 6px
-			height: 6px
-			background: $primary-color
-			position: absolute
-			left: 2px
-			top: 2px
-			// border: 3px solid $primary-color
-			border-radius: 50%
-			opacity: 0
+			border-color: $primary-color
+		&:after
+			opacity: 1
+			transform: scale(1)
 // ============================= //
 
 .error-box

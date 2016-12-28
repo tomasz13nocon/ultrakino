@@ -1,21 +1,22 @@
 angular.module("app")
-.controller("AddFilmController", ['$scope', 'Film', function($scope, Film) {
+.controller("AddFilmController", ['$scope', 'Film', 'Filmweb', function($scope, Film, Filmweb) {
 	var ctrl = this;
+
+	$scope.contentType = "FILM";
+	$scope.retrievingFilms = 0;
 
 	ctrl.search = function(query) {
 		if (query.length < 2) {
 			$scope.films = [];
 			return;
 		}
-		$scope.films = Film.get({
+		$scope.retrievingFilms += 1;
+		Filmweb.query({
 			title: query,
-			resultLimit: 5,
+			contentType: $scope.contentType,
 		}, function(results) {
-			if (results.content.length === 0)
-				$scope.noResults = true;
-			else
-				$scope.noResults = false;
-			$scope.films = results.content;
+			$scope.films = results;
+			$scope.retrievingFilms -= 1;
 		});
 	};
 

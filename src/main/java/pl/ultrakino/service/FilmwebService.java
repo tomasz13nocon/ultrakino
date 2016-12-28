@@ -22,7 +22,9 @@ public interface FilmwebService {
 
 	Series getFullSeriesInfo(String filmwebId) throws FilmwebException;
 
-	Film getFilmInfo(String filmwebId) throws FilmwebException, IOException;
+	Film getFilmInfo(String filmwebId, boolean saveImages) throws FilmwebException;
+
+	Film getFilmInfo(String filmwebId) throws FilmwebException;
 
 	Set<FilmographyEntry> getFilmPersons(String filmwebId, Content content) throws FilmwebException, IOException;
 

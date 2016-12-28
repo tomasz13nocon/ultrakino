@@ -16,7 +16,7 @@
 	<link rel="stylesheet" href="plugins/owl/owl.theme.css">
 	<link rel="stylesheet" href="plugins/owl/owl.transitions.css">
 	<link rel="stylesheet" type="text/css" href="css/reset.css">
-	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/main.css?v=1">
 </head>
 <body>
 
@@ -48,7 +48,7 @@
 						</div>
 					</div>
 					<div class="account-dropdown" ng-class="{'account-dropdown-down': userCtrl.accountDropdownVisible}" ng-show="authenticated">
-						<ul>
+						<ul class="account-dropdown-list">
 							<a href="#moje-konto"><li><i class="account-dropdown-icon fa fa-user"></i>MOJE KONTO</li></a>
 							<a href="#dodaj-film"><li><i class="account-dropdown-icon fa fa-plus-square"></i>DODAJ FILM/SERIAL</li></a>
 							<a href="#panel-admina" ng-show="isAdmin"><li>PANEL ADMINA</li></a>
@@ -169,6 +169,7 @@
 	<script type="text/javascript" src="app/services/Episode.js"></script>
 	<script type="text/javascript" src="app/services/Comment.js"></script>
 	<script type="text/javascript" src="app/services/Rating.js"></script>
+	<script type="text/javascript" src="app/services/Filmweb.js"></script>
 	<script type="text/javascript" src="app/directives/enableCarousel.js"></script>
 	<script type="text/javascript" src="app/directives/clickAnywhereButHere.js"></script>
 	<script type="text/javascript" src="app/components/spinner.js"></script>

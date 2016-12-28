@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.ultrakino.Constants;
 import pl.ultrakino.exceptions.FilmwebException;
+import pl.ultrakino.model.Film;
 import pl.ultrakino.service.ContentType;
 import pl.ultrakino.service.FilmwebService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,16 +28,18 @@ public class FilmwebController {
 	}
 
 	@GetMapping
-	public ResponseEntity searchForFilms(@RequestParam String title, @RequestParam String contentType) {
-		return ResponseEntity.ok("Helloqwe");
-		/*try {
+	public ResponseEntity searchForFilms(@RequestParam String title, @RequestParam String contentType, @RequestParam(required = false) Integer resultLimit) {
+		try {
 			List<String> ids = filmwebService.search(ContentType.valueOf(contentType), title, null);
-
-			return ResponseEntity.ok().build();
+			List<Film> films = new ArrayList<>();
+			for (int i = 0; i < Math.min(ids.size(), resultLimit != null ? resultLimit : 6); i++) {
+				films.add(filmwebService.getFilmInfo(ids.get(i), false));
+			}
+			return ResponseEntity.ok(films);
 		} catch (IllegalArgumentException e) {
 			return ResponseEntity.badRequest().body("Invalid contentType value");
 		} catch (FilmwebException e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		}*/
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getStackTrace());//TODO: make it empty
+		}
 	}
 }

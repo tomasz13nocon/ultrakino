@@ -195,6 +195,9 @@ $navbar-height: 64px
 	max-height: 0
 	overflow: hidden
 
+.account-dropdown-list
+	padding: 8px
+
 .account-dropdown-down
 	max-height: 200px
 
@@ -239,13 +242,13 @@ $navbar-height: 64px
 		border-top: 1px solid #555
 		overflow: hidden
 		max-height: 0
-		transition: max-height 0.3s
+		transition: max-height 0.2s
 		background-color: #222
 		background-image: linear-gradient(to bottom, #333, #181818)
 		width: 100%
 		margin: 0 auto
 	.navbar-dropdown-down
-		max-height: 500px
+		max-height: 360px
 		display: block
 	.account-dropdown
 		position: static
@@ -258,6 +261,8 @@ $navbar-height: 64px
 			border-bottom: 1px solid #111
 			&:hover
 				background-color: #2d2d2d
+	.account-dropdown-list
+		padding: 0
 	#login-wrapper
 		float: none
 		text-align: center
@@ -481,7 +486,7 @@ $search-resutls-height: 185px
 	
 @media (max-width: $small)
 	#search-bar
-		width: 85%
+		width: 80%
 	#search-results-wrapper
 		max-height: $search-resutls-height * 4
 	.search-results-show

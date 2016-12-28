@@ -16,6 +16,7 @@ import pl.ultrakino.repository.PersonRepository;
 import pl.ultrakino.service.*;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -237,7 +238,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 
 	@SuppressWarnings("Duplicates")
 	@Override
-	public Film getFilmInfo(String filmwebId) throws FilmwebException, IOException {
+	public Film getFilmInfo(String filmwebId, boolean saveImages) throws FilmwebException {
 		Object[] filmInfo = fetchContentInfo(filmwebId);
 		Film film = new Film();
 		film.setFilmwebId(filmwebId);
@@ -259,12 +260,22 @@ public class FilmwebServiceImpl implements FilmwebService {
 
 		if (filmInfo[11] != null) {
 			String filmwebImg = "http://1.fwcdn.pl/po" + ((String) filmInfo[11]).replaceFirst("\\.\\d\\.jp", ".3.jp");
-			InputStream is = new URL(filmwebImg).openStream();
-			String filename = DigestUtils.md5Hex(film.getTitle() + film.getYear()) + ".jpg";
-			OutputStream os = new FileOutputStream(IMAGES + filename);
-			IOUtils.copy(is, os);
-			is.close();
-			os.close();
+			String filename;
+			if (saveImages) {
+				try (InputStream is = new URL(filmwebImg).openStream()) {
+					filename = DigestUtils.md5Hex(film.getTitle() + film.getYear()) + ".jpg";
+					try (OutputStream os = new FileOutputStream(IMAGES + filename)) {
+						IOUtils.copy(is, os);
+					} catch (IOException e) {
+						throw new FilmwebException(e);
+					}
+				} catch (IOException e) {
+					throw new FilmwebException(e);
+				}
+			}
+			else {
+				filename = filmwebImg;
+			}
 			film.setCoverFilename(filename);
 		}
 
@@ -307,6 +318,11 @@ public class FilmwebServiceImpl implements FilmwebService {
 			film.setProductionCountries(Arrays.stream(((String) filmInfo[18]).split(", ")).map(countryService::getCountry).collect(Collectors.toSet()));
 
 		return film;
+	}
+
+	@Override
+	public Film getFilmInfo(String filmwebId) throws FilmwebException {
+		return getFilmInfo(filmwebId, true);
 	}
 
 	@Override

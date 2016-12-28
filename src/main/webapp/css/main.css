@@ -13,6 +13,14 @@ a {
   .link:hover {
     color: #f5cd2e; }
 
+.user-select-none, .checkbox-label, .radio-label, .checkboxes-toggle {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
+
 /* Rules for sizing the icon. */
 .material-icons.md-18 {
   font-size: 18px; }
@@ -164,111 +172,91 @@ select {
 [tooltip]:hover:before {
   opacity: 1; }
 
-.checkbox-wrapper {
-  position: relative; }
-  .checkbox-wrapper > label {
-    cursor: pointer;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    font-size: 0.8em; }
-    .checkbox-wrapper > label:hover > span:first-of-type {
-      background: #111;
-      border-color: #f5cd2e; }
+.checkbox-label {
+  position: relative;
+  cursor: pointer;
+  font-size: 0.8em; }
+  .checkbox-label:hover > input[type="checkbox"].checkbox:before {
+    background: #111;
+    border-color: #f5cd2e; }
 
-@keyframes uncheck {
-  0% {
-    opacity: 1;
-    width: 10px;
-    height: 5px; }
-  50% {
-    width: 0;
-    height: 5px; }
-  80% {
-    opacity: 1; }
-  100% {
-    height: 0;
-    opacity: 0; } }
 input[type="checkbox"].checkbox {
   visibility: hidden; }
-  input[type="checkbox"].checkbox:checked + span {
-    border-color: #f5cd2e; }
-    input[type="checkbox"].checkbox:checked + span:before {
-      opacity: 1;
-      width: 10px;
-      height: 5px; }
-  input[type="checkbox"].checkbox:not(:checked) + span:before {
+  input[type="checkbox"].checkbox:not(:checked):after {
     transition: width 0.1s linear, height 0.1s linear 0.1s, opacity 0.2s cubic-bezier(1, 0, 1, 0); }
-  input[type="checkbox"].checkbox + span {
+  input[type="checkbox"].checkbox:before {
+    visibility: visible;
+    content: "";
+    position: absolute;
+    top: 0;
     border: 2px solid rgba(245, 205, 46, 0.5);
     background: #000;
     width: 11px;
     height: 11px;
-    display: inline-block;
+    display: inline-block; }
+  input[type="checkbox"].checkbox:after {
+    visibility: visible;
+    content: "";
     position: absolute;
-    left: 5px;
-    top: 4px; }
-    input[type="checkbox"].checkbox + span:before {
-      transition: height 0.1s linear, width 0.1s linear 0.1s;
-      transform-origin: left top;
-      width: 0;
-      height: 0;
-      content: "";
-      position: absolute;
-      top: 5px;
-      border: 3px solid #f5cd2e;
-      border-top: none;
-      border-right: none;
-      transform: rotate(-45deg);
-      opacity: 0; }
+    top: 7px;
+    left: 6px;
+    transition: height 0.1s linear, width 0.1s linear 0.1s;
+    transform-origin: left top;
+    width: 0;
+    height: 0;
+    border: 3px solid #f5cd2e;
+    border-top: none;
+    border-right: none;
+    transform: rotate(-45deg);
+    opacity: 0; }
+  input[type="checkbox"].checkbox:checked:before {
+    border-color: #b93; }
+  input[type="checkbox"].checkbox:checked:after {
+    opacity: 1;
+    width: 10px;
+    height: 5px; }
 
-.radio-wrapper {
-  position: relative; }
-  .radio-wrapper > label {
-    cursor: pointer;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    font-size: 0.8em; }
-    .radio-wrapper > label:hover > span:first-of-type {
-      background: #111;
-      border-color: #f5cd2e; }
+.radio-label {
+  position: relative;
+  cursor: pointer;
+  font-size: 0.8em; }
+  .radio-label:hover > input[type="radio"].radio:before {
+    background: #111;
+    border-color: #f5cd2e; }
 
 input[type="radio"].radio {
   visibility: hidden; }
-  input[type="radio"].radio:checked + span {
-    border-color: #f5cd2e; }
-    input[type="radio"].radio:checked + span:before {
-      opacity: 1;
-      transform: scale(1); }
-  input[type="radio"].radio + span {
+  input[type="radio"].radio:before {
+    content: "";
+    visibility: visible;
+    position: absolute;
+    bottom: 5px;
+    left: 22px;
     border: 2px solid rgba(245, 205, 46, 0.5);
     border-radius: 50%;
     background: #000;
     width: 10px;
     height: 10px;
     display: inline-block;
+    transform: translate(-19px, 4px); }
+  input[type="radio"].radio:after {
+    content: "";
+    visibility: visible;
     position: absolute;
-    left: 5px;
-    top: 4px; }
-    input[type="radio"].radio + span:before {
-      transition: opacity 0.2s, transform 0.2s;
-      transform: scale(0.2);
-      content: "";
-      width: 6px;
-      height: 6px;
-      background: #f5cd2e;
-      position: absolute;
-      left: 2px;
-      top: 2px;
-      border-radius: 50%;
-      opacity: 0; }
+    left: 7px;
+    top: 4px;
+    transition: opacity 0.2s, transform 0.2s;
+    transform: scale(0.2);
+    width: 6px;
+    height: 6px;
+    background: #f5cd2e;
+    border-radius: 50%;
+    opacity: 0; }
+  input[type="radio"].radio:checked:before {
+    border-color: #f5cd2e; }
+  input[type="radio"].radio:checked:after {
+    opacity: 1;
+    transform: scale(1); }
 
 .error-box {
   padding: 12px;
@@ -282,7 +270,7 @@ input[type="radio"].radio {
 @media (max-width: 1150px) {
   .error-box {
     width: 85%; } }
-@media (max-width: 760px) {
+@media (max-width: 767px) {
   .error-box {
     width: 92%; } }
 .btn, .btn-2 {
@@ -354,10 +342,10 @@ input[type="radio"].radio {
   font-size: 2.6em;
   margin-bottom: 16px; }
 
-@media (min-width: 761px) {
+@media (min-width: 768px) {
   .carousel-element {
     background-image: none !important; } }
-@media (max-width: 760px) {
+@media (max-width: 767px) {
   .owl-item {
     text-align: center; }
 
@@ -381,8 +369,14 @@ input[type="radio"].radio {
     background-repeat: no-repeat; }
 
   .carousel-element-inner {
-    background-color: rgba(0, 0, 0, 0.6);
-    min-height: 340px; } }
+    background-color: rgba(0, 0, 0, 0.4);
+    min-height: 540px;
+    font-size: 120%;
+    text-shadow: 1px 1px black, -1px -1px black, -1px 1px black, 1px -1px black; } }
+@media (max-width: 540px) {
+  .carousel-element-inner {
+    min-height: 360px;
+    font-size: 100%; } }
 /******************
  * FILMS SECTIONS *
  **************** */
@@ -423,7 +417,7 @@ input[type="radio"].radio {
 @media (max-width: 1150px) {
   .films-section-cover {
     max-height: 230px; } }
-@media (max-width: 760px) {
+@media (max-width: 767px) {
   .films-section-cover {
     max-height: none; }
 
@@ -530,7 +524,7 @@ input[type="radio"].radio {
 .cast-person-name {
   word-wrap: break-word; }
 
-@media (max-width: 760px) {
+@media (max-width: 767px) {
   .film-info {
     text-align: center;
     display: flex;
@@ -671,7 +665,7 @@ input[type="radio"].radio {
 @media (max-width: 970px) {
   .below-player-section {
     margin: 0 16px; } }
-@media (max-width: 760px) {
+@media (max-width: 767px) {
   .rating {
     float: none;
     margin-bottom: 22px; }
@@ -751,7 +745,7 @@ input[type="radio"].radio {
 
   .comment-submit-wrapper {
     margin-left: 48px; } }
-@media (max-width: 760px) {
+@media (max-width: 767px) {
   .comment-section-title {
     margin: auto;
     text-align: center; }
@@ -878,6 +872,62 @@ select.filter-input {
   .small-btn:hover {
     text-decoration: underline; }
 
+.checkboxes-toggle {
+  display: none;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  width: 160px;
+  margin: 10px auto;
+  padding: 6px; }
+
+.checkboxes-toggle-active {
+  background-color: #333; }
+
+@media (max-width: 970px) {
+  #filters-wrapper {
+    margin: auto;
+    float: none;
+    width: 400px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #777;
+    font-size: 1.4em; }
+
+  div.filter-input-label {
+    text-align: center;
+    display: block; }
+
+  .title-filter-input {
+    margin-left: auto;
+    margin-right: auto; }
+
+  .year-filter-wrapper {
+    text-align: center; }
+
+  .checkboxes-toggle {
+    display: block; }
+
+  .small-btn {
+    font-size: 1em; }
+
+  .checkboxes-wrapper {
+    display: none; }
+
+  .radio-wrapper .radio-label {
+    margin: 6px;
+    color: blue; }
+
+  .checkboxes-visible {
+    display: initial; }
+
+  .results-wrapper {
+    width: 100%; } }
+@media (max-width: 767px) {
+  #films-wrapper {
+    padding: 16px 4px; }
+
+  #filters-wrapper {
+    width: 300px; } }
 .admin-panel-error-box {
   padding: 12px;
   background: #eaa;
@@ -947,6 +997,22 @@ select.filter-input {
 .add-film-or {
   margin: 8px 20px;
   font-size: 0.9em; }
+
+.filmweb-search-results {
+  margin: 16px auto; }
+
+.add-film-spinner {
+  height: 112px; }
+  .add-film-spinner .spinner, .add-film-spinner .spinner-medium, .add-film-spinner .spinner-small {
+    margin: 16px auto; }
+
+.filmweb-search-entry {
+  display: inline-block;
+  width: 33%; }
+
+.filmweb-search-cover {
+  width: 150px;
+  float: left; }
 
 .add-film-next-buttons {
   margin-top: 12px; }
@@ -1103,7 +1169,7 @@ body {
 @media (max-width: 970px) {
   body {
     padding-bottom: 94px; } }
-@media (max-width: 760px) {
+@media (max-width: 767px) {
   body {
     padding-bottom: 120px; } }
 @media (max-width: 540px) {
@@ -1226,7 +1292,7 @@ html {
   .notification-close:hover {
     color: #f5cd2e; }
 
-@media (max-width: 760px) {
+@media (max-width: 767px) {
   .notification-close {
     font-size: 2em; } }
 .account-box {
@@ -1261,6 +1327,9 @@ html {
   overflow: hidden; }
   .account-dropdown li {
     padding: 12px; }
+
+.account-dropdown-list {
+  padding: 8px; }
 
 .account-dropdown-down {
   max-height: 200px; }
@@ -1309,14 +1378,14 @@ html {
     border-top: 1px solid #555;
     overflow: hidden;
     max-height: 0;
-    transition: max-height 0.3s;
+    transition: max-height 0.2s;
     background-color: #222;
     background-image: linear-gradient(to bottom, #333, #181818);
     width: 100%;
     margin: 0 auto; }
 
   .navbar-dropdown-down {
-    max-height: 500px;
+    max-height: 360px;
     display: block; }
 
   .account-dropdown {
@@ -1331,6 +1400,9 @@ html {
       .account-dropdown li:hover {
         background-color: #2d2d2d; }
 
+  .account-dropdown-list {
+    padding: 0; }
+
   #login-wrapper {
     float: none;
     text-align: center;
@@ -1343,7 +1415,7 @@ html {
 
   #login {
     padding-top: 10px; } }
-@media (max-width: 760px) {
+@media (max-width: 767px) {
   #navbar {
     position: fixed;
     width: 100%;
@@ -1537,9 +1609,9 @@ html {
 
   .search-result {
     width: 50%; } }
-@media (max-width: 760px) {
+@media (max-width: 767px) {
   #search-bar {
-    width: 85%; }
+    width: 80%; }
 
   #search-results-wrapper {
     max-height: 740px; }
@@ -1574,7 +1646,7 @@ html {
 
   #legal-notice {
     width: 96%; } }
-@media (max-width: 760px) {
+@media (max-width: 767px) {
   #footer {
     height: 120px; } }
 @media (max-width: 540px) {

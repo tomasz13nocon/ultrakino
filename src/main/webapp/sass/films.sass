@@ -45,7 +45,6 @@ select.filter-input
 		transform: translate(1px, 9px) rotate(-45deg)
 
 
-
 .results-wrapper
 	width: 70%
 	float: right
@@ -69,8 +68,6 @@ select.filter-input
 		&:hover
 			color: $primary-color
 
-.pagination-num
-
 .active-page
 	color: $primary-color
 
@@ -81,8 +78,6 @@ select.filter-input
 	width: 200px
 	float: left
 	margin-right: 10px
-
-.filter-result-details
 
 .filter-result-title
 	font-size: 2em
@@ -104,3 +99,68 @@ select.filter-input
 	display: table-cell
 	&:hover
 		text-decoration: underline
+
+.checkboxes-toggle
+	display: none
+	text-align: center
+	cursor: pointer
+	border: 1px solid #ccc
+	width: 160px
+	margin: 10px auto
+	padding: 6px
+	@extend .user-select-none
+.checkboxes-toggle-active
+	background-color: #333
+
+@media (max-width: $medium)
+	#filters-wrapper
+		margin: auto
+		float: none
+		width: 400px
+		padding-bottom: 20px
+		border-bottom: 1px solid #777
+		font-size: 1.4em
+	div.filter-input-label
+		text-align: center
+		display: block
+	.title-filter-input
+		margin-left: auto
+		margin-right: auto
+	.year-filter-wrapper
+		text-align: center
+	.checkboxes-toggle
+		display: block
+	.small-btn
+		font-size: 1em
+	.checkboxes-wrapper
+		display: none
+	.radio-wrapper
+		.radio-label
+			margin: 6px
+			color: blue
+		//margin: auto
+		//.checkbox-label
+			//display: block
+			//margin: 8px
+			//input.checkbox
+				//transform: translateY(-1px) scale(1.2)
+				//&:after
+					//left: 2px
+	//.radio-wrapper
+		//text-align: center
+		//margin: 4px
+		//.radio-label
+			//input.radio
+				//transform: translate(-5px, 2px) scale(1.2)
+				//&:after
+					//top: 2px
+	.checkboxes-visible
+		display: initial
+	.results-wrapper
+		width: 100%
+
+@media (max-width: $small)
+	#films-wrapper
+		padding: 16px 4px
+	#filters-wrapper
+		width: 300px
