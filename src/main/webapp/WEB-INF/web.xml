@@ -34,7 +34,13 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
-	
+	<session-config>
+		<session-timeout>525600</session-timeout>
+		<cookie-config>
+			<max-age>31536000</max-age>
+		</cookie-config>
+	</session-config>
+
 	<!-- ENCODING FILTER -->
 	<filter>
 		<filter-name>utf8filter</filter-name>

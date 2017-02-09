@@ -33,7 +33,7 @@ angular.module("app")
 				$rootScope.user.watchlist.splice($rootScope.user.watchlist.indexOf(film), 1);
 			});
 		}
-	}
+	};
 
 	ctrl.toggleFavorites = function(film) {
 		ctrl.animateButton("film-button-favorites", "film-button-favorites-anim");
@@ -51,7 +51,7 @@ angular.module("app")
 				$rootScope.user.favorites.splice($rootScope.user.favorites.indexOf(film), 1);
 			});
 		}
-	}
+	};
 
 
 	ctrl.isIdIn = function(list) {
@@ -61,7 +61,11 @@ angular.module("app")
 			}
 		}
 		return false;
-	}
+	};
+
+	ctrl.commentPostedCallback = function() {
+		ctrl.commentContent = undefined;
+	};
 
 	$scope.isPlayer = false; // TODO: remove
 	Film.get({ id: $routeParams["id"] }, function(film) {

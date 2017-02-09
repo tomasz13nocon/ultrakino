@@ -21,9 +21,16 @@ angular.module("app")
 
 
 	// TODO: Maybe refresh all comments here
-	self.postComment = function(comment, content) {
+	self.postComment = function(comment, content, successCallback) {
+		if (typeof comment === 'undefined') { // ng-maxlength and ng-minlength make it undefined if it exceeds the limits.
+			User.pushNotification("Komentarz musi zawierać od 1 do 500 znaków.", undefined, undefined, "error");
+			return;
+		}
 		self.save({ comment: comment, contentId: content.uid }, function(comment) {
 			content.comments.push(self.process(comment));
+			if (typeof successCallback === "function") {
+				successCallback();
+			}
 		}, function(resp) {
 			if (resp.status === 401) {
 				User.invalidate();

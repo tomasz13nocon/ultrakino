@@ -17,7 +17,7 @@ public class FilmographyEntry {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "filmography_entry_id")
-	private Integer id;
+	private Long id;
 
 	@ManyToOne(cascade = {CascadeType.MERGE})
 	@JoinColumn(name = "person_id")

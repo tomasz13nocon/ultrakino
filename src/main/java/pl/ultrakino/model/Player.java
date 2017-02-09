@@ -38,6 +38,10 @@ public class Player {
 
 	private String quality;
 
+	private int upvotes;
+
+	private int downvotes;
+
 	@Column(name = "addition_date")
 	private LocalDateTime additionDate;
 

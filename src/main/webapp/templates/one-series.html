@@ -94,8 +94,8 @@
 		<div class="comment-section">
 			<div class="comment-section-title">Komentarze</div>
 			<div class="comment-input-wrapper">
-				<form name="commentForm" class="comment-form" ng-submit="Comment.postComment(oneSeriesCtrl.commentContent, episode)">
-					<textarea class="comment-input" name="comment" ng-maxlength="255" ng-minlength="3" ng-model="oneSeriesCtrl.commentContent" cols="70" rows="4" placeholder="Napisz komentarz..." />
+				<form name="commentForm" class="comment-form" ng-submit="Comment.postComment(oneSeriesCtrl.commentContent, episode, oneSeriesCtrl.commentPostedCallback)">
+					<textarea class="comment-input" name="comment" ng-maxlength="500" ng-minlength="3" ng-model="oneSeriesCtrl.commentContent" cols="70" rows="4" placeholder="Napisz komentarz..." />
 					<div class="comment-submit-wrapper" ng-attr-tooltip="{{authenticated ? undefined : 'Zaloguj się aby dodać komentarz'}}">
 						<input class="comment-submit" type="submit" value="Opublikuj" ng-disabled="authenticated ? undefined : true" />
 					</div>

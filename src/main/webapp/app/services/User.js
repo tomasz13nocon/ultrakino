@@ -8,13 +8,16 @@ angular.module("app")
 		$rootScope.user = undefined;
 	};
 
-	self.pushNotification = function(msg, duration, undoCallback) {
+	self.pushNotification = function(msg, duration, undoCallback, type) {
 		if (typeof duration === "undefined")
-			duration = 50000;
+			duration = 5000;
+		if (typeof type === "undefined")
+			type = "success";
 		self.closeNotification();
 		self.notification = msg;
 		self.undo = undoCallback;
 		self.showNotification = true;
+		self.notificationType = type;
 		self.notificationTimeout = $timeout(function() {
 			self.showNotification = false;
 		}, duration);

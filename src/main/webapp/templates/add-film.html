@@ -4,55 +4,79 @@
 <div ng-show="authenticated">
 	<div class="page-content-thingy add-film-page">
 		<!--<h4 class="add-film-find-film">Co chcesz dodać?</h4>-->
-		<div class="radios-wrapper">
-			<div class="radio-wrapper add-film-radio-wrapper">
-				<label>
-					<input type="radio" class="radio" name="content-type" ng-model="contentType" value="FILM" checked />
-					<span></span>
-					<span>Film</span>
-				</label>
-			</div>
-			<div class="radio-wrapper add-film-radio-wrapper">
-				<label>
-					<input type="radio" class="radio" name="content-type" ng-model="contentType" value="SERIES" />
-					<span></span>
-					<span>Serial</span>
-				</label>
-			</div>
-		</div>
+		<div class="steps-wrapper">
+			<div class="step1" ng-show="addFilmCtrl.step === 1">
+				<div class="add-film-radios-wrapper">
+					<div class="add-film-radio-wrapper">
+						<label class="radio-label">
+							<input type="radio" class="radio" name="content-type" ng-model="contentType" value="FILM" ng-change="addFilmCtrl.searchFilmweb()" checked />
+							<span>Film</span>
+						</label>
+					</div>
+					<div class="add-film-radio-wrapper">
+						<label class="radio-label">
+							<input type="radio" class="radio" name="content-type" ng-model="contentType" value="SERIES" ng-change="addFilmCtrl.searchFilmweb()" />
+							<span>Serial</span>
+						</label>
+					</div>
+				</div>
 
-		<div class="my-hr"></div>
+				<div class="my-hr"></div>
 
-		<div class="add-film-title-inputs-wrapper">
-			<label class="add-film-label">
-				<h5 class="add-film-title">Tytuł:</h5>
-				<input type="text" class="add-film-input" ng-model="title" ng-change="addFilmCtrl.searchFilmweb()" />
-			</label>
-			<div class="add-film-or">lub</div>
-			<label class="add-film-label">
-				<h5 class="add-film-title">Link do filmweba:</h5>
-				<input type="text" class="add-film-input" ng-model="filmwebLink" ng-change="addFilmCtrl.fetchFilmwebLink()" />
-			</label>
-		</div>
+				<div class="add-film-title-inputs-wrapper">
+					<label class="add-film-label">
+						<h5 class="add-film-title">Tytuł:</h5>
+						<input type="text" class="add-film-input" ng-model="title" ng-model-options="{ debounce: 1000 }" ng-change="addFilmCtrl.searchFilmweb()" />
+					</label>
+					<div class="add-film-or">lub</div>
+					<label class="add-film-label">
+						<h5 class="add-film-title">Link do filmweba:</h5>
+						<input type="text" class="add-film-input" ng-model="filmwebLink" ng-change="addFilmCtrl.fetchFilmwebLink()" />
+					</label>
+				</div>
 
-		<div class="my-hr"></div>
-
-		<div ng-show="films.length || retrievingFilms">
-			<div class="filmweb-search-results">
-				<div ng-show="retrievingFilms" class="spinner-wrapper-wrapper add-film-spinner"><div class="spinner-wrapper"><div class="spinner-small"></div></div></div>
-				<div class="filmweb-search-entry" ng-repeat="film in films" ng-hide="retrievingFilms">
-					<img src="{{film.coverFilename || noImage}}" alt="Okładka filmu" class="filmweb-search-cover" />
-					<h5 class="filmweb-search-title" ng-bind="film.title"></h5>
-					<div class="clear"></div>
+				<div ng-show="films.length || retrievingFilms || error">
+					<div class="my-hr"></div>
+					<div class="filmweb-search-results">
+						<div ng-show="retrievingFilms" class="spinner-wrapper-wrapper add-film-spinner"><div class="spinner-wrapper"><div class="spinner-small"></div></div></div>
+						<div class="error-box" ng-show="error">Wystąpił błąd. Przepraszamy za problem.</div>
+						<div class="filmweb-search-entry" ng-class="{'filmweb-search-entry-active': film === addFilmCtrl.pick}" ng-repeat="film in films" ng-hide="retrievingFilms" ng-click="addFilmCtrl.pick = film">
+							<img ng-src="{{film.coverFilename || noImage}}" alt="Okładka filmu" class="filmweb-search-cover" />
+							<h5 class="filmweb-search-title" ng-bind="film.title"></h5>
+							<div class="filmweb-search-year" ng-bind="film.year"></div>
+							<div class="filmweb-search-description" ng-bind="film.description || 'Brak opisu'"></div>
+						</div>
+					</div>
 				</div>
 			</div>
 
-			<div class="my-hr"></div>
+			<div class="step2" ng-show="addFilmCtrl.step === 2">
+				<div class="add-film-title-inputs-wrapper">
+					<label class="add-film-label">
+						<h5 class="add-film-title">Link:</h5>
+						<input type="text" class="add-film-input" ng-model="link" />
+					</label>
+				</div>
+			</div>
+
+			<div class="step3" ng-show="addFilmCtrl.step === 3">
+				qwe<br>qwe<br>
+				qwe<br>qwe<br>
+				qwe<br>qwe<br>
+				qwe<br>qwe<br>
+				qwe<br>qwe<br>
+			</div>
 		</div>
 
+		<div class="my-hr"></div>
 		<div class="add-film-next-buttons">
-			<input type="submit" disabled="disabled" class="btn-2" value="Dalej"></input>
+			<button class="btn-2" ng-disabled="!addFilmCtrl.pick" ng-click="addFilmCtrl.goToStep(addFilmCtrl.step + 1)">Dalej</button>
 		</div>
+
+		<!-- TODO: delet -->
+		<button class="btn-2" ng-click="addFilmCtrl.goToStep(1)">1</button>
+		<button class="btn-2" ng-click="addFilmCtrl.goToStep(2)">2</button>
+		<button class="btn-2" ng-click="addFilmCtrl.goToStep(3)">3</button>
 
 	</div>
 </div>

@@ -153,7 +153,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 
 	@SuppressWarnings("Duplicates")
 	@Override
-	public Series getSeriesInfo(String filmwebId) throws FilmwebException {
+	public Series getSeriesInfo(String filmwebId, boolean saveImages) throws FilmwebException {
 		Object[] seriesInfo = fetchContentInfo(filmwebId);
 		Series series = new Series();
 		series.setFilmwebId(filmwebId);
@@ -174,19 +174,23 @@ public class FilmwebServiceImpl implements FilmwebService {
 			series.setDescription((String) seriesInfo[19]);
 
 		if (seriesInfo[11] != null) {
-			try {
-				String filmwebImg = "http://1.fwcdn.pl/po" + ((String) seriesInfo[11]).replaceFirst("\\.\\d\\.jp", ".3.jp");
-				InputStream is = new URL(filmwebImg).openStream();
-				String filename = DigestUtils.md5Hex(series.getTitle() + series.getYear()) + ".jpg";
-				// TODO: Change image location on prod
-				OutputStream os = new FileOutputStream(IMAGES + filename);
-				IOUtils.copy(is, os);
-				is.close();
-				os.close();
-				series.setCoverFilename(filename);
-			} catch (IOException e) {
-				throw new FilmwebException(e);
+			String filmwebImg = "http://1.fwcdn.pl/po" + ((String) seriesInfo[11]).replaceFirst("\\.\\d\\.jp", ".3.jp");
+			String filename;
+			if (saveImages) {
+				try (InputStream is = new URL(filmwebImg).openStream()) {
+					filename = DigestUtils.md5Hex(series.getTitle() + series.getYear()) + ".jpg";
+					try (OutputStream os = new FileOutputStream(IMAGES + filename)) {
+						IOUtils.copy(is, os);
+					}
+
+				} catch (IOException e) {
+					throw new FilmwebException(e);
+				}
 			}
+			else {
+				filename = filmwebImg;
+			}
+			series.setCoverFilename(filename);
 		}
 
 
@@ -220,6 +224,11 @@ public class FilmwebServiceImpl implements FilmwebService {
 			series.setEpisodeCount((Integer) seriesInfo[17]);
 
 		return series;
+	}
+
+	@Override
+	public Series getSeriesInfo(String filmwebId) throws FilmwebException {
+		return getSeriesInfo(filmwebId, true);
 	}
 
 	@Override

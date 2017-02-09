@@ -295,7 +295,8 @@ input[type="radio"].radio {
     background-clip: padding-box;
     transform: translateY(2px); }
   .btn:disabled, .btn-2:disabled {
-    cursor: not-allowed; }
+    cursor: not-allowed;
+    color: #666; }
     .btn:disabled:hover, .btn-2:disabled:hover {
       box-shadow: none; }
 
@@ -600,10 +601,32 @@ input[type="radio"].radio {
     background-color: #222;
     cursor: pointer; }
 
+.player-entry-inner {
+  display: table; }
+
 .player-entry-active {
   background-color: #222; }
   .player-entry-active:hover {
     cursor: default; }
+
+.player-name-wrapper {
+  display: inline-block; }
+
+.player-voting-wrapper {
+  vertical-align: middle;
+  display: table-cell;
+  font-size: 1.3em;
+  padding-left: 8px; }
+
+.player-thumbs-up, .player-thumbs-down {
+  padding: 2px;
+  cursor: pointer; }
+
+.player-thumbs-up:hover {
+  color: #483; }
+
+.player-thumbs-down:hover {
+  color: #943; }
 
 .player {
   background-color: #090909;
@@ -729,7 +752,8 @@ input[type="radio"].radio {
 
 .comment-contents {
   font-size: 0.8em;
-  margin: 6px; }
+  margin: 6px;
+  word-wrap: break-word; }
 
 @media (max-width: 970px) {
   .comment-section-title {
@@ -744,7 +768,7 @@ input[type="radio"].radio {
     margin-left: 16px; }
 
   .comment-submit-wrapper {
-    margin-left: 48px; } }
+    margin-left: 19px; } }
 @media (max-width: 767px) {
   .comment-section-title {
     margin: auto;
@@ -977,7 +1001,7 @@ select.filter-input {
   text-align: center;
   margin-bottom: 28px; }
 
-.radios-wrapper {
+.add-film-radios-wrapper {
   font-size: 1.3em;
   margin-bottom: 14px; }
 
@@ -987,10 +1011,8 @@ select.filter-input {
   border-bottom: 1px solid #444; }
 
 .add-film-radio-wrapper {
-  text-align: left;
   display: inline-block;
-  margin-right: 6px;
-  margin-left: 6px; }
+  margin: 0 6px; }
 
 .add-film-title-inputs-wrapper {
   margin: 18px auto; }
@@ -1018,12 +1040,36 @@ select.filter-input {
     margin: 16px auto; }
 
 .filmweb-search-entry {
+  padding: 6px;
+  box-sizing: border-box;
+  cursor: pointer;
   display: inline-block;
-  width: 33%; }
+  width: 33%;
+  vertical-align: top;
+  word-wrap: break-word; }
+  .filmweb-search-entry:hover {
+    background-color: #383838; }
+
+.filmweb-search-entry-active {
+  background-color: #5b5b5b;
+  box-shadow: inset 0 0 10px black; }
+  .filmweb-search-entry-active:hover {
+    background-color: #5b5b5b; }
 
 .filmweb-search-cover {
   width: 150px;
+  margin-right: 4px;
   float: left; }
+
+.filmweb-search-title {
+  padding: 4px; }
+
+.filmweb-search-year {
+  padding: 4px; }
+
+.filmweb-search-description {
+  padding: 4px;
+  font-size: 0.8em; }
 
 .add-film-next-buttons {
   margin-top: 12px; }
@@ -1034,6 +1080,36 @@ select.filter-input {
   .btn-disabled:hover {
     box-shadow: none; }
 
+.steps-wrapper {
+  white-space: nowrap;
+  text-align: center;
+  transition: height cubic-bezier(0.12, 0.35, 0, 1) 0.5s;
+  transition: height cubic-bezier(0.34, 1.08, 0, 1) 0.5s; }
+
+.step1, .step2, .step3 {
+  display: inline-block; }
+  .step1.ng-hide-add, .step2.ng-hide-add, .step3.ng-hide-add {
+    transition: all 0.5s;
+    display: inline-block; }
+  .step1.ng-hide-remove, .step2.ng-hide-remove, .step3.ng-hide-remove {
+    transition: all 0.5s;
+    display: inline-block;
+    position: absolute; }
+  .step1.ng-hide, .step2.ng-hide, .step3.ng-hide {
+    opacity: 0; }
+
+@media (max-width: 1150px) {
+  .filmweb-search-entry {
+    width: 50%; } }
+@media (max-width: 767px) {
+  .filmweb-search-entry {
+    width: 100%;
+    margin: auto; }
+
+  .add-film-title {
+    text-align: center;
+    display: block;
+    margin: 12px auto; } }
 .seasons-wrapper {
   border: 1px solid white;
   margin-top: 12px;
@@ -1277,6 +1353,9 @@ html {
   .notification.ng-hide {
     transform: translateY(-16px);
     opacity: 0; }
+
+.red-notification {
+  background-color: #c43; }
 
 .notification-icon {
   font-size: 1em;

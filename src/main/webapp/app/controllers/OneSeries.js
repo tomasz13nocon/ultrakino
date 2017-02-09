@@ -51,6 +51,10 @@ angular.module("app")
 		$scope.currentPlayerIndex = index;
 	};
 
+	ctrl.commentPostedCallback = function() {
+		ctrl.commentContent = undefined;
+	};
+
 	Series.get({ id: $routeParams["id"] }, function(series) {
 		$scope.series = series;
 		$scope.seasons = [];

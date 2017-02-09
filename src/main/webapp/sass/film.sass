@@ -176,10 +176,34 @@
 		background-color: #222
 		cursor: pointer
 
+.player-entry-inner
+	display: table
+
 .player-entry-active
 	background-color: #222
 	&:hover
 		cursor: default
+
+.player-name-wrapper
+	display: inline-block
+
+.player-voting-wrapper
+	vertical-align: middle
+	display: table-cell
+	font-size: 1.3em
+	padding-left: 8px
+
+.player-thumbs-up, .player-thumbs-down
+	padding: 2px
+	cursor: pointer
+
+.player-thumbs-up
+	&:hover
+		color: #483
+
+.player-thumbs-down
+	&:hover
+		color: #943
 
 $player-ar: 1.78
 $player-height: $page-content-width / $player-ar
@@ -317,6 +341,7 @@ $left-spacer-width-xsmall: 60px
 .comment-contents
 	font-size: 0.8em
 	margin: 6px
+	word-wrap: break-word
 
 @media (max-width: $medium)
 	.comment-section-title
@@ -329,7 +354,7 @@ $left-spacer-width-xsmall: 60px
 	.comment-input
 		margin-left: 16px
 	.comment-submit-wrapper
-		margin-left: 48px
+		margin-left: 19px
 
 @media (max-width: $small)
 	.comment-section-title

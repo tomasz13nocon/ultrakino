@@ -20,6 +20,9 @@ public interface FilmwebService {
 
 	Series getSeriesInfo(String filmwebId) throws FilmwebException;
 
+	@SuppressWarnings("Duplicates")
+	Series getSeriesInfo(String filmwebId, boolean saveImages) throws FilmwebException;
+
 	Series getFullSeriesInfo(String filmwebId) throws FilmwebException;
 
 	Film getFilmInfo(String filmwebId, boolean saveImages) throws FilmwebException;

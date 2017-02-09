@@ -28,8 +28,6 @@ angular.module("app")
 			}
 			$rootScope.filmCategories.sort();
 		});
-		console.log($rootScope.filmCategories);
-		console.log($rootScope.filmCategoriesIds);
 
 		$rootScope.seriesCategoriesIds = {};
 		$rootScope.seriesCategories = [];
@@ -40,8 +38,6 @@ angular.module("app")
 			}
 			$rootScope.seriesCategories.sort();
 		});
-		console.log($rootScope.seriesCategories);
-		console.log($rootScope.seriesCategoriesIds);
 
 		$rootScope.years = [];
 		for (var i = new Date().getFullYear(); i > 1900; i--) {

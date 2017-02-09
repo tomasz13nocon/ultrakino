@@ -40,7 +40,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public Comment save(String comment, int contentId, String username) throws NoRecordWithSuchIdException, NoUserWithSuchUsernameException {
-		if (comment.length() > 255 || comment.trim().length() < 3)
+		if (comment.length() > 500 || comment.trim().length() < 1)
 			throw new IllegalArgumentException();
 		Content content = contentRepository.findById(contentId);
 		Optional<User> user = userRepository.findByUsername(username);

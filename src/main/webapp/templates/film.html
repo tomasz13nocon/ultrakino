@@ -36,9 +36,17 @@
 
 	<div class="player-section">
 		<div class="player-select">
-			<div class="player-entry" ng-repeat="player in film.players track by $index" ng-class="{'player-entry-active': $index===currentPlayerIndex}" ng-click="filmCtrl.setPlayer($index)">
-				<div ng-bind="player.hosting"></div>
-				<div ng-bind="languageVersions[player.languageVersion]"></div>
+			<div class="player-entry" ng-repeat="player in film.players track by $index" ng-class="{'player-entry-active': $index === currentPlayerIndex}" ng-click="filmCtrl.setPlayer($index)">
+				<div class="player-entry-inner">
+					<div class="player-name-wrapper">
+						<div ng-bind="player.hosting"></div>
+						<div ng-bind="languageVersions[player.languageVersion]"></div>
+					</div>
+					<div class="player-voting-wrapper" ng-show="$index === currentPlayerIndex">
+						<i class="fa fa-thumbs-up player-thumbs-up"></i>
+						<i class="fa fa-thumbs-down player-thumbs-down"></i>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -79,8 +87,8 @@
 	<div class="comment-section">
 		<div class="comment-section-title">Komentarze</div>
 		<div class="comment-input-wrapper">
-			<form name="commentForm" class="comment-form" ng-submit="Comment.postComment(filmCtrl.commentContent, film)">
-				<textarea class="comment-input" name="comment" ng-maxlength="255" ng-minlength="3" ng-model="filmCtrl.commentContent" cols="70" rows="4" placeholder="Napisz komentarz..." />
+			<form name="commentForm" class="comment-form" ng-submit="Comment.postComment(filmCtrl.commentContent, film, filmCtrl.commentPostedCallback)">
+				<textarea class="comment-input" name="comment" ng-maxlength="500" ng-minlength="1" ng-model="filmCtrl.commentContent" cols="70" rows="4" placeholder="Napisz komentarz..." />
 				<div class="comment-submit-wrapper" ng-attr-tooltip="{{authenticated ? undefined : 'Zaloguj się aby dodać komentarz'}}">
 					<input class="comment-submit" type="submit" value="Opublikuj" ng-disabled="authenticated ? undefined : true" />
 				</div>
