@@ -1032,7 +1032,8 @@ select.filter-input {
   font-size: 0.9em; }
 
 .filmweb-search-results {
-  margin: 16px auto; }
+  margin: 16px auto;
+  white-space: normal; }
 
 .add-film-spinner {
   height: 112px; }
@@ -1087,6 +1088,7 @@ select.filter-input {
   transition: height cubic-bezier(0.34, 1.08, 0, 1) 0.5s; }
 
 .step1, .step2, .step3 {
+  width: 100%;
   display: inline-block; }
   .step1.ng-hide-add, .step2.ng-hide-add, .step3.ng-hide-add {
     transition: all 0.5s;
@@ -1264,9 +1266,11 @@ body {
     padding-bottom: 148px; } }
 html {
   position: relative;
-  min-height: 100%;
   min-height: 101%; }
 
+@media (max-width: 767px) {
+  html {
+    min-height: 100%; } }
 #body {
   overflow: hidden;
   min-height: 340px;

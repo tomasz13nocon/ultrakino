@@ -44,6 +44,7 @@ angular.module("app")
 			$rootScope.years.push(i);
 		}
 
+		$rootScope.authenticationAttempted = false;
 		$rootScope.authenticated = false;
 		$rootScope.isAdmin = false;
 		// TODO: Remove on prod

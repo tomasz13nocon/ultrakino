@@ -147,7 +147,10 @@
 			</div>
 		</div>
         
-		<div id="body"><div ng-view></div></div>
+		<div id="body">
+			<div class="spinner-wrapper" ng-hide="authenticationAttempted"><div class="spinner-medium"></div></div>
+			<div ng-view></div>
+		</div>
 
 		<div id="footer">
 			<div id="legal-notice">Ultrakino.pl jest darmowym, dostępnym dla każdego katalogiem seriali i filmów. Użytkownik odwiedzający serwis akceptuje jego Regulamin. Wszelkie linki lub kody embed zamieszczone w serwisie są odnośnikami do zewnętnych stron, na których możliwe jest odnalezienie materiału. Linki w serwisie dodawane są przez jego użytkowników, którzy zapewniają, że posiadają prawa autorskie do dodawanych materiałów. Wszelkie roszczenia prawne należy kierować pod adresem serwisów publikujących zamieszczone materiały.</div>

@@ -1,5 +1,6 @@
 angular.module("app")
-.controller("AddFilmController", ['$scope', '$timeout', 'Film', 'Filmweb', function($scope, $timeout, Film, Filmweb) {
+.controller("AddFilmController", ['$interval', '$rootScope', '$scope', '$timeout', 'Film', 'Filmweb', function($interval, $rootScope, $scope, $timeout, Film, Filmweb) {
+	if (!$rootScope.authenticationAttempted) return;
 	var ctrl = this;
 
 	$scope.contentType = "FILM";
@@ -8,11 +9,14 @@ angular.module("app")
 	var stepStylesEl = document.createElement("style");
 	document.head.appendChild(stepStylesEl);
 	ctrl.stepStyles = stepStylesEl.sheet;
-	// Set the height of steps-wrapper to the height of first step, so that height animations work properly
-	$timeout(function() {
-		document.getElementsByClassName("steps-wrapper")[0].style.height = document.getElementsByClassName("step1")[0].clientHeight + "px";
-		console.log(document.getElementsByClassName("steps-wrapper")[0].style.height);
-	});
+
+	// This is an ugly abomination, but it werks
+	ctrl.stepsHeightInterval = $interval(function() {
+		document.getElementsByClassName("steps-wrapper")[0].style.height = document.getElementsByClassName("step" + ctrl.step)[0].clientHeight + "px";
+	}, 200);
+	$scope.$on("$locationChangeSuccess", function() {
+		$interval.cancel(ctrl.stepsHeightInterval);
+	})
 
 	ctrl.search = function(query) {
 		if (query.length < 2) {
@@ -53,8 +57,6 @@ angular.module("app")
 			var transformWidth = oldStepEl.clientWidth/2 + newStepEl.clientWidth/2;
 			ctrl.stepStyles.insertRule(".step" + oldStep + ".ng-hide-add-active { transform: translateX(-" + (transformWidth + 200) + "px) }", ctrl.stepStyles.cssRules.length);
 			ctrl.stepStyles.insertRule(".step" + step + ".ng-hide-remove-active { transform: translateX(-" + transformWidth + "px) }", ctrl.stepStyles.cssRules.length);
-			var stepsWrapper = document.getElementsByClassName("steps-wrapper")[0];
-			stepsWrapper.style.height = newStepEl.clientHeight + "px";
 		});
 	};
 

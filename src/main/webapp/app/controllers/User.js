@@ -34,6 +34,7 @@ angular.module("app")
 				if (ctrl.TheBox.theBoxVisible)
 					ctrl.TheBox.authenticationFailed = true;
 			}
+			$rootScope.authenticationAttempted = true;
 		}, function(resp) {
 			$rootScope.authenticated = false;
 			$rootScope.isAdmin = false;
