@@ -94,14 +94,12 @@
 
 $step-transition-length: 0.5s
 .steps-wrapper
-	//border: 2px solid blue
 	white-space: nowrap
 	text-align: center
 	transition: height cubic-bezier(.12,.35,0,1) $step-transition-length
 	transition: height cubic-bezier(.34,1.08,0,1) $step-transition-length
 
 .step1, .step2, .step3
-	width: 100%
 	&.ng-hide-add
 		transition: all $step-transition-length
 		display: inline-block
@@ -112,17 +110,6 @@ $step-transition-length: 0.5s
 	&.ng-hide
 		opacity: 0
 	display: inline-block
-
-
-.step1
-	//border: 2px solid red
-
-.step2
-	//border: 2px solid green
-	//vertical-align: top
-
-.step3
-	//border: 1px solid yellow
 
 
 @media (max-width: $large)

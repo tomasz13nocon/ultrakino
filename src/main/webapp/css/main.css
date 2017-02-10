@@ -1088,7 +1088,6 @@ select.filter-input {
   transition: height cubic-bezier(0.34, 1.08, 0, 1) 0.5s; }
 
 .step1, .step2, .step3 {
-  width: 100%;
   display: inline-block; }
   .step1.ng-hide-add, .step2.ng-hide-add, .step3.ng-hide-add {
     transition: all 0.5s;
@@ -1253,7 +1252,8 @@ body {
   background: #222 url("../images/blacktiles.png") repeat;
   color: #f5edce;
   font-family: "Montserrat", sans-serif;
-  padding-bottom: 80px; }
+  padding-bottom: 80px;
+  overflow-x: hidden; }
 
 @media (max-width: 970px) {
   body {
