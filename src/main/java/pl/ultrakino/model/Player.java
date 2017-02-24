@@ -5,8 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "players")
@@ -41,6 +41,9 @@ public class Player {
 	private int upvotes;
 
 	private int downvotes;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	private Set<PlayerVote> votes;
 
 	@Column(name = "addition_date")
 	private LocalDateTime additionDate;

@@ -40,7 +40,7 @@
 					<div class="filmweb-search-results">
 						<div ng-show="retrievingFilms" class="spinner-wrapper-wrapper add-film-spinner"><div class="spinner-wrapper"><div class="spinner-small"></div></div></div>
 						<div class="error-box" ng-show="error">Wystąpił błąd. Przepraszamy za problem.</div>
-						<div class="filmweb-search-entry" ng-class="{'filmweb-search-entry-active': film === addFilmCtrl.pick}" ng-repeat="film in films" ng-hide="retrievingFilms" ng-click="addFilmCtrl.pick = film">
+						<div class="filmweb-search-entry" ng-class="{'filmweb-search-entry-active': film === addFilmCtrl.pick}" ng-repeat="film in films" ng-hide="retrievingFilms" ng-click="addFilmCtrl.pickFilm(film)">
 							<img ng-src="{{film.coverFilename || noImage}}" alt="Okładka filmu" class="filmweb-search-cover" />
 							<h5 class="filmweb-search-title" ng-bind="film.title"></h5>
 							<div class="filmweb-search-year" ng-bind="film.year"></div>
@@ -51,10 +51,13 @@
 			</div>
 
 			<div class="step2" ng-show="addFilmCtrl.step === 2">
+				<img class="add-film-pick-cover" ng-src="{{addFilmCtrl.pick.coverFilename || noImage}}" alt="Okładka wybranego filmu" />
+				<h4 class="add-film-pick-title" ng-bind="addFilmCtrl.pick.title"></h4>
+				(<span ng-bind="addFilmCtrl.pick.year"></span>)
 				<div class="add-film-title-inputs-wrapper">
 					<label class="add-film-label">
 						<h5 class="add-film-title">Link:</h5>
-						<input type="text" class="add-film-input" ng-model="link" />
+						<input type="text" class="add-film-input" ng-model="link" ng-change="addFilmCtrl.verifyLink(link)" />
 					</label>
 				</div>
 			</div>
@@ -70,7 +73,7 @@
 
 		<div class="my-hr"></div>
 		<div class="add-film-next-buttons">
-			<button class="btn-2" ng-disabled="!addFilmCtrl.pick" ng-click="addFilmCtrl.goToStep(addFilmCtrl.step + 1)">Dalej</button>
+			<button class="btn-2" ng-disabled="addFilmCtrl.nextButtonDisabled" ng-click="addFilmCtrl.goToStep(addFilmCtrl.step + 1)">Dalej</button>
 		</div>
 
 		<!-- TODO: delet -->

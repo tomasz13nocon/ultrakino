@@ -6,6 +6,7 @@ angular.module("app")
 	$scope.contentType = "FILM";
 	$scope.retrievingFilms = 0;
 	ctrl.step = 1;
+	ctrl.nextButtonDisabled = true;
 	var stepStylesEl = document.createElement("style");
 	document.head.appendChild(stepStylesEl);
 	ctrl.stepStyles = stepStylesEl.sheet;
@@ -48,9 +49,19 @@ angular.module("app")
 	ctrl.fetchFilmwebLink = function() {
 	};
 
+	ctrl.pickFilm = function(film) {
+		ctrl.pick = film;
+		ctrl.nextButtonDisabled = false;
+	};
+
+	ctrl.verifyLink = function(link) {
+		console.log(link);
+	};
+
 	ctrl.goToStep = function(step) {
 		var oldStep = ctrl.step;
 		ctrl.step = step;
+		ctrl.nextButtonDisabled = true;
 		$timeout(function() {
 			var oldStepEl = document.getElementsByClassName("step" + oldStep)[0];
 			var newStepEl = document.getElementsByClassName("step" + step)[0];

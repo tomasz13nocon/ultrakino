@@ -134,7 +134,7 @@ textarea {
   border-radius: 2px;
   border: none; }
 
-input[type="submit"] {
+input[type="submit"], .btn, .btn-2 {
   font-family: "Montserrat", sans-serif;
   border: none;
   border-bottom: 2px solid #111;
@@ -142,16 +142,16 @@ input[type="submit"] {
   cursor: pointer;
   padding: 8px;
   border-radius: 2px;
-  background: #dc4; }
-  input[type="submit"]:hover {
+  background-color: #dc4; }
+  input[type="submit"]:hover, .btn:hover, .btn-2:hover {
     box-shadow: inset 0 0 6px; }
-  input[type="submit"]:active {
+  input[type="submit"]:active, .btn:active, .btn-2:active {
     border-color: transparent;
     background-clip: padding-box;
     transform: translateY(2px); }
-  input[type="submit"]:disabled {
+  input[type="submit"]:disabled, .btn:disabled, .btn-2:disabled {
     cursor: not-allowed; }
-    input[type="submit"]:disabled:hover {
+    input[type="submit"]:disabled:hover, .btn:disabled:hover, .btn-2:disabled:hover {
       box-shadow: none; }
 
 select {
@@ -274,31 +274,14 @@ input[type="radio"].radio {
   .error-box {
     width: 92%; } }
 .btn, .btn-2 {
-  font-family: "Montserrat", sans-serif;
-  border: none;
-  border-bottom: 2px solid #111;
-  outline: none;
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 2px;
-  background-color: #c23;
   display: inline-block;
-  font-size: 0.9em;
+  font-size: 0.85em;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none; }
-  .btn:hover, .btn-2:hover {
-    box-shadow: inset 0 0 6px black; }
-  .btn:active, .btn-2:active {
-    border-color: transparent;
-    background-clip: padding-box;
-    transform: translateY(2px); }
   .btn:disabled, .btn-2:disabled {
-    cursor: not-allowed;
     color: #666; }
-    .btn:disabled:hover, .btn-2:disabled:hover {
-      box-shadow: none; }
 
 .btn-2 {
   background-color: #dc4;
@@ -1098,6 +1081,13 @@ select.filter-input {
     position: absolute; }
   .step1.ng-hide, .step2.ng-hide, .step3.ng-hide {
     opacity: 0; }
+
+.add-film-pick-cover {
+  max-height: 250px;
+  margin-bottom: 8px; }
+
+.add-film-pick-title {
+  font-size: 1.5em; }
 
 @media (max-width: 1150px) {
   .filmweb-search-entry {

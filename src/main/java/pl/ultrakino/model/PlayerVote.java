@@ -6,14 +6,14 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "votes")
+@Table(name = "player_votes")
 @Getter
 @Setter
-public class Vote {
+public class PlayerVote {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "vote_id")
+	@Column(name = "player_vote_id")
 	private Long id;
 
 	@ManyToOne
@@ -24,6 +24,6 @@ public class Vote {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	private boolean upvote;
+	private boolean positive;
 
 }
