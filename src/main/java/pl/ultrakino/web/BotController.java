@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.ultrakino.Constants;
 import pl.ultrakino.exceptions.AlltubeException;
+import pl.ultrakino.exceptions.ControllerInputException;
 import pl.ultrakino.exceptions.FilmwebException;
 import pl.ultrakino.exceptions.TvseriesonlineException;
 import pl.ultrakino.model.Film;
@@ -42,9 +43,9 @@ public class BotController {
 	public synchronized ResponseEntity uploadFilms(@RequestBody ObjectNode body) {
 		try {
 			JsonNode node = body.get("page");
-			if (node == null) throw new NullPointerException();
+			if (node == null) throw new ControllerInputException();
 			int page = node.asInt();
-			if (page == 0) throw new NumberFormatException();
+			if (page == 0) throw new ControllerInputException();
 			List<Film> films = alltubeService.fetchAndSaveFilms(page);
 			return ResponseEntity.ok(films.stream().map(f -> {
 				ObjectNode o = JsonNodeFactory.instance.objectNode()
@@ -58,7 +59,7 @@ public class BotController {
 				).collect(Collectors.toList()));
 				return o;
 			}).collect(Collectors.toList()));
-		} catch (NullPointerException | NumberFormatException e) {
+		} catch (ControllerInputException e) {
 			return ResponseEntity
 					.status(HttpStatus.BAD_REQUEST)
 					.body(JsonNodeFactory.instance.objectNode().put("error", "Request body must contain an integer 'page' attribute."));
