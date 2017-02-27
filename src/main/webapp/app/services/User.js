@@ -1,6 +1,39 @@
 angular.module("app")
-.factory("User", ['$resource', '$rootScope', '$timeout', function($resource, $rootScope, $timeout) {
+.factory("User", ['$http', '$resource', '$rootScope', '$route', '$timeout', 'TheBox', function($http, $resource, $rootScope, $route, $timeout, TheBox) {
 	var self = $resource(api + "/users/:id/:sub/:subId");
+
+	self.authenticate = function(credentials) {
+		var headers = credentials ? {
+			Authorization: "Basic " + btoa(credentials.username + ":" + credentials.password) 
+		} : {};
+		$http.get("/api/user", {headers: headers}).then(function(resp) {
+			if (resp.data.name) {
+				$rootScope.authenticated = true;
+				for (var i=0; i < resp.data.authorities.length; i++) {
+					if (resp.data.authorities[i].authority === "ROLE_ADMIN")
+						$rootScope.isAdmin = true;
+				}
+				if (!$rootScope.user)
+					$rootScope.user = resp.data.details;
+				TheBox.theBoxVisible = false;
+				TheBox.authenticationFailed = false;
+				$route.reload();
+			}
+			else {
+				$rootScope.authenticated = false;
+				$rootScope.isAdmin = false;
+				if (TheBox.theBoxVisible)
+					TheBox.authenticationFailed = true;
+			}
+			$rootScope.authenticationAttempted = true;
+		}, function(resp) {
+			$rootScope.authenticated = false;
+			$rootScope.isAdmin = false;
+			// TODO: Custom error msgs. Here there can be 500 status code, not wrong credentials.
+			if (TheBox.theBoxVisible)
+				TheBox.authenticationFailed = true;
+		});
+	};
 
 	self.invalidate = function() {
 		$rootScope.authenticated = false;

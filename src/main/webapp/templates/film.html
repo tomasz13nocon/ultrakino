@@ -61,7 +61,7 @@
 		<div class="rating">
 			<div class="rating-rating">
 				Ocena:
-				<span class="rating-actual-rating" ng-bind="film.rating"></span><span class="rating-actual-rating" ng-show="film.rating !== null">/10</span>
+				<span class="rating-actual-rating" ng-bind="film.rating | number:1"></span><span class="rating-actual-rating" ng-show="film.rating !== null">/10</span>
 				<span ng-show="film.rating === null">brak głosów</span>
 			</div>
 			<div class="rating-times-rated">

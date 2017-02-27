@@ -4,7 +4,7 @@ templateDir = "templates";
 angular.module("app", ["ngRoute", "ngAnimate", "ngResource"]);
 
 angular.module("app")
-	.run(['$http', '$location', '$rootScope', '$route', function($http, $location, $rootScope, $route) {
+	.run(['$http', '$location', '$rootScope', '$route', 'User', function($http, $location, $rootScope, $route, User) {
 
 		$rootScope.languageVersions = {
 			VOICE_OVER: "Lektor",
@@ -47,6 +47,7 @@ angular.module("app")
 		$rootScope.authenticationAttempted = false;
 		$rootScope.authenticated = false;
 		$rootScope.isAdmin = false;
+		User.authenticate();
 		// TODO: Remove on prod
 		if (window.location.href.indexOf("localhost") > -1)
 			$rootScope.images = "//localhost:8000/";

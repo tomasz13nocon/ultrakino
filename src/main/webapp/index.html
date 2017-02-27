@@ -89,7 +89,7 @@
 						<div class="the-box-message the-box-message-yellow" ng-show="userCtrl.TheBox.loginMessage">
 							<span ng-bind="userCtrl.TheBox.loginMessage"></span>
 						</div>
-						<form class="login-form" ng-submit="userCtrl.authenticate(form)">
+						<form class="login-form" ng-submit="userCtrl.User.authenticate(form)">
 							<label>
 								<span class="login-label-text">Login:</span>
 								<input class="login-text-input" type="text" ng-model="form.username" />
