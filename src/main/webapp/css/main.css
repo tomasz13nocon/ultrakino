@@ -138,6 +138,7 @@ input[type="submit"], .btn, .btn-2 {
   font-family: "Montserrat", sans-serif;
   border: none;
   border-bottom: 2px solid #111;
+  background-clip: padding-box;
   outline: none;
   cursor: pointer;
   padding: 8px;
@@ -147,7 +148,6 @@ input[type="submit"], .btn, .btn-2 {
     box-shadow: inset 0 0 6px; }
   input[type="submit"]:active, .btn:active, .btn-2:active {
     border-color: transparent;
-    background-clip: padding-box;
     transform: translateY(2px); }
   input[type="submit"]:disabled, .btn:disabled, .btn-2:disabled {
     cursor: not-allowed; }
@@ -282,6 +282,9 @@ input[type="radio"].radio {
   user-select: none; }
   .btn:disabled, .btn-2:disabled {
     color: #666; }
+    .btn:disabled:active, .btn-2:disabled:active {
+      transform: translateY(0);
+      border-color: #111; }
 
 .btn-2 {
   background-color: #dc4;
@@ -289,6 +292,12 @@ input[type="radio"].radio {
 
 .clear {
   clear: both; }
+
+.red {
+  color: #943; }
+
+.green {
+  color: #483; }
 
 .page-content-thingy {
   margin-left: auto;
@@ -1004,11 +1013,15 @@ select.filter-input {
   text-align: right;
   font-size: 1.3em;
   display: inline-block;
-  width: 10em;
+  width: 208px;
   margin-right: 22px; }
 
 .add-film-input {
   display: inline-block; }
+
+.add-film-input-long {
+  width: 440px;
+  margin-right: 230px; }
 
 .add-film-or {
   margin: 8px 20px;
@@ -1088,6 +1101,25 @@ select.filter-input {
 
 .add-film-pick-title {
   font-size: 1.5em; }
+
+.supported-hostings {
+  text-decoration: underline;
+  margin: 16px 0 6px;
+  cursor: pointer;
+  font-size: 0.9em;
+  color: #aaa;
+  display: inline-block; }
+  .supported-hostings:hover {
+    color: #ddd; }
+
+.supported-hostings-list {
+  margin-top: 12px; }
+
+.supported-hostings-entry {
+  padding: 2px; }
+
+.link-format-feedback {
+  margin-bottom: 16px; }
 
 @media (max-width: 1150px) {
   .filmweb-search-entry {
@@ -1526,6 +1558,7 @@ html {
       transform: translateY(-25px); }
 
 .the-box-outer {
+  border: 1px solid red;
   transition: transform 0.2s;
   transform: translateY(0);
   position: absolute;

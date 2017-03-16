@@ -1,7 +1,9 @@
 package pl.ultrakino.web;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,8 @@ import pl.ultrakino.service.FilmCategoryService;
 import pl.ultrakino.service.FilmService;
 import pl.ultrakino.service.RatingService;
 import pl.ultrakino.service.UserService;
+
+import java.security.Principal;
 
 import static pl.ultrakino.Constants.API_PREFIX;
 
@@ -33,6 +37,13 @@ public class FilmController {
 		this.filmCategoryService = filmCategoryService;
 	}
 
+
+	@PostMapping
+	public ResponseEntity addFilm(@RequestBody ObjectNode film, Principal principal) {
+		if (principal == null)
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
+	}
 
 	@GetMapping("/{filmId}")
 	public ResponseEntity getFilm(@PathVariable int filmId) {

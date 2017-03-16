@@ -57,26 +57,50 @@
 				<div class="add-film-title-inputs-wrapper">
 					<label class="add-film-label">
 						<h5 class="add-film-title">Link:</h5>
-						<input type="text" class="add-film-input" ng-model="link" ng-change="addFilmCtrl.verifyLink(link)" />
+						<input type="text" class="add-film-input-long" ng-model="link" ng-change="addFilmCtrl.verifyLink(link)" />
 					</label>
+					<br/>
+					<span class="supported-hostings" ng-click="showSupportedHostings = true">Wspierane hostingi</span>
+				</div>
+				<div class="link-format-feedback">
+					<div class="correct-link" ng-show="correctLink">
+						<i class="fa fa-check green"></i>
+						Format linku poprawny
+						<i class="fa fa-check green"></i>
+						<div>Hosting: <span ng-bind="linkHosting"></span></div>
+					</div>
+					<div class="incorrect-link" ng-show="correctLink == false">
+						<i class="fa fa-close red"></i>
+						Nieznany format linku
+						<i class="fa fa-close red"></i>
+					</div>
+				</div>
+			</div>
+
+			<div class="the-box-wrapper" ng-show="showSupportedHostings" ng-click="showSupportedHostings = false">
+				<div class="the-box-outer">
+					<div class="supported-hostings-wrapper the-box" ng-click="$event.stopPropagation()">
+						<ul class="supported-hostings-list">
+							<li class="supported-hostings-entry" ng-repeat="hosting in supportedHostings">
+								<span ng-bind="hosting.name"></span>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</div>
 
 			<div class="step3" ng-show="addFilmCtrl.step === 3">
-				qwe<br>qwe<br>
-				qwe<br>qwe<br>
-				qwe<br>qwe<br>
-				qwe<br>qwe<br>
-				qwe<br>qwe<br>
 			</div>
 		</div>
 
 		<div class="my-hr"></div>
 		<div class="add-film-next-buttons">
-			<button class="btn-2" ng-disabled="addFilmCtrl.nextButtonDisabled" ng-click="addFilmCtrl.goToStep(addFilmCtrl.step + 1)">Dalej</button>
+			<button class="btn-2" ng-show="addFilmCtrl.step === 1" ng-disabled="!addFilmCtrl.pick" ng-click="addFilmCtrl.goToNextStep()">Dalej</button>
+			<button class="btn-2" ng-show="addFilmCtrl.step === 2" ng-disabled="!correctLink" ng-click="addFilmCtrl.addFilm()">Dodaj</button>
 		</div>
 
 		<!-- TODO: delet -->
+		<br/>
 		<button class="btn-2" ng-click="addFilmCtrl.goToStep(1)">1</button>
 		<button class="btn-2" ng-click="addFilmCtrl.goToStep(2)">2</button>
 		<button class="btn-2" ng-click="addFilmCtrl.goToStep(3)">3</button>

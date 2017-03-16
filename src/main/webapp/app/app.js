@@ -15,6 +15,17 @@ angular.module("app")
 			ENGLISH_SUBS: "Napisy ENG",
 		};
 
+		$rootScope.supportedHostings = [
+			{ name: "openload.co", regex: /(?:http[s]:\/\/)?(?:www\.)?openload\.co\/f\/([\w-]+)/ },
+			{ name: "streamin.to", regex: /(?:http[s]:\/\/)?(?:www\.)?streamin\.to\/([\w]+)/ },
+			{ name: "vshare.io", regex: /(?:http[s]:\/\/)?(?:www\.)?vshare\.io\/d\/([\w]+)/ },
+			{ name: "vidto.me", regex: /(?:http[s]:\/\/)?(?:www\.)?1/ },
+			{ name: "videowood.tv", regex: /(?:http[s]:\/\/)?(?:www\.)?1/ },
+			{ name: "cda.pl", regex: /(?:http[s]:\/\/)?(?:www\.)?1/ },
+			{ name: "youtube.com", regex: /(?:http[s]:\/\/)?(?:www\.)?youtube\.com\/watch\?v\=([\w-]+)/ },
+			{ name: "nowvideo.sx", regex: /(?:http[s]:\/\/)?(?:www\.)?1/ },
+		];
+
 		$rootScope.filmCategoriesIds = {};
 		$rootScope.filmCategories = [];
 		$http.get(api + "/films/categories").then(function(resp) {
