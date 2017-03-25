@@ -1,5 +1,6 @@
 package pl.ultrakino.service;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.util.MultiValueMap;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Film;
@@ -16,6 +17,8 @@ public interface FilmService {
 
 	Page<Film> find(MultiValueMap<String, String> params);
 
+	Film save(Film film);
+
 	void recommend(int filmId) throws NoRecordWithSuchIdException;
 
 	void deleteRecommendation(int filmId) throws NoRecordWithSuchIdException;
@@ -25,4 +28,11 @@ public interface FilmService {
 	List<FilmResource> toResources(Collection<Film> films);
 
 	FilmDetailsResource toDetailsResource(Film film);
+
+	/**
+	 * Create a Film object for a newly added film, from JSON represented in ObjectNode.
+ 	 * @param filmJson JSON representation of new Film
+	 * @return Created Film object
+	 */
+	Film extractNewFilm(ObjectNode filmJson);
 }

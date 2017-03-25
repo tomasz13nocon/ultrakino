@@ -96,10 +96,17 @@ angular.module("app")
 
 	ctrl.addFilm = function() {
 		console.log(ctrl.pick);
-		ctrl.goToNextStep();
-		//Film.save({
 
-		//});
+		Film.save({
+			filmwebId: $scope.pick.filmwebId,
+			players: [
+				{
+					src: $scope.linkSrc,
+					hosting: $scope.linkHosting,
+				}
+			],
+		});
+		ctrl.goToNextStep();
 	};
 
 }]);

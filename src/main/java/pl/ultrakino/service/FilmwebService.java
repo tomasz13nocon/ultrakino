@@ -29,7 +29,7 @@ public interface FilmwebService {
 
 	Film getFilmInfo(String filmwebId) throws FilmwebException;
 
-	Set<FilmographyEntry> getFilmPersons(String filmwebId, Content content) throws FilmwebException, IOException;
+	Set<FilmographyEntry> getFilmPersons(String filmwebId, Content content) throws FilmwebException;
 
 	/**
 	 * Gets film info for a given filmwebId, icluding FilmograpgyEntries.
@@ -40,6 +40,6 @@ public interface FilmwebService {
 	 * @throws FilmwebException
 	 * @throws IOException
 	 */
-	Film getFullFilmInfo(String filmwebId) throws FilmwebException, IOException;
+	Film getFullFilmInfo(String filmwebId) throws FilmwebException;
 
 }

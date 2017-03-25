@@ -1,5 +1,6 @@
 package pl.ultrakino.service.impl;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.hibernate.LazyInitializationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -14,7 +15,6 @@ import pl.ultrakino.model.*;
 import pl.ultrakino.repository.*;
 import pl.ultrakino.resource.FilmDetailsResource;
 import pl.ultrakino.resource.FilmResource;
-import pl.ultrakino.resource.PersonResource;
 import pl.ultrakino.resource.PlayerResource;
 import pl.ultrakino.service.*;
 
@@ -78,6 +78,11 @@ public class FilmServiceImpl implements FilmService {
 	public Page<Film> find(MultiValueMap<String, String> params) {
 		ContentQuery query = new ContentQuery(params);
 		return filmRepository.find(query);
+	}
+
+	@Override
+	public Film save(Film film) {
+		return filmRepository.save(film);
 	}
 
 	@Override
@@ -148,6 +153,13 @@ public class FilmServiceImpl implements FilmService {
 		res.setLanguageVersions(film.getPlayers().stream().map(Player::getLanguageVersion).collect(Collectors.toSet()));
 		res.setComments(commentService.toResources(film.getComments()));
 		return res;
+	}
+
+	@Override
+	public Film extractNewFilm(ObjectNode filmJson) {
+		Film film = new Film();
+		film.setTitle(filmJson.get("title").asText());
+		return film;
 	}
 
 }

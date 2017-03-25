@@ -23,6 +23,15 @@ public class Player {
 		ENGLISH_SUBS,
 	}
 
+	public Player() {}
+
+	public Player(String src, String hosting, User addedBy) {
+		this.src = src;
+		this.hosting = hosting;
+		this.addedBy = addedBy;
+//		this.content = content;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "player_id")

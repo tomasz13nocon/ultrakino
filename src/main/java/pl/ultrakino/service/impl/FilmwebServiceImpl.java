@@ -239,7 +239,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 	}
 
 	@Override
-	public Film getFullFilmInfo(String filmwebId) throws FilmwebException, IOException {
+	public Film getFullFilmInfo(String filmwebId) throws FilmwebException {
 		Film film = getFilmInfo(filmwebId);
 		film.setCastAndCrew(getFilmPersons(filmwebId, film));
 		return film;
