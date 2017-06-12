@@ -25,11 +25,11 @@ public class Player {
 
 	public Player() {}
 
-	public Player(String src, String hosting, User addedBy) {
+	public Player(String src, String hosting, LanguageVersion languageVersion, User addedBy) {
 		this.src = src;
 		this.hosting = hosting;
+		this.languageVersion = languageVersion;
 		this.addedBy = addedBy;
-//		this.content = content;
 	}
 
 	@Id

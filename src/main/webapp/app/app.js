@@ -16,14 +16,14 @@ angular.module("app")
 		};
 
 		$rootScope.supportedHostings = [
-			{ name: "openload.co", regex: /(?:http[s]:\/\/)?(?:www\.)?openload\.co\/f\/([\w-]+)/ },
-			{ name: "streamin.to", regex: /(?:http[s]:\/\/)?(?:www\.)?streamin\.to\/([\w]+)/ },
-			{ name: "vshare.io", regex: /(?:http[s]:\/\/)?(?:www\.)?vshare\.io\/d\/([\w]+)/ },
-			{ name: "vidto.me", regex: /(?:http[s]:\/\/)?(?:www\.)?1/ },
-			{ name: "videowood.tv", regex: /(?:http[s]:\/\/)?(?:www\.)?1/ },
-			{ name: "cda.pl", regex: /(?:http[s]:\/\/)?(?:www\.)?1/ },
-			{ name: "youtube.com", regex: /(?:http[s]:\/\/)?(?:www\.)?youtube\.com\/watch\?v\=([\w-]+)/ },
-			{ name: "nowvideo.sx", regex: /(?:http[s]:\/\/)?(?:www\.)?1/ },
+			{ name: "openload", displayName: "openload.co", regex: /(?:http[s]:\/\/)?(?:www\.)?openload\.co\/f\/([\w-]+)/ },
+			{ name: "streamin", displayName: "streamin.to", regex: /(?:http[s]:\/\/)?(?:www\.)?streamin\.to\/([\w]+)/ },
+			{ name: "vshare", displayName: "vshare.io", regex: /(?:http[s]:\/\/)?(?:www\.)?vshare\.io\/d\/([\w]+)/ },
+			//{ name: "vidto", displayName: "vidto.me", regex: /(?:http[s]:\/\/)?(?:www\.)?1/ },
+			//{ name: "videowood", displayName: "videowood.tv", regex: /(?:http[s]:\/\/)?(?:www\.)?1/ },
+			//{ name: "cda", displayName: "cda.pl", regex: /(?:http[s]:\/\/)?(?:www\.)?1/ },
+			{ name: "youtube", displayName: "youtube.com", regex: /(?:http[s]:\/\/)?(?:www\.)?youtube\.com\/watch\?v\=([\w-]+)/ },
+			//{ name: "nowvideo", displayName: "nowvideo.sx", regex: /(?:http[s]:\/\/)?(?:www\.)?1/ },
 		];
 
 		$rootScope.filmCategoriesIds = {};

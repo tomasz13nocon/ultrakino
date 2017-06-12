@@ -1,11 +1,15 @@
+stepsHeightInterval = null;
+
 angular.module("app")
-.controller("AddFilmController", ['$document', '$interval', '$rootScope', '$scope', '$timeout', '$window', 'Film', 'Filmweb', function($document, $interval, $rootScope, $scope, $timeout, $window, Film, Filmweb) {
+.controller("AddFilmController", ['$document', '$interval', '$rootScope', '$route', '$scope', '$timeout', '$window', 'Film', 'Filmweb', function($document, $interval, $rootScope, $route, $scope, $timeout, $window, Film, Filmweb) {
 	if (!$rootScope.authenticationAttempted) return;
 	var ctrl = this;
 
 	$scope.contentType = "FILM";
 	$scope.retrievingFilms = 0;
 	$scope.showSupportedHostings = false;
+	$scope.title = "";
+	ctrl.searchByTitle = true;
 	ctrl.step = 1;
 	var stepStylesEl = document.createElement("style");
 	document.head.appendChild(stepStylesEl);
@@ -17,17 +21,20 @@ angular.module("app")
 		//document.getElementsByClassName("steps-wrapper")[0].style.height = document.getElementsByClassName("step" + ctrl.step)[0].clientHeight + "px";
 	//});
 	// This is an ugly abomination, but it werks
-	ctrl.stepsHeightInterval = $interval(function() {
+	if (stepsHeightInterval) {
+		$interval.cancel(stepsHeightInterval);
+	}
+	stepsHeightInterval = $interval(function() {
 		document.getElementsByClassName("steps-wrapper")[0].style.height = document.getElementsByClassName("step" + ctrl.step)[0].clientHeight + "px";
 	}, 200);
 	$scope.$on("$locationChangeSuccess", function() {
-		$interval.cancel(ctrl.stepsHeightInterval);
+		$interval.cancel(stepsHeightInterval);
 	})
 
 	ctrl.search = function(query) {
 		if (query.length < 2) {
 			$scope.films = [];
-			return;
+			return -1;
 		}
 		$scope.retrievingFilms += 1;
 		$scope.error = false;
@@ -43,7 +50,7 @@ angular.module("app")
 		}, function() {
 			$scope.error = true;
 			$scope.retrievingFilms -= 1;
-			$scope.films = results;
+			$scope.films = [];
 		});
 	};
 
@@ -51,11 +58,24 @@ angular.module("app")
 		ctrl.search($scope.title);
 	};
 
+	ctrl.searchOrFindLink = function() {
+		if (ctrl.searchByTitle) {
+			if (ctrl.search($scope.title) == -1) {
+				$scope.titleError = true;
+			}
+		}
+		else
+			ctrl.fetchFilmwebLink();
+	};
+
 	ctrl.fetchFilmwebLink = function() {
+		ctrl.pick = { filmwebId: 660 };
+		console.log($scope.filmwebLink);
 	};
 
 	ctrl.pickFilm = function(film) {
 		ctrl.pick = film;
+		console.log(film.filmwebId);
 	};
 
 	ctrl.verifyLink = function(link) {
@@ -76,6 +96,10 @@ angular.module("app")
 			$scope.showSupportedHostings = false;
 			$scope.$apply();
 		}
+		if (e.keyCode == 13) {
+			if (ctrl.step == 1)
+				ctrl.searchOrFindLink();
+		}
 	});
 
 	ctrl.goToStep = function(step) {
@@ -95,19 +119,30 @@ angular.module("app")
 	};
 
 	ctrl.addFilm = function() {
-		console.log(ctrl.pick);
-
 		Film.save({
-			filmwebId: $scope.pick.filmwebId,
+			filmwebId: ctrl.pick.filmwebId,
 			players: [
 				{
 					src: $scope.linkSrc,
 					hosting: $scope.linkHosting,
+					languageVersion: $scope.languageVersion,
 				}
 			],
+		}, function(resp) {
+			$scope.filmAdditionFinished = true;
+			$scope.filmAdditionSuccessful = true;
+		}, function(resp) {
+			$scope.filmAdditionFinished = true;
+			$scope.filmAdditionFailed = true;
+			$scope.filmAdditionError = resp;
 		});
 		ctrl.goToNextStep();
 	};
+
+	ctrl.reset = function() {
+		$interval.cancel(ctrl.stepsHeightInterval);
+		$route.reload();
+	}
 
 }]);
 

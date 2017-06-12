@@ -15,7 +15,7 @@ public class PlayerController {
 
 	@PostMapping
 	public ResponseEntity vote(boolean positive, Principal principal) {
-
+		return ResponseEntity.ok().build();
 	}
 
 }

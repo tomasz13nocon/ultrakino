@@ -109,6 +109,10 @@ a
 	left: 50%
 	transform-origin: 0 50%
 
+.spinner-wrapper-inflow
+	@extend .spinner-wrapper
+	position: relative
+
 .spinner-wrapper.ng-hide
 	transition: opacity 0.3s, transform 0.3s
 	opacity: 0
@@ -292,7 +296,7 @@ input[type="radio"].radio
 
 .error-box
 	padding: 12px
-	background: #eaa
+	background-color: #eaa
 	border: 1px solid #e33
 	border-radius: 2px
 	color: #111
@@ -306,6 +310,17 @@ input[type="radio"].radio
 @media (max-width: $small)
 	.error-box
 		width: 92%
+
+.warning-box
+	@extend .error-box
+	background-color: #fff8cc
+	//background-color: #fcf8c3
+	border-color: #dc3
+
+.success-box
+	@extend .error-box
+	background-color: #dff0d8
+	border-color: #8f8
 
 .btn
 	@extend %button

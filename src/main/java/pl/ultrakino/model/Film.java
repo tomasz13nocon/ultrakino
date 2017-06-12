@@ -44,10 +44,10 @@ public class Film extends Content {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "content")
 	private Set<FilmographyEntry> castAndCrew = new HashSet<>();
 
-	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+	@OneToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
 	private Set<FilmCategory> categories = new HashSet<>();
 
-	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+	@OneToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
 	private Set<Country> productionCountries = new HashSet<>();
 
 	@Column(name = "world_premiere")

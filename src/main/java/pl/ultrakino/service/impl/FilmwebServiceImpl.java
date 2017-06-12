@@ -147,6 +147,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 					.collect(Collectors.toList()));
 			return ret;
 		} catch (IOException e) {
+			e.printStackTrace();
 			throw new FilmwebException(e);
 		}
 	}

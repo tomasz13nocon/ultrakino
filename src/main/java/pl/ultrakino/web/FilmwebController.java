@@ -42,7 +42,7 @@ public class FilmwebController {
 		} catch (IllegalArgumentException e) {
 			return ResponseEntity.badRequest().body("Invalid contentType value");
 		} catch (FilmwebException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}

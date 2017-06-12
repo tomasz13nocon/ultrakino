@@ -1,5 +1,7 @@
 package pl.ultrakino.web;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import java.security.Principal;
 import java.util.Optional;
 
 import static pl.ultrakino.Constants.API_PREFIX;
+import static pl.ultrakino.model.Player_.languageVersion;
 
 @RestController
 @RequestMapping(value = API_PREFIX + "/films", produces = "application/json;charset=utf-8")
@@ -45,22 +48,47 @@ public class FilmController {
 
 	@PostMapping
 	public ResponseEntity addFilm(@RequestBody ObjectNode filmJson, Principal principal) {
+		System.out.println(filmJson); // TODO: DELET
 		if (principal == null)
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		Optional<User> user = userService.findByUsername(principal.getName());
+		if (!user.isPresent())
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
+		if (!filmJson.has("filmwebId"))
+			return ResponseEntity.badRequest().body("field 'filmwebId' is incorrect or absent.");
 		String filmwebId = filmJson.get("filmwebId").asText();
+
 		Film film;
 		try {
 			film = filmwebService.getFullFilmInfo(filmwebId);
 		} catch (FilmwebException e) {
+			System.err.println("filmweb exception");
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
-		String src = filmJson.get("src").asText();
-		String hosting = filmJson.get("hosting").asText();
-		Optional<User> user = userService.findByUsername(principal.getName());
-		if (!user.isPresent())
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		film.getPlayers().add(new Player(src, hosting, user.get()));
-		filmService.save(film);
+		JsonNode players = filmJson.get("players");
+		if (players == null)
+			return ResponseEntity.badRequest().body("field 'players' is incorrect or absent.");
+		if (!players.isArray())
+			return ResponseEntity.badRequest().body("field 'players' has to be an array.");
+
+		for (JsonNode player : players) {
+			String field;
+			if (!player.has(field = "src") || !player.has(field = "hosting") || !player.has(field = "languageVersion"))
+				return ResponseEntity.badRequest().body("field '" + field + "' is incorrect or absent.");
+
+			String src = player.get("src").asText();
+			String hosting = player.get("hosting").asText();
+			Player.LanguageVersion languageVersion;
+			try {
+				languageVersion = Player.LanguageVersion.valueOf(player.get("languageVersion").asText());
+			}
+			catch (IllegalArgumentException e) {
+				return ResponseEntity.badRequest().body("field 'languageVersion' is incorrect.");
+			}
+			film.getPlayers().add(new Player(src, hosting, languageVersion, user.get()));
+			filmService.save(film);
+		}
 		return ResponseEntity.ok().body(JsonNodeFactory.instance.objectNode().put("id", film.getId()));
 	}
 

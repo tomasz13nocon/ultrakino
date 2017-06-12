@@ -25,4 +25,30 @@
 		<span ng-bind="error.msg"></span>
 	</div>
 
+	<hr>
+
+	<div>
+		<h1 class="admin-title">Make a request:</h1>
+		<input type="text" ng-model="requestUrl" />
+		<label><input type="radio" name="method" value="POST" ng-model="requestMethod" /> POST</label>
+		<label><input type="radio" name="method" value="GET" ng-model="requestMethod" /> GET</label>
+		<div class="request-data">
+			<h3>Data:</h3>
+			<input type="text" ng-model="requestDataKey" />
+			<input type="text" ng-model="requestDataValue" />
+			<input type="submit" value="Add" ng-click="addRequestDataEntry()" />
+			<input type="submit" value="Clear data" ng-click="requestData = {}" />
+			<div ng-bind="requestData | json"></div>
+		</div>
+		<input type="submit" ng-click="performRequest()" />
+
+		<div class="request-result">
+			<div class="green" ng-show="requestSuccessful === true">Request successful.</div>
+			<div class="red" ng-show="requestSuccessful === false">Request failed.</div>
+			<div class="response-body">
+				<span ng-bind="responseBody | json"></span>
+			</div>
+		</div>
+	</div>
+
 </div>

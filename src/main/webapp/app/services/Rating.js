@@ -40,7 +40,6 @@ angular.module("app")
 		ratingColor = "rgb(" +
 			Math.min(255, rating * -51 + 510) + "," +
 			Math.min(255, rating * 51) + ",0)";
-		console.log(ratingColor);
 		angular.element(document.querySelector(".rating-actual-rating")).css("color", ratingColor);
 	};
 

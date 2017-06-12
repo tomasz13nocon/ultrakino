@@ -3,6 +3,8 @@ angular.module("app")
 		var ctrl = this;
 
 		$scope.page = 1;
+		$scope.requestUrl = api + "/";
+		$scope.requestData = {};
 
 		ctrl.alltubeBot = function() {
 			$scope.loading = true;
@@ -38,6 +40,28 @@ angular.module("app")
 				};
 				$scope.loading = false;
 			});
+		}
+
+		$scope.performRequest = function() {
+			$http({
+				method: $scope.requestMethod,
+				url: $scope.requestUrl,
+				data: $scope.requestData,
+			}).then(function(resp) {
+				$scope.requestSuccessful = true;
+				$scope.responseBody = resp;
+				console.log(resp);
+			}, function(resp) {
+				$scope.requestSuccessful = false;
+				$scope.responseBody = resp;
+				console.log(resp);
+			});
+		}
+
+		$scope.addRequestDataEntry = function() {
+			$scope.requestData[$scope.requestDataKey] = $scope.requestDataValue;
+			$scope.requestDataKey = null;
+			$scope.requestDataValue = null;
 		}
 
 	}]);

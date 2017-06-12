@@ -89,13 +89,16 @@ a {
 .spinner-wrapper-wrapper {
   position: relative; }
 
-.spinner-wrapper {
+.spinner-wrapper, .spinner-wrapper-inflow {
   transform: translateX(-50%);
   position: absolute;
   left: 50%;
   transform-origin: 0 50%; }
 
-.spinner-wrapper.ng-hide {
+.spinner-wrapper-inflow {
+  position: relative; }
+
+.spinner-wrapper.ng-hide, .ng-hide.spinner-wrapper-inflow {
   transition: opacity 0.3s, transform 0.3s;
   opacity: 0;
   transform: scale(1.3) translateX(-50%); }
@@ -258,9 +261,9 @@ input[type="radio"].radio {
     opacity: 1;
     transform: scale(1); }
 
-.error-box {
+.error-box, .warning-box, .success-box {
   padding: 12px;
-  background: #eaa;
+  background-color: #eaa;
   border: 1px solid #e33;
   border-radius: 2px;
   color: #111;
@@ -268,11 +271,19 @@ input[type="radio"].radio {
   width: 75%; }
 
 @media (max-width: 1150px) {
-  .error-box {
+  .error-box, .warning-box, .success-box {
     width: 85%; } }
 @media (max-width: 767px) {
-  .error-box {
+  .error-box, .warning-box, .success-box {
     width: 92%; } }
+.warning-box {
+  background-color: #fff8cc;
+  border-color: #dc3; }
+
+.success-box {
+  background-color: #dff0d8;
+  border-color: #8f8; }
+
 .btn, .btn-2 {
   display: inline-block;
   font-size: 0.85em;
@@ -1027,6 +1038,9 @@ select.filter-input {
   margin: 8px 20px;
   font-size: 0.9em; }
 
+.add-film-search-button {
+  margin-top: 12px; }
+
 .filmweb-search-results {
   margin: 16px auto;
   white-space: normal; }
@@ -1120,6 +1134,14 @@ select.filter-input {
 
 .link-format-feedback {
   margin-bottom: 16px; }
+
+.language-version-choice-title {
+  font-size: 1.4em; }
+
+.language-version-choice-radio {
+  margin: 6px; }
+  .language-version-choice-radio label {
+    cursor: pointer; }
 
 @media (max-width: 1150px) {
   .filmweb-search-entry {
