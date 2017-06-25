@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.ultrakino.Constants;
+import pl.ultrakino.Utils;
 import pl.ultrakino.exceptions.AlltubeException;
 import pl.ultrakino.exceptions.ControllerInputException;
 import pl.ultrakino.exceptions.FilmwebException;
@@ -62,10 +63,11 @@ public class BotController {
 		} catch (ControllerInputException e) {
 			return ResponseEntity
 					.status(HttpStatus.BAD_REQUEST)
-					.body(JsonNodeFactory.instance.objectNode().put("error", "Request body must contain an integer 'page' attribute."));
+					.body(Utils.jsonError("Request body must contain an integer 'page' attribute."));
 		} catch (IOException | AlltubeException e) {
 			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JsonNodeFactory.instance.objectNode().put("error", e.getClass().getSimpleName() + ": " +e.getStackTrace()[0] + " - " + e.getMessage()));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(Utils.jsonError(e.getClass().getSimpleName() + ": " +e.getStackTrace()[0] + " - " + e.getMessage()));
 		}
 	}
 
@@ -75,7 +77,8 @@ public class BotController {
 			tvseriesonlineService.fetchAndSaveAllShows();
 			return ResponseEntity.ok().build();
 		} catch (FilmwebException | TvseriesonlineException | IOException e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JsonNodeFactory.instance.objectNode().put("error", e.getClass().getSimpleName() + ": " +e.getStackTrace()[0] + " - " + e.getMessage()));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(Utils.jsonError(e.getClass().getSimpleName() + ": " +e.getStackTrace()[0] + " - " + e.getMessage()));
 		}
 	}
 

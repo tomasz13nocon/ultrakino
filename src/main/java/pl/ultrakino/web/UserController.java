@@ -35,7 +35,7 @@ public class UserController {
 		ObjectNode node = mapper.valueToTree(principal);
 		Optional<User> userOp = userService.findByUsername(principal.getName(), true);
 		if (!userOp.isPresent()) // I think this can never happen
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("hacking detected, pls no hack us");
+			return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body("hacking detected, pls no hack us");
 		User user = userOp.get();
 		node.set("details", mapper.convertValue(userService.toDetailsResource(user), ObjectNode.class));
 		node.put("avatarFilename", user.getAvatarFilename());

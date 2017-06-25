@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import pl.ultrakino.Constants;
+import pl.ultrakino.Utils;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.exceptions.NoUserWithSuchUsernameException;
 import pl.ultrakino.model.Comment;
@@ -44,13 +45,13 @@ public class CommentController {
 					contentId.asInt(),
 					principal.getName())));
 		} catch (NoRecordWithSuchIdException e) {
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.badRequest().body(Utils.jsonError("This content doesn't exist"));
 		} catch (NoUserWithSuchUsernameException e) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		} catch (NumberFormatException e) {
-			return ResponseEntity.badRequest().body(JsonNodeFactory.instance.objectNode().put("error", "contentId is not a valid integer"));
+			return ResponseEntity.badRequest().body(Utils.jsonError("contentId is not a valid integer"));
 		} catch (IllegalArgumentException e) {
-			return ResponseEntity.badRequest().body(JsonNodeFactory.instance.objectNode().put("error", "Comment must be less than 255 characters and more than 2"));
+			return ResponseEntity.badRequest().body(Utils.jsonError("Comment must be less than 255 characters and more than 2"));
 		}
 	}
 

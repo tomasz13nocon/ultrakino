@@ -26,6 +26,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+
 @Service
 @Transactional
 public class FilmwebServiceImpl implements FilmwebService {
@@ -37,8 +38,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 
 	private static final String FILM_INFO_METHOD = "getFilmInfoFull";
 	private static final String PERSONS_METHOD = "getFilmPersons";
-	private static final String IMAGES = "/opt/images/img/";
-//	private static final String IMAGES = "/home/user/Projects/covers/";
+
 
 	@Autowired
 	public FilmwebServiceImpl(PersonRepository personRepository, CountryService countryService, FilmCategoryService filmCategoryService, SeriesCategoryService seriesCategoryService) {
@@ -180,7 +180,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 			if (saveImages) {
 				try (InputStream is = new URL(filmwebImg).openStream()) {
 					filename = DigestUtils.md5Hex(series.getTitle() + series.getYear()) + ".jpg";
-					try (OutputStream os = new FileOutputStream(IMAGES + filename)) {
+					try (OutputStream os = new FileOutputStream(Constants.IMAGES + filename)) {
 						IOUtils.copy(is, os);
 					}
 
@@ -274,7 +274,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 			if (saveImages) {
 				try (InputStream is = new URL(filmwebImg).openStream()) {
 					filename = DigestUtils.md5Hex(film.getTitle() + film.getYear()) + ".jpg";
-					try (OutputStream os = new FileOutputStream(IMAGES + filename)) {
+					try (OutputStream os = new FileOutputStream(Constants.IMAGES + filename)) {
 						IOUtils.copy(is, os);
 					} catch (IOException e) {
 						throw new FilmwebException(e);
@@ -364,7 +364,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 							String filmwebImg = "http://1.fwcdn.pl/p" + actor[4];
 							try (InputStream is = new URL(filmwebImg).openStream()) {
 								String filename = DigestUtils.md5Hex(p.getName() + filmwebImg) + ".jpg";
-								try (OutputStream os = new FileOutputStream(IMAGES + filename)) {
+								try (OutputStream os = new FileOutputStream(Constants.IMAGES + filename)) {
 									IOUtils.copy(is, os);
 								}
 								p.setAvatarFilename(filename);

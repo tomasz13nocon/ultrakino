@@ -137,7 +137,7 @@ textarea {
   border-radius: 2px;
   border: none; }
 
-input[type="submit"], .btn, .btn-2 {
+input[type="submit"], .btn, .btn-3, .btn-2 {
   font-family: "Montserrat", sans-serif;
   border: none;
   border-bottom: 2px solid #111;
@@ -147,14 +147,14 @@ input[type="submit"], .btn, .btn-2 {
   padding: 8px;
   border-radius: 2px;
   background-color: #dc4; }
-  input[type="submit"]:hover, .btn:hover, .btn-2:hover {
-    box-shadow: inset 0 0 6px; }
-  input[type="submit"]:active, .btn:active, .btn-2:active {
+  input[type="submit"]:hover, .btn:hover, .btn-3:hover, .btn-2:hover {
+    box-shadow: inset 0 0 6px black; }
+  input[type="submit"]:active, .btn:active, .btn-3:active, .btn-2:active {
     border-color: transparent;
     transform: translateY(2px); }
-  input[type="submit"]:disabled, .btn:disabled, .btn-2:disabled {
+  input[type="submit"]:disabled, .btn:disabled, .btn-3:disabled, .btn-2:disabled {
     cursor: not-allowed; }
-    input[type="submit"]:disabled:hover, .btn:disabled:hover, .btn-2:disabled:hover {
+    input[type="submit"]:disabled:hover, .btn:disabled:hover, .btn-3:disabled:hover, .btn-2:disabled:hover {
       box-shadow: none; }
 
 select {
@@ -275,7 +275,9 @@ input[type="radio"].radio {
     width: 85%; } }
 @media (max-width: 767px) {
   .error-box, .warning-box, .success-box {
-    width: 92%; } }
+    width: 90%;
+    text-align: center;
+    white-space: pre-line; } }
 .warning-box {
   background-color: #fff8cc;
   border-color: #dc3; }
@@ -284,22 +286,24 @@ input[type="radio"].radio {
   background-color: #dff0d8;
   border-color: #8f8; }
 
-.btn, .btn-2 {
+.btn, .btn-3, .btn-2 {
+  background-color: #dc4;
+  color: black;
   display: inline-block;
   font-size: 0.85em;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none; }
-  .btn:disabled, .btn-2:disabled {
+  .btn:disabled, .btn-3:disabled, .btn-2:disabled {
     color: #666; }
-    .btn:disabled:active, .btn-2:disabled:active {
+    .btn:disabled:active, .btn-3:disabled:active, .btn-2:disabled:active {
       transform: translateY(0);
       border-color: #111; }
 
-.btn-2 {
-  background-color: #dc4;
-  color: black; }
+.btn-3 {
+  color: #fff;
+  background-color: #d42321; }
 
 .clear {
   clear: both; }
@@ -496,7 +500,7 @@ input[type="radio"].radio {
   color: #555;
   background-color: #d8bb26; }
   .film-button-on:hover {
-    color: #fff; }
+    color: #943; }
 
 .no-tooltip:before {
   display: none; }

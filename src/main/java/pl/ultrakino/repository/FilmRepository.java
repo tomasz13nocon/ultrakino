@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface FilmRepository {
 
+	void remove(Film film);
+
 	Film save(Film film);
 
 	/**

@@ -112,7 +112,7 @@ angular.module("app")
 		})
 		.when("/panel-admina", {
 			templateUrl: templateDir + "/admin-panel.html",
-			controller: "AdminPanelController",
+			controller: AdminPanelController,
 			controllerAs: "adminPanelCtrl",
 		})
 		//.when("/user/:id", {
@@ -138,3 +138,19 @@ angular.module("app")
 		//$locationProvider.html5Mode(true);
 
 	}]);
+
+var AdminPanelController = ["$http", "$scope", "Film", function($http, $scope, Film) {
+	if (typeof adminPanelCtrl !== 'undefined')
+		adminPanelCtrl($http, $scope, Film);
+}];
+
+function addAdminScripts() {
+	[
+		"app/controllers/AdminPanel.js",
+	].forEach(function(src) {
+		var s = document.createElement("script");
+		s.type = "text/javascript";
+		s.src = src;
+		document.head.appendChild(s);
+	});
+}

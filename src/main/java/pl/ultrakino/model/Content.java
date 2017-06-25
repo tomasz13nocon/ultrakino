@@ -1,5 +1,8 @@
 package pl.ultrakino.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -11,6 +14,8 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "contents")
+@Getter
+@Setter
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Content implements Rateable {
 
@@ -18,13 +23,5 @@ public abstract class Content implements Rateable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "content_id")
 	private Integer id;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 }

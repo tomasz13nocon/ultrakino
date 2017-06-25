@@ -1,6 +1,15 @@
+usuwanie filmów które zostały dodane do ulubionych narusza fkey constraint. Być może inne tabele też mają takie zależności.
+
+Rejestracja (wysyłanie emaila)
+Zaloguj się (zarejestruj) przez facebooka
+udostępnij film na facebooku
+Przypomnij hasło
+Zmień hasło/avatar
+"dodaj link do tego filmu"
+"data dodania do ulubionych" do DB
 SORT episodes
 flashing error msg in oneseries
-viewsy (1 na dzień na usera, dodać datę viewsu, w najpopularniejszych dać najcześćiej oglądane filmy w ostatnim miesiącu)
+viewsy (1 na dzień na usera?, dodać datę viewsu do DB, w najpopularniejszych dać najcześćiej oglądane filmy w ostatnim miesiącu)
 jeden koment na minutę/30 sekund
 edytowanie i usuwanie komentów
 sortowanie playerów po wersji (i hostingu)
@@ -10,6 +19,9 @@ CHECK ON CASCADE TYPES
 
 AFTER IMPLEMENTING REGISTRATION:
 test rating system
+
+BEFORE START:
+enable CSRF
 
 AFTER START:
 comments pagination

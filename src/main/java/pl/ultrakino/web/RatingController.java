@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.ultrakino.Constants;
+import pl.ultrakino.Utils;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.exceptions.NoUserWithSuchUsernameException;
 import pl.ultrakino.model.Rating;
@@ -45,9 +46,9 @@ public class RatingController {
 		} catch (NoUserWithSuchUsernameException e) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		} catch (IllegalStateException e) {
-			return ResponseEntity.badRequest().body(JsonNodeFactory.instance.objectNode().put("error", "This content has been already rated by this user."));
+			return ResponseEntity.badRequest().body(Utils.jsonError("This content has been already rated by this user."));
 		} catch (IllegalArgumentException e) {
-			return ResponseEntity.badRequest().body(JsonNodeFactory.instance.objectNode().put("error", "Rating has to be between 0 and 10."));
+			return ResponseEntity.badRequest().body(Utils.jsonError("Rating has to be between 0 and 10."));
 		}
 	}
 

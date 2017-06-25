@@ -131,6 +131,7 @@ angular.module("app")
 		}, function(resp) {
 			$scope.filmAdditionFinished = true;
 			$scope.filmAdditionSuccessful = true;
+			console.log(resp);
 		}, function(resp) {
 			$scope.filmAdditionFinished = true;
 			$scope.filmAdditionFailed = true;

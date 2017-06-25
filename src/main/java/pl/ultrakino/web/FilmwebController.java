@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.ultrakino.Constants;
+import pl.ultrakino.Utils;
 import pl.ultrakino.exceptions.FilmwebException;
 import pl.ultrakino.model.Content;
 import pl.ultrakino.model.Film;
@@ -40,10 +41,10 @@ public class FilmwebController {
 			}
 			return ResponseEntity.ok(films);
 		} catch (IllegalArgumentException e) {
-			return ResponseEntity.badRequest().body("Invalid contentType value");
+			return ResponseEntity.badRequest().body(Utils.jsonError("Invalid contentType value"));
 		} catch (FilmwebException e) {
 //			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Utils.jsonError("Przetwarzanie filmweb.pl się nie powiodło."));
 		}
 	}
 }

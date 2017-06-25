@@ -51,7 +51,7 @@ public class Player {
 
 	private int downvotes;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "player")
 	private Set<PlayerVote> votes;
 
 	@Column(name = "addition_date")

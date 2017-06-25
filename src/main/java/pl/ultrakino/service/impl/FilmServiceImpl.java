@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
+import pl.ultrakino.Constants;
+import pl.ultrakino.exceptions.FileDeletionException;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.*;
 import pl.ultrakino.repository.*;
@@ -18,6 +20,9 @@ import pl.ultrakino.resource.FilmResource;
 import pl.ultrakino.resource.PlayerResource;
 import pl.ultrakino.service.*;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -67,6 +72,38 @@ public class FilmServiceImpl implements FilmService {
 		}
 
 		return players;
+	}
+
+	@Override
+	public void remove(Film film) throws FileDeletionException {
+		List<Rating> ratings = film.getRatings();
+		for (Rating rating : ratings) {
+			rating.setContent(null);
+		}
+		ratings.clear();
+		film.setRating(null);
+		film.setTimesRated(0);
+		film.setFilmwebId(null);
+		film.setDescription(null);
+		try {
+			Files.deleteIfExists(Paths.get(Constants.IMAGES + film.getCoverFilename()));
+		} catch (IOException e) {
+			throw new FileDeletionException("Deleting an image failed. This could be a permissions issue.");
+		}
+		film.setCoverFilename(null);
+		film.setCastAndCrew(new HashSet<>());
+		film.setCategories(new HashSet<>());
+		film.setProductionCountries(new HashSet<>());
+		film.setLocalPremiere(null);
+
+
+
+	}
+
+	@Override
+	public void remove(int filmId) throws NoRecordWithSuchIdException, FileDeletionException {
+		Film film = filmRepository.findById(filmId);
+		remove(film);
 	}
 
 	@Override

@@ -22,7 +22,7 @@ public class Film extends Content {
 
 	private Integer year;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "content")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "content", orphanRemoval = true)
 	private List<Rating> ratings = new ArrayList<>();
 
 	private Float rating;

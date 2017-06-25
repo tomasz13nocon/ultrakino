@@ -83,7 +83,7 @@
 					<h4 class="language-version-choice-title">Wersja językowa:</h4>
 					<div class="language-version-choice-radio-wrapper">
 						<div class="language-version-choice-radio" ng-repeat="(version, versionName) in languageVersions">
-							<label><input class="radio" type="radio" name="language-version" value="{{version}}" ng-model="languageVersion" /> <span ng-bind="versionName"></span></label>
+							<label><input class="radio" type="radio" name="language-version" value="{{version}}" ng-model="$parent.languageVersion" /> <span ng-bind="versionName"></span></label>
 						</div>
 					</div>
 				</div>

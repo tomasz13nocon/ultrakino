@@ -2,6 +2,7 @@ package pl.ultrakino.service;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.util.MultiValueMap;
+import pl.ultrakino.exceptions.FileDeletionException;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Film;
 import pl.ultrakino.repository.Page;
@@ -12,6 +13,10 @@ import java.util.Collection;
 import java.util.List;
 
 public interface FilmService {
+
+	void remove(Film film) throws FileDeletionException;
+
+	void remove(int filmId) throws NoRecordWithSuchIdException, FileDeletionException;
 
 	Film findById(Integer id) throws NoRecordWithSuchIdException;
 

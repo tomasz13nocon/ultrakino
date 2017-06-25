@@ -10,8 +10,10 @@ angular.module("app")
 			if (resp.data.name) {
 				$rootScope.authenticated = true;
 				for (var i=0; i < resp.data.authorities.length; i++) {
-					if (resp.data.authorities[i].authority === "ROLE_ADMIN")
+					if (resp.data.authorities[i].authority === "ROLE_ADMIN") {
 						$rootScope.isAdmin = true;
+						addAdminScripts();
+					}
 				}
 				if (!$rootScope.user)
 					$rootScope.user = resp.data.details;

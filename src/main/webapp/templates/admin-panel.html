@@ -46,9 +46,10 @@
 			<div class="green" ng-show="requestSuccessful === true">Request successful.</div>
 			<div class="red" ng-show="requestSuccessful === false">Request failed.</div>
 			<div class="response-body">
-				<span ng-bind="responseBody | json"></span>
+				{{responseBody}}
 			</div>
 		</div>
 	</div>
 
 </div>
+

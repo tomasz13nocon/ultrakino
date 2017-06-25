@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import pl.ultrakino.Utils;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Series;
 import pl.ultrakino.repository.Page;
@@ -48,7 +49,7 @@ public class SeriesController {
 		}
 		catch (IllegalArgumentException e) {
 			e.printStackTrace();
-			return ResponseEntity.badRequest().body(JsonNodeFactory.instance.objectNode().put("error", e.getMessage()));
+			return ResponseEntity.badRequest().body(Utils.jsonError(e.getMessage()));
 		}
 	}
 

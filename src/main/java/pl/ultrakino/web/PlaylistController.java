@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.ultrakino.Constants;
+import pl.ultrakino.Utils;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Content;
 import pl.ultrakino.model.User;
@@ -60,7 +61,7 @@ public class PlaylistController {
 		try {
 			content = contentService.findById(contentId.asInt());
 		} catch (NoRecordWithSuchIdException e) {
-			return ResponseEntity.badRequest().body("No Content with given contentId");
+			return ResponseEntity.badRequest().body(Utils.jsonError("No Content with given contentId"));
 		}
 		user.getWatchlist().add(content);
 		userService.merge(user);
@@ -82,7 +83,7 @@ public class PlaylistController {
 		try {
 			content = contentService.findById(contentId);
 		} catch (NoRecordWithSuchIdException e) {
-			return ResponseEntity.badRequest().body("No Content with given contentId");
+			return ResponseEntity.badRequest().body(Utils.jsonError("No Content with given contentId"));
 		}
 		user.getWatchlist().remove(content);
 		userService.merge(user);
@@ -121,7 +122,7 @@ public class PlaylistController {
 		try {
 			content = contentService.findById(contentId.asInt());
 		} catch (NoRecordWithSuchIdException e) {
-			return ResponseEntity.badRequest().body("No Content with given contentId");
+			return ResponseEntity.badRequest().body(Utils.jsonError("No Content with given contentId"));
 		}
 		user.getFavorites().add(content);
 		userService.merge(user);
@@ -143,7 +144,7 @@ public class PlaylistController {
 		try {
 			content = contentService.findById(contentId);
 		} catch (NoRecordWithSuchIdException e) {
-			return ResponseEntity.badRequest().body("No Content with given contentId");
+			return ResponseEntity.badRequest().body(Utils.jsonError("No Content with given contentId"));
 		}
 		user.getFavorites().remove(content);
 		userService.merge(user);

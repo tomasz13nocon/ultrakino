@@ -67,6 +67,8 @@ angular.module("app")
 		ctrl.commentContent = undefined;
 	};
 
+
+
 	$scope.isPlayer = false; // TODO: remove
 	Film.get({ id: $routeParams["id"] }, function(film) {
 		$scope.currentPlayerIndex = 0;
@@ -96,6 +98,10 @@ angular.module("app")
 			if (ctrl.isIdIn($rootScope.user.favorites)) {
 				film.inFavorites = true;
 			}
+		}
+	}, function(resp) {
+		if (resp.status = 404) {
+			$scope.error = "Nie znaleziono filmu.\nFilm o tym adresie nie istnieje.";
 		}
 	});
 
