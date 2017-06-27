@@ -38,7 +38,7 @@ public class FilmographyEntry {
 
 	@Override
 	public String toString() {
-		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+		return person.toString() + " in " + content.toString() + (getName().isEmpty() ? " (" + getName() + ")" : "");
 	}
 
 	@Override

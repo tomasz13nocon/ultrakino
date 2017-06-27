@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
+import pl.ultrakino.model.Content;
+import pl.ultrakino.model.Film;
 import pl.ultrakino.model.User;
 import pl.ultrakino.repository.UserRepository;
 
@@ -71,4 +73,5 @@ public class JpaUserRepository implements UserRepository {
 	public void merge(User user) {
 		em.merge(user);
 	}
+
 }

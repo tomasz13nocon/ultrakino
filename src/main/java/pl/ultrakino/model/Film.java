@@ -86,7 +86,7 @@ public class Film extends Content {
 
 	@Override
 	public String toString() {
-		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+		return title + " (" + year + ")";
 	}
 
 	@Override

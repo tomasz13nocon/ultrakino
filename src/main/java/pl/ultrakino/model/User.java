@@ -39,6 +39,8 @@ public class User {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "ratedBy")
 	private List<Rating> ratings = new ArrayList<>();
 
+	/* Following three mappings' names are hardcoded in JpaPlaylistRepository::removeByFilm() in native queries,
+	 * as opposed to making these bidirectional. */
 	@ManyToMany
 	@JoinTable(name = "users_contents_watched",
 			joinColumns = @JoinColumn(name = "user_id"),
@@ -60,6 +62,11 @@ public class User {
 	@ElementCollection
 	@Column(name = "role")
 	private Set<String> roles = new HashSet<>();
+
+	@Override
+	public String toString() {
+		return username;
+	}
 
 	@Override
 	public boolean equals(Object o) {

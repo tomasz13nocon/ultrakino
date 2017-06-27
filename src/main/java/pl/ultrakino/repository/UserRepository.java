@@ -1,6 +1,8 @@
 package pl.ultrakino.repository;
 
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
+import pl.ultrakino.model.Content;
+import pl.ultrakino.model.Film;
 import pl.ultrakino.model.User;
 
 import java.util.List;
@@ -26,5 +28,13 @@ public interface UserRepository {
 
 	User findById(int id) throws NoRecordWithSuchIdException;
 
+/*	/**
+	 * Finds all users who have specified film in any of their playlists.
+	 * @param film Film
+	 * @return List of Users
+	 *//*
+	List<User> findByFilmInAnyPlaylist(Film film);*/
+
 	void merge(User user);
+
 }

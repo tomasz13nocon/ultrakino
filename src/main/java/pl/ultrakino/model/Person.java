@@ -58,7 +58,7 @@ public class Person {
 
 	@Override
 	public String toString() {
-		return ToStringBuilder.reflectionToString(this, ToStringStyle.SIMPLE_STYLE);
+		return name;
 	}
 
 	@Override

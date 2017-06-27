@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
-import pl.ultrakino.Constants;
 import pl.ultrakino.exceptions.FileDeletionException;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.*;
@@ -20,9 +19,6 @@ import pl.ultrakino.resource.FilmResource;
 import pl.ultrakino.resource.PlayerResource;
 import pl.ultrakino.service.*;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -40,6 +36,7 @@ public class FilmServiceImpl implements FilmService {
 	private PersonService personService;
 	private PlayerService playerService;
 	private CommentService commentService;
+	private PlaylistRepository playlistRepository;
 
 	@Autowired
 	public FilmServiceImpl(FilmRepository filmRepository,
@@ -48,7 +45,7 @@ public class FilmServiceImpl implements FilmService {
 						   RatingRepository ratingRepository,
 						   PersonService personService,
 						   PlayerService playerService,
-						   CommentService commentService) {
+						   CommentService commentService, PlaylistRepository playlistRepository) {
 		this.filmRepository = filmRepository;
 		this.personRepository = personRepository;
 		this.userRepository = userRepository;
@@ -56,6 +53,7 @@ public class FilmServiceImpl implements FilmService {
 		this.personService = personService;
 		this.playerService = playerService;
 		this.commentService = commentService;
+		this.playlistRepository = playlistRepository;
 	}
 
 
@@ -76,7 +74,14 @@ public class FilmServiceImpl implements FilmService {
 
 	@Override
 	public void remove(Film film) throws FileDeletionException {
-		List<Rating> ratings = film.getRatings();
+		//TODO mark users who loose their playlists' entries
+
+		playlistRepository.removeByFilm(film);
+		filmRepository.remove(film);
+
+		// Alternative code that doesn't really remove the film from db but clears out most fields,
+		// so that the film still can be linked from playlists and such
+		/*List<Rating> ratings = film.getRatings();
 		for (Rating rating : ratings) {
 			rating.setContent(null);
 		}
@@ -91,13 +96,22 @@ public class FilmServiceImpl implements FilmService {
 			throw new FileDeletionException("Deleting an image failed. This could be a permissions issue.");
 		}
 		film.setCoverFilename(null);
-		film.setCastAndCrew(new HashSet<>());
-		film.setCategories(new HashSet<>());
-		film.setProductionCountries(new HashSet<>());
+		Set<FilmographyEntry> castAndCrew = film.getCastAndCrew();
+		for (FilmographyEntry entry : castAndCrew) {
+			entry.setContent(null);
+		}
+		castAndCrew.clear();
+		film.getCategories().clear();
+		film.getProductionCountries().clear();
 		film.setLocalPremiere(null);
-
-
-
+		Set<Player> players = film.getPlayers();
+		for (Player player : players) {
+			player.setContent(null);
+		}
+		players.clear();
+		film.setViews(0);
+		film.setRecommendationDate(null);
+		film.setAdditionDate(null);*/
 	}
 
 	@Override
