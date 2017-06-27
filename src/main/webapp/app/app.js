@@ -139,9 +139,13 @@ angular.module("app")
 
 	}]);
 
-var AdminPanelController = ["$http", "$scope", "Film", function($http, $scope, Film) {
-	if (typeof adminPanelCtrl !== 'undefined')
-		adminPanelCtrl($http, $scope, Film);
+var AdminPanelController = ['$http', '$interval', '$scope', 'Film', 'User', function($http, $interval, $scope, Film, User) {
+	var cancel = $interval(function() {
+		if (typeof adminPanelCtrl !== 'undefined') {
+			adminPanelCtrl($http, $scope, Film, $interval, User);
+			$interval.cancel(cancel);
+		}
+	}, 200)
 }];
 
 function addAdminScripts() {

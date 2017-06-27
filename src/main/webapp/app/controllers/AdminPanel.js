@@ -1,9 +1,10 @@
-angular.module("app")
-.controller("AdminPanelController", ["$http", "$scope", "Film", adminPanelCtrl]);
+//angular.module("app")
+//.controller("AdminPanelController", ["$http", "$scope", "Film", "$interval", "User", adminPanelCtrl]);
 
-function adminPanelCtrl($http, $scope, Film) {
+function adminPanelCtrl($http, $scope, Film, $interval, User) {
 	var ctrl = this;
 
+	$scope.adminPanelTab = 'bots';
 	$scope.page = 1;
 	$scope.requestUrl = api + "/films";
 	$scope.requestData = {};
@@ -45,6 +46,12 @@ function adminPanelCtrl($http, $scope, Film) {
 		});
 	}
 
+	$scope.fetchUsers = function() {
+		User.query({ start: 0, maxResults: 10 }, function(resp) {
+			$scope.users = resp;
+		});
+	}
+
 	$scope.performRequest = function() {
 		$http({
 			method: $scope.requestMethod,
@@ -66,5 +73,7 @@ function adminPanelCtrl($http, $scope, Film) {
 		$scope.requestDataKey = null;
 		$scope.requestDataValue = null;
 	}
+
+	$scope.fetchUsers();
 
 }

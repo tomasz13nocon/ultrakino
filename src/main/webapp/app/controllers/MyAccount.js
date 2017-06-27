@@ -2,10 +2,6 @@ angular.module("app")
 .controller("MyAccountController", ['$animate', '$http', '$interval', '$rootScope', '$scope', '$timeout', 'User', function($animate, $http, $interval, $rootScope, $scope, $timeout, User) {
 	var ctrl = this;
 
-	$interval(function() {
-//		console.log($scope.activeTab + "     " + $scope.loadingTab);
-	}, 500);
-
 	ctrl.setActiveTab = function(tab) {
 		if (tab === $scope.activeTab) return;
 		$scope.activeTab = tab;

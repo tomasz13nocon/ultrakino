@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@PreAuthorize("hasRole('ADMIN')")
 @RestController
 @RequestMapping(Constants.API_PREFIX + "/bots")
 public class BotController {
@@ -40,6 +42,7 @@ public class BotController {
 		this.tvseriesonlineService = tvseriesonlineService;
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/films")
 	public synchronized ResponseEntity uploadFilms(@RequestBody ObjectNode body) {
 		try {

@@ -6,15 +6,18 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import pl.ultrakino.Constants;
+import pl.ultrakino.Utils;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.User;
 import pl.ultrakino.service.UserService;
 
 import java.security.Principal;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(Constants.API_PREFIX)
@@ -70,21 +73,39 @@ public class UserController {
 	// Get users with given username
 	// For registration, checking whether a user exists.
 	@GetMapping("/users")
-	public ResponseEntity findUser(@RequestParam String name) {
-		Optional<User> user = userService.findByUsername(name);
-		if (user.isPresent())
-			return ResponseEntity.ok(userService.toResource(user.get()));
-		return ResponseEntity.ok().build();
+	public ResponseEntity findUser(@RequestParam(required = false) String name,
+											 @RequestParam(required = false) Integer start,
+											 @RequestParam(required = false) Integer maxResults,
+											 Principal principal) {
+		if (name != null) {
+			Optional<User> user = userService.findByUsername(name);
+			if (user.isPresent())
+				return ResponseEntity.ok(userService.toResource(user.get()));
+			return ResponseEntity.ok().build();
+		}
+		else if (start != null && maxResults != null) {
+			Optional<User> user = userService.findByUsername(principal.getName());
+			if (!user.isPresent())
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+			if (!user.get().getRoles().contains("ROLE_ADMIN"))
+				return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+			return ResponseEntity.ok(
+					userService.find(start, maxResults)
+					.stream().map(userService::toDetailsResource).collect(Collectors.toList()));
+		}
+		else
+			return ResponseEntity.badRequest().body(Utils.jsonError("Required parameters are absent."));
 	}
 
 	// Create user
 	@PostMapping("/users")
-	public ResponseEntity createUser(@RequestBody MultiValueMap<String, String> body) {
+	public ResponseEntity createUser(@RequestBody ObjectNode body) {
 		try {
+			// TODO CHECK FOR EXISTANCE AND TYPE OF ARGUMENTS
 			return ResponseEntity.ok(userService.create(
-					body.get("username").get(0),
-					body.get("password").get(0),
-					body.get("email").get(0)));
+					body.get("username").asText(),
+					body.get("password").asText(),
+					body.get("email").asText()));
 		} catch (NullPointerException e) {
 			return ResponseEntity.badRequest().build();
 		}

@@ -75,7 +75,6 @@ public class FilmServiceImpl implements FilmService {
 	@Override
 	public void remove(Film film) throws FileDeletionException {
 		//TODO mark users who loose their playlists' entries
-
 		playlistRepository.removeByFilm(film);
 		filmRepository.remove(film);
 

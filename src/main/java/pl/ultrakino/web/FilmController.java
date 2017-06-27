@@ -130,6 +130,7 @@ public class FilmController {
 		}
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/{filmId}/recommendationDate")
 	public ResponseEntity recommendFilm(@PathVariable int filmId) {
 		try {
@@ -140,6 +141,7 @@ public class FilmController {
 		}
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/{filmId}/recommendationDate")
 	public ResponseEntity deleteRecommendation(@PathVariable int filmId) {
 		try {

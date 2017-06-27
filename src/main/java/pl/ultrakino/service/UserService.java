@@ -6,6 +6,7 @@ import pl.ultrakino.model.User;
 import pl.ultrakino.resource.UserDetailsResource;
 import pl.ultrakino.resource.UserResource;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
@@ -26,4 +27,6 @@ public interface UserService extends UserDetailsService {
 	UserResource toResource(User user);
 
 	void merge(User user);
+
+	List<User> find(int start, int maxResults);
 }

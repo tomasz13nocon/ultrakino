@@ -58,8 +58,7 @@ public class Film extends Content {
 	@Column(name = "local_premiere")
 	private LocalDate localPremiere;
 
-	@OneToMany(cascade = CascadeType.ALL/*, mappedBy = "content"*/)
-	@JoinColumn(name = "content_id")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "content")
 	private Set<Player> players = new HashSet<>();
 
 	private Integer views;
@@ -73,8 +72,7 @@ public class Film extends Content {
 	@Column(name = "running_time")
 	private Integer runningTime;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "content_id")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "content", orphanRemoval = true)
 	private Set<Comment> comments = new HashSet<>();
 
 

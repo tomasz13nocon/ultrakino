@@ -106,7 +106,7 @@
 						<div class="the-box-message the-box-message-green" ng-show="userCtrl.TheBox.registerMessage">
 							<span ng-bind="userCtrl.TheBox.registerMessage"></span>
 						</div>
-						<form class="login-form" ng-submit="">
+						<form class="login-form" ng-submit="userCtrl.createAccount(registerForm)">
 							<label>
 								<span class="login-label-text">Email:</span>
 								<input class="login-text-input" type="email" ng-model="registerForm.email" />

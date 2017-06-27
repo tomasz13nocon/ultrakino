@@ -1,9 +1,12 @@
 package pl.ultrakino.service.impl;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
@@ -15,7 +18,9 @@ import pl.ultrakino.service.ContentService;
 import pl.ultrakino.service.PlayerService;
 import pl.ultrakino.service.UserService;
 
+import javax.persistence.PersistenceUnitUtil;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -83,8 +88,12 @@ public class UserServiceImpl implements UserService {
 		if (username.length() < 3 || username.length() > 64)
 			throw new IllegalArgumentException("username must be at least 3 and at most 64 characters long");
 
-
-		return null;
+		// TODO finish
+		User user = new User();
+		user.setUsername(username);
+		user.setPasswd(BCrypt.hashpw(password, BCrypt.gensalt()));
+		user.setEmail(email);
+		return userRepository.save(user);
 	}
 
 	@Override
@@ -94,10 +103,15 @@ public class UserServiceImpl implements UserService {
 		res.setUsername(user.getUsername());
 		res.setAvatarFilename(user.getAvatarFilename() == null ? "images/avatar3.png" : user.getAvatarFilename());
 		res.setEmail(user.getEmail());
-		res.setAddedPlayers(new HashSet<>(playerService.toResources(user.getAddedPlayers())));
-		res.setWatchedContent(new HashSet<>(contentService.toResources(user.getWatchedContent())));
-		res.setFavorites(new HashSet<>(contentService.toResources(user.getFavorites())));
-		res.setWatchlist(new HashSet<>(contentService.toResources(user.getWatchlist())));
+		if (Hibernate.isInitialized(user.getAddedPlayers()))
+			res.setAddedPlayers(new HashSet<>(playerService.toResources(user.getAddedPlayers())));
+		if (Hibernate.isInitialized(user.getWatchedContent()))
+			res.setWatchedContent(new HashSet<>(contentService.toResources(user.getWatchedContent())));
+		if (Hibernate.isInitialized(user.getFavorites()))
+			res.setFavorites(new HashSet<>(contentService.toResources(user.getFavorites())));
+		if (Hibernate.isInitialized(user.getWatchlist()))
+			res.setWatchlist(new HashSet<>(contentService.toResources(user.getWatchlist())));
+		res.setRegistrationDate(user.getRegistrationDate());
 		return res;
 	}
 
@@ -114,6 +128,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void merge(User user) {
 		userRepository.merge(user);
+	}
+
+	@Override
+	public List<User> find(int start, int maxResults) {
+		return userRepository.find(start, maxResults);
 	}
 
 }

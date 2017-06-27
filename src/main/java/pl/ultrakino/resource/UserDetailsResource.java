@@ -3,6 +3,7 @@ package pl.ultrakino.resource;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -21,5 +22,6 @@ public class UserDetailsResource {
 	private Set<ContentResource> watchedContent = new HashSet<>();
 	private Set<ContentResource> watchlist = new HashSet<>();
 	private Set<ContentResource> favorites = new HashSet<>();
+	private LocalDateTime registrationDate;
 
 }

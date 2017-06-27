@@ -1,18 +1,12 @@
 package pl.ultrakino.repository.jpa;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
-import pl.ultrakino.model.Content;
-import pl.ultrakino.model.Film;
 import pl.ultrakino.model.User;
 import pl.ultrakino.repository.UserRepository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,8 +17,9 @@ public class JpaUserRepository implements UserRepository {
 	private EntityManager em;
 
 	@Override
-	public void save(User user) {
+	public User save(User user) {
 		em.persist(user);
+		return user;
 	}
 
 	@Override
@@ -72,6 +67,14 @@ public class JpaUserRepository implements UserRepository {
 	@Override
 	public void merge(User user) {
 		em.merge(user);
+	}
+
+	@Override
+	public List<User> find(int start, int maxResults) {
+		return em.createQuery("SELECT u FROM User u LEFT JOIN FETCH u.addedPlayers", User.class)
+				.setFirstResult(start)
+				.setMaxResults(maxResults)
+				.getResultList();
 	}
 
 }

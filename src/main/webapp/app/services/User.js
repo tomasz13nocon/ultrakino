@@ -6,7 +6,7 @@ angular.module("app")
 		var headers = credentials ? {
 			Authorization: "Basic " + btoa(credentials.username + ":" + credentials.password) 
 		} : {};
-		$http.get("/api/user", {headers: headers}).then(function(resp) {
+		$http.get(api + "/user", {headers: headers}).then(function(resp) {
 			if (resp.data.name) {
 				$rootScope.authenticated = true;
 				for (var i=0; i < resp.data.authorities.length; i++) {
@@ -17,6 +17,15 @@ angular.module("app")
 				}
 				if (!$rootScope.user)
 					$rootScope.user = resp.data.details;
+				var rd = $rootScope.user.registrationDate;
+				$rootScope.user.registrationDate = new Date(
+					rd.year,
+					rd.monthValue,
+					rd.dayOfMonth,
+					rd.hour,
+					rd.minute,
+					rd.second,
+				);
 				TheBox.theBoxVisible = false;
 				TheBox.authenticationFailed = false;
 				$route.reload();

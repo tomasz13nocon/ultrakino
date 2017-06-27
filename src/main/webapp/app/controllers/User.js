@@ -20,7 +20,12 @@ angular.module("app")
 	};
 
 	ctrl.createAccount = function(credentials) {
-
+		User.save({},
+			{ username: credentials.username, password: credentials.password, email: credentials.email },
+			function(resp) {
+				console.log("OK");
+			}
+		)
 	}
 
 	ctrl.accountDropdownVisible = false;

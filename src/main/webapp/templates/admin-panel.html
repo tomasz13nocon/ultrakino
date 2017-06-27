@@ -1,28 +1,60 @@
 <div class="page-content-thingy">
-	<h4 class="admin-title">Alltube bot</h4>
-	<div class="admin-section">
-		<label>
-			Page
-			<input type="number" ng-model="page" value="1" />
-		</label>
-		<div class="btn-2" ng-click="adminPanelCtrl.alltubeBot()">Run</div>
+	<div class="admin-panel-tabs">
+		<div class="admin-panel-tab nav-link link" ng-class="{'nav-link-active': adminPanelTab === 'bots'}" ng-click="adminPanelTab = 'bots'">Boty</div>
+		<div class="admin-panel-tab nav-link link" ng-class="{'nav-link-active': adminPanelTab === 'users'}" ng-click="adminPanelTab = 'users'">Użytkownicy</div>
 	</div>
 
-	<h4 class="admin-title">Tvseriesonline bot</h4>
-	<div class="admin-section">
-		<div class="btn-2" ng-click="adminPanelCtrl.tvseriesonlineBot()">Run</div>
+	<hr>
+
+	<div class="admin-panel-tab-bots" ng-show="adminPanelTab === 'bots'">
+		<h4 class="admin-title">Alltube bot</h4>
+		<div class="admin-section">
+			<label>
+				Page
+				<input type="number" ng-model="page" value="1" />
+			</label>
+			<div class="btn-2" ng-click="adminPanelCtrl.alltubeBot()">Run</div>
+		</div>
+
+		<h4 class="admin-title">Tvseriesonline bot</h4>
+		<div class="admin-section">
+			<div class="btn-2" ng-click="adminPanelCtrl.tvseriesonlineBot()">Run</div>
+		</div>
+
+		<div class="admin-success-info" ng-show="success">Success.</div>
+
+		<div class="spinner-wrapper" ng-show="loading"><div class="spinner-small"></div></div>
+
+		<div class="admin-panel-error-box" ng-show="error">
+			<span class="admin-panel-error-label">HTTP status code: </span>
+			<span ng-bind="error.status"></span>
+			<br />
+			<span class="admin-panel-error-label">Message: </span>
+			<span ng-bind="error.msg"></span>
+		</div>
 	</div>
 
-	<div class="admin-success-info" ng-show="success">Success.</div>
-
-	<div class="spinner-wrapper" ng-show="loading"><div class="spinner-small"></div></div>
-
-	<div class="admin-panel-error-box" ng-show="error">
-		<span class="admin-panel-error-label">HTTP status code: </span>
-		<span ng-bind="error.status"></span>
-		<br />
-		<span class="admin-panel-error-label">Message: </span>
-		<span ng-bind="error.msg"></span>
+	<div class="admin-panel-tab-users" ng-show="adminPanelTab === 'users'">
+		<div class="admin-panel-users-table">
+			<table>
+				<thead>
+					<tr>
+						<td>ID</td>
+						<td>Nazwa</td>
+						<td>Email</td>
+						<td>Data rejestracji</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="user in users">
+						<td ng-bind="user.uid">
+						<td ng-bind="user.username">
+						<td ng-bind="user.email">
+						<td ng-bind="user.registrationDate">
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 
 	<hr>

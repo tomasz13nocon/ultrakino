@@ -1,5 +1,3 @@
-usuwanie filmów które zostały dodane do ulubionych narusza fkey constraint. Być może inne tabele też mają takie zależności.
-
 Rejestracja (wysyłanie emaila)
 Zaloguj się (zarejestruj) przez facebooka
 udostępnij film na facebooku
@@ -14,6 +12,7 @@ jeden koment na minutę/30 sekund
 edytowanie i usuwanie komentów
 sortowanie playerów po wersji (i hostingu)
 player bazowany na route, link do konkretnego playera
+angular is loaded 2 times at the begining because of authentication.
 
 CHECK ON CASCADE TYPES
 

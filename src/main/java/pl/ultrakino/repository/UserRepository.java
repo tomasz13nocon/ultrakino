@@ -1,8 +1,6 @@
 package pl.ultrakino.repository;
 
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
-import pl.ultrakino.model.Content;
-import pl.ultrakino.model.Film;
 import pl.ultrakino.model.User;
 
 import java.util.List;
@@ -10,7 +8,7 @@ import java.util.Optional;
 
 public interface UserRepository {
 
-	void save(User user);
+	User save(User user);
 
 	List<User> findAll();
 
@@ -37,4 +35,5 @@ public interface UserRepository {
 
 	void merge(User user);
 
+	List<User> find(int start, int maxResults);
 }

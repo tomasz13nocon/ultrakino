@@ -86,6 +86,8 @@ public class FilmwebServiceImpl implements FilmwebService {
 				arrayString = response.substring(response.indexOf('['), response.lastIndexOf(']') + 1);
 			}
 			catch (StringIndexOutOfBoundsException e) {
+				System.err.println("FILMWEB RESPONSE:");
+				System.err.println(response);
 				throw new FilmwebException("Wrong format of filmweb API. filmwebId: " + filmwebId);
 			}
 			ObjectMapper mapper = new ObjectMapper();

@@ -993,6 +993,10 @@ select.filter-input {
   text-align: center;
   margin: 10px; }
 
+div.admin-panel-tab {
+  float: none;
+  display: inline-block; }
+
 .bg-light {
   background-color: white; }
 
@@ -1295,6 +1299,15 @@ select.filter-input {
 .account-info-username {
   font-size: 1.6em;
   margin-top: 22px; }
+
+.account-info-details {
+  margin: 12px auto;
+  font-size: 0.9em; }
+  .account-info-details > div {
+    margin: 4px; }
+
+.account-info-label {
+  color: #bbb; }
 
 body {
   background: #222 url("../images/blacktiles.png") repeat;
