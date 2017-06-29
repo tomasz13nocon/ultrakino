@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@PreAuthorize("hasRole('ADMIN')")
 @RestController
 @RequestMapping(Constants.API_PREFIX + "/bots")
 public class BotController {
@@ -42,7 +41,6 @@ public class BotController {
 		this.tvseriesonlineService = tvseriesonlineService;
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/films")
 	public synchronized ResponseEntity uploadFilms(@RequestBody ObjectNode body) {
 		try {

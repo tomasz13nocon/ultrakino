@@ -178,6 +178,7 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 					}
 					player.setForeignSrc(true);
 					player.setLanguageVersion(version);
+					player.setContent(episode);
 					episode.getPlayers().add(player);
 				}
 			}

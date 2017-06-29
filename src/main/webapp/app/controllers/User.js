@@ -14,8 +14,8 @@ angular.module("app")
 	ctrl.logout = function() {
 		$http.post("/logout").then(function(resp) {
 			User.invalidate();
-			$route.reload();
-			//$window.location.reload();
+			//$route.reload();
+			$window.location.reload();
 		});
 	};
 
@@ -23,7 +23,9 @@ angular.module("app")
 		User.save({},
 			{ username: credentials.username, password: credentials.password, email: credentials.email },
 			function(resp) {
-				console.log("OK");
+				// TODO: Message telling, that registration was successful and to confirm email
+				$route.reload();
+				User.authenticate({ username: credentials.username, password: credentials.password });
 			}
 		)
 	}

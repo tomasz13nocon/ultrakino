@@ -34,7 +34,7 @@ public class User {
 	@Column(name = "avatar_filename")
 	private String avatarFilename;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "addedBy")
+	@OneToMany(mappedBy = "addedBy")
 	private Set<Player> addedPlayers = new HashSet<>();
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "ratedBy")

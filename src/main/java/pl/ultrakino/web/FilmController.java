@@ -54,7 +54,6 @@ public class FilmController {
 
 	@PostMapping
 	public ResponseEntity addFilm(@RequestBody ObjectNode filmJson, Principal principal, HttpServletRequest request) {
-		System.out.println(filmJson); // TODO: DELET
 		if (principal == null)
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		Optional<User> user = userService.findByUsername(principal.getName());
@@ -92,31 +91,25 @@ public class FilmController {
 			catch (IllegalArgumentException e) {
 				return ResponseEntity.badRequest().body(Utils.jsonError("field 'languageVersion' is incorrect."));
 			}
-			film.getPlayers().add(new Player(src, hosting, languageVersion, user.get()));
-			filmService.save(film);
+			film.getPlayers().add(new Player(src, hosting, languageVersion, user.get(), film));
 		}
+		filmService.save(film);
 		try {
-			return ResponseEntity.created(new URI(request.getRequestURI() + "/" + film.getId())).build();
+			return ResponseEntity.created(new URI(request.getRequestURI() + "/" + film.getId()))
+					.body(JsonNodeFactory.instance.objectNode().put("id", film.getId()));
 		} catch (URISyntaxException e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Utils.jsonError("URL parsing error"));
 		}
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/{filmId}")
 	public ResponseEntity deleteFilm(@PathVariable int filmId, Principal principal) {
-		if (principal == null)
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		Optional<User> user = userService.findByUsername(principal.getName());
-		if (!user.isPresent())
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-
 		try {
 			filmService.remove(filmId);
 		} catch (NoRecordWithSuchIdException e) {
 			return ResponseEntity.notFound().build();
 		} catch (FileDeletionException e) {
-			// TODO
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Utils.jsonError(e.getMessage()));
 		}
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}

@@ -1,7 +1,7 @@
 <div class="page-content-thingy">
 	<div class="admin-panel-tabs">
 		<div class="admin-panel-tab nav-link link" ng-class="{'nav-link-active': adminPanelTab === 'bots'}" ng-click="adminPanelTab = 'bots'">Boty</div>
-		<div class="admin-panel-tab nav-link link" ng-class="{'nav-link-active': adminPanelTab === 'users'}" ng-click="adminPanelTab = 'users'">Użytkownicy</div>
+		<div class="admin-panel-tab nav-link link" ng-class="{'nav-link-active': adminPanelTab === 'users'}" ng-click="setTab('users')">Użytkownicy</div>
 	</div>
 
 	<hr>
@@ -25,16 +25,9 @@
 
 		<div class="spinner-wrapper" ng-show="loading"><div class="spinner-small"></div></div>
 
-		<div class="admin-panel-error-box" ng-show="error">
-			<span class="admin-panel-error-label">HTTP status code: </span>
-			<span ng-bind="error.status"></span>
-			<br />
-			<span class="admin-panel-error-label">Message: </span>
-			<span ng-bind="error.msg"></span>
-		</div>
 	</div>
 
-	<div class="admin-panel-tab-users" ng-show="adminPanelTab === 'users'">
+	<div class="admin-panel-tab-users" ng-if="adminPanelTab === 'users'" ng-show="adminPanelTab === 'users'">
 		<div class="admin-panel-users-table">
 			<table>
 				<thead>
@@ -43,18 +36,36 @@
 						<td>Nazwa</td>
 						<td>Email</td>
 						<td>Data rejestracji</td>
+						<td>Dodane linki</td>
+						<td>Akcje</td>
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="user in users">
-						<td ng-bind="user.uid">
-						<td ng-bind="user.username">
-						<td ng-bind="user.email">
-						<td ng-bind="user.registrationDate">
+					<tr ng-repeat="user in users | orderBy: 'uid' track by $index">
+						<td ng-bind="user.uid"></td>
+						<td ng-bind="user.username"></td>
+						<td ng-bind="user.email"></td>
+						<td ng-bind="user.registrationDate"></td>
+						<td>
+							<div ng-show="user.addedPlayers.length > 0">Rozwiń</div>
+							<div class="minor" ng-show="user.addedPlayers.length === 0">Brak</div>
+						</td>
+						<td>
+							<button class="btn-3 btn-small" ng-click="removeUser(user.uid, $index)">Usuń</button>
+						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
+	</div>
+
+	<div class="admin-panel-error-box" ng-show="error">
+		<br>
+		<span class="admin-panel-error-label">HTTP status code: </span>
+		<span ng-bind="error.status"></span>
+		<br />
+		<span class="admin-panel-error-label">Message: </span>
+		<span ng-bind="error.msg"></span>
 	</div>
 
 	<hr>

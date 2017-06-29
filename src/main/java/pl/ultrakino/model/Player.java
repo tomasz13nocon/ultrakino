@@ -25,11 +25,12 @@ public class Player {
 
 	public Player() {}
 
-	public Player(String src, String hosting, LanguageVersion languageVersion, User addedBy) {
+	public Player(String src, String hosting, LanguageVersion languageVersion, User addedBy, Content content) {
 		this.src = src;
 		this.hosting = hosting;
 		this.languageVersion = languageVersion;
 		this.addedBy = addedBy;
+		this.content = content;
 	}
 
 	@Id
@@ -78,6 +79,10 @@ public class Player {
 	}
 
 
+	@Override
+	public String toString() {
+		return hosting + ": " + src;
+	}
 
 	@Override
 	public boolean equals(Object o) {

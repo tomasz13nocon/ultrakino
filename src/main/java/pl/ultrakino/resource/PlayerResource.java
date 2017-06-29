@@ -17,7 +17,7 @@ public class PlayerResource {
 	private String quality;
 	private LocalDateTime additionDate;
 	private UserResource addedBy;
-	private Content content;
+	private ContentResource content;
 	private String hosting;
 
 }

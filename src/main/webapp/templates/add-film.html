@@ -107,6 +107,7 @@
 					<br/>
 					<div ng-show="filmAdditionSuccessful">
 						Film dodany pomyślnie.
+						<a ng-href="#filmy/{{addedFilmId}}"></a>
 					</div>
 					<div ng-show="filmAdditionFailed">
 						Wystąpił błąd. <span ng-bind="filmAdditionError.status"></span>

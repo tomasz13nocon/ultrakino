@@ -4,6 +4,7 @@
 function adminPanelCtrl($http, $scope, Film, $interval, User) {
 	var ctrl = this;
 
+	$scope.usersPage = 0;
 	$scope.adminPanelTab = 'bots';
 	$scope.page = 1;
 	$scope.requestUrl = api + "/films";
@@ -47,8 +48,15 @@ function adminPanelCtrl($http, $scope, Film, $interval, User) {
 	}
 
 	$scope.fetchUsers = function() {
-		User.query({ start: 0, maxResults: 10 }, function(resp) {
+		User.query({ start: $scope.usersPage * 10, maxResults: 10 }, function(resp) {
+			resp.forEach(function(user) {
+				if (user.registrationDate) {
+					date = arrayToDate(user.registrationDate);
+					user.registrationDate = date.toLocaleDateString('PL-pl') + "  " + date.toLocaleTimeString('PL-pl');
+				}
+			})
 			$scope.users = resp;
+			console.log(resp);
 		});
 	}
 
@@ -74,6 +82,24 @@ function adminPanelCtrl($http, $scope, Film, $interval, User) {
 		$scope.requestDataValue = null;
 	}
 
-	$scope.fetchUsers();
+	$scope.removeUser = function(id, i) {
+		if (confirm("Na pewno usunąć tego użytkownika i wszystkie jego dane z bazy danych?")) {
+			User.remove({ id: id }, function() {
+				$scope.users.splice(i, 1);
+			}, function(resp) {
+				$scope.error = resp;
+			});
+		}
+	}
+
+	$scope.setTab = function(tab) {
+		$scope.adminPanelTab = tab;
+		switch(tab) {
+			case 'users':
+				if (!$scope.users)
+					$scope.fetchUsers();
+				break;
+		}
+	}
 
 }

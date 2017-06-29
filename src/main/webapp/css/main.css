@@ -305,6 +305,9 @@ input[type="radio"].radio {
   color: #fff;
   background-color: #d42321; }
 
+.btn-small {
+  padding: 3px 6px; }
+
 .clear {
   clear: both; }
 
@@ -326,6 +329,15 @@ input[type="radio"].radio {
 @media (max-width: 970px) {
   .page-content-thingy {
     width: 100%; } }
+thead {
+  font-weight: bold; }
+
+tr {
+  border-bottom: 1px solid #eee; }
+
+td {
+  padding: 4px; }
+
 .section-heading {
   font-size: 1.4em;
   text-align: center;

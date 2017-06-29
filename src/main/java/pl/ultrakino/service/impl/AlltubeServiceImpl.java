@@ -132,16 +132,12 @@ public class AlltubeServiceImpl implements AlltubeService {
 			player.setSrc(src);
 			player.setHosting(hosting);
 			player.setLanguageVersion(version);
+			player.setContent(film);
 			players.add(player);
 		}
 
 		for (Player player : film.getPlayers()) {
-			Iterator<Player> it = players.iterator();
-			while (it.hasNext()) {
-				Player newPlayer = it.next();
-				if (player.getHosting().equals(newPlayer.getHosting()) && player.getSrc().equals(newPlayer.getSrc()))
-					it.remove();
-			}
+			players.removeIf(player::equals);
 		}
 		film.getPlayers().addAll(players);
 

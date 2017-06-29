@@ -3,6 +3,7 @@ package pl.ultrakino.service.impl;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.hibernate.LazyInitializationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
+import pl.ultrakino.Constants;
 import pl.ultrakino.exceptions.FileDeletionException;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.*;
@@ -19,6 +21,9 @@ import pl.ultrakino.resource.FilmResource;
 import pl.ultrakino.resource.PlayerResource;
 import pl.ultrakino.service.*;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -76,6 +81,12 @@ public class FilmServiceImpl implements FilmService {
 	public void remove(Film film) throws FileDeletionException {
 		//TODO mark users who loose their playlists' entries
 		playlistRepository.removeByFilm(film);
+		try {
+			Files.deleteIfExists(Paths.get(Constants.COVERS_DIRECTORY + film.getCoverFilename()));
+		} catch (IOException e) {
+			System.err.println("=== Deleting an image failed. This could be a permissions issue. ===");
+			throw new FileDeletionException("Deleting an image failed.");
+		}
 		filmRepository.remove(film);
 
 		// Alternative code that doesn't really remove the film from db but clears out most fields,
@@ -90,7 +101,7 @@ public class FilmServiceImpl implements FilmService {
 		film.setFilmwebId(null);
 		film.setDescription(null);
 		try {
-			Files.deleteIfExists(Paths.get(Constants.IMAGES + film.getCoverFilename()));
+			Files.deleteIfExists(Paths.get(Constants.COVERS_DIRECTORY + film.getCoverFilename()));
 		} catch (IOException e) {
 			throw new FileDeletionException("Deleting an image failed. This could be a permissions issue.");
 		}
@@ -113,6 +124,7 @@ public class FilmServiceImpl implements FilmService {
 		film.setAdditionDate(null);*/
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@Override
 	public void remove(int filmId) throws NoRecordWithSuchIdException, FileDeletionException {
 		Film film = filmRepository.findById(filmId);

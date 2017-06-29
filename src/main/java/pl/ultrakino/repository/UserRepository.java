@@ -36,4 +36,6 @@ public interface UserRepository {
 	void merge(User user);
 
 	List<User> find(int start, int maxResults);
+
+	void remove(User user);
 }

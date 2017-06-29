@@ -71,6 +71,7 @@ angular.module("app")
 		$rootScope.$on("$locationChangeSuccess", function() {
 			setTitle("Ultrakino.pl - oglądaj najlepsze filmy i seriale za darmo!");
 		});
+
 	}]);
 
 angular.module("app")
@@ -157,4 +158,15 @@ function addAdminScripts() {
 		s.src = src;
 		document.head.appendChild(s);
 	});
+}
+
+function arrayToDate(arr) {
+	return new Date(
+		arr[0],
+		arr[1],
+		arr[2],
+		arr[3],
+		arr[4],
+		arr[5]
+	);
 }

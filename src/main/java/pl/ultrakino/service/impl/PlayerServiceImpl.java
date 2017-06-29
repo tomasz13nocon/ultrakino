@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.ultrakino.model.Player;
 import pl.ultrakino.resource.PlayerResource;
+import pl.ultrakino.service.ContentService;
 import pl.ultrakino.service.PlayerService;
 import pl.ultrakino.service.UserService;
 
@@ -19,9 +20,16 @@ public class PlayerServiceImpl implements PlayerService {
 	// Autowired at fields, because of circular dependencies
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private ContentService contentService;
 
 	@Override
 	public PlayerResource toResource(Player player) {
+		return toResource(player, false);
+	}
+
+	@Override
+	public PlayerResource toResource(Player player, boolean content) {
 		PlayerResource res = new PlayerResource();
 		res.setHosting(player.getHosting());
 		String src = player.getSrc();
@@ -59,12 +67,19 @@ public class PlayerServiceImpl implements PlayerService {
 		res.setQuality(player.getQuality());
 		if (player.getAddedBy() != null)
 			res.setAddedBy(userService.toResource(player.getAddedBy()));
+		if (content)
+			res.setContent(contentService.toResource(player.getContent()));
 		return res;
 	}
 
 	@Override
 	public List<PlayerResource> toResources(Collection<Player> players) {
-		return players.stream().map(this::toResource).collect(Collectors.toList());
+		return toResources(players, false);
+	}
+
+	@Override
+	public List<PlayerResource> toResources(Collection<Player> players, boolean content) {
+		return players.stream().map(p -> toResource(p, content)).collect(Collectors.toList());
 	}
 
 }

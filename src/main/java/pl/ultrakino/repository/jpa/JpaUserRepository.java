@@ -71,10 +71,15 @@ public class JpaUserRepository implements UserRepository {
 
 	@Override
 	public List<User> find(int start, int maxResults) {
-		return em.createQuery("SELECT u FROM User u LEFT JOIN FETCH u.addedPlayers", User.class)
+		return em.createQuery("SELECT u FROM User u LEFT JOIN FETCH u.addedPlayers p LEFT JOIN FETCH p.content", User.class)
 				.setFirstResult(start)
 				.setMaxResults(maxResults)
 				.getResultList();
+	}
+
+	@Override
+	public void remove(User user) {
+		em.remove(user);
 	}
 
 }

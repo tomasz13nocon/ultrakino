@@ -16,6 +16,7 @@ import pl.ultrakino.service.EpisodeService;
 import pl.ultrakino.service.FilmService;
 import pl.ultrakino.service.SeriesService;
 
+import javax.validation.constraints.Null;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,6 +45,8 @@ public class ContentServiceImpl implements ContentService {
 
 	@Override
 	public ContentResource toResource(Content content) {
+		if (content == null)
+			return null;
 		if (content instanceof Film)
 			return filmService.toResource((Film) content);
 		else if (content instanceof Episode)

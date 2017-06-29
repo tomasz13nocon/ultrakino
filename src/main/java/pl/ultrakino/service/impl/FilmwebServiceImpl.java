@@ -16,7 +16,6 @@ import pl.ultrakino.repository.PersonRepository;
 import pl.ultrakino.service.*;
 
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -182,7 +181,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 			if (saveImages) {
 				try (InputStream is = new URL(filmwebImg).openStream()) {
 					filename = DigestUtils.md5Hex(series.getTitle() + series.getYear()) + ".jpg";
-					try (OutputStream os = new FileOutputStream(Constants.IMAGES + filename)) {
+					try (OutputStream os = new FileOutputStream(Constants.COVERS_DIRECTORY + filename)) {
 						IOUtils.copy(is, os);
 					}
 
@@ -276,7 +275,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 			if (saveImages) {
 				try (InputStream is = new URL(filmwebImg).openStream()) {
 					filename = DigestUtils.md5Hex(film.getTitle() + film.getYear()) + ".jpg";
-					try (OutputStream os = new FileOutputStream(Constants.IMAGES + filename)) {
+					try (OutputStream os = new FileOutputStream(Constants.COVERS_DIRECTORY + filename)) {
 						IOUtils.copy(is, os);
 					} catch (IOException e) {
 						throw new FilmwebException(e);
@@ -366,7 +365,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 							String filmwebImg = "http://1.fwcdn.pl/p" + actor[4];
 							try (InputStream is = new URL(filmwebImg).openStream()) {
 								String filename = DigestUtils.md5Hex(p.getName() + filmwebImg) + ".jpg";
-								try (OutputStream os = new FileOutputStream(Constants.IMAGES + filename)) {
+								try (OutputStream os = new FileOutputStream(Constants.COVERS_DIRECTORY + filename)) {
 									IOUtils.copy(is, os);
 								}
 								p.setAvatarFilename(filename);

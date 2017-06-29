@@ -6,10 +6,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.ultrakino.Constants;
+import pl.ultrakino.exceptions.FileDeletionException;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
+import pl.ultrakino.model.Player;
 import pl.ultrakino.model.User;
 import pl.ultrakino.repository.UserRepository;
 import pl.ultrakino.resource.UserDetailsResource;
@@ -18,10 +20,13 @@ import pl.ultrakino.service.ContentService;
 import pl.ultrakino.service.PlayerService;
 import pl.ultrakino.service.UserService;
 
-import javax.persistence.PersistenceUnitUtil;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -97,14 +102,18 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDetailsResource toDetailsResource(User user) {
+	public UserDetailsResource toDetailsResource(User user, boolean addedPlayers) {
 		UserDetailsResource res = new UserDetailsResource();
 		res.setUid(user.getId());
 		res.setUsername(user.getUsername());
 		res.setAvatarFilename(user.getAvatarFilename() == null ? "images/avatar3.png" : user.getAvatarFilename());
 		res.setEmail(user.getEmail());
-		if (Hibernate.isInitialized(user.getAddedPlayers()))
-			res.setAddedPlayers(new HashSet<>(playerService.toResources(user.getAddedPlayers())));
+		if (addedPlayers && Hibernate.isInitialized(user.getAddedPlayers())) {
+			for (Player p : user.getAddedPlayers()) {
+				System.out.println(p.getContent());
+			}
+			res.setAddedPlayers(new HashSet<>(playerService.toResources(user.getAddedPlayers(), true)));
+		}
 		if (Hibernate.isInitialized(user.getWatchedContent()))
 			res.setWatchedContent(new HashSet<>(contentService.toResources(user.getWatchedContent())));
 		if (Hibernate.isInitialized(user.getFavorites()))
@@ -133,6 +142,24 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> find(int start, int maxResults) {
 		return userRepository.find(start, maxResults);
+	}
+
+	@Override
+	public void remove(int userId) throws NoRecordWithSuchIdException, FileDeletionException {
+		User user = userRepository.findById(userId);
+		if (user.getAvatarFilename() != null) {
+			try {
+				Files.deleteIfExists(Paths.get(Constants.AVATARS_DIRECTORY + user.getAvatarFilename()));
+			} catch (IOException e) {
+				System.err.println("=== Deleting an image failed. This could be a permissions issue. ===");
+				throw new FileDeletionException("Deleting an image failed.");
+			}
+		}
+		Set<Player> players = user.getAddedPlayers();
+		for (Player player : players) {
+			player.setAddedBy(null);
+		}
+		userRepository.remove(user);
 	}
 
 }

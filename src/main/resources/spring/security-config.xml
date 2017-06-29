@@ -12,12 +12,15 @@
 		<intercept-url pattern="/**/templates/admin-panel.html" access="hasRole('ADMIN')" />
 		<intercept-url pattern="/**/templates/admin-tools.html" access="hasRole('ADMIN')" />
 		<intercept-url pattern="/**/controllers/AdminPanel.js" access="hasRole('ADMIN')" />
+		<intercept-url pattern="/**/bots" access="hasRole('ADMIN')" />
 		<intercept-url pattern="/**" access="true" />
 		<http-basic entry-point-ref="myBasicAuthenticationEntryPoint" />
 		<remember-me data-source-ref="dataSource" user-service-ref="userService" key="superSecretKeyThatNobodyKnows" />
 		<logout logout-success-url="/" />
 		<csrf token-repository-ref="csrfTokenRepository" disabled="true" />
 	</http>
+
+	<global-method-security pre-post-annotations="enabled" />
 
 	<beans:bean id="csrfTokenRepository" class="org.springframework.security.web.csrf.CookieCsrfTokenRepository">
 		<beans:property name="cookieHttpOnly" value="false" />

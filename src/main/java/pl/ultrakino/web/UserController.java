@@ -11,6 +11,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import pl.ultrakino.Constants;
 import pl.ultrakino.Utils;
+import pl.ultrakino.exceptions.FileDeletionException;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.User;
 import pl.ultrakino.service.UserService;
@@ -40,7 +41,7 @@ public class UserController {
 		if (!userOp.isPresent()) // I think this can never happen
 			return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body("hacking detected, pls no hack us");
 		User user = userOp.get();
-		node.set("details", mapper.convertValue(userService.toDetailsResource(user), ObjectNode.class));
+		node.set("details", mapper.convertValue(userService.toDetailsResource(user, false), ObjectNode.class));
 		node.put("avatarFilename", user.getAvatarFilename());
 		node.put("uid", user.getId());
 		return ResponseEntity.ok(node);
@@ -56,7 +57,7 @@ public class UserController {
 		Optional<User> user = userService.findByUsername(principal.getName(), true);
 		if (!user.isPresent())
 			throw new AssertionError();
-		return ResponseEntity.ok(userService.toDetailsResource(user.get()));
+		return ResponseEntity.ok(userService.toDetailsResource(user.get(), true));
 	}
 
 	// Other user details
@@ -70,8 +71,22 @@ public class UserController {
 		}
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
+	@DeleteMapping("/users/{userId}")
+	public ResponseEntity deleteUser(@PathVariable int userId) {
+		try {
+			userService.remove(userId);
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		} catch (NoRecordWithSuchIdException e) {
+			return ResponseEntity.notFound().build();
+		} catch (FileDeletionException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Utils.jsonError(e.getMessage()));
+		}
+	}
+
 	// Get users with given username
 	// For registration, checking whether a user exists.
+	// Also get user list (only for admins)
 	@GetMapping("/users")
 	public ResponseEntity findUser(@RequestParam(required = false) String name,
 											 @RequestParam(required = false) Integer start,
@@ -91,7 +106,7 @@ public class UserController {
 				return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 			return ResponseEntity.ok(
 					userService.find(start, maxResults)
-					.stream().map(userService::toDetailsResource).collect(Collectors.toList()));
+					.stream().map(u -> userService.toDetailsResource(u, true)).collect(Collectors.toList()));
 		}
 		else
 			return ResponseEntity.badRequest().body(Utils.jsonError("Required parameters are absent."));
