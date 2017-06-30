@@ -1,6 +1,8 @@
 angular.module("app")
 .filter("seourl", function() {
 	return function(link) {
+		if (typeof link === 'undefined')
+			return '';
 		var chars = {
 			'ą': 'a',
 			'Ą': 'A',

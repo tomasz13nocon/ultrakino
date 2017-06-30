@@ -16,6 +16,7 @@ import pl.ultrakino.repository.PersonRepository;
 import pl.ultrakino.service.*;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -407,6 +408,23 @@ public class FilmwebServiceImpl implements FilmwebService {
 		url += "&version=" + VERSION;
 		url += "&appId=android";
 		return url;
+	}
+
+	@Override
+	public String getFilmwebId(String filmwebLink) throws FilmwebException, MalformedURLException {
+		URL url = new URL(filmwebLink);
+		try {
+			String page = IOUtils.toString(url.openStream(), StandardCharsets.UTF_8);
+			Pattern p = Pattern.compile("\\(\"filmId\",(\\d+)\\)");
+			Matcher m = p.matcher(page);
+			if (m.find())
+				return m.group(1);
+			else
+				throw new FilmwebException("Failed to retrieve the ID from filmweb.");
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new FilmwebException(e);
+		}
 	}
 
 }

@@ -36,7 +36,7 @@
 					</label>
 					<br/>
 					<div class="btn-2 add-film-search-button" ng-click="addFilmCtrl.searchOrFindLink()">Szukaj</div>
-					<br/><div class="btn-2" ng-click="addFilmCtrl.pick = {filmwebId: 30571}">Harry Potter</div>
+					<br/><div class="btn-2" ng-click="pickHarryPotter()">Harry Potter</div>
 				</div>
 
 				<div ng-show="films.length || retrievingFilms || error">
@@ -107,7 +107,10 @@
 					<br/>
 					<div ng-show="filmAdditionSuccessful">
 						Film dodany pomyślnie.
-						<a ng-href="#filmy/{{addedFilmId}}"></a>
+						<br>
+						<div class="added-film-title">
+							<a ng-href="#filmy/{{addedFilmId}}/{{addFilmCtrl.pick.title | seourl}}-{{addFilmCtrl.pick.year}}" ng-bind="addFilmCtrl.pick.title"></a>
+						</div>
 					</div>
 					<div ng-show="filmAdditionFailed">
 						Wystąpił błąd. <span ng-bind="filmAdditionError.status"></span>

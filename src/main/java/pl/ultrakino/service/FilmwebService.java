@@ -7,6 +7,7 @@ import pl.ultrakino.model.FilmographyEntry;
 import pl.ultrakino.model.Series;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Set;
 
@@ -42,4 +43,5 @@ public interface FilmwebService {
 	 */
 	Film getFullFilmInfo(String filmwebId) throws FilmwebException;
 
+	String getFilmwebId(String filmwebLink) throws FilmwebException, MalformedURLException;
 }

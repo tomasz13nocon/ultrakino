@@ -52,6 +52,7 @@
 .filmweb-search-results
 	margin: 16px auto
 	white-space: normal
+	width: 100%
 
 .add-film-spinner
 	height: 112px
@@ -66,12 +67,15 @@
 	width: 33%
 	vertical-align: top
 	word-wrap: break-word
+	border: 1px solid transparent
 	&:hover
 		background-color: #383838
 
 .filmweb-search-entry-active
 	background-color: #5b5b5b
 	box-shadow: inset 0 0 10px black
+	border: 1px solid $primary-color
+	box-sizing: border-box
 	&:hover
 		background-color: #5b5b5b
 
@@ -107,6 +111,7 @@ $step-transition-length: 0.5s
 	transition: height cubic-bezier(.34,1.08,0,1) $step-transition-length
 
 .step1, .step2, .step3
+	width: 100%
 	&.ng-hide-add
 		transition: all $step-transition-length
 		display: inline-block
@@ -156,6 +161,10 @@ $step-transition-length: 0.5s
 	label
 		cursor: pointer
 
+.added-film-title
+	margin-top: 5px
+	text-decoration: underline
+
 @media (max-width: $large)
 	.filmweb-search-entry
 		width: 50%
@@ -168,3 +177,4 @@ $step-transition-length: 0.5s
 		text-align: center
 		display: block
 		margin: 12px auto
+

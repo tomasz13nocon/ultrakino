@@ -54,8 +54,16 @@ angular.module("app")
 		});
 	};
 
-	ctrl.searchFilmweb = function() {
-		ctrl.search($scope.title);
+	ctrl.fetchFilmwebLink = function() {
+		Filmweb.get({ link: $scope.filmwebLink, contentType: $scope.contentType },
+			function(film) {
+				ctrl.pick = film;
+				$scope.films = [film];
+				console.log(film.filmwebId);
+			},
+			function(resp) {
+				// TODO: HANDLE 500 AND 400
+			});
 	};
 
 	ctrl.searchOrFindLink = function() {
@@ -64,19 +72,21 @@ angular.module("app")
 				$scope.titleError = true;
 			}
 		}
-		else
+		else {
 			ctrl.fetchFilmwebLink();
+		}
 	};
 
-	ctrl.fetchFilmwebLink = function() {
-		ctrl.pick = { filmwebId: 660 };
-		console.log($scope.filmwebLink);
-	};
 
 	ctrl.pickFilm = function(film) {
 		ctrl.pick = film;
-		console.log(film.filmwebId);
 	};
+
+	$scope.pickHarryPotter = function() {
+		ctrl.pick = {filmwebId: 30571, title: "Harry Potter"};
+		$scope.link = "https://openload.co/f/cUhIHKZwzrw/1489406887448.webm.mp4";
+		$scope.languageVersion = "ORIGINAL";
+	}
 
 	ctrl.verifyLink = function(link) {
 		for (var i=0; i < $rootScope.supportedHostings.length; i++) {
@@ -132,6 +142,7 @@ angular.module("app")
 			$scope.filmAdditionFinished = true;
 			$scope.filmAdditionSuccessful = true;
 			console.log(resp);
+			$scope.addedFilmId = resp.id;
 		}, function(resp) {
 			$scope.filmAdditionFinished = true;
 			$scope.filmAdditionFailed = true;
