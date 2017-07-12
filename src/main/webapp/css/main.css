@@ -317,6 +317,9 @@ input[type="radio"].radio {
 .green {
   color: #483; }
 
+.blue {
+  color: #17c; }
+
 .page-content-thingy {
   margin-left: auto;
   margin-right: auto;
@@ -338,6 +341,9 @@ tr {
 td {
   padding: 4px; }
 
+.minor {
+  color: #777; }
+
 .section-heading {
   font-size: 1.4em;
   text-align: center;
@@ -349,6 +355,9 @@ td {
 /************
  * CAROUSEL *
  ********** */
+.owl-prev, .owl-next {
+  font-size: 1em !important; }
+
 .carousel-film-cover {
   width: 200px;
   float: left;
@@ -1538,8 +1547,6 @@ html {
   vertical-align: middle;
   margin-right: 8px;
   transform: translateY(-3px); }
-  .account-dropdown-icon:hover {
-    color: inherit; }
 
 .hamburger-wrapper {
   display: none;

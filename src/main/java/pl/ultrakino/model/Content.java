@@ -24,4 +24,10 @@ public abstract class Content implements Rateable {
 	@Column(name = "content_id")
 	private Integer id;
 
+	public enum Type {
+		FILM,
+		SERIES,
+		EPISODE,
+	}
+
 }

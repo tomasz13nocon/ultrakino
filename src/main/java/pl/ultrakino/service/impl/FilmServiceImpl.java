@@ -196,27 +196,21 @@ public class FilmServiceImpl implements FilmService {
 		res.setTimesRated(film.getTimesRated());
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (Utils.isUser(auth)) {
-			System.out.println(auth.getAuthorities());
-			User user = (User) auth.getPrincipal();
-			for (Rating rating : film.getRatings()) {
-				if (rating.getRatedBy().getId().equals(user.getId())) {
-					res.setUserRating(rating.getRating());
-					break;
+			try {
+				User user = userRepository.findByIdWithCollections(((User) auth.getPrincipal()).getId());
+				for (Rating rating : film.getRatings()) {
+					if (rating.getRatedBy().getId().equals(user.getId())) {
+						res.setUserRating(rating.getRating());
+						break;
+					}
 				}
+				res.setInUsersWatchlist(user.getWatchlist().contains(film));
+				res.setInUsersFavorites(user.getFavorites().contains(film));
+			} catch (NoRecordWithSuchIdException e) {
+				// Only happens when authenticated user is no longer in db, so when it was deleted mid execution.
+				// In that case just continue without user data.
 			}
-			res.setInUsersWatchlist(user.getWatchlist().contains(film));
-			res.setInUsersFavorites(user.getFavorites().contains(film));
 		}
-		else {
-			System.err.println("======================== AUTH IS NULL ========================");
-		}
-		/*if (auth != null && auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()).contains("ROLE_USER")){
-			Optional<Rating> userRating = ratingRepository.findByUsernameAndContentId(
-					((UserDetails) auth.getPrincipal()).getUsername(),
-					film.getId());
-			if (userRating.isPresent())
-				res.setUserRating(userRating.get().getRating());
-		}*/
 		res.setOriginalTitle(film.getOriginalTitle());
 		res.setDescription(film.getDescription());
 		res.setCoverFilename(film.getCoverFilename());

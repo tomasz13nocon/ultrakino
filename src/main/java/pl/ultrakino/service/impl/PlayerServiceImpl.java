@@ -1,6 +1,8 @@
 package pl.ultrakino.service.impl;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import pl.ultrakino.Utils;
 import pl.ultrakino.model.Player;
 import pl.ultrakino.model.PlayerVote;
 import pl.ultrakino.model.User;
+import pl.ultrakino.repository.PlayerRepository;
 import pl.ultrakino.resource.PlayerResource;
 import pl.ultrakino.service.ContentService;
 import pl.ultrakino.service.PlayerService;
@@ -27,6 +30,12 @@ public class PlayerServiceImpl implements PlayerService {
 	private UserService userService;
 	@Autowired
 	private ContentService contentService;
+	private PlayerRepository playerRepository;
+
+	@Autowired
+	public PlayerServiceImpl(PlayerRepository playerRepository) {
+		this.playerRepository = playerRepository;
+	}
 
 	@Override
 	public PlayerResource toResource(Player player) {
@@ -74,13 +83,15 @@ public class PlayerServiceImpl implements PlayerService {
 			res.setAddedBy(userService.toResource(player.getAddedBy()));
 		if (content)
 			res.setContent(contentService.toResource(player.getContent()));
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (Utils.isUser(auth)) {
-			User user = (User) auth.getPrincipal();
-			int id = user.getId();
-			for (PlayerVote vote : player.getVotes()) {
-				if (vote.getUser().getId().equals(id))
-					res.setUserVote(vote.isPositive());
+		if (Hibernate.isInitialized(player.getVotes())) {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			if (Utils.isUser(auth)) {
+				User user = (User) auth.getPrincipal();
+				int id = user.getId();
+				for (PlayerVote vote : player.getVotes()) {
+					if (vote.getUser().getId().equals(id))
+						res.setUserVote(vote.isPositive());
+				}
 			}
 		}
 		return res;
@@ -94,6 +105,17 @@ public class PlayerServiceImpl implements PlayerService {
 	@Override
 	public List<PlayerResource> toResources(Collection<Player> players, boolean content) {
 		return players.stream().map(p -> toResource(p, content)).collect(Collectors.toList());
+	}
+
+	@PreAuthorize("hasRole('ADMIN')")
+	@Override
+	public boolean remove(int id) {
+		return playerRepository.remove(id);
+	}
+
+	@Override
+	public boolean exists(String hosting, String src) {
+		return playerRepository.exists(hosting, src);
 	}
 
 }

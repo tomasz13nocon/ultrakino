@@ -49,10 +49,10 @@
 					</div>
 					<div class="account-dropdown" ng-class="{'account-dropdown-down': userCtrl.accountDropdownVisible}" ng-show="authenticated">
 						<ul class="account-dropdown-list">
-							<a href="#moje-konto"><li><i class="account-dropdown-icon fa fa-user"></i>MOJE KONTO</li></a>
-							<a href="#dodaj-film"><li><i class="account-dropdown-icon fa fa-plus-square"></i>DODAJ FILM/SERIAL</li></a>
+							<a href="#moje-konto"><li><i class="blue account-dropdown-icon fa fa-user"></i>MOJE KONTO</li></a>
+							<a href="#dodaj-film"><li><i class="green account-dropdown-icon fa fa-plus-square"></i>DODAJ LINK</li></a>
 							<a href="#panel-admina" ng-show="isAdmin"><li>PANEL ADMINA</li></a>
-							<li class="link" ng-click="userCtrl.logout()"><i class="account-dropdown-icon fa fa-arrow-circle-left"></i>WYLOGUJ</li>
+							<li class="link" ng-click="userCtrl.logout()"><i class="red account-dropdown-icon fa fa-arrow-circle-left"></i>WYLOGUJ</li>
 						</ul>
 					</div>
 				</div>
@@ -162,7 +162,7 @@
 	<script type="text/javascript" src="vendors/angular-route.min.js"></script>
 	<script type="text/javascript" src="vendors/angular-animate.min.js"></script>
 	<script type="text/javascript" src="vendors/angular-resource.min.js"></script>
-	<script type="text/javascript" src="plugins/owl/owl.carousel.js"></script>
+	<script type="text/javascript" src="plugins/owl/owl.carousel.min.js"></script>
 	<script type="text/javascript" src="app/common.js"></script>
 	<script type="text/javascript" src="app/app.js"></script>
 	<script type="text/javascript" src="app/services/Film.js"></script>
@@ -174,6 +174,7 @@
 	<script type="text/javascript" src="app/services/Comment.js"></script>
 	<script type="text/javascript" src="app/services/Rating.js"></script>
 	<script type="text/javascript" src="app/services/Filmweb.js"></script>
+	<script type="text/javascript" src="app/services/Player.js"></script>
 	<script type="text/javascript" src="app/directives/enableCarousel.js"></script>
 	<script type="text/javascript" src="app/directives/clickAnywhereButHere.js"></script>
 	<script type="text/javascript" src="app/components/spinner.js"></script>
@@ -193,6 +194,7 @@
 	<script type="text/javascript" src="app/controllers/Series.js"></script>
 	<script type="text/javascript" src="app/controllers/OneSeries.js"></script>
 	<script type="text/javascript" src="app/controllers/AddFilm.js"></script>
+	<script type="text/javascript" src="app/controllers/Content.js"></script>
 
 </body>
 </html>

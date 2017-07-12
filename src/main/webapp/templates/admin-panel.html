@@ -47,8 +47,28 @@
 						<td ng-bind="user.email"></td>
 						<td ng-bind="user.registrationDate"></td>
 						<td>
-							<div ng-show="user.addedPlayers.length > 0">Rozwiń</div>
+							<span ng-show="user.addedPlayers.length" ng-bind="user.addedPlayers.length"></span> 
+							<div class="btn btn-small expand-list" ng-show="user.addedPlayers.length > 0 && showPlayers !== true" ng-click="showPlayers = true">Rozwiń</div>
+							<div class="btn btn-small expand-list" ng-show="showPlayers === true" ng-click="showPlayers = false">Zwiń</div>
 							<div class="minor" ng-show="user.addedPlayers.length === 0">Brak</div>
+							<div class="admin-panel-player-list" ng-show="showPlayers">
+								<div class="admin-panel-player-list-entry" ng-repeat="player in user.addedPlayers | orderBy: player.content.uid track by $index">
+									<a ng-href="#{{player.content.uid}}">
+									<span ng-bind="player.content.title"></span>
+									(<span ng-bind="player.content.year"></span>)
+									[ID: <span ng-bind="player.content.uid"></span>]
+									</a>
+									<br>
+									ID: <span ng-bind="player.uid"></span>
+									<br>
+									Hosting: <span ng-bind="player.hosting"></span>
+									<br>
+									Src: <span ng-bind="player.src"></span>
+									<br>
+									<div class="btn-3 btn-small" ng-click="removePlayer(player.uid, $index, $parent.$index)">Usuń</div>
+									<hr ng-show="$index + 1 !== user.addedPlayers.length && player.content.uid !== user.addedPlayers[$index+1].content.uid">
+								</div>
+							</div>
 						</td>
 						<td>
 							<button class="btn-3 btn-small" ng-click="removeUser(user.uid, $index)">Usuń</button>

@@ -21,9 +21,11 @@ public class JpaContentRepository implements ContentRepository {
 	@Override
 	public Content findById(int contentId) throws NoRecordWithSuchIdException {
 		Content content = em.find(Content.class, contentId);
+		System.out.println(content);
 		if (content == null)
 			throw new NoRecordWithSuchIdException();
 		return content;
+
 		/*List<Film> films = em
 				.createQuery("SELECT f FROM Film f LEFT JOIN FETCH f.ratings WHERE f.id=:contentId", Film.class)
 				.setParameter("contentId", contentId)

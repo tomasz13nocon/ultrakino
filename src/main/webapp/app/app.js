@@ -82,7 +82,7 @@ angular.module("app")
 			controller: "HomeController",
 			controllerAs: "homeCtrl",
 		})
-		.when("/filmy/:id/:title*", {
+		.when("/filmy/:id/:title?", {
 			templateUrl: templateDir + "/film.html",
 			controller: "FilmController",
 			controllerAs: "filmCtrl",
@@ -100,7 +100,7 @@ angular.module("app")
 			controllerAs: "seriesCtrl",
 			activeTab: "series",
 		})
-		.when("/seriale/:id/:title/:episodeId?/:season?/:episode?", {
+		.when("/seriale/:id/:title?/:episodeId?/:season?/:episode?", {
 			templateUrl: templateDir + "/one-series.html",
 			controller: "OneSeriesController",
 			controllerAs: "oneSeriesCtrl",
@@ -129,7 +129,15 @@ angular.module("app")
 		.when("/redirect", {
 			templateUrl: templateDir + "/redirect.html",
 		})
-		
+		.when("/not-found", {
+			templateUrl: templateDir + "/404.html",
+		})
+		.when("/:id", {
+			templateUrl: templateDir + "/content.html",
+			controller: "ContentController",
+			controllerAs: "contentCtrl",
+		})
+
 		.otherwise({
 			templateUrl: templateDir + "/404.html",
 		});
@@ -140,10 +148,10 @@ angular.module("app")
 
 	}]);
 
-var AdminPanelController = ['$http', '$interval', '$scope', 'Film', 'User', function($http, $interval, $scope, Film, User) {
+var AdminPanelController = ['$http', '$interval', '$scope', 'Film', 'Player', 'User', function($http, $interval, $scope, Film, Player, User) {
 	var cancel = $interval(function() {
 		if (typeof adminPanelCtrl !== 'undefined') {
-			adminPanelCtrl($http, $scope, Film, $interval, User);
+			adminPanelCtrl($http, $scope, Film, $interval, User, Player);
 			$interval.cancel(cancel);
 		}
 	}, 200)

@@ -39,11 +39,6 @@ public class ContentServiceImpl implements ContentService {
 	}
 
 	@Override
-	public Content findById(int contentId) throws NoRecordWithSuchIdException {
-		return contentRepository.findById(contentId);
-	}
-
-	@Override
 	public ContentResource toResource(Content content) {
 		if (content == null)
 			return null;
@@ -59,6 +54,18 @@ public class ContentServiceImpl implements ContentService {
 	@Override
 	public List<ContentResource> toResources(Collection<Content> contents) {
 		return contents.stream().map(this::toResource).collect(Collectors.toList());
+	}
+
+	@Override
+	public Content.Type getType(int id) throws NoRecordWithSuchIdException {
+		Content content = contentRepository.findById(id);
+		if (content instanceof Film)
+			return Content.Type.FILM;
+		else if (content instanceof Episode)
+			return Content.Type.EPISODE;
+		else if (content instanceof Series)
+			return Content.Type.SERIES;
+		throw new UnsupportedContentTypeException();
 	}
 
 }

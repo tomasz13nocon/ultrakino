@@ -15,4 +15,8 @@ public interface PlayerService {
 	List<PlayerResource> toResources(Collection<Player> players);
 
 	List<PlayerResource> toResources(Collection<Player> players, boolean content);
+
+	boolean remove(int id);
+
+	boolean exists(String hosting, String src);
 }

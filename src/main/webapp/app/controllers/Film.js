@@ -1,5 +1,5 @@
 angular.module("app")
-.controller("FilmController", ['$http', '$rootScope', '$routeParams', '$scope', 'Comment', 'Film', 'Rating', 'TheBox', 'User', function($http, $rootScope, $routeParams, $scope, Comment, Film, Rating, TheBox, User) {
+.controller("FilmController", ['$http', '$rootScope', '$route', '$routeParams', '$scope', 'Comment', 'Film', 'Rating', 'TheBox', 'User', 'seourlFilter', function($http, $rootScope, $route, $routeParams, $scope, Comment, Film, Rating, TheBox, User, seourlFilter) {
 	var ctrl = this;
 
 	$scope.Rating = Rating;
@@ -89,16 +89,17 @@ angular.module("app")
 		}).slice(0, 20);
 
 		setTitle(film.title + " - Ultrakino");
+		$route.updateParams({ title: seourlFilter(film.title) + "-" + film.year });
 		$scope.film = film;
 		Rating.calculateRatingColor(film.rating);
 		if ($rootScope.authenticated) {
 			// TODO: $rootScope.user doesn't have those lists anymore
-			if (ctrl.isIdIn($rootScope.user.watchlist)) {
-				film.inWatchlist = true;
-			}
-			if (ctrl.isIdIn($rootScope.user.favorites)) {
-				film.inFavorites = true;
-			}
+			//if (ctrl.isIdIn($rootScope.user.watchlist)) {
+				//film.inWatchlist = true;
+			//}
+			//if (ctrl.isIdIn($rootScope.user.favorites)) {
+				//film.inFavorites = true;
+			//}
 		}
 	}, function(resp) {
 		if (resp.status = 404) {

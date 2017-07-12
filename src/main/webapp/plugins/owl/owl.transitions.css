@@ -37,14 +37,14 @@
 }
 /* goDown */
 .owl-goDown-out {
-  -webkit-animation: scaleToFade .6s ease both;
-  -moz-animation: scaleToFade .6s ease both;
-  animation: scaleToFade .6s ease both;
+  -webkit-animation: scaleToFade .5s ease both;
+  -moz-animation: scaleToFade .5s ease both;
+  animation: scaleToFade .5s ease both;
 }
 .owl-goDown-in {
-  -webkit-animation: goDown .5s ease both;
-  -moz-animation: goDown .5s ease both;
-  animation: goDown .5s ease both;
+  -webkit-animation: goDown .4s ease both;
+  -moz-animation: goDown .4s ease both;
+  animation: goDown .4s ease both;
 }
 /* scaleUp */
 .owl-fadeUp-in {

@@ -31,7 +31,7 @@ import java.util.*;
 import static pl.ultrakino.Constants.API_PREFIX;
 
 @RestController
-@RequestMapping(value = API_PREFIX + "/films", produces = "application/json;charset=utf-8")
+@RequestMapping(value = API_PREFIX + "/films")
 public class FilmController {
 
 	private FilmService filmService;
@@ -57,11 +57,8 @@ public class FilmController {
 	// TODO Test URI Syntax Ex
 
 	@PostMapping
-	public ResponseEntity addFilm(@RequestBody ObjectNode body, Principal principal, HttpServletRequest request) throws URISyntaxException {
-		if (principal == null)
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		Optional<User> user = userService.findByUsername(principal.getName());
-		if (!user.isPresent())
+	public ResponseEntity addFilm(@RequestBody ObjectNode body, @AuthenticationPrincipal User user, HttpServletRequest request) throws URISyntaxException {
+		if (user == null)
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
 		if (!body.has("filmwebId")) {
@@ -71,7 +68,7 @@ public class FilmController {
 		String filmwebId = body.get("filmwebId").asText();
 		Optional<Film> op = filmService.findByFilmwebId(filmwebId);
 		if (op.isPresent()) {
-			return ResponseEntity.status(HttpStatus.SEE_OTHER).header("Location", request.getRequestURI() + "/" + op.get().getId()).build();
+			return ResponseEntity.ok(JsonNodeFactory.instance.objectNode().put("id", op.get().getId()));
 		}
 		else {
 			try {
@@ -87,7 +84,7 @@ public class FilmController {
 	}
 
 	@DeleteMapping("/{filmId}")
-	public ResponseEntity deleteFilm(@PathVariable int filmId, Principal principal) {
+	public ResponseEntity deleteFilm(@PathVariable int filmId) {
 		try {
 			filmService.remove(filmId);
 		} catch (NoRecordWithSuchIdException e) {
@@ -111,12 +108,8 @@ public class FilmController {
 	}
 
 	@PostMapping("/{filmId}/players")
-	public ResponseEntity addPlayers(@PathVariable int filmId, @RequestBody ObjectNode body, Principal principal, HttpServletRequest request) throws InterruptedException {
-		User user;
-		try {
-			user = userService.findByUsername(principal.getName()).get();
-		}
-		catch (NullPointerException | NoSuchElementException e) {
+	public ResponseEntity addPlayers(@PathVariable int filmId, @RequestBody ObjectNode body, @AuthenticationPrincipal User user, HttpServletRequest request) throws InterruptedException {
+		if (user == null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
 
@@ -147,8 +140,11 @@ public class FilmController {
 			catch (IllegalArgumentException e) {
 				return ResponseEntity.badRequest().body(Utils.jsonError("field 'languageVersion' is incorrect."));
 			}
-			Player player1 = new Player(src, hosting, languageVersion, user, film);
-			film.getPlayers().add(player1);
+			if (!playerService.exists(hosting, src)) {
+				Player player1 = new Player(src, hosting, languageVersion, user, film);
+				film.getPlayers().add(player1);
+			}
+			// TODO return some form of feesback on which players where persisted and which were not
 		}
 
 		utilService.merge(film);

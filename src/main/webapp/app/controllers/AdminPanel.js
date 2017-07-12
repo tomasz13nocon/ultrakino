@@ -1,7 +1,7 @@
 //angular.module("app")
 //.controller("AdminPanelController", ["$http", "$scope", "Film", "$interval", "User", adminPanelCtrl]);
 
-function adminPanelCtrl($http, $scope, Film, $interval, User) {
+function adminPanelCtrl($http, $scope, Film, $interval, User, Player) {
 	var ctrl = this;
 
 	$scope.usersPage = 0;
@@ -86,6 +86,16 @@ function adminPanelCtrl($http, $scope, Film, $interval, User) {
 		if (confirm("Na pewno usunąć tego użytkownika i wszystkie jego dane z bazy danych?")) {
 			User.remove({ id: id }, function() {
 				$scope.users.splice(i, 1);
+			}, function(resp) {
+				$scope.error = resp;
+			});
+		}
+	}
+
+	$scope.removePlayer = function(id, i, userI) {
+		if (confirm("Na pewno chcesz usunąć ten link z bazy danych?")) {
+			Player.remove({ id: id }, function() {
+				$scope.users[userI].addedPlayers.splice(i, 1);
 			}, function(resp) {
 				$scope.error = resp;
 			});

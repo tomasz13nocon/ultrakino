@@ -10,4 +10,7 @@ public interface PlayerRepository {
 
 	Optional<Player> findBySrcAndHosting(String src, String hosting);
 
+	boolean remove(int id);
+
+	boolean exists(String hosting, String src);
 }

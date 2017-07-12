@@ -8,9 +8,10 @@ import java.util.Collection;
 import java.util.List;
 
 public interface ContentService {
-	Content findById(int contentId) throws NoRecordWithSuchIdException;
 
 	ContentResource toResource(Content content);
 
 	List<ContentResource> toResources(Collection<Content> contents);
+
+	Content.Type getType(int id) throws NoRecordWithSuchIdException;
 }

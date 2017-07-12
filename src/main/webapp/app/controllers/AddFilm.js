@@ -136,25 +136,8 @@ angular.module("app")
 		ctrl.goToStep(ctrl.step + 1);
 	};
 
-	ctrl.addFilm = function() {
-		$scope.filmAdditionFinished = false;
-		if (!id) {
-			Film.save({
-				filmwebId: ctrl.pick.filmwebId,
-				players: [
-					{
-						src: $scope.linkSrc,
-						hosting: $scope.linkHosting,
-						languageVersion: $scope.languageVersion,
-					}
-				],
-			}, null, function(resp) {
-				$scope.filmAdditionFinished = true;
-				$scope.filmAdditionFailed = true;
-				$scope.filmAdditionError = resp;
-			});
-		}
-		Film.addPlayers({ id: id }, {
+	ctrl.addPlayers = function(filmId) {
+		Film.addPlayers({ id: filmId }, {
 			players: [
 				{
 					src: $scope.linkSrc,
@@ -165,12 +148,31 @@ angular.module("app")
 		}, function(resp) {
 			$scope.filmAdditionFinished = true;
 			$scope.filmAdditionSuccessful = true;
-			$scope.addedFilmId = resp.id;
+			$scope.addedFilmId = filmId;
 		}, function(resp) {
 			$scope.filmAdditionFinished = true;
 			$scope.filmAdditionFailed = true;
 			$scope.filmAdditionError = resp;
 		});
+	}
+
+	ctrl.addFilm = function() {
+		$scope.filmAdditionFinished = false;
+		if (!id) {
+			Film.save({}, {
+				filmwebId: ctrl.pick.filmwebId,
+			}, function(resp) {
+				ctrl.addPlayers(resp.id);
+			}, function(resp) {
+				console.log(resp);
+				$scope.filmAdditionFinished = true;
+				$scope.filmAdditionFailed = true;
+				$scope.filmAdditionError = resp;
+			});
+		}
+		else {
+			ctrl.addPlayers(id);
+		}
 		ctrl.goToNextStep();
 	};
 

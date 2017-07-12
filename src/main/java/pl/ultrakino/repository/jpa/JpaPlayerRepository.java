@@ -36,4 +36,19 @@ public class JpaPlayerRepository implements PlayerRepository {
 		return Optional.of(players.get(0));
 	}
 
+	@Override
+	public boolean remove(int id) {
+		return em.createQuery("DELETE FROM Player p WHERE p.id=:id")
+				.setParameter("id", id)
+				.executeUpdate() == 1;
+	}
+
+	@Override
+	public boolean exists(String hosting, String src) {
+		return !em.createQuery("SELECT COUNT(*) FROM Player p WHERE p.hosting=:hosting AND p.src=:src")
+				.setParameter("hosting", hosting)
+				.setParameter("src", src)
+				.getResultList().isEmpty();
+	}
+
 }
