@@ -7,16 +7,15 @@ angular.module("app")
 			Authorization: "Basic " + btoa(credentials.username + ":" + credentials.password) 
 		} : {};
 		$http.get(api + "/user", {headers: headers}).then(function(resp) {
-			if (resp.data.name) {
+			if (resp.data.username) {
 				$rootScope.authenticated = true;
-				for (var i=0; i < resp.data.authorities.length; i++) {
-					if (resp.data.authorities[i].authority === "ROLE_ADMIN") {
-						$rootScope.isAdmin = true;
-						addAdminScripts();
-					}
+				if (resp.data.roles.indexOf("ROLE_ADMIN") !== -1) {
+					$rootScope.isAdmin = true;
+					addAdminScripts();
 				}
 				if (!$rootScope.user)
-					$rootScope.user = resp.data.details;
+					$rootScope.user = resp.data;
+				/*
 				var rd = $rootScope.user.registrationDate;
 				$rootScope.user.registrationDate = new Date(
 					rd.year,
@@ -26,6 +25,7 @@ angular.module("app")
 					rd.minute,
 					rd.second,
 				);
+				*/
 				TheBox.theBoxVisible = false;
 				TheBox.authenticationFailed = false;
 				$route.reload();

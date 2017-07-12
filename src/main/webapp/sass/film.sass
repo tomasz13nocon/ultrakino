@@ -164,25 +164,50 @@
 .player-section
 	margin-top: 32px
 
+$player-select-border-color: #444
 .player-select
-	background-color: #111
+	//background-color: #111
+	background-image: linear-gradient(to top, #000, transparent)
+	//font-size: 0
+	//border-left: 1px solid $player-select-border-color
+	//border-right: 1px solid $player-select-border-color
 
-.player-entry
-	display: inline-block
-	padding: 6px
+$active-player-color: #303030
+.player-entry-outer
 	text-align: center
 	font-size: 0.8em
+	//font-size: 10pt
+	float: left
+	box-sizing: border-box
 	&:hover
-		background-color: #222
+		background-color: $active-player-color
 		cursor: pointer
+	&:after
+		content: ""
+		display: block
+		margin: auto
+		height: 1px
+		width: 0
+		background-color: $primary-color
+		transition: width 0.26s
+	&:hover:after
+		width: 100%
+
+.player-entry
+	padding: 6px
+
+.player-entry-active
+	background-color: $active-player-color
+	//border-bottom: 1px solid $primary-color
+	box-sizing: border-box
+	//border-bottom: 1px solid #bb9e2c
+	&:hover
+		cursor: default
+	&:after
+		width: 100%
 
 .player-entry-inner
 	display: table
-
-.player-entry-active
-	background-color: #222
-	&:hover
-		cursor: default
 
 .player-name-wrapper
 	display: inline-block
@@ -204,6 +229,14 @@
 .player-thumbs-down
 	&:hover
 		color: $red
+
+.add-player-button
+	font-size: 0.8em
+	//font-size: 10pt
+	display: inline-block
+	margin: 14px 10px 0 
+	vertical-align: top
+	float: right
 
 $player-ar: 1.78
 $player-height: $page-content-width / $player-ar

@@ -1,5 +1,7 @@
 angular.module("app")
 .controller("MyAccountController", ['$animate', '$http', '$interval', '$rootScope', '$scope', '$timeout', 'User', function($animate, $http, $interval, $rootScope, $scope, $timeout, User) {
+	if (!$rootScope.user) return;
+
 	var ctrl = this;
 
 	ctrl.setActiveTab = function(tab) {
@@ -24,9 +26,7 @@ angular.module("app")
 				break;
 		}
 	};
-	if ($rootScope.user) {
-		ctrl.setActiveTab("watchlist");
-	}
+
 
 	ctrl.removeFromList = function(content) {
 		tab = $scope.activeTab;
@@ -42,6 +42,11 @@ angular.module("app")
 			});
 		});
 	};
+
+	ctrl.setActiveTab("watchlist");
+	User.get({ id: $rootScope.user.uid }, function(user) {
+		$scope.user = user;
+	});
 
 }]);
 

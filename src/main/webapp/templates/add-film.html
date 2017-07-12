@@ -1,4 +1,4 @@
-<div class="error-box" ng-hide="authenticated">
+<div class="error-box" ng-show="authenticationAttempted && !authenticated">
 	<h6 class="login-to-add-msg">Zaloguj się, lub utwórz konto, aby móc dodawać filmy i seriale</h6>
 </div>
 <div ng-show="authenticated">
@@ -106,7 +106,7 @@
 					<div ng-hide="filmAdditionFinished">Dodawanie filmu...</div>
 					<br/>
 					<div ng-show="filmAdditionSuccessful">
-						Film dodany pomyślnie.
+						Link dodany pomyślnie.
 						<br>
 						<div class="added-film-title">
 							<a ng-href="#filmy/{{addedFilmId}}/{{addFilmCtrl.pick.title | seourl}}-{{addFilmCtrl.pick.year}}" ng-bind="addFilmCtrl.pick.title"></a>
@@ -123,7 +123,7 @@
 		<div class="add-film-next-buttons">
 			<button class="btn-2" ng-show="addFilmCtrl.step === 1" ng-disabled="!addFilmCtrl.pick" ng-click="addFilmCtrl.goToNextStep()">Dalej</button>
 			<button class="btn-2" ng-show="addFilmCtrl.step === 2" ng-disabled="!correctLink || !languageVersion" ng-click="addFilmCtrl.addFilm()">Dodaj</button>
-			<button class="btn-2" ng-show="addFilmCtrl.step === 3" ng-disabled="!filmAdditionSuccessful" ng-click="addFilmCtrl.reset()">Dodaj kolejny film</button>
+			<button class="btn-2" ng-show="addFilmCtrl.step === 3" ng-disabled="!filmAdditionFinished" ng-click="addFilmCtrl.reset()">Dodaj kolejny Link</button>
 		</div>
 
 		<!-- TODO: delet -->

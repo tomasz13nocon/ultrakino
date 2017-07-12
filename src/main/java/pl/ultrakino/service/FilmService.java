@@ -5,12 +5,14 @@ import org.springframework.util.MultiValueMap;
 import pl.ultrakino.exceptions.FileDeletionException;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Film;
+import pl.ultrakino.model.Player;
 import pl.ultrakino.repository.Page;
 import pl.ultrakino.resource.FilmDetailsResource;
 import pl.ultrakino.resource.FilmResource;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public interface FilmService {
 
@@ -40,4 +42,8 @@ public interface FilmService {
 	 * @return Created Film object
 	 */
 	Film extractNewFilm(ObjectNode filmJson);
+
+	Optional<Film> findByFilmwebId(String filmwebId);
+
+	FilmDetailsResource findById(int filmId, int userId) throws NoRecordWithSuchIdException;
 }

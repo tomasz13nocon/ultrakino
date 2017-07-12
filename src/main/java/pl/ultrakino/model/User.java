@@ -2,20 +2,24 @@ package pl.ultrakino.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +42,7 @@ public class User {
 	private Set<Player> addedPlayers = new HashSet<>();
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "ratedBy")
-	private List<Rating> ratings = new ArrayList<>();
+	private Set<Rating> ratings = new HashSet<>();
 
 	/* Following three mappings' names are hardcoded in JpaPlaylistRepository::removeByFilm() in native queries,
 	 * as opposed to making these bidirectional. */
@@ -88,5 +92,51 @@ public class User {
 	@Override
 	public int hashCode() {
 		return Objects.hash(getUsername());
+	}
+
+
+	// ================== UserDetails implementation ================== //
+
+	private class Role implements GrantedAuthority {
+		private String authority;
+
+		public Role(String authority) {
+			this.authority = authority;
+		}
+
+		@Override
+		public String getAuthority() {
+			return authority;
+		}
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return roles.stream().map(Role::new).collect(Collectors.toList());
+	}
+
+	@Override
+	public String getPassword() {
+		return passwd;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
 }

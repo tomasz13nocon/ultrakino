@@ -1,3 +1,4 @@
+add findByIdFetchRatings to ContentRepository for user in RatingService
 Rejestracja (wysyłanie emaila)
 Zaloguj się (zarejestruj) przez facebooka
 udostępnij film na facebooku
@@ -11,6 +12,7 @@ viewsy (1 na dzień na usera?, dodać datę viewsu do DB, w najpopularniejszych 
 jeden koment na minutę/30 sekund
 edytowanie i usuwanie komentów
 sortowanie playerów po wersji (i hostingu)
+sortowanie playerów po dacie dodanie powinno być domyślne
 player bazowany na route, link do konkretnego playera
 angular is loaded 2 times at the begining because of authentication.
 
@@ -29,7 +31,9 @@ sort series by addition date of their episodes
 ocena i komenty całych seriali
 delay tooltip in add to watchlist and favs
 make actors appear in the right order (same as on filmweb)
+flash (or otherwise visually cue) notification when it changes
 
+Verify validity of addded link through things like openload API
 śledzenie filmu/serialu
 User: śledzone
 powiadomienia kiedy wyjdzie nowy film

@@ -2,7 +2,7 @@ package pl.ultrakino.service.impl;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -11,8 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.ultrakino.Constants;
 import pl.ultrakino.exceptions.FileDeletionException;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
+import pl.ultrakino.model.Content;
 import pl.ultrakino.model.Player;
 import pl.ultrakino.model.User;
+import pl.ultrakino.repository.ContentRepository;
 import pl.ultrakino.repository.UserRepository;
 import pl.ultrakino.resource.UserDetailsResource;
 import pl.ultrakino.resource.UserResource;
@@ -27,13 +29,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
 
 	private UserRepository userRepository;
+	private ContentRepository contentRepository;
 	// Autowired at fields, because of circular dependencies
 	@Autowired
 	private PlayerService playerService;
@@ -41,8 +43,9 @@ public class UserServiceImpl implements UserService {
 	private ContentService contentService;
 
 	@Autowired
-	public UserServiceImpl(UserRepository userRepository) {
+	public UserServiceImpl(UserRepository userRepository, ContentRepository contentRepository) {
 		this.userRepository = userRepository;
+		this.contentRepository = contentRepository;
 	}
 
 	@Override
@@ -50,23 +53,7 @@ public class UserServiceImpl implements UserService {
 		Optional<User> opUser = findByUsername(username);
 		if (!opUser.isPresent())
 			throw new UsernameNotFoundException("Username '" + username + "' not found.");
-		User user = opUser.get();
-		return new org.springframework.security.core.userdetails.User(
-				user.getUsername(),
-				user.getPasswd(),
-				user.getRoles()
-						.stream()
-						.map((final String e) -> new GrantedAuthority() {
-							private final String authority;
-							{
-								this.authority = e;
-							}
-							@Override
-							public String getAuthority() {
-								return authority;
-							}
-						})
-						.collect(Collectors.toList()));
+		return opUser.get();
 	}
 
 	@Override
@@ -82,6 +69,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User findById(int id) throws NoRecordWithSuchIdException {
 		return userRepository.findById(id);
+	}
+
+	@Override
+	public User findByIdWithCollections(int id) throws NoRecordWithSuchIdException {
+		return userRepository.findByIdWithCollections(id);
 	}
 
 	@Override
@@ -102,18 +94,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDetailsResource toDetailsResource(User user, boolean addedPlayers) {
+	public UserDetailsResource toDetailsResource(User user) {
 		UserDetailsResource res = new UserDetailsResource();
 		res.setUid(user.getId());
 		res.setUsername(user.getUsername());
-		res.setAvatarFilename(user.getAvatarFilename() == null ? "images/avatar3.png" : user.getAvatarFilename());
+		res.setAvatarFilename(user.getAvatarFilename() == null ? Constants.DEFAULT_AVATAR : user.getAvatarFilename());
 		res.setEmail(user.getEmail());
-		if (addedPlayers && Hibernate.isInitialized(user.getAddedPlayers())) {
-			for (Player p : user.getAddedPlayers()) {
-				System.out.println(p.getContent());
-			}
+		if (Hibernate.isInitialized(user.getAddedPlayers()))
 			res.setAddedPlayers(new HashSet<>(playerService.toResources(user.getAddedPlayers(), true)));
-		}
 		if (Hibernate.isInitialized(user.getWatchedContent()))
 			res.setWatchedContent(new HashSet<>(contentService.toResources(user.getWatchedContent())));
 		if (Hibernate.isInitialized(user.getFavorites()))
@@ -130,7 +118,7 @@ public class UserServiceImpl implements UserService {
 		UserResource res = new UserResource();
 		res.setUid(user.getId());
 		res.setUsername(user.getUsername());
-		res.setAvatarFilename(user.getAvatarFilename() == null ? "images/avatar3.png" : user.getAvatarFilename());
+		res.setAvatarFilename(user.getAvatarFilename() == null ? Constants.DEFAULT_AVATAR : user.getAvatarFilename());
 		return res;
 	}
 
@@ -139,11 +127,13 @@ public class UserServiceImpl implements UserService {
 		userRepository.merge(user);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@Override
 	public List<User> find(int start, int maxResults) {
 		return userRepository.find(start, maxResults);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@Override
 	public void remove(int userId) throws NoRecordWithSuchIdException, FileDeletionException {
 		User user = userRepository.findById(userId);
@@ -160,6 +150,41 @@ public class UserServiceImpl implements UserService {
 			player.setAddedBy(null);
 		}
 		userRepository.remove(user);
+	}
+
+	@Override
+	public List<Content> getWatchlist(int userId) {
+		return userRepository.getWatchlist(userId);
+	}
+
+	@Override
+	public List<Content> getFavorites(int userId) {
+		return userRepository.getFavorites(userId);
+	}
+
+	@Override
+	public void removeFromWatchlist(int userId, int contentId) {
+		userRepository.removeFromWatchlist(userId, contentId);
+	}
+
+	@Override
+	public void removeFromFavorites(int userId, int contentId) {
+		userRepository.removeFromFavorites(userId, contentId);
+	}
+
+	@Override
+	public void addToWatchlist(int userId, int contentId) {
+		try {
+			User user = userRepository.findById(userId);
+			user.getWatchlist().add(contentRepository.findById(contentId));
+		} catch (NoRecordWithSuchIdException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void addToFavorites(int userId, int contentId) {
+		userRepository.addToFavorites(userId, contentId);
 	}
 
 }

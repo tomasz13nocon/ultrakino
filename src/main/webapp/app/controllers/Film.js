@@ -92,6 +92,7 @@ angular.module("app")
 		$scope.film = film;
 		Rating.calculateRatingColor(film.rating);
 		if ($rootScope.authenticated) {
+			// TODO: $rootScope.user doesn't have those lists anymore
 			if (ctrl.isIdIn($rootScope.user.watchlist)) {
 				film.inWatchlist = true;
 			}

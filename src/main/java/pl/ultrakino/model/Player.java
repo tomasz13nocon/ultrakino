@@ -81,7 +81,7 @@ public class Player {
 
 	@Override
 	public String toString() {
-		return hosting + ": " + src;
+		return "[" + id + "] " + hosting + " - " + src;
 	}
 
 	@Override

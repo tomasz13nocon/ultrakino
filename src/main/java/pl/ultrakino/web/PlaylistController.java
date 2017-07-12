@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import pl.ultrakino.Constants;
 import pl.ultrakino.Utils;
@@ -31,123 +32,69 @@ public class PlaylistController {
 	}
 
 	@GetMapping("/watchlist")
-	public ResponseEntity getWatchlist(@PathVariable int userId, Principal principal) {
-		if (principal == null)
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-		Optional<User> userOp = userService.findByUsername(principal.getName(), true);
-		if (!userOp.isPresent())
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		User user = userOp.get();
+	public ResponseEntity getWatchlist(@PathVariable int userId, @AuthenticationPrincipal User user) {
+		if (user == null)
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		if (user.getId() != userId)
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-		return ResponseEntity.ok(contentService.toResources(user.getWatchlist()));
+		return ResponseEntity.ok(contentService.toResources(userService.getWatchlist(userId)));
 	}
 
 	@PostMapping("/watchlist")
-	public ResponseEntity addToWatchlist(@PathVariable int userId, Principal principal, @RequestBody ObjectNode body) {
-		if (principal == null)
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-		Optional<User> userOp = userService.findByUsername(principal.getName(), true);
-		if (!userOp.isPresent())
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		User user = userOp.get();
+	public ResponseEntity addToWatchlist(@PathVariable int userId, @RequestBody ObjectNode body, @AuthenticationPrincipal User user) {
+		if (user == null)
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		if (user.getId() != userId)
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
 		JsonNode contentId = body.get("contentId");
 		if (contentId == null || !contentId.isInt())
-			return ResponseEntity.badRequest().build();
-		Content content;
-		try {
-			content = contentService.findById(contentId.asInt());
-		} catch (NoRecordWithSuchIdException e) {
-			return ResponseEntity.badRequest().body(Utils.jsonError("No Content with given contentId"));
-		}
-		user.getWatchlist().add(content);
-		userService.merge(user);
+			return ResponseEntity.badRequest().body(Utils.jsonError("Field 'contentId' is incorrect or absent."));
+		userService.addToWatchlist(userId, contentId.asInt());
 		return ResponseEntity.ok().build();
 	}
 
 	@DeleteMapping("/watchlist/{contentId}")
-	public ResponseEntity deleteFromWatchlist(@PathVariable int userId, Principal principal, @PathVariable int contentId) {
-		if (principal == null)
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-		Optional<User> userOp = userService.findByUsername(principal.getName(), true);
-		if (!userOp.isPresent())
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		User user = userOp.get();
+	public ResponseEntity deleteFromWatchlist(@PathVariable int userId, @PathVariable int contentId, @AuthenticationPrincipal User user) {
+		if (user == null)
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		if (user.getId() != userId)
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-
-		Content content;
-		try {
-			content = contentService.findById(contentId);
-		} catch (NoRecordWithSuchIdException e) {
-			return ResponseEntity.badRequest().body(Utils.jsonError("No Content with given contentId"));
-		}
-		user.getWatchlist().remove(content);
-		userService.merge(user);
+		userService.removeFromWatchlist(userId, contentId);
 		return ResponseEntity.ok().build();
 	}
 
 
 	@GetMapping("/favorites")
-	public ResponseEntity getFavorites(@PathVariable int userId, Principal principal) {
-		if (principal == null)
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-		Optional<User> userOp = userService.findByUsername(principal.getName(), true);
-		if (!userOp.isPresent())
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		User user = userOp.get();
+	public ResponseEntity getFavorites(@PathVariable int userId, @AuthenticationPrincipal User user) {
+		if (user == null)
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		if (user.getId() != userId)
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-		return ResponseEntity.ok(contentService.toResources(user.getFavorites()));
+		return ResponseEntity.ok(contentService.toResources(userService.getFavorites(userId)));
 	}
 
 	@PostMapping("/favorites")
-	public ResponseEntity addToFavorites(@PathVariable int userId, Principal principal, @RequestBody ObjectNode body) {
-		if (principal == null)
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-		Optional<User> userOp = userService.findByUsername(principal.getName(), true);
-		if (!userOp.isPresent())
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		User user = userOp.get();
+	public ResponseEntity addToFavorites(@PathVariable int userId, @RequestBody ObjectNode body, @AuthenticationPrincipal User user) {
+		if (user == null)
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		if (user.getId() != userId)
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
 		JsonNode contentId = body.get("contentId");
 		if (contentId == null || !contentId.isInt())
-			return ResponseEntity.badRequest().build();
-		Content content;
-		try {
-			content = contentService.findById(contentId.asInt());
-		} catch (NoRecordWithSuchIdException e) {
-			return ResponseEntity.badRequest().body(Utils.jsonError("No Content with given contentId"));
-		}
-		user.getFavorites().add(content);
-		userService.merge(user);
+			return ResponseEntity.badRequest().body(Utils.jsonError("Field 'contentId' is incorrect or absent."));
+		userService.addToFavorites(userId, contentId.asInt());
 		return ResponseEntity.ok().build();
 	}
 
 	@DeleteMapping("/favorites/{contentId}")
-	public ResponseEntity deleteFromFavorites(@PathVariable int userId, Principal principal, @PathVariable int contentId) {
-		if (principal == null)
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-		Optional<User> userOp = userService.findByUsername(principal.getName(), true);
-		if (!userOp.isPresent())
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		User user = userOp.get();
+	public ResponseEntity deleteFromFavorites(@PathVariable int userId, @PathVariable int contentId, @AuthenticationPrincipal User user) {
+		if (user == null)
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		if (user.getId() != userId)
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-
-		Content content;
-		try {
-			content = contentService.findById(contentId);
-		} catch (NoRecordWithSuchIdException e) {
-			return ResponseEntity.badRequest().body(Utils.jsonError("No Content with given contentId"));
-		}
-		user.getFavorites().remove(content);
-		userService.merge(user);
+		userService.removeFromFavorites(userId, contentId);
 		return ResponseEntity.ok().build();
 	}
 

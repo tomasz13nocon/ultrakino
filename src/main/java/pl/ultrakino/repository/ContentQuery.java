@@ -25,6 +25,7 @@ public class ContentQuery {
 	private Integer yearFrom;
 	private Integer yearTo;
 	private List<Integer> categories;
+	private List<Integer> countries;
 	private Set<Player.LanguageVersion> versions;
 	private OrderBy orderBy;
 	private boolean asc;
@@ -61,14 +62,26 @@ public class ContentQuery {
 		}
 
 
-		List<String> categoriesParam = params.get("categories");
+		List<String> categoriesParam = params.get("filmCategories");
 		if (categoriesParam != null) {
 			try {
 				List<Integer> categories = categoriesParam.stream().map(Integer::parseInt).collect(Collectors.toList());
 				setCategories(categories);
 			}
 			catch (NumberFormatException e) {
-				throw new IllegalArgumentException("value of categories parameter contains an invalid integer");
+				throw new IllegalArgumentException("value of filmCategories parameter contains an invalid integer");
+			}
+		}
+
+
+		List<String> countriesParam = params.get("countries");
+		if (countriesParam != null) {
+			try {
+				List<Integer> countries = countriesParam.stream().map(Integer::parseInt).collect(Collectors.toList());
+				setCountries(countries);
+			}
+			catch (NumberFormatException e) {
+				throw new IllegalArgumentException("value of countries parameter contains an invalid integer");
 			}
 		}
 

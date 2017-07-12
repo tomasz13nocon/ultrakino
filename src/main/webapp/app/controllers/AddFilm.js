@@ -1,8 +1,8 @@
 stepsHeightInterval = null;
 
 angular.module("app")
-.controller("AddFilmController", ['$document', '$interval', '$rootScope', '$route', '$scope', '$timeout', '$window', 'Film', 'Filmweb', function($document, $interval, $rootScope, $route, $scope, $timeout, $window, Film, Filmweb) {
-	if (!$rootScope.authenticationAttempted) return;
+.controller("AddFilmController", ['$document', '$interval', '$rootScope', '$route', '$routeParams', '$scope', '$timeout', '$window', 'Film', 'Filmweb', function($document, $interval, $rootScope, $route, $routeParams, $scope, $timeout, $window, Film, Filmweb) {
+	if (!$rootScope.authenticationAttempted || !$rootScope.authenticated) return;
 	var ctrl = this;
 
 	$scope.contentType = "FILM";
@@ -14,6 +14,15 @@ angular.module("app")
 	var stepStylesEl = document.createElement("style");
 	document.head.appendChild(stepStylesEl);
 	ctrl.stepStyles = stepStylesEl.sheet;
+
+	var id = $routeParams["id"]
+	if (id) {
+		ctrl.step = 2;
+		Film.get({ id: id }, function(film) {
+			ctrl.pick = film;
+			ctrl.pick.coverFilename = $rootScope.images + ctrl.pick.coverFilename;
+		})
+	}
 
 	//$scope.$watch(function() {
 		//return document.getElementsByClassName("step" + ctrl.step)[0].clientHeight;
@@ -59,7 +68,6 @@ angular.module("app")
 			function(film) {
 				ctrl.pick = film;
 				$scope.films = [film];
-				console.log(film.filmwebId);
 			},
 			function(resp) {
 				// TODO: HANDLE 500 AND 400
@@ -129,8 +137,24 @@ angular.module("app")
 	};
 
 	ctrl.addFilm = function() {
-		Film.save({
-			filmwebId: ctrl.pick.filmwebId,
+		$scope.filmAdditionFinished = false;
+		if (!id) {
+			Film.save({
+				filmwebId: ctrl.pick.filmwebId,
+				players: [
+					{
+						src: $scope.linkSrc,
+						hosting: $scope.linkHosting,
+						languageVersion: $scope.languageVersion,
+					}
+				],
+			}, null, function(resp) {
+				$scope.filmAdditionFinished = true;
+				$scope.filmAdditionFailed = true;
+				$scope.filmAdditionError = resp;
+			});
+		}
+		Film.addPlayers({ id: id }, {
 			players: [
 				{
 					src: $scope.linkSrc,
@@ -141,7 +165,6 @@ angular.module("app")
 		}, function(resp) {
 			$scope.filmAdditionFinished = true;
 			$scope.filmAdditionSuccessful = true;
-			console.log(resp);
 			$scope.addedFilmId = resp.id;
 		}, function(resp) {
 			$scope.filmAdditionFinished = true;

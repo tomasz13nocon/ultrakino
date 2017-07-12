@@ -1,11 +1,11 @@
 package pl.ultrakino.model;
 
-import java.util.List;
+import java.util.Set;
 
 public interface Rateable {
 
-	List<Rating> getRatings();
-	void setRatings(List<Rating> ratings);
+	Set<Rating> getRatings();
+	void setRatings(Set<Rating> ratings);
 
 	Float getRating();
 	void setRating(Float rating);

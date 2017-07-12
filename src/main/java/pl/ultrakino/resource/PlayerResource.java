@@ -14,10 +14,11 @@ public class PlayerResource {
 	private int uid;
 	private Player.LanguageVersion languageVersion;
 	private String src;
-	private String quality;
 	private LocalDateTime additionDate;
 	private UserResource addedBy;
 	private ContentResource content;
 	private String hosting;
+
+	private Boolean userVote;
 
 }

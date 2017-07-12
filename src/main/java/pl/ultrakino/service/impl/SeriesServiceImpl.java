@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
+import pl.ultrakino.Utils;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Rating;
 import pl.ultrakino.model.Series;
@@ -61,7 +62,7 @@ public class SeriesServiceImpl implements SeriesService {
 		res.setRating(series.getRating());
 		res.setTimesRated(series.getTimesRated());
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null && auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()).contains("ROLE_USER")){
+		if (Utils.isUser(auth)){
 			Optional<Rating> userRating = ratingRepository.findByUsernameAndContentId(
 					((UserDetails) auth.getPrincipal()).getUsername(),
 					series.getId());
@@ -72,7 +73,7 @@ public class SeriesServiceImpl implements SeriesService {
 		res.setDescription(series.getDescription());
 		res.setCoverFilename(series.getCoverFilename());
 		res.setWorldPremiere(series.getWorldPremiere());
-		res.setCategories(series.getCategories());
+		res.setCategories(series.getSeriesCategories());
 		res.setSeasonCount(series.getSeasonCount());
 		res.setEpisodeCount(series.getEpisodeCount());
 
@@ -97,7 +98,7 @@ public class SeriesServiceImpl implements SeriesService {
 		res.setDescription(series.getDescription());
 		res.setCoverFilename(series.getCoverFilename());
 		res.setWorldPremiere(series.getWorldPremiere());
-		res.setCategories(series.getCategories());
+		res.setCategories(series.getSeriesCategories());
 		res.setSeasonCount(series.getSeasonCount());
 		res.setEpisodeCount(series.getEpisodeCount());
 		return res;

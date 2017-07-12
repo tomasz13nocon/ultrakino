@@ -28,12 +28,16 @@ public class FilmDetailsResource {
 	private LocalDate localPremiere;
 	private Set<FilmCategory> categories = new HashSet<>();
 	private Set<Player.LanguageVersion> languageVersions = new HashSet<>();
+	private String filmwebId;
 
-	private Float userRating;
 	private List<PersonResource> castAndCrew = new ArrayList<>();
 	private List<PlayerResource> players = new ArrayList<>();
 	private Integer views;
 	private List<CommentResource> comments = new ArrayList<>();
 	private LocalDateTime recommendationDate;
+
+	private Float userRating;
+	private boolean inUsersWatchlist;
+	private boolean inUsersFavorites;
 
 }

@@ -2,6 +2,8 @@ package pl.ultrakino.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,8 +22,8 @@ public class Series extends Content {
 
 	private Integer year;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "content")
-	private List<Rating> ratings = new ArrayList<>();
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "content", orphanRemoval = true)
+	private Set<Rating> ratings = new HashSet<>();
 
 	private Float rating;
 
@@ -42,18 +44,24 @@ public class Series extends Content {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "content")
 	private Set<FilmographyEntry> castAndCrew = new HashSet<>();
 
-	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
-	private Set<SeriesCategory> categories = new HashSet<>();
+	@ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+	@Fetch(FetchMode.JOIN)
+	@JoinTable(name = "series_series_categories",
+			joinColumns = @JoinColumn(name="content_id"),
+			inverseJoinColumns = @JoinColumn(name="series_category_id"))
+	private Set<SeriesCategory> seriesCategories = new HashSet<>();
 
-	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+	@Fetch(FetchMode.JOIN)
 	private Set<Country> productionCountries = new HashSet<>();
 
 	@Column(name = "world_premiere")
 	private LocalDate worldPremiere;
 
+
+
 	@Column(name = "recommendation_date")
 	private LocalDateTime recommendationDate;
-
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "series")
 	private List<Episode> episodes = new ArrayList<>();

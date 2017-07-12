@@ -36,23 +36,28 @@
 	<admin-tools ng-if="isAdmin" content="film"></admin-tools>
 
 	<div class="player-section">
+
 		<div class="player-select">
-			<div class="player-entry" ng-repeat="player in film.players track by $index" ng-class="{'player-entry-active': $index === currentPlayerIndex}" ng-click="filmCtrl.setPlayer($index)">
-				<div class="player-entry-inner">
-					<div class="player-name-wrapper">
-						<div ng-bind="player.hosting"></div>
-						<div ng-bind="languageVersions[player.languageVersion]"></div>
-					</div>
-					<div class="player-voting-wrapper" ng-show="$index === currentPlayerIndex">
-						<i class="fa fa-thumbs-up player-thumbs-up"></i>
-						<i class="fa fa-thumbs-down player-thumbs-down"></i>
+			<div class="player-entry-outer" ng-repeat="player in film.players track by $index" ng-class="{'player-entry-active': $index === currentPlayerIndex}" ng-click="filmCtrl.setPlayer($index)">
+				<div class="player-entry">
+					<div class="player-entry-inner">
+						<div class="player-name-wrapper">
+							<div ng-bind="player.hosting"></div>
+							<div ng-bind="languageVersions[player.languageVersion] || 'Nieznana'"></div>
+						</div>
+						<div class="player-voting-wrapper" ng-show="$index === currentPlayerIndex">
+							<i class="fa fa-thumbs-up player-thumbs-up"></i>
+							<i class="fa fa-thumbs-down player-thumbs-down"></i>
+						</div>
 					</div>
 				</div>
 			</div>
+			<div class="add-player-button"><a ng-href="#dodaj-film?id={{film.uid}}">Dodaj link <i class="fa fa-angle-double-right"></i></a></div>
+			<div class="clear"></div>
 		</div>
 
 		<iframe ng-if="film.players.length" class="player" ng-src="{{film.players[currentPlayerIndex].src | trusted}}" scrolling="no" frameborder="0" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
-		<div class="error-box" ng-hide="film.players.length">Nie znaleziono filmu. Prawdopodobnie został usunięty. Przepraszamy za problem.</div>
+		<div class="error-box" ng-hide="film.players.length">Ten film nie ma żadnych linków.</div>
 	</div>
 	<div class="below-player-section">
 		<!-- <div class="views"> TODO: VIEWS

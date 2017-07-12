@@ -168,7 +168,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 		if (!series.getTitle().equals(seriesInfo[1])) // If original title is the same as the title then we do nothing
 			series.setOriginalTitle((String) seriesInfo[1]);
 
-		series.setCategories(Arrays.stream(((String) seriesInfo[4]).split(",")).map(seriesCategoryService::findByName).collect(Collectors.toSet()));
+		series.setSeriesCategories(Arrays.stream(((String) seriesInfo[4]).split(",")).map(seriesCategoryService::findByName).collect(Collectors.toSet()));
 
 		series.setYear((Integer) seriesInfo[5]);
 		series.setRunningTime((Integer) seriesInfo[6]);
@@ -262,7 +262,7 @@ public class FilmwebServiceImpl implements FilmwebService {
 		if (!film.getTitle().equals(filmInfo[1])) // If original title is the same as the title then we do nothing
 			film.setOriginalTitle((String) filmInfo[1]);
 
-		film.setCategories(Arrays.stream(((String) filmInfo[4]).split(",")).map(filmCategoryService::findByName).collect(Collectors.toSet()));
+		film.setFilmCategories(Arrays.stream(((String) filmInfo[4]).split(",")).map(filmCategoryService::findByName).collect(Collectors.toSet()));
 
 		film.setYear((Integer) filmInfo[5]);
 		film.setRunningTime((Integer) filmInfo[6]);
@@ -468,8 +468,8 @@ public class FilmwebServiceImpl implements FilmwebService {
 			// screenwriters
 			List<String> screenwriters = filmHeader.select("tr:nth-child(2) li a")
 					.stream().map(Element::text).collect(Collectors.toList());
-			// categories
-			List<Integer> categories = filmHeader.select("tr:nth-child(4) li a")
+			// filmCategories
+			List<Integer> filmCategories = filmHeader.select("tr:nth-child(4) li a")
 					.stream().map(e -> {
 						String href = e.attr("href");
 						return Integer.parseInt(href.substring(href.lastIndexOf('=') + 1));

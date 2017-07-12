@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.ultrakino.Utils;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Episode;
 import pl.ultrakino.model.Rating;
@@ -76,7 +77,7 @@ public class EpisodeServiceImpl implements EpisodeService {
 		res.setSeason(episode.getSeason());
 		res.setEpisodeNumber(episode.getEpisodeNumber());
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null && auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()).contains("ROLE_USER")){
+		if (Utils.isUser(auth)){
 			Optional<Rating> userRating = ratingRepository.findByUsernameAndContentId(
 					((UserDetails) auth.getPrincipal()).getUsername(),
 					episode.getId());

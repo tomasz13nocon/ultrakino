@@ -1,9 +1,14 @@
 package pl.ultrakino.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.ultrakino.Utils;
 import pl.ultrakino.model.Player;
+import pl.ultrakino.model.PlayerVote;
+import pl.ultrakino.model.User;
 import pl.ultrakino.resource.PlayerResource;
 import pl.ultrakino.service.ContentService;
 import pl.ultrakino.service.PlayerService;
@@ -31,6 +36,7 @@ public class PlayerServiceImpl implements PlayerService {
 	@Override
 	public PlayerResource toResource(Player player, boolean content) {
 		PlayerResource res = new PlayerResource();
+		res.setUid(player.getId());
 		res.setHosting(player.getHosting());
 		String src = player.getSrc();
 		int width = 1100;
@@ -64,11 +70,19 @@ public class PlayerServiceImpl implements PlayerService {
 		res.setSrc(src);
 		res.setAdditionDate(player.getAdditionDate());
 		res.setLanguageVersion(player.getLanguageVersion());
-		res.setQuality(player.getQuality());
 		if (player.getAddedBy() != null)
 			res.setAddedBy(userService.toResource(player.getAddedBy()));
 		if (content)
 			res.setContent(contentService.toResource(player.getContent()));
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (Utils.isUser(auth)) {
+			User user = (User) auth.getPrincipal();
+			int id = user.getId();
+			for (PlayerVote vote : player.getVotes()) {
+				if (vote.getUser().getId().equals(id))
+					res.setUserVote(vote.isPositive());
+			}
+		}
 		return res;
 	}
 

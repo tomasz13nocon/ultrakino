@@ -11,6 +11,7 @@ import pl.ultrakino.repository.FilmRepository;
 import pl.ultrakino.repository.Page;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
@@ -39,6 +40,8 @@ public class JpaFilmRepository implements FilmRepository {
 	@Override
 	public Film findById(int id) throws NoRecordWithSuchIdException {
 		List<Film> filmResults = em.createQuery("SELECT f FROM Film f " +
+						"LEFT JOIN FETCH f.filmCategories " +
+						"LEFT JOIN FETCH f.productionCountries " +
 						"LEFT JOIN FETCH f.players " +
 						"LEFT JOIN FETCH f.ratings " +
 						"LEFT JOIN FETCH f.comments " +
@@ -95,7 +98,14 @@ public class JpaFilmRepository implements FilmRepository {
 		// =========================== CATEGORIES =========================== //
 		List<Integer> categories = query.getCategories();
 		if (categories != null) {
-			predicates.add(root.join(Film_.categories).in(categories));
+			predicates.add(root.join(Film_.filmCategories).in(categories));
+		}
+		// ================================================================== //
+
+		// =========================== PRODUCTION COUNTRIES =========================== //
+		List<Integer> countries = query.getCountries();
+		if (countries != null) {
+			predicates.add(root.join(Film_.productionCountries).in(countries));
 		}
 		// ================================================================== //
 
@@ -169,7 +179,9 @@ public class JpaFilmRepository implements FilmRepository {
 		CriteriaQuery<Long> countCq = cb.createQuery(Long.class);
 		Root<Film> countRoot = countCq.from(Film.class);
 		if (categories != null)
-			countRoot.join(Film_.categories);
+			countRoot.join(Film_.filmCategories);
+		if (countries != null)
+			countRoot.join(Film_.productionCountries);
 		if (versions != null) {
 			countRoot.join(Film_.players);
 		}
@@ -191,7 +203,8 @@ public class JpaFilmRepository implements FilmRepository {
 			mainCq.orderBy(order);
 
 		mainRoot.fetch(Film_.players, JoinType.LEFT);
-		mainRoot.fetch(Film_.categories, JoinType.LEFT);
+		mainRoot.fetch(Film_.filmCategories, JoinType.LEFT);
+		mainRoot.fetch(Film_.productionCountries, JoinType.LEFT);
 		mainCq.where(mainRoot.get(Film_.id).in(ids));
 		TypedQuery<Film> mainQ = em.createQuery(mainCq);
 

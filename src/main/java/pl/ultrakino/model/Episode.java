@@ -18,8 +18,8 @@ public class Episode extends Content {
 
 	private String title;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "content")
-	private List<Rating> ratings = new ArrayList<>();
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "content", orphanRemoval = true)
+	private Set<Rating> ratings = new HashSet<>();
 
 	private Float rating;
 
@@ -32,8 +32,7 @@ public class Episode extends Content {
 	@Column(name = "local_premiere")
 	private LocalDate localPremiere;
 
-	@OneToMany(cascade = CascadeType.ALL/*, mappedBy = "content"*/)
-	@JoinColumn(name = "content_id")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "content")
 	private Set<Player> players = new HashSet<>();
 
 	@Column(name = "addition_date")
@@ -49,8 +48,7 @@ public class Episode extends Content {
 	@JoinColumn(name = "series_content_id")
 	private Series series;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "content_id")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "content", orphanRemoval = true)
 	private Set<Comment> comments = new HashSet<>();
 
 	@PrePersist

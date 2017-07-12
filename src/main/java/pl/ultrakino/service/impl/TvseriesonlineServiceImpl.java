@@ -52,7 +52,7 @@ public class TvseriesonlineServiceImpl implements TvseriesonlineService {
 	@Override
 	public List<Series> fetchAndSaveAllShows() throws IOException, FilmwebException, TvseriesonlineException {
 		Document mainDoc = Jsoup.connect("http://www.tvseriesonline.pl/").userAgent(Constants.USER_AGENT).get();
-		List<String> showLinks = mainDoc.select("ul#categories li a").stream().map(e -> e.attr("href")).collect(Collectors.toList());
+		List<String> showLinks = mainDoc.select("ul#filmCategories li a").stream().map(e -> e.attr("href")).collect(Collectors.toList());
 		List<Series> result = new ArrayList<>();
 		int i = 1;//TODO: remove
 		for (String showLink : showLinks) {

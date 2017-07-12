@@ -7,7 +7,7 @@ angular.module("app")
 				sub: "recommendationDate",
 			}
 		},
-		deleteRecommendation : {
+		deleteRecommendation: {
 			method: "DELETE",
 			params: {
 				sub: "recommendationDate",
@@ -24,6 +24,12 @@ angular.module("app")
 			params: {
 				sub: "ratings",
 			}
-		}
+		},
+		addPlayers: {
+			method: "POST",
+			params: {
+				sub: "players",
+			}
+		},
 	});
 }]);

@@ -12,7 +12,11 @@
 
 	<context:component-scan base-package="pl.ultrakino.web" />
 
-	<annotation-driven />
+	<annotation-driven>
+		<argument-resolvers>
+			<beans:bean class="org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver" />
+		</argument-resolvers>
+	</annotation-driven>
 
 	<!--<beans:bean class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
 		<beans:property name="simpleDateFormat" value="yyyy-MM-dd" />

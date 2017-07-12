@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 import pl.ultrakino.Constants;
+import pl.ultrakino.Utils;
 import pl.ultrakino.exceptions.FileDeletionException;
 import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.*;
@@ -70,7 +71,7 @@ public class FilmServiceImpl implements FilmService {
 			Player player = new Player();
 			player.setLanguageVersion(playerResource.getLanguageVersion());
 			player.setSrc(playerResource.getSrc());
-			player.setQuality(playerResource.getQuality());
+//			player.setQuality(playerResource.getQuality());
 			player.setAddedBy(user);
 		}
 
@@ -111,7 +112,7 @@ public class FilmServiceImpl implements FilmService {
 			entry.setContent(null);
 		}
 		castAndCrew.clear();
-		film.getCategories().clear();
+		film.getFilmCategories().clear();
 		film.getProductionCountries().clear();
 		film.setLocalPremiere(null);
 		Set<Player> players = film.getPlayers();
@@ -173,7 +174,7 @@ public class FilmServiceImpl implements FilmService {
 		res.setWorldPremiere(film.getWorldPremiere());
 		res.setLocalPremiere(film.getLocalPremiere());
 		res.setYear(film.getYear());
-		res.setCategories(film.getCategories());
+		res.setCategories(film.getFilmCategories());
 		try {
 			res.setLanguageVersions(film.getPlayers().stream().map(Player::getLanguageVersion).collect(Collectors.toSet()));
 		}
@@ -194,13 +195,28 @@ public class FilmServiceImpl implements FilmService {
 		res.setRating(film.getRating());
 		res.setTimesRated(film.getTimesRated());
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null && auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()).contains("ROLE_USER")){
+		if (Utils.isUser(auth)) {
+			System.out.println(auth.getAuthorities());
+			User user = (User) auth.getPrincipal();
+			for (Rating rating : film.getRatings()) {
+				if (rating.getRatedBy().getId().equals(user.getId())) {
+					res.setUserRating(rating.getRating());
+					break;
+				}
+			}
+			res.setInUsersWatchlist(user.getWatchlist().contains(film));
+			res.setInUsersFavorites(user.getFavorites().contains(film));
+		}
+		else {
+			System.err.println("======================== AUTH IS NULL ========================");
+		}
+		/*if (auth != null && auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()).contains("ROLE_USER")){
 			Optional<Rating> userRating = ratingRepository.findByUsernameAndContentId(
 					((UserDetails) auth.getPrincipal()).getUsername(),
 					film.getId());
 			if (userRating.isPresent())
 				res.setUserRating(userRating.get().getRating());
-		}
+		}*/
 		res.setOriginalTitle(film.getOriginalTitle());
 		res.setDescription(film.getDescription());
 		res.setCoverFilename(film.getCoverFilename());
@@ -211,8 +227,9 @@ public class FilmServiceImpl implements FilmService {
 		res.setRecommendationDate(film.getRecommendationDate());
 		res.setCastAndCrew(personService.toResources(film.getCastAndCrew()));
 		res.setPlayers(playerService.toResources(film.getPlayers()));
-		res.setCategories(film.getCategories());
+		res.setCategories(film.getFilmCategories());
 		res.setLanguageVersions(film.getPlayers().stream().map(Player::getLanguageVersion).collect(Collectors.toSet()));
+		res.setFilmwebId(film.getFilmwebId());
 		res.setComments(commentService.toResources(film.getComments()));
 		return res;
 	}
@@ -222,6 +239,17 @@ public class FilmServiceImpl implements FilmService {
 		Film film = new Film();
 		film.setTitle(filmJson.get("title").asText());
 		return film;
+	}
+
+	@Override
+	public Optional<Film> findByFilmwebId(String filmwebId) {
+		return filmRepository.findByFilmwebId(filmwebId);
+	}
+
+	@Override
+	public FilmDetailsResource findById(int filmId, int userId) throws NoRecordWithSuchIdException {
+		Film film = filmRepository.findById(filmId);
+		return toDetailsResource(film);
 	}
 
 }

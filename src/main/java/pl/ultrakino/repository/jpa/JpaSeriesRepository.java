@@ -53,6 +53,8 @@ public class JpaSeriesRepository implements SeriesRepository {
 	@Override
 	public Series findById(int seriesId) throws NoRecordWithSuchIdException {
 		List<Series> seriesList = em.createQuery("SELECT s FROM Series s " +
+						"LEFT JOIN FETCH s.filmCategories " +
+						"LEFT JOIN FETCH s.productionCountries " +
 						"LEFT JOIN FETCH s.episodes " +
 //						"LEFT JOIN FETCH s.ratings " +
 						"LEFT JOIN FETCH s.castAndCrew cac " +
@@ -107,7 +109,14 @@ public class JpaSeriesRepository implements SeriesRepository {
 		// =========================== CATEGORIES =========================== //
 		List<Integer> categories = query.getCategories();
 		if (categories != null) {
-			predicates.add(root.join(Series_.categories).in(categories));
+			predicates.add(root.join(Series_.seriesCategories).in(categories));
+		}
+		// ================================================================== //
+
+		// =========================== PRODUCTION COUNTRIES =========================== //
+		List<Integer> countries = query.getCountries();
+		if (countries != null) {
+			predicates.add(root.join(Series_.productionCountries).in(countries));
 		}
 		// ================================================================== //
 
@@ -166,7 +175,9 @@ public class JpaSeriesRepository implements SeriesRepository {
 		CriteriaQuery<Long> countCq = cb.createQuery(Long.class);
 		Root<Series> countRoot = countCq.from(Series.class);
 		if (categories != null)
-			countRoot.join(Series_.categories);
+			countRoot.join(Series_.seriesCategories);
+		if (countries != null)
+			countRoot.join(Series_.productionCountries);
 		countCq.select(cb.count(countRoot));
 		countCq.where(predicates.toArray(new Predicate[]{}));
 		TypedQuery<Long> countQ = em.createQuery(countCq);
@@ -184,7 +195,8 @@ public class JpaSeriesRepository implements SeriesRepository {
 		if (order != null)
 			mainCq.orderBy(order);
 
-		mainRoot.fetch(Series_.categories, JoinType.LEFT);
+		mainRoot.fetch(Series_.seriesCategories, JoinType.LEFT);
+		mainRoot.fetch(Series_.productionCountries, JoinType.LEFT);
 		mainCq.where(mainRoot.get(Series_.id).in(ids));
 		TypedQuery<Series> mainQ = em.createQuery(mainCq);
 
