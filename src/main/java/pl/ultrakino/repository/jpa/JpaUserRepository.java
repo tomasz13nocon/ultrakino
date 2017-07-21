@@ -106,11 +106,19 @@ public class JpaUserRepository implements UserRepository {
 
 	@Override
 	public List<Content> getWatchlist(int userId) {
-		return em.createQuery("SELECT c From User u " +
+		/*return em.createQuery("SELECT DISTINCT c From Content c " +
+				"LEFT JOIN FETCH c.filmCategories " +
+				"LEFT JOIN FETCH c.seriesCategories " +
+				"LEFT JOIN FETCH c.productionCountries " + // This fetches only series' countries. films countries are lazily loaded [Stupid ORM]
+				"WHERE c.id IN " +
+				"(SELECT w.id FROM User u JOIN u.watchlist w WHERE u.id=:userId)", Content.class)
+				.setParameter("userId", userId)
+				.getResultList();*/
+		return em.createQuery("SELECT DISTINCT c From User u " +
 				"JOIN u.watchlist c " +
 				"LEFT JOIN FETCH c.filmCategories " +
 				"LEFT JOIN FETCH c.seriesCategories " +
-				"LEFT JOIN FETCH c.productionCountries " + // TODO here This fetches only series' countries. Those of films are lazily loaded
+				"LEFT JOIN FETCH c.productionCountries " + // This fetches only series' countries. films countries are lazily loaded [Stupid ORM]
 				"WHERE u.id=:userId", Content.class)
 				.setParameter("userId", userId)
 				.getResultList();
@@ -118,10 +126,11 @@ public class JpaUserRepository implements UserRepository {
 
 	@Override
 	public List<Content> getFavorites(int userId) {
-		return em.createQuery("SELECT c From User u " +
+		return em.createQuery("SELECT DISTINCT c From User u " +
 				"JOIN u.favorites c " +
 				"LEFT JOIN FETCH c.filmCategories " +
-				"LEFT JOIN FETCH c.productionCountries " +
+				"LEFT JOIN FETCH c.seriesCategories " +
+				"LEFT JOIN FETCH c.productionCountries " + // This fetches only series' countries. films countries are lazily loaded [Stupid ORM]
 				"WHERE u.id=:userId", Content.class)
 				.setParameter("userId", userId)
 				.getResultList();

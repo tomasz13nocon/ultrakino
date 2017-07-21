@@ -25,10 +25,7 @@ import pl.ultrakino.service.UserService;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Transactional
@@ -90,6 +87,7 @@ public class UserServiceImpl implements UserService {
 		user.setUsername(username);
 		user.setPasswd(BCrypt.hashpw(password, BCrypt.gensalt()));
 		user.setEmail(email);
+		user.setRoles(new HashSet<>(Collections.singletonList("ROLE_USER")));
 		return userRepository.save(user);
 	}
 
@@ -109,6 +107,7 @@ public class UserServiceImpl implements UserService {
 		if (Hibernate.isInitialized(user.getWatchlist()))
 			res.setWatchlist(new HashSet<>(contentService.toResources(user.getWatchlist())));
 		res.setRegistrationDate(user.getRegistrationDate());
+		res.setRoles(user.getRoles());
 		return res;
 	}
 

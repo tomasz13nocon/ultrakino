@@ -25,7 +25,7 @@ angular.module("app")
 				sub: "ratings",
 			}
 		},
-		addPlayers: {
+		addPlayer: {
 			method: "POST",
 			params: {
 				sub: "players",

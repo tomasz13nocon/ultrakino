@@ -23,5 +23,6 @@ public class UserDetailsResource {
 	private Set<ContentResource> watchlist = new HashSet<>();
 	private Set<ContentResource> favorites = new HashSet<>();
 	private LocalDateTime registrationDate;
+	private Set<String> roles;
 
 }

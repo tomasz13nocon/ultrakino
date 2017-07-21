@@ -56,12 +56,16 @@ public class UserController {
 		return ResponseEntity.ok(node);*/
 	}
 
+	// Get details for user with userId.
+	// If userId is id of currently authenticated user, the details will be comprehensive
+	// Otherwise only basic, public data will be returned.
+	// See userService::toResource vs userService::toDetailsResource
 	@GetMapping("/users/{userId}")
 	public ResponseEntity getUser(@PathVariable int userId, @AuthenticationPrincipal User user) {
 		try {
 			if (user != null && user.getId() == userId) {
-				User u = userService.findById/*WithCollections*/(userId);
-				return ResponseEntity.ok(userService.toResource(u)); // TODO make it toDetailsResource and uncomment line above
+				User u = userService.findByIdWithCollections(userId);
+				return ResponseEntity.ok(userService.toDetailsResource(u));
 			}
 			return ResponseEntity.ok(userService.toResource(userService.findById(userId)));
 		} catch (NoRecordWithSuchIdException e) {

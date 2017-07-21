@@ -220,7 +220,10 @@ public class FilmServiceImpl implements FilmService {
 		res.setYear(film.getYear());
 		res.setRecommendationDate(film.getRecommendationDate());
 		res.setCastAndCrew(personService.toResources(film.getCastAndCrew()));
-		res.setPlayers(playerService.toResources(film.getPlayers()));
+		res.setPlayers(film.getPlayers().stream()
+				.filter(p -> Constants.SUPPORTED_HOSTINGS.contains(p.getHosting()))
+				.map(playerService::toResource)
+				.collect(Collectors.toList()));
 		res.setCategories(film.getFilmCategories());
 		res.setLanguageVersions(film.getPlayers().stream().map(Player::getLanguageVersion).collect(Collectors.toSet()));
 		res.setFilmwebId(film.getFilmwebId());

@@ -1,6 +1,7 @@
 package pl.ultrakino.web;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,9 +99,9 @@ public class FilmController {
 	@GetMapping("/{filmId}")
 	public ResponseEntity getFilm(@PathVariable int filmId, @AuthenticationPrincipal User user) {
 		try {
-			if (user != null) {
+			/*if (user != null) {
 				return ResponseEntity.ok(filmService.findById(filmId, user.getId()));
-			}
+			}*/
 			return ResponseEntity.ok(filmService.toDetailsResource(filmService.findById(filmId)));
 		} catch (NoRecordWithSuchIdException e) {
 			return ResponseEntity.notFound().build();
@@ -108,7 +109,7 @@ public class FilmController {
 	}
 
 	@PostMapping("/{filmId}/players")
-	public ResponseEntity addPlayers(@PathVariable int filmId, @RequestBody ObjectNode body, @AuthenticationPrincipal User user, HttpServletRequest request) throws InterruptedException {
+	public ResponseEntity addPlayer(@PathVariable int filmId, @RequestBody ObjectNode body, @AuthenticationPrincipal User user, HttpServletRequest request) throws InterruptedException {
 		if (user == null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
@@ -120,40 +121,36 @@ public class FilmController {
 			return ResponseEntity.notFound().build();
 		}
 
-		JsonNode players = body.get("players");
-		if (players == null || !players.isArray())
-			return ResponseEntity.badRequest().body(Utils.jsonError("field 'players' is incorrect or absent."));
+		String field;
+		if (!body.has(field = "src") || !body.has(field = "hosting") || !body.has(field = "languageVersion"))
+			return ResponseEntity.badRequest().body(Utils.jsonError("field '" + field + "' is incorrect or absent."));
 
-		List<Player> addedPlayers = new ArrayList<>(), failedPlayers = new ArrayList<>();
-		for (JsonNode player : players) {
-			String field;
-			if (!player.has(field = "src") || !player.has(field = "hosting") || !player.has(field = "languageVersion"))
-				return ResponseEntity.badRequest().body(Utils.jsonError("field '" + field + "' is incorrect or absent."));
-
-			String src = player.get("src").asText();
-			// TODO check that hosting is a hosting that we support ( Here and above in addFilm as well ) ( or mby rather do it in service layer )
-			String hosting = player.get("hosting").asText();
-			Player.LanguageVersion languageVersion;
-			try {
-				languageVersion = Player.LanguageVersion.valueOf(player.get("languageVersion").asText());
-			}
-			catch (IllegalArgumentException e) {
-				return ResponseEntity.badRequest().body(Utils.jsonError("field 'languageVersion' is incorrect."));
-			}
-			if (!playerService.exists(hosting, src)) {
-				Player player1 = new Player(src, hosting, languageVersion, user, film);
-				film.getPlayers().add(player1);
-			}
-			// TODO return some form of feesback on which players where persisted and which were not
-		}
-
-		utilService.merge(film);
-
+		String src = body.get("src").asText();
+		// TODO check that hosting is a hosting that we support ( Here and above in addFilm as well ) ( or mby rather do it in service layer )
+		String hosting = body.get("hosting").asText();
+		Player.LanguageVersion languageVersion;
 		try {
-			return ResponseEntity.created(new URI(request.getRequestURI())).build();
-		} catch (URISyntaxException e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Utils.jsonError("URL parsing error"));
+			languageVersion = Player.LanguageVersion.valueOf(body.get("languageVersion").asText());
 		}
+		catch (IllegalArgumentException e) {
+			return ResponseEntity.badRequest().body(Utils.jsonError("field 'languageVersion' is incorrect."));
+		}
+
+		Player player1 = new Player(src, hosting, languageVersion, user, film);
+		String error = "";
+		if (!Utils.isAdmin(user) /* TODO delete */ && playerService.exists(player1)) {
+			error = "Link o tym adresie już istnieje.";
+		}
+		else {
+			film.getPlayers().add(player1);
+			playerService.save(player1);
+		}
+		return ResponseEntity.ok(JsonNodeFactory.instance.objectNode()
+				.put("id", player1.getId())
+				.put("hosting", player1.getHosting())
+				.put("src", player1.getSrc())
+				.put("error", error));
+
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")

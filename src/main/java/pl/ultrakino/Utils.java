@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import pl.ultrakino.model.User;
 
 import java.security.Principal;
@@ -30,6 +31,10 @@ public class Utils {
 	 */
 	public static boolean isUser(Authentication auth) {
 		return auth != null && auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).anyMatch(a -> a.equals("ROLE_USER"));
+	}
+
+	public static boolean isAdmin(UserDetails user) {
+		return user.getAuthorities().stream().map(GrantedAuthority::getAuthority).anyMatch(a -> a.equals("ROLE_ADMIN"));
 	}
 
 }

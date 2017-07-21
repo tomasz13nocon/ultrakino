@@ -1,6 +1,7 @@
 package pl.ultrakino.repository.jpa;
 
 import org.springframework.stereotype.Repository;
+import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Player;
 import pl.ultrakino.repository.PlayerRepository;
 
@@ -45,10 +46,28 @@ public class JpaPlayerRepository implements PlayerRepository {
 
 	@Override
 	public boolean exists(String hosting, String src) {
-		return !em.createQuery("SELECT COUNT(*) FROM Player p WHERE p.hosting=:hosting AND p.src=:src")
+		System.out.println(em.createQuery("SELECT COUNT(*) FROM Player p WHERE p.hosting=:hosting AND p.src=:src", Number.class)
 				.setParameter("hosting", hosting)
 				.setParameter("src", src)
-				.getResultList().isEmpty();
+				.getResultList().get(0).intValue());
+		return em.createQuery("SELECT COUNT(*) FROM Player p WHERE p.hosting=:hosting AND p.src=:src", Number.class)
+				.setParameter("hosting", hosting)
+				.setParameter("src", src)
+				.getResultList().get(0).longValue() != 0L;
+	}
+
+	@Override
+	public Player save(Player player) {
+		em.persist(player);
+		return player;
+	}
+
+	@Override
+	public Player findById(int id) throws NoRecordWithSuchIdException {
+		Player player = em.find(Player.class, id);
+		if (player == null)
+			throw new NoRecordWithSuchIdException();
+		return player;
 	}
 
 }

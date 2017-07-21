@@ -42,7 +42,8 @@ public class JpaFilmRepository implements FilmRepository {
 		List<Film> filmResults = em.createQuery("SELECT f FROM Film f " +
 						"LEFT JOIN FETCH f.filmCategories " +
 						"LEFT JOIN FETCH f.productionCountries " +
-						"LEFT JOIN FETCH f.players " +
+						"LEFT JOIN FETCH f.players p " +
+						"LEFT JOIN FETCH p.votes " +
 						"LEFT JOIN FETCH f.ratings " +
 						"LEFT JOIN FETCH f.comments " +
 						"LEFT JOIN FETCH f.castAndCrew cac " +

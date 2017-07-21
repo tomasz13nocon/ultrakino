@@ -16,6 +16,11 @@ angular.module("app")
 			}
 			url += "/" + id;
 			$location.path(url);
+			console.log("qwe");
+		}).then(function(resp) {
+			// TODO here. This callback doesn't get called
+			console.log(resp);
+			$location.path("/not-found");
 		});
 	}
 	else {

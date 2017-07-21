@@ -13,7 +13,7 @@ angular.module("app")
 
 	ctrl.logout = function() {
 		$http.post("/logout").then(function(resp) {
-			User.invalidate();
+			//User.invalidate();
 			//$route.reload();
 			$window.location.reload();
 		});

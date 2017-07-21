@@ -8,17 +8,22 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.ultrakino.Utils;
+import pl.ultrakino.exceptions.NoRecordWithSuchIdException;
 import pl.ultrakino.model.Player;
 import pl.ultrakino.model.PlayerVote;
 import pl.ultrakino.model.User;
 import pl.ultrakino.repository.PlayerRepository;
+import pl.ultrakino.repository.PlayerVoteRepository;
 import pl.ultrakino.resource.PlayerResource;
+import pl.ultrakino.resource.PlayerVoteResource;
 import pl.ultrakino.service.ContentService;
 import pl.ultrakino.service.PlayerService;
+import pl.ultrakino.service.PlayerVoteService;
 import pl.ultrakino.service.UserService;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,10 +36,14 @@ public class PlayerServiceImpl implements PlayerService {
 	@Autowired
 	private ContentService contentService;
 	private PlayerRepository playerRepository;
+	private PlayerVoteRepository playerVoteRepository;
+	private PlayerVoteService playerVoteService;
 
 	@Autowired
-	public PlayerServiceImpl(PlayerRepository playerRepository) {
+	public PlayerServiceImpl(PlayerRepository playerRepository, PlayerVoteRepository playerVoteRepository, PlayerVoteService playerVoteService) {
 		this.playerRepository = playerRepository;
+		this.playerVoteRepository = playerVoteRepository;
+		this.playerVoteService = playerVoteService;
 	}
 
 	@Override
@@ -84,6 +93,22 @@ public class PlayerServiceImpl implements PlayerService {
 		if (content)
 			res.setContent(contentService.toResource(player.getContent()));
 		if (Hibernate.isInitialized(player.getVotes())) {
+			class MyInt {
+				public int value;
+				public void increment() { value++; }
+			}
+			MyInt upvotes = new MyInt();
+			res.setVotes(player.getVotes().stream()
+					.map(p -> {
+						if (p.isPositive())
+							upvotes.increment();
+						return playerVoteService.toResource(p);
+					})
+					.collect(Collectors.toList()));
+
+			res.setUpvotes(upvotes.value);
+			res.setDownvotes(player.getVotes().size() - upvotes.value);
+
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			if (Utils.isUser(auth)) {
 				User user = (User) auth.getPrincipal();
@@ -116,6 +141,29 @@ public class PlayerServiceImpl implements PlayerService {
 	@Override
 	public boolean exists(String hosting, String src) {
 		return playerRepository.exists(hosting, src);
+	}
+
+	@Override
+	public Player save(Player player) {
+		return playerRepository.save(player);
+	}
+
+	@Override
+	public boolean exists(Player player) {
+		return exists(player.getHosting(), player.getSrc());
+	}
+
+	@PreAuthorize("hasRole('USER')")
+	@Override
+	public Optional<PlayerVote> vote(int playerId, boolean positive, User user) throws NoRecordWithSuchIdException {
+		PlayerVote vote = new PlayerVote();
+		Player player = playerRepository.findById(playerId); // This needs to be first to catch 404 early
+		vote.setPlayer(player);
+		vote.setUser(user);
+		vote.setPositive(positive);
+		if (player.getVotes().contains(vote))
+			return Optional.empty();
+		return Optional.of(playerVoteRepository.save(vote));
 	}
 
 }

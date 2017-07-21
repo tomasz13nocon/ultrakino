@@ -15,17 +15,6 @@ angular.module("app")
 				}
 				if (!$rootScope.user)
 					$rootScope.user = resp.data;
-				/*
-				var rd = $rootScope.user.registrationDate;
-				$rootScope.user.registrationDate = new Date(
-					rd.year,
-					rd.monthValue,
-					rd.dayOfMonth,
-					rd.hour,
-					rd.minute,
-					rd.second,
-				);
-				*/
 				TheBox.theBoxVisible = false;
 				TheBox.authenticationFailed = false;
 				$route.reload();
@@ -36,11 +25,9 @@ angular.module("app")
 				if (TheBox.theBoxVisible)
 					TheBox.authenticationFailed = true;
 			}
-			$rootScope.authenticationAttempted = true;
 		}, function(resp) {
 			$rootScope.authenticated = false;
 			$rootScope.isAdmin = false;
-			// TODO: Custom error msgs. Here there can be 500 status code, not wrong credentials.
 			if (TheBox.theBoxVisible)
 				TheBox.authenticationFailed = true;
 		});

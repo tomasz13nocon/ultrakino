@@ -11,7 +11,7 @@ function adminPanelCtrl($http, $scope, Film, $interval, User, Player) {
 	$scope.requestData = {};
 	$scope.requestMethod = "POST";
 
-	ctrl.alltubeBot = function() {
+	$scope.alltubeBot = function() {
 		$scope.loading = true;
 		$scope.error = null;
 		$scope.success = false;
@@ -30,7 +30,7 @@ function adminPanelCtrl($http, $scope, Film, $interval, User, Player) {
 		});
 	};
 
-	ctrl.tvseriesonlineBot = function() {
+	$scope.tvseriesonlineBot = function() {
 		$scope.loading = true;
 		$scope.error = null;
 		$scope.success = false;

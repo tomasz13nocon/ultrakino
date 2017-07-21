@@ -6,6 +6,9 @@ import pl.ultrakino.model.Content;
 import pl.ultrakino.model.Player;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,6 +22,9 @@ public class PlayerResource {
 	private ContentResource content;
 	private String hosting;
 
+	private List<PlayerVoteResource> votes;
+	private Integer upvotes;
+	private Integer downvotes;
 	private Boolean userVote;
 
 }

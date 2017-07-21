@@ -45,6 +45,7 @@ angular.module("app")
 
 	ctrl.setActiveTab("watchlist");
 	User.get({ id: $rootScope.user.uid }, function(user) {
+		user.registrationDate = arrayToDate(user.registrationDate);
 		$scope.user = user;
 	});
 

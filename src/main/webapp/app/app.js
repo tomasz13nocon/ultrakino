@@ -15,17 +15,6 @@ angular.module("app")
 			ENGLISH_SUBS: "Napisy ENG",
 		};
 
-		$rootScope.supportedHostings = [
-			{ name: "openload", displayName: "openload.co", regex: /(?:http[s]:\/\/)?(?:www\.)?openload\.co\/f\/([\w-]+)/ },
-			{ name: "streamin", displayName: "streamin.to", regex: /(?:http[s]:\/\/)?(?:www\.)?streamin\.to\/([\w]+)/ },
-			{ name: "vshare", displayName: "vshare.io", regex: /(?:http[s]:\/\/)?(?:www\.)?vshare\.io\/d\/([\w]+)/ },
-			//{ name: "vidto", displayName: "vidto.me", regex: /(?:http[s]:\/\/)?(?:www\.)?1/ },
-			//{ name: "videowood", displayName: "videowood.tv", regex: /(?:http[s]:\/\/)?(?:www\.)?1/ },
-			//{ name: "cda", displayName: "cda.pl", regex: /(?:http[s]:\/\/)?(?:www\.)?1/ },
-			{ name: "youtube", displayName: "youtube.com", regex: /(?:http[s]:\/\/)?(?:www\.)?youtube\.com\/watch\?v\=([\w-]+)/ },
-			//{ name: "nowvideo", displayName: "nowvideo.sx", regex: /(?:http[s]:\/\/)?(?:www\.)?1/ },
-		];
-
 		$rootScope.filmCategoriesIds = {};
 		$rootScope.filmCategories = [];
 		$http.get(api + "/films/categories").then(function(resp) {
@@ -55,7 +44,6 @@ angular.module("app")
 			$rootScope.years.push(i);
 		}
 
-		$rootScope.authenticationAttempted = false;
 		$rootScope.authenticated = false;
 		$rootScope.isAdmin = false;
 		User.authenticate();

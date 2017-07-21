@@ -1,5 +1,7 @@
 package pl.ultrakino;
 
+import java.util.*;
+
 public class Constants {
 
 	public static final String API_PREFIX = "/api";
@@ -8,5 +10,6 @@ public class Constants {
 	public static final String AVATARS_DIRECTORY = "/home/user/Projects/covers/";
 	public static final String COVERS_DIRECTORY = "/home/user/Projects/covers/";
 	public static final String DEFAULT_AVATAR = "images/avatar3.png";
+	public static final List<String> SUPPORTED_HOSTINGS = Arrays.asList("openload", "streamin", "vshare", "youtube");
 
 }

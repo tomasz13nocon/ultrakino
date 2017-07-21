@@ -1,5 +1,4 @@
-Check adding players to existing films funcitonality when clicking add film on page (instead of add player to this film)
-Logging in after clicking 'add link to film' doesn't contain proper data in the page
+Add splash loading screen (ngcloak)
 Illegal argument on static metamodel field injection : pl.ultrakino.model.User_#ratings - Set vs List
 add findByIdFetchRatings to ContentRepository for user in RatingService
 Rejestracja (wysyłanie emaila)

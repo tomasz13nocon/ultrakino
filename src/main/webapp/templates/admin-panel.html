@@ -13,12 +13,12 @@
 				Page
 				<input type="number" ng-model="page" value="1" />
 			</label>
-			<div class="btn-2" ng-click="adminPanelCtrl.alltubeBot()">Run</div>
+			<div class="btn-2" ng-click="alltubeBot()">Run</div>
 		</div>
 
 		<h4 class="admin-title">Tvseriesonline bot</h4>
 		<div class="admin-section">
-			<div class="btn-2" ng-click="adminPanelCtrl.tvseriesonlineBot()">Run</div>
+			<div class="btn-2" ng-click="tvseriesonlineBot()">Run</div>
 		</div>
 
 		<div class="admin-success-info" ng-show="success">Success.</div>
@@ -41,7 +41,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="user in users | orderBy: 'uid' track by $index">
+					<tr ng-repeat="user in users | orderBy: 'uid' track by $index" ng-class="{'admin-panel-admin-field': user.roles.indexOf('ROLE_ADMIN') !== -1}">
 						<td ng-bind="user.uid"></td>
 						<td ng-bind="user.username"></td>
 						<td ng-bind="user.email"></td>

@@ -1,11 +1,11 @@
-<div class="error-box" ng-show="authenticationAttempted && !authenticated">
+<div class="error-box" ng-show="!authenticated">
 	<h6 class="login-to-add-msg">Zaloguj się, lub utwórz konto, aby móc dodawać filmy i seriale</h6>
 </div>
 <div ng-show="authenticated">
 	<div class="page-content-thingy add-film-page">
 		<!--<h4 class="add-film-find-film">Co chcesz dodać?</h4>-->
 		<div class="steps-wrapper">
-			<div class="step1" ng-show="addFilmCtrl.step === 1">
+			<div class="step step1" ng-show="step === 1">
 				<div class="add-film-radios-wrapper">
 					<div class="add-film-radio-wrapper">
 						<label class="radio-label">
@@ -54,7 +54,7 @@
 				</div>
 			</div>
 
-			<div class="step2" ng-show="addFilmCtrl.step === 2">
+			<div class="step step2" ng-show="step === 2">
 				<img class="add-film-pick-cover" ng-src="{{addFilmCtrl.pick.coverFilename || noImage}}" alt="Okładka wybranego filmu" />
 				<h4 class="add-film-pick-title" ng-bind="addFilmCtrl.pick.title"></h4>
 				(<span ng-bind="addFilmCtrl.pick.year"></span>)
@@ -101,7 +101,7 @@
 				</div>
 			</div>
 
-			<div class="step3" ng-show="addFilmCtrl.step === 3">
+			<div class="step step3" ng-show="step === 3">
 					<div ng-hide="filmAdditionFinished" class="spinner-wrapper-inflow"><div class="spinner-medium"></div></div>
 					<div ng-hide="filmAdditionFinished">Dodawanie filmu...</div>
 					<br/>
@@ -113,7 +113,9 @@
 						</div>
 					</div>
 					<div ng-show="filmAdditionFailed">
-						Wystąpił błąd. <span ng-bind="filmAdditionError.status"></span>
+						Wystąpił błąd.
+						<br>
+						<span ng-bind="filmAdditionError"></span>
 					</div>
 					<br/>
 			</div>
@@ -121,16 +123,22 @@
 
 		<div class="my-hr"></div>
 		<div class="add-film-next-buttons">
-			<button class="btn-2" ng-show="addFilmCtrl.step === 1" ng-disabled="!addFilmCtrl.pick" ng-click="addFilmCtrl.goToNextStep()">Dalej</button>
-			<button class="btn-2" ng-show="addFilmCtrl.step === 2" ng-disabled="!correctLink || !languageVersion" ng-click="addFilmCtrl.addFilm()">Dodaj</button>
-			<button class="btn-2" ng-show="addFilmCtrl.step === 3" ng-disabled="!filmAdditionFinished" ng-click="addFilmCtrl.reset()">Dodaj kolejny Link</button>
+			<button class="btn-2" ng-show="step === 1" ng-disabled="!addFilmCtrl.pick" ng-click="goToNextStep()">Dalej</button>
+			<button class="btn-2" ng-show="step === 2" ng-disabled="!correctLink || !languageVersion" ng-click="addFilmCtrl.addFilm()">Dodaj</button>
+			<button class="btn-2" ng-show="step === 3" ng-disabled="!filmAdditionFinished" ng-click="addFilmCtrl.reset()">Dodaj kolejny link</button>
 		</div>
 
 		<!-- TODO: delet -->
-		<br/>
-		<button class="btn-2" ng-click="addFilmCtrl.goToStep(1)">1</button>
-		<button class="btn-2" ng-click="addFilmCtrl.goToStep(2)">2</button>
-		<button class="btn-2" ng-click="addFilmCtrl.goToStep(3)">3</button>
+		<br>
+		<br>
+		<hr>
+		<button class="btn-2" ng-click="goToStep(1)">1</button>
+		<button class="btn-2" ng-click="goToStep(2)">2</button>
+		<button class="btn-2" ng-click="goToStep(3)">3</button>
+		<div class="btn" ng-click="filmAdditionFinished = true">filmAdditionFinished = true</div>
+		{{filmAdditionError}}
+		<br>
+		step: {{step}}
 
 	</div>
 </div>

@@ -194,7 +194,6 @@ $active-player-color: #303030
 		width: 100%
 
 .player-entry
-	padding: 6px
 
 .player-entry-active
 	background-color: $active-player-color
@@ -211,24 +210,60 @@ $active-player-color: #303030
 
 .player-name-wrapper
 	display: inline-block
+	display: table-cell
+	vertical-align: middle
+	padding: 6px
 
 .player-voting-wrapper
 	vertical-align: middle
 	display: table-cell
 	font-size: 1.3em
-	padding-left: 8px
+	padding: 0 2px
+	transform: translateY(-1px)
+
+.player-thumbs
+	padding: 2px
 
 .player-thumbs-up, .player-thumbs-down
-	padding: 2px
 	cursor: pointer
 
 .player-thumbs-up
 	&:hover
 		color: $green
 
+.player-thumbs-up-voted
+	color: $green
+
 .player-thumbs-down
 	&:hover
 		color: $red
+
+.player-thumbs-down-voted
+	color: $red
+
+.player-vote-bar
+	font-size: 0.6em
+	margin-top: 1px
+
+	height: 2px
+	width: 100%
+	background-color: $font-color
+	//background-image: linear-gradient(to right, $green 75%, $red 75%)
+	margin-top: 3px
+	display: block
+
+	//&:after
+		//content: ""
+		//height: 2px
+		//width: 100%
+		//background-color: $font-color
+		//background-image: linear-gradient(to right, $green 75%, $red 75%)
+		//margin-top: 3px
+		//display: block
+
+.player-vote-count
+	//padding: 0 6px
+	font-size: 0.8em
 
 .add-player-button
 	font-size: 0.8em
